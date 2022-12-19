@@ -66,3 +66,5 @@ SELECT * FROM users;
 SELECT * FROM repair_orders;
 SELECT * FROM orders_statuses;
 SELECT * FROM roles;
+
+SELECT * FROM users ORDER BY id OFFSET 1 ROWS FETCH NEXT 2 ROWS ONLY;

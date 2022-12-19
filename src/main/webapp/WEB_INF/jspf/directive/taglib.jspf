@@ -1,0 +1,17 @@
+<%--===========================================================================
+JSTL core tag library.
+===========================================================================--%>
+<%@ taglib uri="jakarta.tags.core" prefix="c" %>
+
+<%--===========================================================================
+JSTL functions tag library.
+===========================================================================--%>
+<%@ taglib uri="jakarta.tags.functions" prefix="fn" %>
+
+<%--===========================================================================
+JSTL i18n tag library.
+===========================================================================--%>
+<%@ taglib uri="jakarta.tags.fmt" prefix="fmt" %>
+
+
+<c:set var="language" value="${not empty param.language ? param.language : not empty language ? language : pageContext.request.locale}" scope="session" />
