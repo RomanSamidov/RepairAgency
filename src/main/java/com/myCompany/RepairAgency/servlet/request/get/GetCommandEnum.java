@@ -22,6 +22,9 @@ public enum GetCommandEnum{
     }},
     PRICING {{
         this.command = new ShowPricingCommand();
+    }},
+    CABINET {{
+        this.command = new ShowProfileCommand();
     }};
 
 

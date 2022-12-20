@@ -9,9 +9,9 @@ public class EmptyCommand implements ActionCommand {
     public String execute(HttpServletRequest request) {
         /* в случае ошибки или прямого обращения к контроллеру
          * переадресация на страницу ввода логина */
-        String page = ConfigurationManager.getProperty("path.page.login");
+        String page = ConfigurationManager.getProperty("path.page.forward.login");
 //        String page = ConfigurationManager.getProperty("path.page.error");
-        request.setAttribute("title", "empty");
+        request.setAttribute("title", "title.empty");
         return page;
     }
 }

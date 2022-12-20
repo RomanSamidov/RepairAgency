@@ -7,8 +7,8 @@ import jakarta.servlet.http.HttpServletRequest;
 public class ShowAboutCommand implements ActionCommand {
     @Override
     public String execute(HttpServletRequest request) {
-        String page = ConfigurationManager.getProperty("path.page.about");
-        request.setAttribute("title", "About");
+        String page = ConfigurationManager.getProperty("path.page.forward.about");
+        request.setAttribute("title", "title.about");
         return page;
     }
 }

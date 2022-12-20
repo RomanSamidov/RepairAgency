@@ -4,9 +4,8 @@ import com.myCompany.RepairAgency.Constants;
 import com.myCompany.RepairAgency.model.ModelManager;
 import com.myCompany.RepairAgency.model.entity.User;
 import com.myCompany.RepairAgency.servlet.ConfigurationManager;
-import com.myCompany.RepairAgency.servlet.util.Encrypt;
-import com.myCompany.RepairAgency.servlet.MessageManager;
 import com.myCompany.RepairAgency.servlet.request.ActionCommand;
+import com.myCompany.RepairAgency.servlet.util.Encrypt;
 import jakarta.servlet.http.HttpServletRequest;
 
 public class LoginCommand implements ActionCommand {
@@ -14,20 +13,18 @@ public class LoginCommand implements ActionCommand {
 
     @Override
     public String execute(HttpServletRequest request) {
-        String page = null;
+        String page;
 // извлечение из запроса логина и пароля
         String login = request.getParameter(Constants.LOGIN);
         String password = request.getParameter(Constants.PASSWORD);
 // проверка логина и пароля
         boolean haveError = false;
         if (password == null || password.isEmpty()) {
-            request.setAttribute("errorEmptyPassword",
-                    MessageManager.getProperty("message.emptypassword"));
+            request.getSession().setAttribute("errorEmptyPassword","message.emptypassword");
             haveError = true;
         }
         if (login == null || login.isEmpty()) {
-            request.setAttribute("errorEmptyLogin",
-                    MessageManager.getProperty("message.emptylogin"));
+            request.getSession().setAttribute("errorEmptyLogin","message.emptylogin");
             haveError = true;
         }
 
@@ -36,25 +33,22 @@ public class LoginCommand implements ActionCommand {
                 User user = ModelManager.ins.getUser(login);
                 String userPassword = user.getPassword();
                 if (userPassword.equals(Encrypt.encrypt(password))) {
-                    request.setAttribute("user", login);
+                    request.getSession().setAttribute("user", login);
                     request.getSession().setAttribute("userRole", Constants.ROLE.values()[user.getRole_id()]);
-                    page = ConfigurationManager.getProperty("path.page.cabinet");
-                    request.setAttribute("title", "Cabinet");
+                    page = ConfigurationManager.getProperty("path.page.redirect.cabinet");
                     return page;
                 } else {
-                    request.setAttribute("errorLoginPassMessage",
-                            MessageManager.getProperty("message.loginerror"));
-                    page = ConfigurationManager.getProperty("path.page.login");
-                    request.setAttribute("title", "Login");
+                    request.getSession().setAttribute("errorLoginPassMessage","message.loginerror");
                 }
             } catch (Exception e) {
-                System.out.println(e.toString());
+                request.getSession().setAttribute("errorLoginPassMessage","message.loginnotexisterror");
+                System.out.println(e);
                 System.out.println("sql errror LoginCommand");
             }
         }
 
-        page = ConfigurationManager.getProperty("path.page.login");
-        request.setAttribute("title", "Login");
+
+        page = ConfigurationManager.getProperty("path.page.redirect.login");
         return page;
     }
 

@@ -7,8 +7,8 @@ import jakarta.servlet.http.HttpServletRequest;
 public class ShowPricingCommand implements ActionCommand {
     @Override
     public String execute(HttpServletRequest request) {
-        String page = ConfigurationManager.getProperty("path.page.pricing");
-        request.setAttribute("title", "Pricing");
+        String page = ConfigurationManager.getProperty("path.page.forward.pricing");
+        request.setAttribute("title", "title.pricing");
         return page;
     }
 }

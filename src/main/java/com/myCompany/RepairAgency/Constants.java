@@ -3,9 +3,12 @@ package com.myCompany.RepairAgency;
 import java.util.ResourceBundle;
 
 public class Constants {
+    public static final String REDIRECT = "<REDIRECT/>";
+
     public static final String DB_SETTINGS_BUNDLE = "db";
     public static final String USER = "user";
     public static final String PASSWORD = "password";
+    public static final String PASSWORD_REPEAT = "passwordRepeat";
     public static final String LOGIN = "login";
     public static final String DAOType = "DAOType";
     private static final String CONNECTION_URL = "connection.url";

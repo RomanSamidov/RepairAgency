@@ -7,10 +7,9 @@ import jakarta.servlet.http.HttpServletRequest;
 public class LogoutCommand implements ActionCommand {
     @Override
     public String execute(HttpServletRequest request) {
-        String page = ConfigurationManager.getProperty("path.page.home");
+        String page = ConfigurationManager.getProperty("path.page.redirect.home");
 // уничтожение сессии
         request.getSession().invalidate();
-        request.setAttribute("title", "Logout");
         return page;
     }
 }

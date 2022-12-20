@@ -7,8 +7,8 @@ import jakarta.servlet.http.HttpServletRequest;
 public class ShowHomeCommand implements ActionCommand {
     @Override
     public String execute(HttpServletRequest request) {
-        String page = ConfigurationManager.getProperty("path.page.home");
-        request.setAttribute("title", "Home");
+        String page = ConfigurationManager.getProperty("path.page.forward.home");
+        request.setAttribute("title", "title.home");
         return page;
     }
 }

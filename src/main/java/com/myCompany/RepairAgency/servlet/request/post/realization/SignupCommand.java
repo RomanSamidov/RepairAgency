@@ -4,7 +4,6 @@ import com.myCompany.RepairAgency.Constants;
 import com.myCompany.RepairAgency.model.ModelManager;
 import com.myCompany.RepairAgency.model.entity.User;
 import com.myCompany.RepairAgency.servlet.ConfigurationManager;
-import com.myCompany.RepairAgency.servlet.MessageManager;
 import com.myCompany.RepairAgency.servlet.request.ActionCommand;
 import com.myCompany.RepairAgency.servlet.util.Encrypt;
 import jakarta.servlet.http.HttpServletRequest;
@@ -12,31 +11,32 @@ import jakarta.servlet.http.HttpServletRequest;
 public class SignupCommand implements ActionCommand {
     @Override
     public String execute(HttpServletRequest request) {
-        String page = null;
+        String page;
 // извлечение из запроса логина и пароля
         String login = request.getParameter(Constants.LOGIN);
         String password = request.getParameter(Constants.PASSWORD);
+        String passwordRepeat = request.getParameter(Constants.PASSWORD_REPEAT);
 // проверка логина и пароля
         boolean haveError = false;
         if (password == null || password.isEmpty()) {
-            request.setAttribute("errorEmptyPassword",
-                    MessageManager.getProperty("message.emptypassword"));
+            request.getSession().setAttribute("errorEmptyPassword","message.emptypassword");
+            haveError = true;
+        }
+        if (passwordRepeat == null || passwordRepeat.isEmpty()) {
+            request.getSession().setAttribute("errorEmptyPasswordRepeat","message.emptypasswordrepeat");
             haveError = true;
         }
         if (login == null || login.isEmpty()) {
-            request.setAttribute("errorEmptyLogin",
-                    MessageManager.getProperty("message.emptylogin"));
+            request.getSession().setAttribute("errorEmptyLogin","message.emptylogin");
             haveError = true;
         }
 
         if(!haveError) {
             try {
                 if (ModelManager.ins.getUser(login) != null) {
-                    request.setAttribute("errorLoginPassMessage",
-                            MessageManager.getProperty("message.loginexist"));
-                    page = ConfigurationManager.getProperty("path.page.signup");
-                    request.setAttribute("title", "Signup");
-                    return page;
+                    request.getSession().setAttribute("errorLoginPassMessage","message.loginexist");
+                    page = ConfigurationManager.getProperty("path.page.redirect.signup");
+                    return  page;
                 }
                 String userPassword = Encrypt.encrypt(password);
                 User user = new User.UserBuilder().setLogin(login)
@@ -44,19 +44,17 @@ public class SignupCommand implements ActionCommand {
                         .setRole_id(Constants.ROLE.Client.ordinal())
                         .build();
                 ModelManager.ins.insertUser(user);
-                request.setAttribute("user", login);
+                request.getSession().setAttribute("user", login);
                 request.getSession().setAttribute("userRole", Constants.ROLE.Client);
-                page = ConfigurationManager.getProperty("path.page.cabinet");
-                request.setAttribute("title", "cabinet");
+                page = ConfigurationManager.getProperty("path.page.redirect.cabinet");
                 return page;
             } catch (Exception e) {
-                System.out.println(e.toString());
+                System.out.println(e);
                 System.out.println("sql errror SignupCommand");
             }
         }
 
-        page = ConfigurationManager.getProperty("path.page.signup");
-        request.setAttribute("title", "Login");
+        page = ConfigurationManager.getProperty("path.page.redirect.signup");
         return page;
     }
 }
