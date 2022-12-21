@@ -1,6 +1,7 @@
 package com.myCompany.RepairAgency.servlet.request.get;
 
 
+import com.myCompany.RepairAgency.servlet.listener.Logger;
 import com.myCompany.RepairAgency.servlet.request.ActionCommand;
 import com.myCompany.RepairAgency.servlet.request.abstractCommandFactory;
 import com.myCompany.RepairAgency.servlet.request.get.realization.EmptyCommand;
@@ -19,7 +20,7 @@ public class GetCommandFactory extends abstractCommandFactory {
 //        String command = request.getParameter("command");
         String command = request.getRequestURI();
         command = command.substring(command.indexOf("/controller/")+12);
-        System.out.println(command + "   Get  comFactory");
+        Logger.log("[GetCommandFactory] " + command);
         if (command == null || command.isEmpty()) {
              return current;
         }

@@ -22,8 +22,6 @@
     <br/>
         ${wrongAction}
     <br/>
-        ${nullPage}
-    <br/>
     <input type="submit" value="<fmt:message key="text.login"/>"/>
     </form><hr/>
 

@@ -1,5 +1,6 @@
 package com.myCompany.RepairAgency.servlet;
 
+import com.myCompany.RepairAgency.servlet.listener.Logger;
 import com.myCompany.RepairAgency.servlet.request.ActionCommand;
 import com.myCompany.RepairAgency.servlet.request.abstractCommandFactory;
 import com.myCompany.RepairAgency.servlet.request.get.GetCommandFactory;
@@ -26,73 +27,71 @@ public class Controller extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        System.out.println("its get");
+        Logger.log( "[Controller] its get");
         processRequest(GetCommandFactory.inst, request, response);
     }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        System.out.println("its post");
+        Logger.log("[Controller] its post");
         processRequest(PostCommandFactory.inst, request, response);
     }
     private void processRequest(abstractCommandFactory factory, HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
-//////////////////////////////////////////////////////////////////////////
-        System.out.println("request Cookies  con");
-        Arrays.stream(request.getCookies()).forEach(x-> x
-                .getAttributes()
-                .entrySet()
-                .forEach(System.out::println));
-
-        System.out.println("request attributes con");
-        request.getAttributeNames().asIterator().forEachRemaining(x -> {
-            System.out.print(x + " = ");
-            System.out.println(request.getAttribute(x));
-        });
-
-        System.out.println("request parameters con");
-        request.getParameterMap().forEach((x,y)->{
-            System.out.print(x + " = ");
-            Arrays.stream(y).forEach(System.out::println);
-        });
-
-        HttpSession sessi = request.getSession(false);
-        if(sessi != null) {
-            System.out.println("request session parameters con");
-            sessi.getAttributeNames().asIterator().forEachRemaining(x -> {
-                System.out.print(x + " = ");
-                System.out.println(sessi.getAttribute(x));
-            });
-        } else System.out.println("request has no session");
-//////////////////////////////////////////////////////////////////////////
+        logRequest(request);
 
         // определение команды, пришедшей из JSP
         ActionCommand command = factory.defineCommand(request);
         Path page  = command.execute(request);
-        System.out.println(command + "   con");
-        System.out.println(page + "   con");
+        Logger.log("[Controller] " + command);
+        Logger.log("[Controller] " + page);
 
-
-//         page = null; // поэксперементировать!
 
         if(page == null || page.isBlank()) {
 // установка страницы c coобщeнием об ошибке
             page = PathFactory.getPath("path.page.redirect.index");
-            request.getSession().setAttribute("nullPage", "message.nullpage");
-            System.out.println("\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\");
+            Logger.log("[Controller] processRequest end with error");
             response.sendRedirect(request.getContextPath() + page);
         }
 
         if(page.isRedirect) {
-
+            Logger.log("[Controller] processRequest end with redirect");
             response.sendRedirect(request.getContextPath() + page);
             return;
         }
 
         RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(page.toString());
-        System.out.println("////////////////////////");
+        Logger.log("[Controller] processRequest end with forward");
         dispatcher.forward(request, response);
+    }
+
+
+    private void logRequest(HttpServletRequest request) {
+        Logger.log("[Controller] processRequest start");
+        Logger.log("[Controller] request Cookies");
+        Arrays.stream(request.getCookies()).forEach(x-> x
+                .getAttributes()
+                .forEach((key, value) -> Logger.log("[Controller] " + key + " = " + value)));
+
+        Logger.log("[Controller] request attributes");
+        request.getAttributeNames().asIterator().forEachRemaining(x -> {
+            Logger.log("[Controller] " + x + " = " + request.getAttribute(x));
+        });
+
+        Logger.log("[Controller] request parameters");
+        request.getParameterMap().forEach((x,y)->{
+            StringBuilder par = new StringBuilder("[Controller] " + x + " = ");
+            Arrays.stream(y).forEach(c -> par.append(c).append(", "));
+            Logger.log(par.toString());
+        });
+
+        HttpSession sessi = request.getSession(false);
+        if(sessi != null) {
+            Logger.log("[Controller] request session parameters");
+            sessi.getAttributeNames().asIterator().forEachRemaining(x -> {
+                Logger.log("[Controller] " + x + " = " + sessi.getAttribute(x));
+            });
+        } else Logger.log("[Controller] request has no session");
     }
 }

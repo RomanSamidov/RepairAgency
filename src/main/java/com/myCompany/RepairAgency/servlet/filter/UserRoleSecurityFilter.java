@@ -3,6 +3,7 @@ package com.myCompany.RepairAgency.servlet.filter;
 
 import com.myCompany.RepairAgency.Constants;
 import com.myCompany.RepairAgency.servlet.PathFactory;
+import com.myCompany.RepairAgency.servlet.listener.Logger;
 import jakarta.servlet.*;
 import jakarta.servlet.annotation.WebFilter;
 import jakarta.servlet.http.HttpServletRequest;
@@ -19,14 +20,18 @@ public class UserRoleSecurityFilter implements Filter {
     @Override
     public void doFilter(ServletRequest request, ServletResponse response,
                          FilterChain chain) throws IOException, ServletException {
+        Logger.log("[UserRoleSecurityFilter] doFilter");
         HttpServletRequest req = (HttpServletRequest) request;
         HttpServletResponse resp = (HttpServletResponse) response;
         HttpSession session = req.getSession();
         Constants.ROLE userRole = (Constants.ROLE) session.getAttribute("userRole");
         String requestURI = req.getRequestURI();
-        System.out.println("UserRoleSecurityFilter");
-        System.out.println(req.getRequestURI());
-
+        Logger.log("[UserRoleSecurityFilter] "+ req.getRequestURI());
+        if(userRole == null ) {
+            Logger.log("[UserRoleSecurityFilter] null");
+        } else {
+            Logger.log("[UserRoleSecurityFilter] " + userRole.name());
+        }
 
         if(!requestURI.startsWith("/RepairAgency/controller/")) {
             redirect(req,resp);
@@ -60,7 +65,7 @@ public class UserRoleSecurityFilter implements Filter {
             }
         }
 
-        System.out.println("UserRoleSecurityFilter pass");
+       Logger.log("[UserRoleSecurityFilter] pass");
         chain.doFilter(request, response);
     }
 
@@ -112,20 +117,19 @@ public class UserRoleSecurityFilter implements Filter {
 
 
     private void redirect(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        System.out.println(req.getRequestURI());
         resp.sendRedirect(req.getContextPath()
                 + PathFactory.getPath("path.page.redirect.home"));
-        System.out.println("UserRoleSecurityFilter redirected to home");
+       Logger.log("[UserRoleSecurityFilter] redirected to home");
 
     }
 
     @Override
     public void init(FilterConfig fConfig) throws ServletException {
-        System.out.println("UserRoleSecurityFilter initiated");
+       Logger.log("[UserRoleSecurityFilter] initiated");
     }
 
     @Override
     public void destroy() {
-        System.out.println("UserRoleSecurityFilter destroyed");
+       Logger.log("[UserRoleSecurityFilter] destroyed");
     }
 }

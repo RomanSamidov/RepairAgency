@@ -1,6 +1,7 @@
 package com.myCompany.RepairAgency.servlet.request.post;
 
 
+import com.myCompany.RepairAgency.servlet.listener.Logger;
 import com.myCompany.RepairAgency.servlet.request.ActionCommand;
 import com.myCompany.RepairAgency.servlet.request.abstractCommandFactory;
 import com.myCompany.RepairAgency.servlet.request.post.realization.EmptyCommand;
@@ -17,7 +18,7 @@ public class PostCommandFactory extends abstractCommandFactory {
         ActionCommand current = new EmptyCommand();
 
         String command = request.getParameter("command");
-        System.out.println(command + "  comFactory");
+        Logger.log("[PostCommandFactory] " + command);
         if (command == null || command.isEmpty()) {
              return current;
         }
