@@ -2,7 +2,7 @@ package com.myCompany.RepairAgency.servlet;
 
 import java.util.ResourceBundle;
 
-public class ConfigurationManager {
+public class PathFactory {
 
     private final static ResourceBundle resourceBundle =
         ResourceBundle.getBundle("config");
@@ -10,9 +10,10 @@ public class ConfigurationManager {
 //    ResourceBundle rb = ResourceBundle.getBundle("LocalStrings",  req.getLocale());
 
 
-    private ConfigurationManager() { }
+    private PathFactory() { }
 
-    public static String getProperty(String key) {
-        return resourceBundle.getString(key);
+    public static Path getPath(String key) {
+        return new Path(key.startsWith("path.page.redirect."), resourceBundle.getString(key));
+//        return resourceBundle.getString(key);
     }
 }

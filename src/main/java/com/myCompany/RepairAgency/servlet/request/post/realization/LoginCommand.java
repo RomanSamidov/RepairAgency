@@ -3,7 +3,8 @@ package com.myCompany.RepairAgency.servlet.request.post.realization;
 import com.myCompany.RepairAgency.Constants;
 import com.myCompany.RepairAgency.model.ModelManager;
 import com.myCompany.RepairAgency.model.entity.User;
-import com.myCompany.RepairAgency.servlet.ConfigurationManager;
+import com.myCompany.RepairAgency.servlet.Path;
+import com.myCompany.RepairAgency.servlet.PathFactory;
 import com.myCompany.RepairAgency.servlet.request.ActionCommand;
 import com.myCompany.RepairAgency.servlet.util.Encrypt;
 import jakarta.servlet.http.HttpServletRequest;
@@ -12,8 +13,8 @@ public class LoginCommand implements ActionCommand {
 
 
     @Override
-    public String execute(HttpServletRequest request) {
-        String page;
+    public Path execute(HttpServletRequest request) {
+        Path page;
 // извлечение из запроса логина и пароля
         String login = request.getParameter(Constants.LOGIN);
         String password = request.getParameter(Constants.PASSWORD);
@@ -35,7 +36,7 @@ public class LoginCommand implements ActionCommand {
                 if (userPassword.equals(Encrypt.encrypt(password))) {
                     request.getSession().setAttribute("user", login);
                     request.getSession().setAttribute("userRole", Constants.ROLE.values()[user.getRole_id()]);
-                    page = ConfigurationManager.getProperty("path.page.redirect.cabinet");
+                    page = PathFactory.getPath("path.page.redirect.cabinet");
                     return page;
                 } else {
                     request.getSession().setAttribute("errorLoginPassMessage","message.loginerror");
@@ -48,7 +49,7 @@ public class LoginCommand implements ActionCommand {
         }
 
 
-        page = ConfigurationManager.getProperty("path.page.redirect.login");
+        page = PathFactory.getPath("path.page.redirect.login");
         return page;
     }
 

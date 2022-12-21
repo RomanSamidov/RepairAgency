@@ -9,7 +9,7 @@
 <c:import url="/WEB-INF/template/menu/_menu.jsp"/>
 <%@ taglib prefix="my" tagdir="/WEB-INF/tags" %>
 
-    <form name="loginForm" method="POST" action="controller">
+    <form name="loginForm" method="POST" action="">
     <my:message key="${errorLoginPassMessage}" defaultvalue=""/><br/>
     <input type="hidden" name="command" value="login" />
         <fmt:message key="text.login"/><br/>

@@ -1,6 +1,6 @@
 package com.myCompany.RepairAgency.servlet.request.get;
 
-import com.myCompany.RepairAgency.servlet.MessageManager;
+
 import com.myCompany.RepairAgency.servlet.request.ActionCommand;
 import com.myCompany.RepairAgency.servlet.request.abstractCommandFactory;
 import com.myCompany.RepairAgency.servlet.request.get.realization.EmptyCommand;
@@ -29,7 +29,7 @@ public class GetCommandFactory extends abstractCommandFactory {
             current = currentEnum.getCurrentCommand();
         } catch (IllegalArgumentException e) {
             request.setAttribute("wrongCommand",
-                    command + MessageManager.getProperty("message.wrongCommand"));
+                    command + "message.wrongCommand");
         }
         return current;
     }

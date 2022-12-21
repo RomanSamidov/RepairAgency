@@ -3,15 +3,16 @@ package com.myCompany.RepairAgency.servlet.request.post.realization;
 import com.myCompany.RepairAgency.Constants;
 import com.myCompany.RepairAgency.model.ModelManager;
 import com.myCompany.RepairAgency.model.entity.User;
-import com.myCompany.RepairAgency.servlet.ConfigurationManager;
+import com.myCompany.RepairAgency.servlet.Path;
+import com.myCompany.RepairAgency.servlet.PathFactory;
 import com.myCompany.RepairAgency.servlet.request.ActionCommand;
 import com.myCompany.RepairAgency.servlet.util.Encrypt;
 import jakarta.servlet.http.HttpServletRequest;
 
 public class SignupCommand implements ActionCommand {
     @Override
-    public String execute(HttpServletRequest request) {
-        String page;
+    public Path execute(HttpServletRequest request) {
+        Path page;
 // извлечение из запроса логина и пароля
         String login = request.getParameter(Constants.LOGIN);
         String password = request.getParameter(Constants.PASSWORD);
@@ -35,7 +36,7 @@ public class SignupCommand implements ActionCommand {
             try {
                 if (ModelManager.ins.getUser(login) != null) {
                     request.getSession().setAttribute("errorLoginPassMessage","message.loginexist");
-                    page = ConfigurationManager.getProperty("path.page.redirect.signup");
+                    page = PathFactory.getPath("path.page.redirect.signup");
                     return  page;
                 }
                 String userPassword = Encrypt.encrypt(password);
@@ -46,7 +47,7 @@ public class SignupCommand implements ActionCommand {
                 ModelManager.ins.insertUser(user);
                 request.getSession().setAttribute("user", login);
                 request.getSession().setAttribute("userRole", Constants.ROLE.Client);
-                page = ConfigurationManager.getProperty("path.page.redirect.cabinet");
+                page = PathFactory.getPath("path.page.redirect.cabinet");
                 return page;
             } catch (Exception e) {
                 System.out.println(e);
@@ -54,7 +55,7 @@ public class SignupCommand implements ActionCommand {
             }
         }
 
-        page = ConfigurationManager.getProperty("path.page.redirect.signup");
+        page = PathFactory.getPath("path.page.redirect.signup");
         return page;
     }
 }

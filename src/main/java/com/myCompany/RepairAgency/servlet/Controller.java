@@ -1,6 +1,5 @@
 package com.myCompany.RepairAgency.servlet;
 
-import com.myCompany.RepairAgency.Constants;
 import com.myCompany.RepairAgency.servlet.request.ActionCommand;
 import com.myCompany.RepairAgency.servlet.request.abstractCommandFactory;
 import com.myCompany.RepairAgency.servlet.request.get.GetCommandFactory;
@@ -71,7 +70,7 @@ public class Controller extends HttpServlet {
 
         // определение команды, пришедшей из JSP
         ActionCommand command = factory.defineCommand(request);
-        String page  = command.execute(request);
+        Path page  = command.execute(request);
         System.out.println(command + "   con");
         System.out.println(page + "   con");
 
@@ -80,20 +79,19 @@ public class Controller extends HttpServlet {
 
         if(page == null || page.isBlank()) {
 // установка страницы c coобщeнием об ошибке
-            page = ConfigurationManager.getProperty("path.page.index");
-            request.getSession().setAttribute("nullPage",
-                    MessageManager.getProperty("message.nullpage"));
+            page = PathFactory.getPath("path.page.redirect.index");
+            request.getSession().setAttribute("nullPage", "message.nullpage");
             System.out.println("\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\");
             response.sendRedirect(request.getContextPath() + page);
         }
 
-        if(page.startsWith(Constants.REDIRECT)) {
+        if(page.isRedirect) {
 
-            response.sendRedirect(request.getContextPath() + page.substring(11));
+            response.sendRedirect(request.getContextPath() + page);
             return;
         }
 
-        RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(page);
+        RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(page.toString());
         System.out.println("////////////////////////");
         dispatcher.forward(request, response);
     }

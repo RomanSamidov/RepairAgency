@@ -1,7 +1,6 @@
 package com.myCompany.RepairAgency.model.db.PostgeSQL.repository;
 
 import com.myCompany.RepairAgency.Constants;
-import com.myCompany.RepairAgency.model.Fields;
 import com.myCompany.RepairAgency.model.db.PostgeSQL.ConnectionPool;
 import com.myCompany.RepairAgency.model.db.PostgeSQL.Query;
 import com.myCompany.RepairAgency.model.db.PostgeSQL.QueryExecutioner;

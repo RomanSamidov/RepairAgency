@@ -1,16 +1,17 @@
 package com.myCompany.RepairAgency.servlet.request.get.realization;
 
-import com.myCompany.RepairAgency.servlet.ConfigurationManager;
+import com.myCompany.RepairAgency.servlet.Path;
+import com.myCompany.RepairAgency.servlet.PathFactory;
 import com.myCompany.RepairAgency.servlet.request.ActionCommand;
 import jakarta.servlet.http.HttpServletRequest;
 
 public class EmptyCommand implements ActionCommand {
     @Override
-    public String execute(HttpServletRequest request) {
+    public Path execute(HttpServletRequest request) {
         /* в случае ошибки или прямого обращения к контроллеру
          * переадресация на страницу ввода логина */
-        String page = ConfigurationManager.getProperty("path.page.forward.login");
-//        String page = ConfigurationManager.getProperty("path.page.error");
+        Path page = PathFactory.getPath("path.page.forward.login");
+//        String page = PathFactory.getProperty("path.page.error");
         request.setAttribute("title", "title.empty");
         return page;
     }

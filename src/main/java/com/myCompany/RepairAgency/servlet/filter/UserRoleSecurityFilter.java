@@ -1,8 +1,10 @@
 package com.myCompany.RepairAgency.servlet.filter;
 
 
-import com.myCompany.RepairAgency.servlet.request.post.PostCommandEnum;
+import com.myCompany.RepairAgency.Constants;
+import com.myCompany.RepairAgency.servlet.PathFactory;
 import jakarta.servlet.*;
+import jakarta.servlet.annotation.WebFilter;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
@@ -11,6 +13,7 @@ import java.io.IOException;
 
 //@WebFilter(urlPatterns = { "/controller/*" },
 //           servletNames = { "Controller" })
+ @WebFilter(urlPatterns = { "/*" })
 public class UserRoleSecurityFilter implements Filter {
 
     @Override
@@ -19,17 +22,101 @@ public class UserRoleSecurityFilter implements Filter {
         HttpServletRequest req = (HttpServletRequest) request;
         HttpServletResponse resp = (HttpServletResponse) response;
         HttpSession session = req.getSession();
-        String type = (String) session.getAttribute("userRole");
-        String command = request.getParameter("command");
-        if (type == null &&
-                !(command != null && command.toUpperCase().equals(PostCommandEnum.LOGIN.name()))) {
-            System.out.println("UserRoleSecurityFilter redirected to index");
-            RequestDispatcher dispatcher = request.getServletContext()
-                    .getRequestDispatcher("/index.jsp");
-            dispatcher.forward(req, resp);
+        Constants.ROLE userRole = (Constants.ROLE) session.getAttribute("userRole");
+        String requestURI = req.getRequestURI();
+        System.out.println("UserRoleSecurityFilter");
+        System.out.println(req.getRequestURI());
+
+
+        if(!requestURI.startsWith("/RepairAgency/controller/")) {
+            redirect(req,resp);
+            return;
         }
+
+        if(userRole == null) {
+            if(!isPathForGuest(requestURI)) {
+                redirect(req, resp);
+                return;
+            }
+        } else if(userRole.equals(Constants.ROLE.Client)) {
+            if(!isPathForClient(requestURI)) {
+                redirect(req, resp);
+                return;
+            }
+        } else if(userRole.equals(Constants.ROLE.Craftsman)) {
+            if(!isPathForCraftsman(requestURI)) {
+                redirect(req, resp);
+                return;
+            }
+        } else if(userRole.equals(Constants.ROLE.Manager)) {
+            if(!isPathForManager(requestURI)) {
+                redirect(req, resp);
+                return;
+            }
+        } else if(userRole.equals(Constants.ROLE.Admin)) {
+            if(!isPathForAdmin(requestURI)) {
+                redirect(req, resp);
+                return;
+            }
+        }
+
         System.out.println("UserRoleSecurityFilter pass");
         chain.doFilter(request, response);
+    }
+
+    private boolean isPathForGuest(String requestURI) {
+        switch (requestURI) {
+            case "/RepairAgency/controller/home":
+            case "/RepairAgency/controller/pricing":
+            case "/RepairAgency/controller/faqs":
+            case "/RepairAgency/controller/about":
+            case "/RepairAgency/controller/login":
+            case "/RepairAgency/controller/signup":
+                return true;
+            default:
+                return false;
+        }
+    }
+    private boolean isPathForClient(String requestURI) {
+        switch (requestURI) {
+            case "/RepairAgency/controller/login":
+            case "/RepairAgency/controller/signup":
+                return false;
+            case "/RepairAgency/controller/cabinet":
+                return true;
+            default:
+                return isPathForGuest(requestURI);
+        }
+    }
+
+    private boolean isPathForCraftsman(String requestURI) {
+        switch (requestURI) {
+            case "/RepairAgency/controller/cabinet":
+                return true;
+            default:
+                return isPathForClient(requestURI);
+        }
+    }
+
+    private boolean isPathForManager(String requestURI) {
+        switch (requestURI) {
+            case "/RepairAgency/controller/cabinet":
+                return true;
+            default:
+                return isPathForClient(requestURI);
+        }
+    }
+    private boolean isPathForAdmin(String requestURI) {
+        return true;
+    }
+
+
+    private void redirect(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        System.out.println(req.getRequestURI());
+        resp.sendRedirect(req.getContextPath()
+                + PathFactory.getPath("path.page.redirect.home"));
+        System.out.println("UserRoleSecurityFilter redirected to home");
+
     }
 
     @Override
