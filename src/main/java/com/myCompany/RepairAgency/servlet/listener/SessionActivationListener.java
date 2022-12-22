@@ -3,29 +3,32 @@ package com.myCompany.RepairAgency.servlet.listener;
 import jakarta.servlet.annotation.WebListener;
 import jakarta.servlet.http.HttpSessionActivationListener;
 import jakarta.servlet.http.HttpSessionEvent;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
-import static com.myCompany.RepairAgency.servlet.listener.Logger.log;
 
 @WebListener
 public class SessionActivationListener implements HttpSessionActivationListener {
 
+    private static final Logger logger = LogManager.getLogger(SessionActivationListener.class);
+
     @Override
     public void sessionWillPassivate(HttpSessionEvent se) {
-        log("[SessionActivationListener] sessionWillPassivate start");
-        log("[SessionActivationListener] " + se.toString());
-        log("[SessionActivationListener] " + se.getSession().getId());
-        log("[SessionActivationListener] " + se.getSession().toString());
-        log("[SessionActivationListener] " + se.getSource());
-        log("[SessionActivationListener] sessionWillPassivate end");
+        logger.debug("[SessionActivationListener] sessionWillPassivate start");
+        logger.debug("[SessionActivationListener] " + se.toString());
+        logger.debug("[SessionActivationListener] " + se.getSession().getId());
+        logger.debug("[SessionActivationListener] " + se.getSession().toString());
+        logger.debug("[SessionActivationListener] " + se.getSource());
+        logger.debug("[SessionActivationListener] sessionWillPassivate end");
     }
 
     @Override
     public void sessionDidActivate(HttpSessionEvent se) {
-        log("[SessionActivationListener] sessionDidActivate start");
-        log("[SessionActivationListener] " + se.toString());
-        log("[SessionActivationListener] " + se.getSession().getId());
-        log("[SessionActivationListener] " + se.getSession().toString());
-        log("[SessionActivationListener] " + se.getSource());
-        log("[SessionActivationListener] sessionDidActivate end");
+        logger.debug("[SessionActivationListener] sessionDidActivate start");
+        logger.debug("[SessionActivationListener] " + se.toString());
+        logger.debug("[SessionActivationListener] " + se.getSession().getId());
+        logger.debug("[SessionActivationListener] " + se.getSession().toString());
+        logger.debug("[SessionActivationListener] " + se.getSource());
+        logger.debug("[SessionActivationListener] sessionDidActivate end");
     }
 }

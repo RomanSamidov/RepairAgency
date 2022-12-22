@@ -3,29 +3,32 @@ package com.myCompany.RepairAgency.servlet.listener;
 import jakarta.servlet.annotation.WebListener;
 import jakarta.servlet.http.HttpSessionBindingEvent;
 import jakarta.servlet.http.HttpSessionBindingListener;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
-import static com.myCompany.RepairAgency.servlet.listener.Logger.log;
 
 @WebListener
 public class SessionBindingListener implements HttpSessionBindingListener {
 
+    private static final Logger logger = LogManager.getLogger(SessionBindingListener.class);
+
     @Override
     public void valueBound(HttpSessionBindingEvent event) {
-        log("[SessionBindingListener] valueBound start");
-        log("[SessionBindingListener] " + event.toString());
-        log("[SessionBindingListener] " + event.getSession().getId());
-        log("[SessionBindingListener] " + event.getSession().toString());
-        log("[SessionBindingListener] " + event.getSource());
-        log("[SessionBindingListener] valueBound end");
+        logger.debug("[SessionBindingListener] valueBound start");
+        logger.debug("[SessionBindingListener] " + event.toString());
+        logger.debug("[SessionBindingListener] " + event.getSession().getId());
+        logger.debug("[SessionBindingListener] " + event.getSession().toString());
+        logger.debug("[SessionBindingListener] " + event.getSource());
+        logger.debug("[SessionBindingListener] valueBound end");
     }
 
     @Override
     public void valueUnbound(HttpSessionBindingEvent event) {
-        log("[SessionBindingListener] valueUnbound start");
-        log("[SessionBindingListener] " + event.toString());
-        log("[SessionBindingListener] " + event.getSession().getId());
-        log("[SessionBindingListener] " + event.getSession().toString());
-        log("[SessionBindingListener] " + event.getSource());
-        log("[SessionBindingListener] valueUnbound end");
+        logger.debug("[SessionBindingListener] valueUnbound start");
+        logger.debug("[SessionBindingListener] " + event.toString());
+        logger.debug("[SessionBindingListener] " + event.getSession().getId());
+        logger.debug("[SessionBindingListener] " + event.getSession().toString());
+        logger.debug("[SessionBindingListener] " + event.getSource());
+        logger.debug("[SessionBindingListener] valueUnbound end");
     }
 }

@@ -1,14 +1,17 @@
 package com.myCompany.RepairAgency.servlet.request.post;
 
 
-import com.myCompany.RepairAgency.servlet.listener.Logger;
 import com.myCompany.RepairAgency.servlet.request.ActionCommand;
 import com.myCompany.RepairAgency.servlet.request.abstractCommandFactory;
 import com.myCompany.RepairAgency.servlet.request.post.realization.EmptyCommand;
 import jakarta.servlet.http.HttpServletRequest;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 
 public class PostCommandFactory extends abstractCommandFactory {
+
+    private static final Logger logger = LogManager.getLogger(PostCommandFactory.class);
 
     public static final PostCommandFactory inst = new PostCommandFactory();
 
@@ -18,7 +21,7 @@ public class PostCommandFactory extends abstractCommandFactory {
         ActionCommand current = new EmptyCommand();
 
         String command = request.getParameter("command");
-        Logger.log("[PostCommandFactory] " + command);
+        logger.debug("[PostCommandFactory] " + command);
         if (command == null || command.isEmpty()) {
              return current;
         }
