@@ -1,35 +1,38 @@
 package com.myCompany.RepairAgency.servlet.request.get;
 
 
-import com.myCompany.RepairAgency.servlet.request.ActionCommand;
+import com.myCompany.RepairAgency.servlet.request.IActionCommand;
 import com.myCompany.RepairAgency.servlet.request.get.realization.*;
 
 public enum GetCommandEnum{
     LOGIN {{
-        this.command = new ShowLoginFormCommand();
+        this.command = new ShowLoginFormCommandI();
     }},
     SIGNUP {{
-        this.command = new ShowSignupFormCommand();
+        this.command = new ShowSignupFormCommandI();
     }},
     ABOUT {{
-        this.command = new ShowAboutCommand();
+        this.command = new ShowAboutCommandI();
     }},
     FAQS {{
-        this.command = new ShowFAQsCommand();
+        this.command = new ShowFAQsCommandI();
     }},
     HOME {{
-        this.command = new ShowHomeCommand();
+        this.command = new ShowHomeCommandI();
     }},
     PRICING {{
-        this.command = new ShowPricingCommand();
+        this.command = new ShowPricingCommandI();
     }},
     CABINET {{
-        this.command = new ShowProfileCommand();
+        this.command = new ShowProfileCommandI();
+    }},
+    ORDER {{
+        this.command = new ShowOrderPageCommandI();
     }};
 
 
-    ActionCommand command;
-    public ActionCommand getCurrentCommand() {
+    IActionCommand command;
+    public IActionCommand getCurrentCommand() {
         return command;
     }
 }

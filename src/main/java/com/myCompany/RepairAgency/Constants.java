@@ -45,7 +45,7 @@ public class Constants {
     }
 
     public enum ROLE {
-        Null, Admin, Manager, Craftsman, Client
+        Guest, Admin, Manager, Craftsman, Client
     }
 
 

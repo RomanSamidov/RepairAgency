@@ -18,9 +18,12 @@
 
 
     <Loggers>
-        <Root level="DEBUG">
-            <AppenderRef ref="console"/>
-        </Root>
+<!--        <Root level="DEBUG">-->
+<!--            <AppenderRef ref="console"/>-->
+<!--        </Root>-->
+        <AsyncRoot level="DEBUG">-->
+            <AppenderRef ref="console" />
+        </AsyncRoot>
     </Loggers>
 
 <!--    <Root level="INFO">-->

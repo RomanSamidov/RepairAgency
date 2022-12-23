@@ -1,7 +1,7 @@
 package com.myCompany.RepairAgency.servlet;
 
 
-import com.myCompany.RepairAgency.servlet.request.ActionCommand;
+import com.myCompany.RepairAgency.servlet.request.IActionCommand;
 import com.myCompany.RepairAgency.servlet.request.abstractCommandFactory;
 import com.myCompany.RepairAgency.servlet.request.get.GetCommandFactory;
 import com.myCompany.RepairAgency.servlet.request.post.PostCommandFactory;
@@ -46,7 +46,7 @@ public class Controller extends HttpServlet {
         logRequest(request);
 
         // определение команды, пришедшей из JSP
-        ActionCommand command = factory.defineCommand(request);
+        IActionCommand command = factory.defineCommand(request);
         Path page  = command.execute(request);
         logger.debug("[Controller] " + command);
         logger.debug("[Controller] " + page);

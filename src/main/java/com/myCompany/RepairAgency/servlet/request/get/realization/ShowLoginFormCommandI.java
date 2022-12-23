@@ -1,19 +1,23 @@
 package com.myCompany.RepairAgency.servlet.request.get.realization;
 
+import com.myCompany.RepairAgency.Constants;
 import com.myCompany.RepairAgency.servlet.Path;
 import com.myCompany.RepairAgency.servlet.PathFactory;
-import com.myCompany.RepairAgency.servlet.request.ActionCommand;
+import com.myCompany.RepairAgency.servlet.request.IActionCommand;
+import com.myCompany.RepairAgency.servlet.request.IHasRoleRequirement;
 import jakarta.servlet.http.HttpServletRequest;
 
-public class ShowLoginFormCommand implements ActionCommand {
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
+public class ShowLoginFormCommandI implements IActionCommand, IHasRoleRequirement {
     @Override
     public Path execute(HttpServletRequest request) {
         Path page = PathFactory.getPath("path.page.forward.login");
         request.setAttribute("title", "title.login");
 
-//        errorEmptyPassword = Password cannot be empty.
-//        errorLoginPassMessage = Incorrect login or password.
-//        errorEmptyLogin = Login cannot be empty.
+
         request.setAttribute("errorEmptyPassword",
                 request.getSession().getAttribute("errorEmptyPassword"));
         request.setAttribute("errorLoginPassMessage",
@@ -26,5 +30,10 @@ public class ShowLoginFormCommand implements ActionCommand {
         request.getSession().removeAttribute("errorEmptyLogin");
 
         return page;
+    }
+
+    @Override
+    public List<Constants.ROLE> allowedUserRoles() {
+        return Stream.of(Constants.ROLE.Guest).collect(Collectors.toList());
     }
 }

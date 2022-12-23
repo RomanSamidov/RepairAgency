@@ -1,25 +1,25 @@
 package com.myCompany.RepairAgency.servlet.request.post;
 
 
-import com.myCompany.RepairAgency.servlet.request.ActionCommand;
-import com.myCompany.RepairAgency.servlet.request.post.realization.LoginCommand;
-import com.myCompany.RepairAgency.servlet.request.post.realization.LogoutCommand;
-import com.myCompany.RepairAgency.servlet.request.post.realization.SignupCommand;
+import com.myCompany.RepairAgency.servlet.request.IActionCommand;
+import com.myCompany.RepairAgency.servlet.request.post.realization.LoginCommandI;
+import com.myCompany.RepairAgency.servlet.request.post.realization.LogoutCommandI;
+import com.myCompany.RepairAgency.servlet.request.post.realization.SignupCommandI;
 
 public enum PostCommandEnum{
     LOGIN {{
-        this.command = new LoginCommand();
+        this.command = new LoginCommandI();
     }},
     LOGOUT {{
-        this.command = new LogoutCommand();
+        this.command = new LogoutCommandI();
     }},
     SIGNUP {{
-        this.command = new SignupCommand();
+        this.command = new SignupCommandI();
     }};
 
 
-    ActionCommand command;
-    public ActionCommand getCurrentCommand() {
+    IActionCommand command;
+    public IActionCommand getCurrentCommand() {
         return command;
     }
 }

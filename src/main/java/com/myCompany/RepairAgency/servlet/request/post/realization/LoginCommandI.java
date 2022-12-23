@@ -5,12 +5,19 @@ import com.myCompany.RepairAgency.model.ModelManager;
 import com.myCompany.RepairAgency.model.entity.User;
 import com.myCompany.RepairAgency.servlet.Path;
 import com.myCompany.RepairAgency.servlet.PathFactory;
-import com.myCompany.RepairAgency.servlet.request.ActionCommand;
+import com.myCompany.RepairAgency.servlet.request.IActionCommand;
+import com.myCompany.RepairAgency.servlet.request.IHasRoleRequirement;
 import com.myCompany.RepairAgency.servlet.util.Encrypt;
 import jakarta.servlet.http.HttpServletRequest;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
-public class LoginCommand implements ActionCommand {
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
+public class LoginCommandI implements IActionCommand, IHasRoleRequirement {
+    private static final Logger logger = LogManager.getLogger(LoginCommandI.class);
 
     @Override
     public Path execute(HttpServletRequest request) {
@@ -34,8 +41,7 @@ public class LoginCommand implements ActionCommand {
                 User user = ModelManager.ins.getUser(login);
                 String userPassword = user.getPassword();
                 if (userPassword.equals(Encrypt.encrypt(password))) {
-                    request.getSession().setAttribute("user", login);
-                    request.getSession().setAttribute("userRole", Constants.ROLE.values()[user.getRole_id()]);
+                    initializeUserSessionAttributes(request, user);
                     page = PathFactory.getPath("path.page.redirect.cabinet");
                     return page;
                 } else {
@@ -43,8 +49,7 @@ public class LoginCommand implements ActionCommand {
                 }
             } catch (Exception e) {
                 request.getSession().setAttribute("errorLoginPassMessage","message.loginnotexisterror");
-                System.out.println(e);
-                System.out.println("sql errror LoginCommand");
+                logger.error("[LoginCommandI] sql error  " + e);
             }
         }
 
@@ -53,6 +58,17 @@ public class LoginCommand implements ActionCommand {
         return page;
     }
 
+    public static void initializeUserSessionAttributes(HttpServletRequest request, User user ) {
+        request.getSession().setAttribute("userLogin", user.getLogin());
+        request.getSession().setAttribute("userRole", Constants.ROLE.values()[user.getRole_id()]);
+        if(user.getRole_id() == Constants.ROLE.Client.ordinal()) {
+            request.getSession().setAttribute("userAccount", user.getAccount());
+        }
+    }
 
+    @Override
+    public List<Constants.ROLE> allowedUserRoles() {
+        return Stream.of(Constants.ROLE.Guest).collect(Collectors.toList());
+    }
 
 }
