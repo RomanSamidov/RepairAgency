@@ -18,7 +18,7 @@
             <fmt:message key="text.password"/><br/>
             <my:message key="${errorEmptyPassword}" defaultvalue=""/><br/>
         <input type="password" name="password" value=""/><br/>
-            <fmt:message key="text.passwordrepeat"/><br/>
+            <fmt:message key="text.password_repeat"/><br/>
             <my:message key="${errorEmptyPasswordRepeat}" defaultvalue=""/><br/>
         <input type="password" name="passwordRepeat" value=""/><br/>
         <input type="submit" value="<fmt:message key="text.signup"/>"/>

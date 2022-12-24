@@ -16,8 +16,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-public class LoginCommandI implements IActionCommand, IHasRoleRequirement {
-    private static final Logger logger = LogManager.getLogger(LoginCommandI.class);
+public class LoginCommand implements IActionCommand, IHasRoleRequirement {
+    private static final Logger logger = LogManager.getLogger(LoginCommand.class);
 
     @Override
     public Path execute(HttpServletRequest request) {
@@ -49,7 +49,7 @@ public class LoginCommandI implements IActionCommand, IHasRoleRequirement {
                 }
             } catch (Exception e) {
                 request.getSession().setAttribute("errorLoginPassMessage","message.loginnotexisterror");
-                logger.error("[LoginCommandI] sql error  " + e);
+                logger.error("[LoginCommand] sql error  " + e);
             }
         }
 
@@ -60,6 +60,7 @@ public class LoginCommandI implements IActionCommand, IHasRoleRequirement {
 
     public static void initializeUserSessionAttributes(HttpServletRequest request, User user ) {
         request.getSession().setAttribute("userLogin", user.getLogin());
+        request.getSession().setAttribute("userId", user.getId());
         request.getSession().setAttribute("userRole", Constants.ROLE.values()[user.getRole_id()]);
         if(user.getRole_id() == Constants.ROLE.Client.ordinal()) {
             request.getSession().setAttribute("userAccount", user.getAccount());

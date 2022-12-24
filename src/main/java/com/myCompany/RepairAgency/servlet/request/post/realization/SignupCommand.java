@@ -16,8 +16,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-public class SignupCommandI implements IActionCommand, IHasRoleRequirement {
-    private static final Logger logger = LogManager.getLogger(SignupCommandI.class);
+public class SignupCommand implements IActionCommand, IHasRoleRequirement {
+    private static final Logger logger = LogManager.getLogger(SignupCommand.class);
     @Override
     public Path execute(HttpServletRequest request) {
         Path page;
@@ -28,22 +28,22 @@ public class SignupCommandI implements IActionCommand, IHasRoleRequirement {
 // проверка логина и пароля
         boolean haveError = false;
         if (password == null || password.isEmpty()) {
-            request.getSession().setAttribute("errorEmptyPassword","message.emptypassword");
+            request.getSession().setAttribute("errorEmptyPassword","message.empty_password");
             haveError = true;
         }
         if (passwordRepeat == null || passwordRepeat.isEmpty()) {
-            request.getSession().setAttribute("errorEmptyPasswordRepeat","message.emptypasswordrepeat");
+            request.getSession().setAttribute("errorEmptyPasswordRepeat","message.empty_password_repeat");
             haveError = true;
         }
         if (login == null || login.isEmpty()) {
-            request.getSession().setAttribute("errorEmptyLogin","message.emptylogin");
+            request.getSession().setAttribute("errorEmptyLogin","message.empty_login");
             haveError = true;
         }
 
         if(!haveError) {
             try {
                 if (ModelManager.ins.getUser(login) != null) {
-                    request.getSession().setAttribute("errorLoginPassMessage","message.loginexist");
+                    request.getSession().setAttribute("errorLoginPassMessage","message.login_exist");
                     page = PathFactory.getPath("path.page.redirect.signup");
                     return  page;
                 }
@@ -53,11 +53,12 @@ public class SignupCommandI implements IActionCommand, IHasRoleRequirement {
                         .setRole_id(Constants.ROLE.Client.ordinal())
                         .build();
                 ModelManager.ins.insertUser(user);
-                LoginCommandI.initializeUserSessionAttributes(request, user);
+                user = ModelManager.ins.getUser(login);
+                LoginCommand.initializeUserSessionAttributes(request, user);
                 page = PathFactory.getPath("path.page.redirect.cabinet");
                 return page;
             } catch (Exception e) {
-                logger.error("[SignupCommandI] sql error  " + e);
+                logger.error("[SignupCommand] sql error  " + e);
             }
         }
 

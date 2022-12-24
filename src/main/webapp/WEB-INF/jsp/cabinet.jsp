@@ -9,9 +9,9 @@
 <c:import url="/WEB-INF/template/menu/_menu.jsp"/>
 
 <h3><fmt:message key="text.greetings"/> <fmt:message key="${userRole}"/></h3>
-<hr/> <fmt:message key="text.yourlogin"/> ${userLogin}
+<hr/> <fmt:message key="text.your_login"/> ${userLogin}
 <hr/><c:if test="${ userRole=='Client' }" >
-        <fmt:message key="text.youraccount"/> ${userAccount}
+        <fmt:message key="text.your_account"/> ${userAccount}
      </c:if>
 <hr/>
 

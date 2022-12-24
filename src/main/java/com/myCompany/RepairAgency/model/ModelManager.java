@@ -104,49 +104,13 @@ public class ModelManager {
         return DAO_FACTORY.getRepairOrderService().getWithPagination(skip, quantity);
     }
 
-//	public boolean setTeamsForUser(User user, Team... teams) throws DBException {
-//		try {
-//			con.setAutoCommit(false);
-//			Statement stmt = con.createStatement();
-//			Arrays.stream(teams).forEach(team -> {
-//				try {
-//					String sql = "INSERT INTO users_teams VALUES (" + getUser(user.getLogin()).getId() + ", " + getTeam(team.getName()).getId() + ")";
-//					stmt.executeUpdate(sql);
-//				} catch (Exception e) {
-//					throw new RuntimeException(e);
-//				}
-//			});
-//			con.commit();
-//			con.setAutoCommit(true);
-//		} catch (SQLException e) {
-//			try {
-//				con.rollback();
-//				con.setAutoCommit(true);
-//			} catch (SQLException ex) {
-//				throw new RuntimeException(ex);
-//			}
-//			return false;
-//		}
-//		return true;
-//	}
+    public ArrayList<RepairOrder> getAllRepairOrdersWhereUserIdIs(long id, int skip, int quantity) {
+        return DAO_FACTORY.getRepairOrderService().getAllWhereUserIdIs(id, skip, quantity);
+    }
 
-//
-//	public List<User> getTeamUsers(Team team) throws DBException {
-//		ResultSet rs;
-//		ArrayList<User> arrayList = new ArrayList<>();
-//
-//		try {
-//			Statement stmt = con.createStatement();
-//			rs = stmt.executeQuery("SELECT users.* FROM users JOIN users_teams ON users_teams.user_id = users.id WHERE users_teams.team_id = " + getTeam(team.getName()).getId() + "");
-//			while (rs.next()) {
-//				arrayList.add(User.createUser(rs.getInt("id"), rs.getString("login")));
-//			}
-//		} catch (SQLException e) {
-//			throw new RuntimeException(e);
-//		}
-//
-//		return arrayList;
-//	}
+    public long getCountRepairOrdersWhereUserIdIs(long id) {
+        return DAO_FACTORY.getRepairOrderService().getCountWhereUserIdIs(id);
+    }
 
 
 }

@@ -6,28 +6,31 @@ import com.myCompany.RepairAgency.servlet.request.get.realization.*;
 
 public enum GetCommandEnum{
     LOGIN {{
-        this.command = new ShowLoginFormCommandI();
+        this.command = new ShowLoginFormCommand();
     }},
     SIGNUP {{
-        this.command = new ShowSignupFormCommandI();
+        this.command = new ShowSignupFormCommand();
     }},
     ABOUT {{
-        this.command = new ShowAboutCommandI();
+        this.command = new ShowAboutCommand();
     }},
     FAQS {{
-        this.command = new ShowFAQsCommandI();
+        this.command = new ShowFAQsCommand();
     }},
     HOME {{
-        this.command = new ShowHomeCommandI();
+        this.command = new ShowHomeCommand();
     }},
     PRICING {{
-        this.command = new ShowPricingCommandI();
+        this.command = new ShowPricingCommand();
     }},
     CABINET {{
-        this.command = new ShowProfileCommandI();
+        this.command = new ShowProfileCommand();
     }},
     ORDER {{
-        this.command = new ShowOrderPageCommandI();
+        this.command = new ShowOrderPageCommand();
+    }},
+    MY_ORDERS {{
+        this.command = new ShowMyOrdersPageCommand();
     }};
 
 

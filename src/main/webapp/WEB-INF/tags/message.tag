@@ -12,7 +12,7 @@
 <c:choose>
 
     <c:when test="${!fn:startsWith(msg,'???')}">
-        ${msg}
+        ${msg}<br/>
     </c:when>
 
     <c:otherwise>

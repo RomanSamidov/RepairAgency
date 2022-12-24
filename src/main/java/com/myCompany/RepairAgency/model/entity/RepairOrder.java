@@ -1,11 +1,11 @@
 package com.myCompany.RepairAgency.model.entity;
 
 public class RepairOrder  extends Entity {
-    private int user_id;
-    private int craftsman_id;
+    private long user_id;
+    private long craftsman_id;
     private String text;
-    private int price;
-    private int status_id=1;
+    private int price=-10;
+    private long status_id=1;
     private String feedback_text;
     private int feedback_mark;
 
@@ -13,20 +13,20 @@ public class RepairOrder  extends Entity {
     }
 
 
-    public int getUser_id() {
+    public long getUser_id() {
         return user_id;
     }
 
-    public RepairOrder setUser_id(int user_id) {
+    public RepairOrder setUser_id(long user_id) {
         this.user_id=user_id;
         return this;
     }
 
-    public int getCraftsman_id() {
+    public long getCraftsman_id() {
         return craftsman_id;
     }
 
-    public RepairOrder setCraftsman_id(int craftsman_id) {
+    public RepairOrder setCraftsman_id(long craftsman_id) {
         this.craftsman_id=craftsman_id;
         return this;
     }
@@ -49,11 +49,11 @@ public class RepairOrder  extends Entity {
         return this;
     }
 
-    public int getStatus_id() {
+    public long getStatus_id() {
         return status_id;
     }
 
-    public RepairOrder setStatus_id(int status_id) {
+    public RepairOrder setStatus_id(long status_id) {
         this.status_id=status_id;
         return this;
     }
@@ -113,20 +113,20 @@ public class RepairOrder  extends Entity {
             return this;
         }
 
-        public int getUser_id() {
+        public long getUser_id() {
             return onConstructRepairOrder.user_id;
         }
 
-        public RepairOrderBuilder setUser_id(int user_id) {
+        public RepairOrderBuilder setUser_id(long user_id) {
             this.onConstructRepairOrder.user_id=user_id;
             return this;
         }
 
-        public int getCraftsman_id() {
+        public long getCraftsman_id() {
             return onConstructRepairOrder.craftsman_id;
         }
 
-        public RepairOrderBuilder setCraftsman_id(int craftsman_id) {
+        public RepairOrderBuilder setCraftsman_id(long craftsman_id) {
             this.onConstructRepairOrder.craftsman_id=craftsman_id;
             return this;
         }
@@ -149,7 +149,7 @@ public class RepairOrder  extends Entity {
             return this;
         }
 
-        public int getStatus_id() {
+        public long getStatus_id() {
             return onConstructRepairOrder.status_id;
         }
 

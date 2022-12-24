@@ -7,7 +7,6 @@
 <fmt:setLocale value="${language}"/>
 <fmt:setBundle basename="LocalStrings"/>
 <c:import url="/WEB-INF/template/menu/_menu.jsp"/>
-<%@ taglib prefix="my" tagdir="/WEB-INF/tags" %>
 
     <form name="loginForm" method="POST" action="">
     <my:message key="${errorLoginPassMessage}" defaultvalue=""/><br/>

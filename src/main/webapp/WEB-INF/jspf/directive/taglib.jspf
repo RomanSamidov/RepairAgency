@@ -13,5 +13,6 @@ JSTL i18n tag library.
 ===========================================================================--%>
 <%@ taglib uri="jakarta.tags.fmt" prefix="fmt" %>
 
+<%@ taglib prefix="my" tagdir="/WEB-INF/tags" %>
 
 <c:set var="language" value="${not empty param.language ? param.language : not empty language ? language : pageContext.request.locale}" scope="session" />

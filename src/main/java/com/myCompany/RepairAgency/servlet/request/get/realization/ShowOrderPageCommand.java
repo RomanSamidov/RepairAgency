@@ -11,14 +11,16 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-public class ShowProfileCommandI implements IActionCommand, IHasRoleRequirement {
+public class ShowOrderPageCommand implements IActionCommand, IHasRoleRequirement {
     @Override
     public Path execute(HttpServletRequest request) {
-        /* в случае ошибки или прямого обращения к контроллеру
-         * переадресация на страницу ввода логина */
-        Path page = PathFactory.getPath("path.page.forward.cabinet");
-//        String page = PathFactory.getProperty("path.page.error");
-        request.setAttribute("title", "title.cabinet");
+        Path page = PathFactory.getPath("path.page.forward.order");
+        request.setAttribute("title", "title.order");
+
+        request.setAttribute("errorOrderTextMessage",
+                request.getSession().getAttribute("errorOrderTextMessage"));
+        request.getSession().removeAttribute("errorOrderTextMessage");
+
         return page;
     }
 

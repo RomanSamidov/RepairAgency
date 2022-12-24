@@ -3,7 +3,7 @@ package com.myCompany.RepairAgency.servlet.request.post;
 
 import com.myCompany.RepairAgency.servlet.request.IActionCommand;
 import com.myCompany.RepairAgency.servlet.request.abstractCommandFactory;
-import com.myCompany.RepairAgency.servlet.request.post.realization.EmptyCommandI;
+import com.myCompany.RepairAgency.servlet.request.post.realization.EmptyCommand;
 import jakarta.servlet.http.HttpServletRequest;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -18,7 +18,7 @@ public class PostCommandFactory extends abstractCommandFactory {
     private PostCommandFactory() {}
 
     public IActionCommand defineCommand(HttpServletRequest request) {
-        IActionCommand current = new EmptyCommandI();
+        IActionCommand current = new EmptyCommand();
 
         String command = request.getParameter("command");
         logger.debug("[PostCommandFactory] " + command);

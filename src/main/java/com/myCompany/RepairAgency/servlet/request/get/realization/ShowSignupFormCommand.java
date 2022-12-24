@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-public class ShowSignupFormCommandI implements IActionCommand, IHasRoleRequirement {
+public class ShowSignupFormCommand implements IActionCommand, IHasRoleRequirement {
     @Override
     public Path execute(HttpServletRequest request) {
         Path page = PathFactory.getPath("path.page.forward.signup");

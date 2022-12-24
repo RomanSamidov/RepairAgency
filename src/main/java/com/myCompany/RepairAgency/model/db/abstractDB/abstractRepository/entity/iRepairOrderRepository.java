@@ -10,4 +10,6 @@ public interface iRepairOrderRepository extends iRepositoryForChangeAble<RepairO
     ArrayList<RepairOrder> getAllWhereStatusIs(Constants.ORDER_STATUS status, int skip, int quantity);
 
     ArrayList<RepairOrder> getAllWhereCraftsmanIdIs(int id, int skip, int quantity);
+    ArrayList<RepairOrder> getAllWhereUserIdIs(long id, int skip, int quantity);
+    long getCountWhereUserIdIs(long id);
 }

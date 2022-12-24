@@ -16,7 +16,7 @@ import java.util.stream.Stream;
 public class RepairOrderRepository implements iRepairOrderRepository {
     public static Object[] extractFields(RepairOrder order, Object... args) {
         Object[] arr1 = new Object[]{order.getUser_id(),
-                            order.getCraftsman_id(),
+                            order.getCraftsman_id()==0?null:order.getCraftsman_id(),
                             order.getText(),
                             order.getPrice(),
                             order.getStatus_id(),
@@ -87,6 +87,22 @@ public class RepairOrderRepository implements iRepairOrderRepository {
     public ArrayList<RepairOrder> getAllWhereCraftsmanIdIs(int id, int skip, int quantity) {
         Connection conn = ConnectionPool.getConnection();
         ArrayList<RepairOrder> res = QueryExecutioner.readList(RepairOrderFactory.ins, conn, Query.RepairOrdersQuery.SELECT_BY_CRAFTSMAN_ID, id, skip, quantity);
+        ConnectionPool.releaseConnection(conn);
+        return res;
+    }
+
+    @Override
+    public ArrayList<RepairOrder> getAllWhereUserIdIs(long id, int skip, int quantity) {
+        Connection conn = ConnectionPool.getConnection();
+        ArrayList<RepairOrder> res = QueryExecutioner.readList(RepairOrderFactory.ins, conn, Query.RepairOrdersQuery.SELECT_BY_USER_ID, id, skip, quantity);
+        ConnectionPool.releaseConnection(conn);
+        return res;
+    }
+
+    @Override
+    public long getCountWhereUserIdIs(long id) {
+        Connection conn = ConnectionPool.getConnection();
+        long res = QueryExecutioner.readNumber(conn, Query.RepairOrdersQuery.COUNT_BY_USER_ID, id);
         ConnectionPool.releaseConnection(conn);
         return res;
     }

@@ -1,5 +1,6 @@
 package com.myCompany.RepairAgency.model.db.PostgeSQL;
 
+import com.myCompany.RepairAgency.model.Fields;
 import com.myCompany.RepairAgency.model.db.PostgeSQL.factory.abstractEntityFactory;
 import com.myCompany.RepairAgency.model.entity.Entity;
 
@@ -15,6 +16,19 @@ public class QueryExecutioner{
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    public static long readNumber(Connection conn, String query, Object... args) {
+        try (PreparedStatement st = conn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
+            if(args != null) setArgsForPreparedStatement(st, args);
+            ResultSet rs = st.executeQuery();
+            if(rs.next()) {
+                return rs.getLong(Fields.RESULT);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return 0;
     }
 
     private static void setArgsForPreparedStatement(PreparedStatement statement, Object... args)

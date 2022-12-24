@@ -2,19 +2,23 @@ package com.myCompany.RepairAgency.servlet.request.post;
 
 
 import com.myCompany.RepairAgency.servlet.request.IActionCommand;
-import com.myCompany.RepairAgency.servlet.request.post.realization.LoginCommandI;
-import com.myCompany.RepairAgency.servlet.request.post.realization.LogoutCommandI;
-import com.myCompany.RepairAgency.servlet.request.post.realization.SignupCommandI;
+import com.myCompany.RepairAgency.servlet.request.post.realization.*;
 
 public enum PostCommandEnum{
     LOGIN {{
-        this.command = new LoginCommandI();
+        this.command = new LoginCommand();
     }},
     LOGOUT {{
-        this.command = new LogoutCommandI();
+        this.command = new LogoutCommand();
     }},
     SIGNUP {{
-        this.command = new SignupCommandI();
+        this.command = new SignupCommand();
+    }},
+    CREATE_ORDER {{
+        this.command = new CreateOrderCommand();
+    }},
+    MY_ORDERS {{
+        this.command = new MyOrdersCommand();
     }};
 
 

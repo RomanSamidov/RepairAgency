@@ -5,11 +5,11 @@ import com.myCompany.RepairAgency.servlet.PathFactory;
 import com.myCompany.RepairAgency.servlet.request.IActionCommand;
 import jakarta.servlet.http.HttpServletRequest;
 
-public class ShowAboutCommandI implements IActionCommand {
+public class ShowHomeCommand implements IActionCommand {
     @Override
     public Path execute(HttpServletRequest request) {
-        Path page = PathFactory.getPath("path.page.forward.about");
-        request.setAttribute("title", "title.about");
+        Path page = PathFactory.getPath("path.page.forward.home");
+        request.setAttribute("title", "title.home");
         return page;
     }
 }
