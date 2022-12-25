@@ -116,9 +116,15 @@ public class ModelManager {
     public ArrayList<RepairOrder> getAllRepairOrdersWhereUserIdIs(long id, int skip, int quantity) {
         return DAO_FACTORY.getRepairOrderService().getAllWhereUserIdIs(id, skip, quantity);
     }
+    public ArrayList<RepairOrder> getAllRepairOrdersWhereCraftsmanIdIs(long id, int skip, int quantity) {
+        return DAO_FACTORY.getRepairOrderService().getAllWhereCraftsmanIdIs(id, skip, quantity);
+    }
 
     public long getCountRepairOrdersWhereUserIdIs(long id) {
         return DAO_FACTORY.getRepairOrderService().getCountWhereUserIdIs(id);
+    }
+    public long getCountRepairOrdersWhereCraftsmanIdIs(long id) {
+        return DAO_FACTORY.getRepairOrderService().getCountWhereCraftsmanIdIs(id);
     }
 
     public long getCountRepairOrders() {

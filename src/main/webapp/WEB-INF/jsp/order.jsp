@@ -32,7 +32,10 @@
     </tr>
 </table>
 
- <form method="POST" action="">
+
+ <c:choose>
+        <c:when test="${userRole=='Manager'||userRole=='Admin'}">
+            <form method="POST" action="">
             <input type="hidden" name="command" value="order" />
             <input type="hidden" name="goalIdOrder" value="${ goalOrder.id }" />
             craftsman_id
@@ -43,6 +46,18 @@
             <input type="text" name="goalOrderStatus" value=""/><br/>
             <input type="submit" value="change"/>
         </form>
-
+        </c:when>
+        <c:when test="${userRole=='Craftsman'}">
+                    <form method="POST" action="">
+                    <input type="hidden" name="command" value="order" />
+                    <input type="hidden" name="goalIdOrder" value="${ goalOrder.id }" />
+                     Status
+                    <input type="text" name="goalOrderStatus" value=""/><br/>
+                    <input type="submit" value="change"/>
+                </form>
+        </c:when>
+        <c:otherwise>
+        </c:otherwise>
+    </c:choose>
 
 </body></html>

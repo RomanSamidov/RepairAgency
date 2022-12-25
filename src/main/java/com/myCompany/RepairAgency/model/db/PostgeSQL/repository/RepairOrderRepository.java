@@ -84,7 +84,7 @@ public class RepairOrderRepository implements iRepairOrderRepository {
     }
 
     @Override
-    public ArrayList<RepairOrder> getAllWhereCraftsmanIdIs(int id, int skip, int quantity) {
+    public ArrayList<RepairOrder> getAllWhereCraftsmanIdIs(long id, int skip, int quantity) {
         Connection conn = ConnectionPool.getConnection();
         ArrayList<RepairOrder> res = QueryExecutioner.readList(RepairOrderFactory.ins, conn, Query.RepairOrdersQuery.SELECT_BY_CRAFTSMAN_ID, id, skip, quantity);
         ConnectionPool.releaseConnection(conn);
@@ -111,6 +111,14 @@ public class RepairOrderRepository implements iRepairOrderRepository {
     public long getCount() {
         Connection conn = ConnectionPool.getConnection();
         long res = QueryExecutioner.readNumber(conn, Query.RepairOrdersQuery.COUNT);
+        ConnectionPool.releaseConnection(conn);
+        return res;
+    }
+
+    @Override
+    public long getCountWhereCraftsmanIdIs(long id) {
+        Connection conn = ConnectionPool.getConnection();
+        long res = QueryExecutioner.readNumber(conn, Query.RepairOrdersQuery.COUNT_BY_CRAFTSMAN_ID, id);
         ConnectionPool.releaseConnection(conn);
         return res;
     }
