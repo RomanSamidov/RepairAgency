@@ -34,6 +34,21 @@
 
 
  <c:choose>
+
+         <c:when test="${userRole=='Client'}">
+         <form method="POST" action="">
+                     <input type="hidden" name="command" value="order" />
+                     <input type="hidden" name="goalIdOrder" value="${ goalOrder.id }" />
+                     feedback_text
+                     <input type="text" name="goalOrderFeedback_text" value=""/><br/>
+                     goalOrder.feedback_mark
+                     <input type="text" name="goalOrderFeedback_mark" value=""/><br/>
+                     <input type="submit" value="change"/>
+                 </form>
+
+
+         </c:when>
+
         <c:when test="${userRole=='Manager'||userRole=='Admin'}">
             <form method="POST" action="">
             <input type="hidden" name="command" value="order" />
@@ -59,5 +74,7 @@
         <c:otherwise>
         </c:otherwise>
     </c:choose>
+
+
 
 </body></html>

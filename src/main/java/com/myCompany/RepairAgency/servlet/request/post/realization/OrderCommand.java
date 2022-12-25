@@ -27,6 +27,19 @@ public class OrderCommand implements IActionCommand, IHasRoleRequirement {
             ModelManager.ins.updateRepairOrder(order.setCraftsman_id(newId));
         }
 
+        String goalOrderFeedback_text = request.getParameter("goalOrderFeedback_text");
+        if(goalOrderFeedback_text != null && !goalOrderFeedback_text.isBlank()) {
+            RepairOrder order = ModelManager.ins.getRepairOrder((Long) request.getSession().getAttribute("goalIdOrder"));
+            ModelManager.ins.updateRepairOrder(order.setFeedback_text(goalOrderFeedback_text));
+        }
+
+        String goalOrderFeedback_mark = request.getParameter("goalOrderFeedback_mark");
+        if(goalOrderFeedback_mark != null && !goalOrderFeedback_mark.isBlank()) {
+            int newMark = Integer.parseInt(goalOrderFeedback_mark);
+            RepairOrder order = ModelManager.ins.getRepairOrder((Long) request.getSession().getAttribute("goalIdOrder"));
+            ModelManager.ins.updateRepairOrder(order.setFeedback_mark(newMark));
+        }
+
         String goalOrderPrice = request.getParameter("goalOrderPrice");
         if(goalOrderPrice != null && !goalOrderPrice.isBlank()) {
             int newPrice = Integer.parseInt(goalOrderPrice);
@@ -35,12 +48,9 @@ public class OrderCommand implements IActionCommand, IHasRoleRequirement {
         }
 
         String goalOrderStatus = request.getParameter("goalOrderStatus");
-        System.out.println(goalOrderStatus);
         if(goalOrderStatus != null && !goalOrderStatus.isBlank()) {
             int newStatus = Integer.parseInt(goalOrderStatus);
-            System.out.println(newStatus);
             RepairOrder order = ModelManager.ins.getRepairOrder((Long) request.getSession().getAttribute("goalIdOrder"));
-            System.out.println(order.getId());
             ModelManager.ins.updateRepairOrder(order.setStatus_id(newStatus));
         }
         return PathFactory.getPath("path.page.redirect.order");
@@ -48,6 +58,6 @@ public class OrderCommand implements IActionCommand, IHasRoleRequirement {
 
     @Override
     public List<Constants.ROLE> allowedUserRoles() {
-        return Stream.of(Constants.ROLE.Manager, Constants.ROLE.Admin, Constants.ROLE.Craftsman).collect(Collectors.toList());
+        return Stream.of(Constants.ROLE.Client, Constants.ROLE.Manager, Constants.ROLE.Admin, Constants.ROLE.Craftsman).collect(Collectors.toList());
     }
 }
