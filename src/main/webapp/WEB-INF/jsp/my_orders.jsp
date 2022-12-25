@@ -13,7 +13,7 @@
 <form name="pages" method="POST" action="">
     <input type="hidden" name="command" value="my_orders" />
      <input type="text" name="quantityOrders" value="5"/>
-    <input type="submit" value="---"/>
+    <input type="submit" value="<fmt:message key="text.show_on_one_page"/>"/>
     </form>
 <table>
 <tr>

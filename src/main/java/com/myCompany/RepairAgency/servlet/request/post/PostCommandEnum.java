@@ -19,6 +19,12 @@ public enum PostCommandEnum{
     }},
     MY_ORDERS {{
         this.command = new MyOrdersCommand();
+    }},
+    USERS {{
+        this.command = new UsersCommand();
+    }},
+    USER {{
+        this.command = new UserCommand();
     }};
 
 

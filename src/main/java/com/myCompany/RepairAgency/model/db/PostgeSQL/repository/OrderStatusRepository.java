@@ -12,7 +12,7 @@ import java.util.ArrayList;
 
 public class OrderStatusRepository implements iOrderStatusRepository {
     @Override
-    public OrderStatus getById(int id) {
+    public OrderStatus getById(long id) {
         Connection conn = ConnectionPool.getConnection();
         OrderStatus res = QueryExecutioner.readEntity(OrderStatusFactory.ins, conn, Query.Orders_statusesQuery.SELECT_BY_ID, id);
         ConnectionPool.releaseConnection(conn);

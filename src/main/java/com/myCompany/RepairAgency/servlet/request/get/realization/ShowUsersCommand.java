@@ -13,25 +13,23 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-public class ShowMyOrdersPageCommand implements IActionCommand, IHasRoleRequirement {
+public class ShowUsersCommand implements IActionCommand, IHasRoleRequirement {
     @Override
     public Path execute(HttpServletRequest request) {
-        Path page = PathFactory.getPath("path.page.forward.my_orders");
-        request.setAttribute("title", "title.my_orders");
-        long userId = (long) request.getSession().getAttribute("userId");
-        int[] a = ForTables.initSkipQuantity( "Orders", request);
+        Path page = PathFactory.getPath("path.page.forward.users");
+        request.setAttribute("title", "title.users");
+        long roleId = Constants.ROLE.Client.ordinal();
+        int[] a = ForTables.initSkipQuantity( "Users", request);
         int skip = a[0];
         int quantity = a[1];
-        request.setAttribute("orders", ModelManager.ins.getAllRepairOrdersWhereUserIdIs(userId, skip, quantity));
-        long numberOfOrders = ModelManager.ins.getCountRepairOrdersWhereUserIdIs(userId);
-
-        ForTables.updatePagesForJSP(quantity, skip, numberOfOrders, "Orders", request);
+        request.setAttribute("users", ModelManager.ins.getAllUsersByRole(roleId, skip, quantity));
+        ForTables.updatePagesForJSP(quantity, skip, ModelManager.ins.getCountUsersWhereRoleIs(roleId), "Users", request);
 
         return page;
     }
 
     @Override
     public List<Constants.ROLE> allowedUserRoles() {
-        return Stream.of(Constants.ROLE.Client).collect(Collectors.toList());
+        return Stream.of(Constants.ROLE.Manager, Constants.ROLE.Admin).collect(Collectors.toList());
     }
 }

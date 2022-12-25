@@ -31,6 +31,12 @@ public enum GetCommandEnum{
     }},
     MY_ORDERS {{
         this.command = new ShowMyOrdersPageCommand();
+    }},
+    USERS {{
+        this.command = new ShowUsersCommand();
+    }},
+    USER {{
+        this.command = new ShowUserCommand();
     }};
 
 

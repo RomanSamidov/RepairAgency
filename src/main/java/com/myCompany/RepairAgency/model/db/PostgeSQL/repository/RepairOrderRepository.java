@@ -50,7 +50,7 @@ public class RepairOrderRepository implements iRepairOrderRepository {
     }
 
     @Override
-    public RepairOrder getById(int id) {
+    public RepairOrder getById(long id) {
         Connection conn = ConnectionPool.getConnection();
         RepairOrder res = QueryExecutioner.readEntity(RepairOrderFactory.ins, conn, Query.RepairOrdersQuery.SELECT_BY_ID, id);
         ConnectionPool.releaseConnection(conn);

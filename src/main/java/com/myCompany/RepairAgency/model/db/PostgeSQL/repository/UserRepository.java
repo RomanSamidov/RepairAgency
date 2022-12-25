@@ -47,7 +47,7 @@ public class UserRepository implements iUserRepository {
     }
 
     @Override
-    public User getById(int id) {
+    public User getById(long id) {
         Connection conn = ConnectionPool.getConnection();
         User res = QueryExecutioner.readEntity(UserFactory.ins, conn, Query.UsersQuery.SELECT_BY_ID, id);
         ConnectionPool.releaseConnection(conn);
@@ -60,6 +60,32 @@ public class UserRepository implements iUserRepository {
         User res = QueryExecutioner.readEntity(UserFactory.ins, conn, Query.UsersQuery.SELECT_BY_LOGIN, login);
         ConnectionPool.releaseConnection(conn);
         return res;
+    }
+
+    @Override
+    public ArrayList<User> getByRole(long roleId, int skip, int quantity) {
+        Connection conn = ConnectionPool.getConnection();
+        ArrayList<User> res = QueryExecutioner.readList(UserFactory.ins, conn, Query.UsersQuery.SELECT_ALL_BY_ROLE, roleId,skip,quantity);
+        ConnectionPool.releaseConnection(conn);
+        return res;
+    }
+
+    @Override
+    public long getCountWhereRoleIs(long roleId) {
+        Connection conn = ConnectionPool.getConnection();
+        long res = QueryExecutioner.readNumber(conn, Query.UsersQuery.COUNT_BY_ROLE, roleId);
+        ConnectionPool.releaseConnection(conn);
+        return res;
+    }
+
+    @Override
+    public void incrementUserAccount(long userId, int increment) {
+        Connection conn = ConnectionPool.getConnection();
+        User user = QueryExecutioner.readEntity(UserFactory.ins, conn, Query.UsersQuery.SELECT_BY_ID, userId);
+        user.setAccount(user.getAccount()+increment);
+        QueryExecutioner.executeUpdate(conn, Query.UsersQuery.UPDATE,
+        UserRepository.extractFields(user, user.getId()));
+        ConnectionPool.releaseConnection(conn);
     }
 
     @Override

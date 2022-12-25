@@ -12,7 +12,7 @@ import java.util.ArrayList;
 
 public class RoleRepository implements iRoleRepository {
     @Override
-    public Role getById(int id) {
+    public Role getById(long id) {
         Connection conn = ConnectionPool.getConnection();
         Role res = QueryExecutioner.readEntity(RoleFactory.ins, conn, Query.RolesQuery.SELECT_BY_ID, id);
         ConnectionPool.releaseConnection(conn);

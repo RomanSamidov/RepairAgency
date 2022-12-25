@@ -44,7 +44,7 @@ public class ModelManager {
         return DAO_FACTORY.getOrderStatusService().getById(id);
     }
 
-    public User getUser(int id) {
+    public User getUser(long id) {
         return DAO_FACTORY.getUserService().getById(id);
     }
     public User getUser(String login) {
@@ -65,6 +65,15 @@ public class ModelManager {
 
     public ArrayList<User> getAllUsers() {
         return DAO_FACTORY.getUserService().getAll();
+    }
+    public ArrayList<User> getAllUsersByRole(long roleId, int skip, int quantity) { return DAO_FACTORY.getUserService().getByRole(roleId, skip, quantity);}
+
+    public void incrementUserAccount(long userId, int increment){
+        DAO_FACTORY.getUserService().incrementUserAccount(userId, increment);
+    }
+
+    public long getCountUsersWhereRoleIs(long roleId) {
+        return DAO_FACTORY.getUserService().getCountWhereRoleIs(roleId);
     }
 
     public ArrayList<User> getUsersWithPagination(int skip, int quantity) {

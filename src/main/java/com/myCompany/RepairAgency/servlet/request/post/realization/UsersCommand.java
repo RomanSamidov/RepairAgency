@@ -13,16 +13,16 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 
-public class MyOrdersCommand implements IActionCommand, IHasRoleRequirement {
+public class UsersCommand implements IActionCommand, IHasRoleRequirement {
     @Override
     public Path execute(HttpServletRequest request) {
-        ForTables.updateSkipQuantity("Orders", request);
+        ForTables.updateSkipQuantity("Users", request);
 
-        return PathFactory.getPath("path.page.redirect.my_orders");
+        return PathFactory.getPath("path.page.redirect.users");
     }
 
     @Override
     public List<Constants.ROLE> allowedUserRoles() {
-        return Stream.of(Constants.ROLE.Client).collect(Collectors.toList());
+        return Stream.of(Constants.ROLE.Manager, Constants.ROLE.Admin).collect(Collectors.toList());
     }
 }

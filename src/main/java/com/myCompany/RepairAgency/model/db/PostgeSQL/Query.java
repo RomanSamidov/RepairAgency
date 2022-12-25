@@ -16,7 +16,9 @@ public abstract class Query {
         public static final String SELECT_BY_ID="SELECT * FROM users WHERE id = ?;";
         public static final String SELECT_BY_LOGIN="SELECT * FROM users WHERE login = ?;";
         public static final String SELECT_ALL="SELECT * FROM users";
+        public static final String SELECT_ALL_BY_ROLE="SELECT * FROM users WHERE role_id = ? ORDER BY id OFFSET ? ROWS FETCH NEXT ? ROWS ONLY;;";
         public static final String SELECT_WITH_PAGINATION="SELECT * FROM users ORDER BY id OFFSET ? ROWS FETCH NEXT ? ROWS ONLY;";
+        public static final String COUNT_BY_ROLE="SELECT COUNT(id) AS result FROM users WHERE role_id = ?";
     }
 
     public static class RepairOrdersQuery {
