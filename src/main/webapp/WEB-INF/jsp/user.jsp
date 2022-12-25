@@ -8,12 +8,20 @@
 <fmt:setBundle basename="LocalStrings"/>
 <c:import url="/WEB-INF/template/menu/_menu.jsp"/>
 
-<h3><fmt:message key="text.greetings"/> ${goalUser.id}</h3>
-<hr/> <fmt:message key="text.your_login"/> ${goalUser.login}
-<hr/><c:if test="${ goalUser.role_id==4 }" >
-        <fmt:message key="text.your_account"/> ${goalUser.account}
-     </c:if>
-<hr/>
+<table>
+        <tr>
+            <td> id </td>
+            <td> role_id </td>
+            <td> login </td>
+            <td> account </td>
+        </tr>
+        <tr>
+        <td><c:out value="${ goalUser.id }" /></td>
+        <td><c:out value="${ goalUser.role_id }" /></td>
+        <td><c:out value="${ goalUser.login }" /></td>
+        <td><c:out value="${ goalUser.account }" /></td>
+ </tr>
+</table>
 
  <form method="POST" action="">
             <input type="hidden" name="command" value="user" />

@@ -106,4 +106,12 @@ public class RepairOrderRepository implements iRepairOrderRepository {
         ConnectionPool.releaseConnection(conn);
         return res;
     }
+
+    @Override
+    public long getCount() {
+        Connection conn = ConnectionPool.getConnection();
+        long res = QueryExecutioner.readNumber(conn, Query.RepairOrdersQuery.COUNT);
+        ConnectionPool.releaseConnection(conn);
+        return res;
+    }
 }

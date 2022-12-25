@@ -16,6 +16,7 @@ public class RepairOrderFactory extends  abstractEntityFactory<RepairOrder> {
                 .setCraftsman_id(rs.getInt(Fields.CRAFTSMAN_ID))
                 .setText(rs.getString(Fields.TEXT))
                 .setPrice(rs.getInt(Fields.PRICE))
+                .setStatus_id(rs.getInt(Fields.STATUS_ID))
                 .setFeedback_text(rs.getString(Fields.FEEDBACK_TEXT))
                 .setFeedback_mark(rs.getInt(Fields.FEEDBACK_MARK))
                 .build();

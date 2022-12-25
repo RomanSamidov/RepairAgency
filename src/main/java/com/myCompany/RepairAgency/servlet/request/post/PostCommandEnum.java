@@ -17,8 +17,11 @@ public enum PostCommandEnum{
     CREATE_ORDER {{
         this.command = new CreateOrderCommand();
     }},
-    MY_ORDERS {{
-        this.command = new MyOrdersCommand();
+    ORDERS {{
+        this.command = new OrdersCommand();
+    }},
+    ORDER {{
+        this.command = new OrderCommand();
     }},
     USERS {{
         this.command = new UsersCommand();

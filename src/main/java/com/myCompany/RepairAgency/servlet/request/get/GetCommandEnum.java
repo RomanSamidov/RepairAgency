@@ -29,8 +29,8 @@ public enum GetCommandEnum{
     ORDER {{
         this.command = new ShowOrderPageCommand();
     }},
-    MY_ORDERS {{
-        this.command = new ShowMyOrdersPageCommand();
+    ORDERS {{
+        this.command = new ShowOrdersCommand();
     }},
     USERS {{
         this.command = new ShowUsersCommand();
