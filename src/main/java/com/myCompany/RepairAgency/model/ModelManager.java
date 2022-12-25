@@ -89,7 +89,7 @@ public class ModelManager {
     }
 
 
-    public RepairOrder getRepairOrder(int id) {
+    public RepairOrder getRepairOrder(long id) {
         return DAO_FACTORY.getRepairOrderService().getById(id);
     }
 
@@ -119,6 +119,10 @@ public class ModelManager {
 
     public long getCountRepairOrdersWhereUserIdIs(long id) {
         return DAO_FACTORY.getRepairOrderService().getCountWhereUserIdIs(id);
+    }
+
+    public long getCountRepairOrders() {
+        return DAO_FACTORY.getRepairOrderService().getCount();
     }
 
 

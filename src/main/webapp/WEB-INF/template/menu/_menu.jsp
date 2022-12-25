@@ -15,7 +15,7 @@ ${Locale}
             <a href="/RepairAgency/controller/about" class = "btn px-2  "><fmt:message key="title.about"/></a>
             <c:if test="${userRole!='Guest'}" >
                 <a href="/RepairAgency/controller/cabinet" class = "btn px-2  "><fmt:message key="title.cabinet"/></a>
-                <a href="/RepairAgency/controller/order" class = "btn px-2  "><fmt:message key="title.order"/></a>
+                <a href="/RepairAgency/controller/orders" class = "btn px-2  "><fmt:message key="title.orders"/></a>
             </c:if>
             <c:if test="${userRole=='Manager' || userRole=='Admin'}" >
                 <a href="/RepairAgency/controller/users" class = "btn px-2  "><fmt:message key="title.users"/></a>

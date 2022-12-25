@@ -1,10 +1,12 @@
 package com.myCompany.RepairAgency.servlet.request.get.realization;
 
 import com.myCompany.RepairAgency.Constants;
+import com.myCompany.RepairAgency.model.ModelManager;
 import com.myCompany.RepairAgency.servlet.Path;
 import com.myCompany.RepairAgency.servlet.PathFactory;
 import com.myCompany.RepairAgency.servlet.request.IActionCommand;
 import com.myCompany.RepairAgency.servlet.request.IHasRoleRequirement;
+import com.myCompany.RepairAgency.servlet.util.ForChangeEntity;
 import jakarta.servlet.http.HttpServletRequest;
 
 import java.util.List;
@@ -16,10 +18,10 @@ public class ShowOrderPageCommand implements IActionCommand, IHasRoleRequirement
     public Path execute(HttpServletRequest request) {
         Path page = PathFactory.getPath("path.page.forward.order");
         request.setAttribute("title", "title.order");
+        long orderId = ForChangeEntity.initGoalId("Order", request);
+        if(orderId == 0) orderId = 1;
+        request.setAttribute("goalOrder", ModelManager.ins.getRepairOrder(orderId));
 
-        request.setAttribute("errorOrderTextMessage",
-                request.getSession().getAttribute("errorOrderTextMessage"));
-        request.getSession().removeAttribute("errorOrderTextMessage");
 
         return page;
     }

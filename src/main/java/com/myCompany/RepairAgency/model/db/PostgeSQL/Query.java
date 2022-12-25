@@ -29,6 +29,7 @@ public abstract class Query {
         public static final String SELECT_BY_CRAFTSMAN_ID="SELECT * FROM repair_orders WHERE craftsman_id = ? ORDER BY id OFFSET ? ROWS FETCH NEXT ? ROWS ONLY;";
         public static final String SELECT_BY_USER_ID="SELECT * FROM repair_orders WHERE user_id = ? ORDER BY id OFFSET ? ROWS FETCH NEXT ? ROWS ONLY;";
         public static final String COUNT_BY_USER_ID="SELECT COUNT(id) AS result FROM repair_orders WHERE user_id = ?";
+        public static final String COUNT="SELECT COUNT(id) AS result FROM repair_orders";
         public static final String SELECT_BY_STATUS="SELECT * FROM repair_orders WHERE status_id = ? ORDER BY id OFFSET ? ROWS FETCH NEXT ? ROWS ONLY;";
         public static final String SELECT_ALL="SELECT * FROM repair_orders;";
         public static final String SELECT_WITH_PAGINATION="SELECT * FROM repair_orders ORDER BY id OFFSET ? ROWS FETCH NEXT ? ROWS ONLY;";
