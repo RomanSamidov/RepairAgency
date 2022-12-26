@@ -8,8 +8,6 @@ import jakarta.servlet.http.HttpServletRequest;
 public class EmptyCommand implements IActionCommand {
     @Override
     public Path execute(HttpServletRequest request) {
-        /* в случае ошибки или прямого обращения к контроллеру
-         * переадресация на страницу ввода логина */
         return PathFactory.getPath("path.page.redirect.login");
     }
 }

@@ -11,13 +11,13 @@
 <table>
         <tr>
             <td> id </td>
-            <td> role_id </td>
+            <td> role </td>
             <td> login </td>
             <td> account </td>
         </tr>
         <tr>
         <td><c:out value="${ goalUser.id }" /></td>
-        <td><c:out value="${ goalUser.role_id }" /></td>
+        <td><c:out value="${ goalUser.role }" /></td>
         <td><c:out value="${ goalUser.login }" /></td>
         <td><c:out value="${ goalUser.account }" /></td>
  </tr>

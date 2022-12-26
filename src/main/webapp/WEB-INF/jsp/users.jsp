@@ -18,14 +18,14 @@
 <table>
         <tr>
             <td> id </td>
-            <td> role_id </td>
+            <td> role </td>
             <td> login </td>
             <td> account </td>
         </tr>
     <c:forEach var="user" items="${users}" varStatus="status">
         <tr>
         <td><c:out value="${ user.id }" /></td>
-        <td><c:out value="${ user.role_id }" /></td>
+        <td><c:out value="${ user.role }" /></td>
         <td><c:out value="${ user.login }" /></td>
         <td><c:out value="${ user.account }" /></td>
         <td> <form method="POST" action="">

@@ -18,7 +18,6 @@ public class UserCommand implements IActionCommand, IHasRoleRequirement {
     @Override
     public Path execute(HttpServletRequest request) {
         ForChangeEntity.updateGoalId("User", request);
-//        addToAccount
         if(request.getParameter("addToAccount") != null) {
             int increment = Integer.parseInt(request.getParameter("addToAccount"));
             ModelManager.ins.incrementUserAccount(ForChangeEntity.initGoalId("User", request), increment);

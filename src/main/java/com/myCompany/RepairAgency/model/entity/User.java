@@ -65,7 +65,7 @@ public class User  extends Entity {
                 this.onConstructUser=new User();
                 return ready;
             } else {
-                throw new IllegalArgumentException("User not ready");
+                throw new IllegalArgumentException("UserDTO not ready");
             }
 
         }

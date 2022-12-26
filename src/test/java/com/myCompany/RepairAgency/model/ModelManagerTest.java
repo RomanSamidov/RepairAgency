@@ -199,12 +199,12 @@ class ModelManagerTest {
             u.setAccount(100);
             dbm.updateUser(u);
         });
-        IntStream.range(1, 101).forEach(x -> assertEquals(100, dbm.getUser(x).getAccount(), "User account not updated"));
+        IntStream.range(1, 101).forEach(x -> assertEquals(100, dbm.getUser(x).getAccount(), "UserDTO account not updated"));
         repairOrdersFromDB.forEach(o -> {
             o.setPrice(100);
             dbm.updateRepairOrder(o);
         });
-        IntStream.range(1, 101).forEach(x -> assertEquals(100, dbm.getRepairOrder(x).getPrice(), "RepairOrder not updated"));
+        IntStream.range(1, 101).forEach(x -> assertEquals(100, dbm.getRepairOrder(x).getPrice(), "RepairOrderDTO not updated"));
 
 
         IntStream.range(1, 101).forEach(x -> dbm.deleteRepairOrder(dbm.getRepairOrder(x)));

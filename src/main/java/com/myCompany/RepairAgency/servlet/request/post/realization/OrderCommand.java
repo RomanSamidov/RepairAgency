@@ -20,39 +20,35 @@ public class OrderCommand implements IActionCommand, IHasRoleRequirement {
     public Path execute(HttpServletRequest request) {
         ForChangeEntity.updateGoalId("Order", request);
 
+        RepairOrder order = ModelManager.ins.getRepairOrder((Long) request.getSession().getAttribute("goalIdOrder"));
+
         String goalOrderCraftsman_id = request.getParameter("goalOrderCraftsman_id");
         if(goalOrderCraftsman_id != null && !goalOrderCraftsman_id.isBlank()) {
-            int newId = Integer.parseInt(goalOrderCraftsman_id);
-            RepairOrder order = ModelManager.ins.getRepairOrder((Long) request.getSession().getAttribute("goalIdOrder"));
-            ModelManager.ins.updateRepairOrder(order.setCraftsman_id(newId));
+            order.setCraftsman_id(Integer.parseInt(goalOrderCraftsman_id));
         }
 
         String goalOrderFeedback_text = request.getParameter("goalOrderFeedback_text");
         if(goalOrderFeedback_text != null && !goalOrderFeedback_text.isBlank()) {
-            RepairOrder order = ModelManager.ins.getRepairOrder((Long) request.getSession().getAttribute("goalIdOrder"));
-            ModelManager.ins.updateRepairOrder(order.setFeedback_text(goalOrderFeedback_text));
+            order.setFeedback_text(goalOrderFeedback_text);
         }
 
         String goalOrderFeedback_mark = request.getParameter("goalOrderFeedback_mark");
         if(goalOrderFeedback_mark != null && !goalOrderFeedback_mark.isBlank()) {
-            int newMark = Integer.parseInt(goalOrderFeedback_mark);
-            RepairOrder order = ModelManager.ins.getRepairOrder((Long) request.getSession().getAttribute("goalIdOrder"));
-            ModelManager.ins.updateRepairOrder(order.setFeedback_mark(newMark));
+            order.setFeedback_mark(Integer.parseInt(goalOrderFeedback_mark));
         }
 
         String goalOrderPrice = request.getParameter("goalOrderPrice");
         if(goalOrderPrice != null && !goalOrderPrice.isBlank()) {
-            int newPrice = Integer.parseInt(goalOrderPrice);
-            RepairOrder order = ModelManager.ins.getRepairOrder((Long) request.getSession().getAttribute("goalIdOrder"));
-            ModelManager.ins.updateRepairOrder(order.setPrice(newPrice).setStatus_id(Constants.ORDER_STATUS.PENDING_PAYMENT.ordinal()));
+            order.setPrice(Integer.parseInt(goalOrderPrice));
         }
 
         String goalOrderStatus = request.getParameter("goalOrderStatus");
         if(goalOrderStatus != null && !goalOrderStatus.isBlank()) {
-            int newStatus = Integer.parseInt(goalOrderStatus);
-            RepairOrder order = ModelManager.ins.getRepairOrder((Long) request.getSession().getAttribute("goalIdOrder"));
-            ModelManager.ins.updateRepairOrder(order.setStatus_id(newStatus));
+            order.setStatus_id(Integer.parseInt(goalOrderStatus));
         }
+
+        ModelManager.ins.updateRepairOrder(order);
+
         return PathFactory.getPath("path.page.redirect.order");
     }
 

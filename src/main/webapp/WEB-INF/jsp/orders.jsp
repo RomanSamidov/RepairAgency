@@ -43,7 +43,7 @@
                 <td> craftsman_id </td>
                 <td> text </td>
                 <td> price </td>
-                <td> status_id </td>
+                <td> status </td>
                 <td> feedback_text </td>
                 <td> feedback_mark </td>
                 </tr>
@@ -54,7 +54,7 @@
                 <td><c:out value="${ order.craftsman_id }" /></td>
                 <td><c:out value="${ order.text }" /></td>
                 <td><c:out value="${ order.price }" /></td>
-                <td><c:out value="${ order.status_id }" /></td>
+                <td><c:out value="${ order.status }" /></td>
                 <td><c:out value="${ order.feedback_text }" /></td>
                 <td><c:out value="${ order.feedback_mark }" /></td>
                 <td> <form method="POST" action="">

@@ -14,10 +14,7 @@ import java.util.stream.Stream;
 public class ShowProfileCommand implements IActionCommand, IHasRoleRequirement {
     @Override
     public Path execute(HttpServletRequest request) {
-        /* в случае ошибки или прямого обращения к контроллеру
-         * переадресация на страницу ввода логина */
         Path page = PathFactory.getPath("path.page.forward.cabinet");
-//        String page = PathFactory.getProperty("path.page.error");
         request.setAttribute("title", "title.cabinet");
         return page;
     }

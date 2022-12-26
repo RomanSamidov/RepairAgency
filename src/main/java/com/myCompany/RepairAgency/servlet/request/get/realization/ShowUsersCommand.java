@@ -2,6 +2,7 @@ package com.myCompany.RepairAgency.servlet.request.get.realization;
 
 import com.myCompany.RepairAgency.Constants;
 import com.myCompany.RepairAgency.model.ModelManager;
+import com.myCompany.RepairAgency.model.entity.DTO.UserDTOFactory;
 import com.myCompany.RepairAgency.servlet.Path;
 import com.myCompany.RepairAgency.servlet.PathFactory;
 import com.myCompany.RepairAgency.servlet.request.IActionCommand;
@@ -22,9 +23,8 @@ public class ShowUsersCommand implements IActionCommand, IHasRoleRequirement {
         int[] a = ForTables.initSkipQuantity( "Users", request);
         int skip = a[0];
         int quantity = a[1];
-        request.setAttribute("users", ModelManager.ins.getAllUsersByRole(roleId, skip, quantity));
         ForTables.updatePagesForJSP(quantity, skip, ModelManager.ins.getCountUsersWhereRoleIs(roleId), "Users", request);
-
+        request.setAttribute("users", UserDTOFactory.getUsers(ModelManager.ins.getAllUsersByRole(roleId, skip, quantity)));
         return page;
     }
 

@@ -15,7 +15,7 @@
                 <td> craftsman_id </td>
                 <td> text </td>
                 <td> price </td>
-                <td> status_id </td>
+                <td> status </td>
                 <td> feedback_text </td>
                 <td> feedback_mark </td>
                 </tr>
@@ -25,7 +25,7 @@
                 <td><c:out value="${ goalOrder.craftsman_id }" /></td>
                 <td><c:out value="${ goalOrder.text }" /></td>
                 <td><c:out value="${ goalOrder.price }" /></td>
-                <td><c:out value="${ goalOrder.status_id }" /></td>
+                <td><c:out value="${ goalOrder.status }" /></td>
                 <td><c:out value="${ goalOrder.feedback_text }" /></td>
                 <td><c:out value="${ goalOrder.feedback_mark }" /></td>
 

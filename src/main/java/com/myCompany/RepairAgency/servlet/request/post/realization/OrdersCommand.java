@@ -17,9 +17,6 @@ public class OrdersCommand implements IActionCommand, IHasRoleRequirement {
     @Override
     public Path execute(HttpServletRequest request) {
         ForTables.updateSkipQuantity("Orders", request);
-
-
-
         return PathFactory.getPath("path.page.redirect.orders");
     }
 

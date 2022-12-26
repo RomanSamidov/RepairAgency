@@ -21,11 +21,9 @@ public class SignupCommand implements IActionCommand, IHasRoleRequirement {
     @Override
     public Path execute(HttpServletRequest request) {
         Path page;
-// извлечение из запроса логина и пароля
         String login = request.getParameter(Constants.LOGIN);
         String password = request.getParameter(Constants.PASSWORD);
         String passwordRepeat = request.getParameter(Constants.PASSWORD_REPEAT);
-// проверка логина и пароля
         boolean haveError = false;
         if (password == null || password.isEmpty()) {
             request.getSession().setAttribute("errorEmptyPassword","message.empty_password");

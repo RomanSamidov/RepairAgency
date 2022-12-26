@@ -9,7 +9,6 @@ public class LogoutCommand implements IActionCommand {
     @Override
     public Path execute(HttpServletRequest request) {
         Path page = PathFactory.getPath("path.page.redirect.home");
-// уничтожение сессии
         request.getSession().invalidate();
         return page;
     }

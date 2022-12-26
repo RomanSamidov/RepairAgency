@@ -17,7 +17,6 @@ public class UsersCommand implements IActionCommand, IHasRoleRequirement {
     @Override
     public Path execute(HttpServletRequest request) {
         ForTables.updateSkipQuantity("Users", request);
-
         return PathFactory.getPath("path.page.redirect.users");
     }
 

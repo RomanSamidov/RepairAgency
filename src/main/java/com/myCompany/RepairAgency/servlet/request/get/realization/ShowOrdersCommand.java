@@ -2,6 +2,7 @@ package com.myCompany.RepairAgency.servlet.request.get.realization;
 
 import com.myCompany.RepairAgency.Constants;
 import com.myCompany.RepairAgency.model.ModelManager;
+import com.myCompany.RepairAgency.model.entity.DTO.RepairOrderDTOFactory;
 import com.myCompany.RepairAgency.servlet.Path;
 import com.myCompany.RepairAgency.servlet.PathFactory;
 import com.myCompany.RepairAgency.servlet.request.IActionCommand;
@@ -25,17 +26,17 @@ public class ShowOrdersCommand implements IActionCommand, IHasRoleRequirement {
         if(request.getSession().getAttribute("userRole") == Constants.ROLE.Client ) {
             request.setAttribute("title", "title.my_orders");
             long userId = (long) request.getSession().getAttribute("userId");
-            request.setAttribute("orders", ModelManager.ins.getAllRepairOrdersWhereUserIdIs(userId, skip, quantity));
             numberOfOrders = ModelManager.ins.getCountRepairOrdersWhereUserIdIs(userId);
+            request.setAttribute("orders", RepairOrderDTOFactory.getRepairOrders(ModelManager.ins.getAllRepairOrdersWhereUserIdIs(userId, skip, quantity)));
         } else if(request.getSession().getAttribute("userRole") == Constants.ROLE.Craftsman ) {
             request.setAttribute("title", "title.my_orders");
             long userId = (long) request.getSession().getAttribute("userId");
-            request.setAttribute("orders", ModelManager.ins.getAllRepairOrdersWhereCraftsmanIdIs(userId, skip, quantity));
             numberOfOrders = ModelManager.ins.getCountRepairOrdersWhereCraftsmanIdIs(userId);
+            request.setAttribute("orders", RepairOrderDTOFactory.getRepairOrders(ModelManager.ins.getAllRepairOrdersWhereCraftsmanIdIs(userId, skip, quantity)));
         } else {
             request.setAttribute("title", "title.orders");
-            request.setAttribute("orders", ModelManager.ins.getRepairOrdersWithPagination(skip, quantity));
             numberOfOrders = ModelManager.ins.getCountRepairOrders();
+            request.setAttribute("orders", RepairOrderDTOFactory.getRepairOrders(ModelManager.ins.getRepairOrdersWithPagination(skip, quantity)));
         }
         ForTables.updatePagesForJSP(quantity, skip, numberOfOrders, "Orders", request);
 

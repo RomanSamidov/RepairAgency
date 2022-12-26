@@ -2,6 +2,7 @@ package com.myCompany.RepairAgency.servlet.request.get.realization;
 
 import com.myCompany.RepairAgency.Constants;
 import com.myCompany.RepairAgency.model.ModelManager;
+import com.myCompany.RepairAgency.model.entity.DTO.RepairOrderDTOFactory;
 import com.myCompany.RepairAgency.servlet.Path;
 import com.myCompany.RepairAgency.servlet.PathFactory;
 import com.myCompany.RepairAgency.servlet.request.IActionCommand;
@@ -19,10 +20,9 @@ public class ShowOrderPageCommand implements IActionCommand, IHasRoleRequirement
         Path page = PathFactory.getPath("path.page.forward.order");
         request.setAttribute("title", "title.order");
         long orderId = ForChangeEntity.initGoalId("Order", request);
-        if(orderId == 0) orderId = 1;
-        request.setAttribute("goalOrder", ModelManager.ins.getRepairOrder(orderId));
-
-
+        if(orderId != 0) {
+            request.setAttribute("goalOrder", RepairOrderDTOFactory.getRepairOrder(ModelManager.ins.getRepairOrder(orderId)));
+        }
         return page;
     }
 
