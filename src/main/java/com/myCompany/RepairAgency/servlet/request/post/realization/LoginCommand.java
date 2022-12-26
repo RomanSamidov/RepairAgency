@@ -8,10 +8,12 @@ import com.myCompany.RepairAgency.servlet.PathFactory;
 import com.myCompany.RepairAgency.servlet.request.IActionCommand;
 import com.myCompany.RepairAgency.servlet.request.IHasRoleRequirement;
 import com.myCompany.RepairAgency.servlet.util.Encrypt;
+import com.myCompany.RepairAgency.servlet.util.VerifyRecaptcha;
 import jakarta.servlet.http.HttpServletRequest;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -24,6 +26,18 @@ public class LoginCommand implements IActionCommand, IHasRoleRequirement {
         Path page;
         String login = request.getParameter(Constants.LOGIN);
         String password = request.getParameter(Constants.PASSWORD);
+
+        // get reCAPTCHA request param
+        String gRecaptchaResponse = request
+                .getParameter("g-recaptcha-response");
+        System.out.println(gRecaptchaResponse);
+        boolean verify;
+        try {
+            verify = VerifyRecaptcha.verify(gRecaptchaResponse);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
         boolean haveError = false;
         if (password == null || password.isEmpty()) {
             request.getSession().setAttribute("errorEmptyPassword","message.emptypassword");
@@ -31,6 +45,11 @@ public class LoginCommand implements IActionCommand, IHasRoleRequirement {
         }
         if (login == null || login.isEmpty()) {
             request.getSession().setAttribute("errorEmptyLogin","message.emptylogin");
+            haveError = true;
+        }
+
+        if (!verify) {
+            request.getSession().setAttribute("errorEmptyLogin","message.empty_login");
             haveError = true;
         }
 

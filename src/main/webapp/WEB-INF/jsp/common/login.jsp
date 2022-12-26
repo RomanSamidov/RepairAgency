@@ -2,6 +2,7 @@
 <%@ include file="/WEB-INF/jspf/directive/taglib.jspf" %>
 <!DOCTYPE html>
 <html>
+<script src="https://www.google.com/recaptcha/api.js"></script>
 <c:import url="/WEB-INF/template/_head.jsp"/>
 <body>
 <fmt:setLocale value="${language}"/>
@@ -17,7 +18,8 @@
         <fmt:message key="text.password"/><br/>
         <my:message key="${errorEmptyPassword}" defaultvalue=""/><br/>
     <input type="password" name="password" value=""/>
-
+<div class="g-recaptcha"
+        			data-sitekey="6LfD3asjAAAAADySW6TW3x1ZMqI4FpXSYEG2zR4N"></div>
     <br/>
         ${wrongAction}
     <br/>
