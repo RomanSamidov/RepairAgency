@@ -3,8 +3,7 @@
 ${Locale}
 <fmt:setLocale value="${language}"/>
 <fmt:setBundle basename="LocalStrings"/>
-
-<div class="container">
+<div class="text-center " >
     <header class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 mb-4 border-bottom">
 
 
@@ -29,7 +28,8 @@ ${Locale}
              </select>
         </form>
 
-        <ul class="nav col-12 col-md-auto mb-2 justify-content-right mb-md-0">
+
+        <ul class="text-right">
             <c:choose>
                 <c:when test="${userRole=='Guest'}" >
                     <a href="/RepairAgency/controller/login" class = "btn  btn-outline-primary px-2  "><fmt:message key="text.login"/></a>

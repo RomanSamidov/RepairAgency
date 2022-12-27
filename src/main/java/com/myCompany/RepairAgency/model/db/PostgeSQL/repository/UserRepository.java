@@ -17,6 +17,7 @@ public class UserRepository implements iUserRepository {
     public static Object[] extractFields(User user, Object... args) {
         Object[] arr1 = new Object[]{ user.getLogin(),
                              user.getPassword(),
+                             user.getEmail(),
                              user.getRole_id(),
                              user.getAccount()};
 

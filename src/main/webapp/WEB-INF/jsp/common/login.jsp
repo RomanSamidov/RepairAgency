@@ -9,22 +9,21 @@
 <fmt:setBundle basename="LocalStrings"/>
 <c:import url="/WEB-INF/template/menu/_menu.jsp"/>
 
-    <form name="loginForm" method="POST" action="">
-    <my:message key="${errorLoginPassMessage}" defaultvalue=""/><br/>
+
+    <form class="text-center" name="loginForm" method="POST" action="">
+    <my:message key="${errorLoginPassMessage}" defaultvalue=""/>
     <input type="hidden" name="command" value="login" />
         <fmt:message key="text.login"/><br/>
-        <my:message key="${errorEmptyLogin}" defaultvalue=""/><br/>
-    <input type="text" name="login" value=""/><br/>
+        <my:message key="${errorEmptyLogin}" defaultvalue=""/>
+    <input type="text" name="login"  pattern="[a-Z]{4-8}" value=""/><br/>
         <fmt:message key="text.password"/><br/>
-        <my:message key="${errorEmptyPassword}" defaultvalue=""/><br/>
+        <my:message key="${errorEmptyPassword}" defaultvalue=""/>
     <input type="password" name="password" value=""/>
-<div class="g-recaptcha"
-        			data-sitekey="6LfD3asjAAAAADySW6TW3x1ZMqI4FpXSYEG2zR4N"></div>
-    <br/>
-        ${wrongAction}
-    <br/>
+    <my:message key="${errorRecaptchaMessage}" defaultvalue=""/>
+<div class="g-recaptcha" data-sitekey="6LfD3asjAAAAADySW6TW3x1ZMqI4FpXSYEG2zR4N"></div>
     <input type="submit" value="<fmt:message key="text.login"/>"/>
-    </form><hr/>
+    </form>
+
 
 </body>
 </html>

@@ -8,8 +8,7 @@
 <fmt:setBundle basename="LocalStrings"/>
 <c:import url="/WEB-INF/template/menu/_menu.jsp"/>
 
-<fmt:message key="text.pricing"/><br/>
-
+<p class="text-center"><fmt:message key="text.pricing"/></p>
 
 </body>
 </html>

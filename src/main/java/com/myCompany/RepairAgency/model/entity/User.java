@@ -4,6 +4,7 @@ public class User  extends Entity {
 
     private String login;
     private String password;
+    private String email;
     private int role_id;
     private int account;
 
@@ -50,6 +51,15 @@ public class User  extends Entity {
     public boolean equals(Object obj) {
         if (!(obj instanceof User)) return false;
         return this.login.equals(((User) obj).login);
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public User setEmail(String email) {
+        this.email = email;
+        return this;
     }
 
     public static class UserBuilder {
@@ -99,6 +109,15 @@ public class User  extends Entity {
 
         public UserBuilder setPassword(String password) {
             this.onConstructUser.password=password;
+            return this;
+        }
+
+        public String getEmail() {
+            return onConstructUser.email;
+        }
+
+        public UserBuilder setEmail(String email) {
+            onConstructUser.email = email;
             return this;
         }
 

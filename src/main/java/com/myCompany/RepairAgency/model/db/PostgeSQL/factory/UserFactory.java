@@ -16,6 +16,7 @@ public class UserFactory extends abstractEntityFactory<User>{
                 .setId(rs.getInt(Fields.ID))
                 .setLogin(rs.getString(Fields.LOGIN))
                 .setPassword(rs.getString(Fields.PASSWORD))
+                .setEmail(rs.getString(Fields.EMAIL))
                 .setRole_id(rs.getInt(Fields.ROLE_ID))
                 .setAccount(rs.getInt(Fields.ACCOUNT))
                 .build();

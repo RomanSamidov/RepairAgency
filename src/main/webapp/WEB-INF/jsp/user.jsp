@@ -7,18 +7,21 @@
 <fmt:setLocale value="${language}"/>
 <fmt:setBundle basename="LocalStrings"/>
 <c:import url="/WEB-INF/template/menu/_menu.jsp"/>
+<div class="text-center" >
 
 <table>
         <tr>
             <td> id </td>
             <td> role </td>
             <td> login </td>
+            <td> email </td>
             <td> account </td>
         </tr>
         <tr>
         <td><c:out value="${ goalUser.id }" /></td>
         <td><c:out value="${ goalUser.role }" /></td>
         <td><c:out value="${ goalUser.login }" /></td>
+        <td><c:out value="${ goalUser.email }" /></td>
         <td><c:out value="${ goalUser.account }" /></td>
  </tr>
 </table>
@@ -30,5 +33,5 @@
             <input type="submit" value="addToAccount"/>
         </form>
 
-
+</div>
 </body></html>

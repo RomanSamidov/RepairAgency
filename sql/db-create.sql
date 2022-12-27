@@ -18,6 +18,7 @@ CREATE TABLE roles (
 CREATE TABLE users (
 	id SERIAL PRIMARY KEY,
 	login VARCHAR(30) UNIQUE,
+	email VARCHAR(30),
 	password VARCHAR(63),
 	role_id INT NOT NULL REFERENCES roles(id) on delete cascade,
 	account INT DEFAULT(0)
@@ -51,13 +52,13 @@ INSERT INTO orders_statuses VALUES (DEFAULT, 'Canceled');
 INSERT INTO orders_statuses VALUES (DEFAULT, 'In progress');
 INSERT INTO orders_statuses VALUES (DEFAULT, 'Completed');
 
-INSERT INTO users VALUES (DEFAULT, 'admin1', 'admin1', 1, DEFAULT);
-INSERT INTO users VALUES (DEFAULT, 'manager1', 'manager1', 2, DEFAULT);
-INSERT INTO users VALUES (DEFAULT, 'manager2', 'manager2', 2, DEFAULT);
-INSERT INTO users VALUES (DEFAULT, 'craft1', 'craft1', 3, DEFAULT);
-INSERT INTO users VALUES (DEFAULT, 'craft2', 'craft2', 3, DEFAULT);
-INSERT INTO users VALUES (DEFAULT, 'user1', 'user1', 4, DEFAULT);
-INSERT INTO users VALUES (DEFAULT, 'user2', 'user2', 4, DEFAULT);
+INSERT INTO users VALUES (DEFAULT, 'admin1', 'admin1', 'exam1@gmail.com', 1, DEFAULT);
+INSERT INTO users VALUES (DEFAULT, 'manager1', 'manager1', 'exam2@gmail.com', 2, DEFAULT);
+INSERT INTO users VALUES (DEFAULT, 'manager2', 'manager2', 'exam3@gmail.com', 2, DEFAULT);
+INSERT INTO users VALUES (DEFAULT, 'craft1', 'craft1', 'exam4@gmail.com', 3, DEFAULT);
+INSERT INTO users VALUES (DEFAULT, 'craft2', 'craft2', 'exam5@gmail.com', 3, DEFAULT);
+INSERT INTO users VALUES (DEFAULT, 'user1', 'user1', 'exam6@gmail.com', 4, DEFAULT);
+INSERT INTO users VALUES (DEFAULT, 'user2', 'user2', 'exam7@gmail.com', 4, DEFAULT);
 
 INSERT INTO repair_orders VALUES (DEFAULT, 6, 5, 'My01', 350, 1, NULL, NULL);
 INSERT INTO repair_orders VALUES (DEFAULT, 7, 4, 'My02', 320, 1, NULL, NULL);

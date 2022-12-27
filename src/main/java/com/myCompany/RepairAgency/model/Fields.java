@@ -6,6 +6,7 @@ public class Fields {
     public static final String RESULT="result";
     public static final String LOGIN="login";
     public static final String PASSWORD="password";
+    public static final String EMAIL="email";
     public static final String ROLE_ID="role_id";
     public static final String ACCOUNT="account";
     public static final String NAME="name";

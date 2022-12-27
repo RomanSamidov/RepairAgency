@@ -29,14 +29,15 @@ public class SignupCommand implements IActionCommand, IHasRoleRequirement {
         // get reCAPTCHA request param
         String gRecaptchaResponse = request
                 .getParameter("g-recaptcha-response");
-        System.out.println(gRecaptchaResponse);
         boolean verify;
         try {
             verify = VerifyRecaptcha.verify(gRecaptchaResponse);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-
+//////////////////////
+        verify = true;
+///////////////////////
         boolean haveError = false;
         if (password == null || password.isEmpty()) {
             request.getSession().setAttribute("errorEmptyPassword","message.empty_password");
@@ -51,7 +52,7 @@ public class SignupCommand implements IActionCommand, IHasRoleRequirement {
             haveError = true;
         }
         if (!verify) {
-            request.getSession().setAttribute("errorEmptyLogin","message.empty_login");
+            request.getSession().setAttribute("errorRecaptchaMessage","message.error_recaptcha");
             haveError = true;
         }
 

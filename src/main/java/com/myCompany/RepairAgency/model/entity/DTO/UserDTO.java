@@ -5,6 +5,7 @@ import com.myCompany.RepairAgency.model.entity.Entity;
 public class UserDTO extends Entity {
 
     private String login;
+    private String email;
     private String role;
     private int account;
 
@@ -17,6 +18,15 @@ public class UserDTO extends Entity {
 
     public UserDTO setLogin(String login) {
         this.login=login;
+        return this;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public UserDTO setEmail(String email) {
+        this.email = email;
         return this;
     }
 
@@ -85,6 +95,14 @@ public class UserDTO extends Entity {
             return this;
         }
 
+        public String getEmail() {
+            return onConstructUserDTO.email;
+        }
+
+        public UserBuilder setEmail(String email) {
+            this.onConstructUserDTO.email = email;
+            return this;
+        }
 
         public String getRole() {
             return onConstructUserDTO.role;

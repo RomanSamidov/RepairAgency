@@ -10,6 +10,7 @@ public class UserDTOFactory {
         return new UserDTO.UserBuilder()
                 .setId(user.getId())
                 .setLogin(user.getLogin())
+                .setEmail(user.getEmail())
                 .setRole(Constants.ROLE.values()[user.getRole_id()].name())
                 .setAccount(user.getAccount())
                 .build();

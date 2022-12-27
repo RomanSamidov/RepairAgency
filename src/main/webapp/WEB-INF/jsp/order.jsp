@@ -7,6 +7,7 @@
 <fmt:setLocale value="${language}"/>
 <fmt:setBundle basename="LocalStrings"/>
 <c:import url="/WEB-INF/template/menu/_menu.jsp"/>
+<div class="text-center" >
 
 <table>
         <tr>
@@ -77,4 +78,5 @@
 
 
 
+</div>
 </body></html>

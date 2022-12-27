@@ -7,7 +7,7 @@
 <fmt:setLocale value="${language}"/>
 <fmt:setBundle basename="LocalStrings"/>
 <c:import url="/WEB-INF/template/menu/_menu.jsp"/>
-
+<div class="text-center" >
 
 
 <form name="pages" method="POST" action="">
@@ -15,7 +15,7 @@
      <input type="text" name="quantityUsers" value="5"/>
     <input type="submit" value="<fmt:message key="text.show_on_one_page"/>"/>
     </form>
-<table>
+<table >
         <tr>
             <td> id </td>
             <td> role </td>
@@ -51,4 +51,5 @@
     </c:forEach>
 </tr>
 </table>
+</div>
 </body></html>

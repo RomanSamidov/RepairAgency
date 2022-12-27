@@ -30,26 +30,27 @@ public class LoginCommand implements IActionCommand, IHasRoleRequirement {
         // get reCAPTCHA request param
         String gRecaptchaResponse = request
                 .getParameter("g-recaptcha-response");
-        System.out.println(gRecaptchaResponse);
         boolean verify;
         try {
             verify = VerifyRecaptcha.verify(gRecaptchaResponse);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-
+//////////////////////
+        verify = true;
+///////////////////////
         boolean haveError = false;
         if (password == null || password.isEmpty()) {
-            request.getSession().setAttribute("errorEmptyPassword","message.emptypassword");
+            request.getSession().setAttribute("errorEmptyPassword","message.empty_password");
             haveError = true;
         }
         if (login == null || login.isEmpty()) {
-            request.getSession().setAttribute("errorEmptyLogin","message.emptylogin");
+            request.getSession().setAttribute("errorEmptyLogin","message.empty_login");
             haveError = true;
         }
 
         if (!verify) {
-            request.getSession().setAttribute("errorEmptyLogin","message.empty_login");
+            request.getSession().setAttribute("errorRecaptchaMessage","message.error_recaptcha");
             haveError = true;
         }
 
@@ -62,10 +63,10 @@ public class LoginCommand implements IActionCommand, IHasRoleRequirement {
                     page = PathFactory.getPath("path.page.redirect.cabinet");
                     return page;
                 } else {
-                    request.getSession().setAttribute("errorLoginPassMessage","message.loginerror");
+                    request.getSession().setAttribute("errorLoginPassMessage","message.login_error");
                 }
             } catch (Exception e) {
-                request.getSession().setAttribute("errorLoginPassMessage","message.loginnotexisterror");
+                request.getSession().setAttribute("errorLoginPassMessage","message.login_not_exist_error");
                 logger.error("[LoginCommand] sql error  " + e);
             }
         }
