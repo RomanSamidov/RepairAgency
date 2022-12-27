@@ -18,6 +18,8 @@ public class UserRepository implements iUserRepository {
         Object[] arr1 = new Object[]{ user.getLogin(),
                              user.getPassword(),
                              user.getEmail(),
+                             user.isAllow_letters(),
+                             user.isConfirmed(),
                              user.getRole_id(),
                              user.getAccount()};
 
@@ -80,6 +82,14 @@ public class UserRepository implements iUserRepository {
     }
 
     @Override
+    public long getCount() {
+        Connection conn = ConnectionPool.getConnection();
+        long res = QueryExecutioner.readNumber(conn, Query.UsersQuery.COUNT);
+        ConnectionPool.releaseConnection(conn);
+        return res;
+    }
+
+    @Override
     public void incrementUserAccount(long userId, int increment) {
         Connection conn = ConnectionPool.getConnection();
         User user = QueryExecutioner.readEntity(UserFactory.ins, conn, Query.UsersQuery.SELECT_BY_ID, userId);
@@ -87,14 +97,6 @@ public class UserRepository implements iUserRepository {
         QueryExecutioner.executeUpdate(conn, Query.UsersQuery.UPDATE,
         UserRepository.extractFields(user, user.getId()));
         ConnectionPool.releaseConnection(conn);
-    }
-
-    @Override
-    public ArrayList<User> getAll() {
-        Connection conn = ConnectionPool.getConnection();
-        ArrayList<User> res = QueryExecutioner.readList(UserFactory.ins, conn, Query.UsersQuery.SELECT_ALL);
-        ConnectionPool.releaseConnection(conn);
-        return res;
     }
 
     @Override

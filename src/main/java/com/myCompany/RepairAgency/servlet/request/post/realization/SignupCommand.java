@@ -13,7 +13,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.io.IOException;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -26,33 +26,23 @@ public class SignupCommand implements IActionCommand, IHasRoleRequirement {
         String login = request.getParameter(Constants.LOGIN);
         String password = request.getParameter(Constants.PASSWORD);
         String passwordRepeat = request.getParameter(Constants.PASSWORD_REPEAT);
+        String email = request.getParameter(Constants.EMAIL);
         // get reCAPTCHA request param
-        String gRecaptchaResponse = request
-                .getParameter("g-recaptcha-response");
-        boolean verify;
-        try {
-            verify = VerifyRecaptcha.verify(gRecaptchaResponse);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-//////////////////////
-        verify = true;
-///////////////////////
+        String gRecaptchaResponse = request.getParameter("g-recaptcha-response");
         boolean haveError = false;
-        if (password == null || password.isEmpty()) {
-            request.getSession().setAttribute("errorEmptyPassword","message.empty_password");
-            haveError = true;
-        }
-        if (passwordRepeat == null || passwordRepeat.isEmpty()) {
-            request.getSession().setAttribute("errorEmptyPasswordRepeat","message.empty_password_repeat");
-            haveError = true;
-        }
-        if (login == null || login.isEmpty()) {
-            request.getSession().setAttribute("errorEmptyLogin","message.empty_login");
-            haveError = true;
-        }
+
+        boolean verify;
+        verify = VerifyRecaptcha.verify(gRecaptchaResponse);
         if (!verify) {
             request.getSession().setAttribute("errorRecaptchaMessage","message.error_recaptcha");
+            haveError = true;
+        }
+
+        if (password == null || password.isEmpty() ||
+                passwordRepeat == null || passwordRepeat.isEmpty() ||
+                login == null || login.isEmpty() ||
+                email == null || email.isEmpty()) {
+            request.getSession().setAttribute("errorEmpty","message.empty_some_line");
             haveError = true;
         }
 
@@ -66,6 +56,9 @@ public class SignupCommand implements IActionCommand, IHasRoleRequirement {
                 String userPassword = Encrypt.encrypt(password);
                 User user = new User.UserBuilder().setLogin(login)
                         .setPassword(userPassword)
+                        .setEmail(email)
+                        .setAllow_letters(true)
+                        .setConfirmed(false)
                         .setRole_id(Constants.ROLE.Client.ordinal())
                         .build();
                 ModelManager.ins.insertUser(user);
@@ -75,6 +68,7 @@ public class SignupCommand implements IActionCommand, IHasRoleRequirement {
                 return page;
             } catch (Exception e) {
                 logger.error("[SignupCommand] sql error  " + e);
+                Arrays.stream(e.getStackTrace()).iterator().forEachRemaining(x-> logger.error("[SignupCommand] sql error  " + x));
             }
         }
 

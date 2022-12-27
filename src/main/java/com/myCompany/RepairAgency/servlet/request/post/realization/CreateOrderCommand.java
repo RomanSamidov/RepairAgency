@@ -11,6 +11,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -26,12 +27,13 @@ public class CreateOrderCommand implements IActionCommand, IHasRoleRequirement {
         String text = request.getParameter("orderText");
         if (text == null || text.isBlank()) {
             request.getSession().setAttribute("errorOrderTextMessage", "text.order_empty");
-            page = PathFactory.getPath("path.page.redirect.order");
+            page = PathFactory.getPath("path.page.redirect.orders");
             return page;
         }
         try {
         RepairOrder order = new RepairOrder.RepairOrderBuilder()
                .setUser_id(userId)
+               .setCreation_date(LocalDateTime.now())
                .setText(text).build();
 
             ModelManager.ins.insertRepairOrder(order);
@@ -40,7 +42,7 @@ public class CreateOrderCommand implements IActionCommand, IHasRoleRequirement {
             logger.error("[CreateOrderCommand] "+ e);
         }
 
-        page = PathFactory.getPath("path.page.redirect.order");
+        page = PathFactory.getPath("path.page.redirect.orders");
         return page;
     }
 

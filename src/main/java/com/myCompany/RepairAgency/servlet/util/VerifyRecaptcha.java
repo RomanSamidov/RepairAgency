@@ -2,7 +2,6 @@ package com.myCompany.RepairAgency.servlet.util;
 
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
-import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.StringReader;
 import java.net.URL;
@@ -24,9 +23,13 @@ public class VerifyRecaptcha {
     public static final String secret = "6LfD3asjAAAAAIHPtFURYs0ROyRXLi0FDbCjUQYq";
     private final static String USER_AGENT = "Mozilla/5.0";
 
-    public static boolean verify(String gRecaptchaResponse) throws IOException {
+    public static boolean verify(String gRecaptchaResponse){
+
         if (gRecaptchaResponse == null || gRecaptchaResponse.isBlank()) {
-            return false;
+            logger.debug("[VerifyRecaptcha]  for test purpose, change true to false");
+            return true;
+            /////// for test purpose, change true to false
+
         }
 
         try{
@@ -49,9 +52,9 @@ public class VerifyRecaptcha {
             wr.close();
 
             int responseCode = con.getResponseCode();
-            logger.debug("\nSending 'POST' request to URL : " + url);
-//            logger.debug();("Post parameters : " + postParams);
-            logger.debug("Response Code : " + responseCode);
+            logger.debug("[VerifyRecaptcha] Sending 'POST' request to URL : " + url);
+//            logger.debug("[VerifyRecaptcha] Post parameters : " + postParams);
+            logger.debug("[VerifyRecaptcha] Response Code : " + responseCode);
 
             BufferedReader in = new BufferedReader(new InputStreamReader(
                     con.getInputStream()));
@@ -64,7 +67,7 @@ public class VerifyRecaptcha {
             in.close();
 
             // print result
-            logger.debug(response.toString());
+            logger.debug("[VerifyRecaptcha] " + response);
 
             //parse JSON response and return 'success' value
             JsonReader jsonReader = Json.createReader(new StringReader(response.toString()));

@@ -18,8 +18,10 @@ CREATE TABLE roles (
 CREATE TABLE users (
 	id SERIAL PRIMARY KEY,
 	login VARCHAR(30) UNIQUE,
-	email VARCHAR(30),
 	password VARCHAR(63),
+	email VARCHAR(30),
+	allow_letters BOOL DEFAULT(true),
+	confirmed BOOL DEFAULT(false),
 	role_id INT NOT NULL REFERENCES roles(id) on delete cascade,
 	account INT DEFAULT(0)
 );
@@ -33,9 +35,12 @@ CREATE TABLE repair_orders (
 	id SERIAL PRIMARY KEY,
 	user_id INT REFERENCES users(id) on delete cascade,
 	craftsman_id INT REFERENCES users(id) on delete CASCADE,
+	creation_date TIMESTAMPTZ NOT NULL,
 	text VARCHAR(255),
 	price INT,
+	finish_date TIMESTAMPTZ,
 	status_id INT REFERENCES orders_statuses(id) on delete cascade,
+	feedback_date TIMESTAMPTZ,
 	feedback_text VARCHAR(255),
 	feedback_mark INT
 );
@@ -52,16 +57,16 @@ INSERT INTO orders_statuses VALUES (DEFAULT, 'Canceled');
 INSERT INTO orders_statuses VALUES (DEFAULT, 'In progress');
 INSERT INTO orders_statuses VALUES (DEFAULT, 'Completed');
 
-INSERT INTO users VALUES (DEFAULT, 'admin1', 'admin1', 'exam1@gmail.com', 1, DEFAULT);
-INSERT INTO users VALUES (DEFAULT, 'manager1', 'manager1', 'exam2@gmail.com', 2, DEFAULT);
-INSERT INTO users VALUES (DEFAULT, 'manager2', 'manager2', 'exam3@gmail.com', 2, DEFAULT);
-INSERT INTO users VALUES (DEFAULT, 'craft1', 'craft1', 'exam4@gmail.com', 3, DEFAULT);
-INSERT INTO users VALUES (DEFAULT, 'craft2', 'craft2', 'exam5@gmail.com', 3, DEFAULT);
-INSERT INTO users VALUES (DEFAULT, 'user1', 'user1', 'exam6@gmail.com', 4, DEFAULT);
-INSERT INTO users VALUES (DEFAULT, 'user2', 'user2', 'exam7@gmail.com', 4, DEFAULT);
+INSERT INTO users VALUES (DEFAULT, 'admin1', 'F294D0FCC947C6C133A107AF2109105291D6B249FAAC794527E35CB578CEC4', 'exam1@gmail.com', true, false, 1, DEFAULT);
+INSERT INTO users VALUES (DEFAULT, 'manager1', 'F294D0FCC947C6C133A107AF2109105291D6B249FAAC794527E35CB578CEC4', 'exam2@gmail.com', true, false, 2, DEFAULT);
+INSERT INTO users VALUES (DEFAULT, 'manager2', 'F294D0FCC947C6C133A107AF2109105291D6B249FAAC794527E35CB578CEC4', 'exam3@gmail.com', true, false, 2, DEFAULT);
+INSERT INTO users VALUES (DEFAULT, 'craft1', 'F294D0FCC947C6C133A107AF2109105291D6B249FAAC794527E35CB578CEC4', 'exam4@gmail.com', true, false, 3, DEFAULT);
+INSERT INTO users VALUES (DEFAULT, 'craft2', 'F294D0FCC947C6C133A107AF2109105291D6B249FAAC794527E35CB578CEC4', 'exam5@gmail.com', true, false, 3, DEFAULT);
+INSERT INTO users VALUES (DEFAULT, 'user1', 'F294D0FCC947C6C133A107AF2109105291D6B249FAAC794527E35CB578CEC4', 'exam6@gmail.com', true, false, 4, DEFAULT);
+INSERT INTO users VALUES (DEFAULT, 'user2', 'F294D0FCC947C6C133A107AF2109105291D6B249FAAC794527E35CB578CEC4', 'exam7@gmail.com', true, false, 4, DEFAULT);
 
-INSERT INTO repair_orders VALUES (DEFAULT, 6, 5, 'My01', 350, 1, NULL, NULL);
-INSERT INTO repair_orders VALUES (DEFAULT, 7, 4, 'My02', 320, 1, NULL, NULL);
+INSERT INTO repair_orders VALUES (DEFAULT, 6, 5, '2022-12-27 23:25:03.000 +0200', 'My01', 350, NULL, 1, NULL, NULL, NULL);
+INSERT INTO repair_orders VALUES (DEFAULT, 7, 4, '2022-12-27 23:25:03.000 +0200', 'My02', 320, NULL, 1, NULL, NULL, NULL);
 
 SELECT * FROM users;
 SELECT * FROM repair_orders;

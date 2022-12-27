@@ -10,6 +10,7 @@ public interface iUserRepository extends iRepositoryForChangeAble<User> {
     ArrayList<User> getByRole(long roleId, int skip, int quantity);
     long getCountWhereRoleIs(long id);
 
+
     void incrementUserAccount(long userId, int increment);
 
 }

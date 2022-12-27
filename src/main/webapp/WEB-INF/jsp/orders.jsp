@@ -36,25 +36,32 @@
              <input type="text" name="quantityOrders" value="5"/>
             <input type="submit" value="<fmt:message key="text.show_on_one_page"/>"/>
             </form>
-        <table>
+        <table class="table table-striped table-bordered table-sm table-th">
+        <caption>List of orders</caption>
         <tr>
-                <td> id </td>
-                <td> user_id </td>
-                <td> craftsman_id </td>
-                <td> text </td>
-                <td> price </td>
-                <td> status </td>
-                <td> feedback_text </td>
-                <td> feedback_mark </td>
+                <th> id </th>
+                <th> user_id </th>
+                <th> craftsman_id </th>
+                <th> creation_date </th>
+                <th> text </th>
+                <th> price </th>
+                <th> finish_date </th>
+                <th> status </th>
+                <th> feedback_date </th>
+                <th> feedback_text </th>
+                <th> feedback_mark </th>
                 </tr>
             <c:forEach var="order" items="${orders}" varStatus="status">
                 <tr>
                 <td><c:out value="${ order.id }" /></td>
                 <td><c:out value="${ order.user_id }" /></td>
                 <td><c:out value="${ order.craftsman_id }" /></td>
+                <td><c:out value="${ order.creation_date }" /></td>
                 <td><c:out value="${ order.text }" /></td>
                 <td><c:out value="${ order.price }" /></td>
+                <td><c:out value="${ order.finish_date }" /></td>
                 <td><c:out value="${ order.status }" /></td>
+                <td><c:out value="${ order.feedback_date }" /></td>
                 <td><c:out value="${ order.feedback_text }" /></td>
                 <td><c:out value="${ order.feedback_mark }" /></td>
                 <td> <form method="POST" action="">
@@ -72,7 +79,7 @@
         <tr>
         <c:forEach var="page" items="${listPagesOrders}" varStatus="status">
                 <form method="POST" action="">
-                    <input type="hidden" name="command" value="my_orders" />
+                    <input type="hidden" name="command" value="orders" />
                     <input type="hidden" name="skipOrders" value="${ page }" />
                     <input type="submit" value="${ status.count }"/>
                 </form>

@@ -9,16 +9,17 @@
 <c:import url="/WEB-INF/template/menu/_menu.jsp"/>
 <div class="text-center" >
 
-<table>
+<table class="table table-striped table-bordered table-sm table-th">
+                     <caption>Order</caption>
         <tr>
-                <td> id </td>
-                <td> user_id </td>
-                <td> craftsman_id </td>
-                <td> text </td>
-                <td> price </td>
-                <td> status </td>
-                <td> feedback_text </td>
-                <td> feedback_mark </td>
+                <th> id </th>
+                <th> user_id </th>
+                <th> craftsman_id </th>
+                <th> text </th>
+                <th> price </th>
+                <th> status </th>
+                <th> feedback_text </th>
+                <th> feedback_mark </th>
                 </tr>
     <tr>
                 <td><c:out value="${ goalOrder.id }" /></td>
@@ -32,7 +33,6 @@
 
     </tr>
 </table>
-
 
  <c:choose>
 

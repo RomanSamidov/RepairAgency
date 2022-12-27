@@ -2,18 +2,51 @@ package com.myCompany.RepairAgency.model.entity.DTO;
 
 import com.myCompany.RepairAgency.model.entity.Entity;
 
+import java.time.LocalDateTime;
+
 public class RepairOrderDTO extends Entity {
     private long user_id;
     private long craftsman_id;
+    private LocalDateTime creation_date;
     private String text;
     private int price=-10;
+    private LocalDateTime finish_date;
+
     private String status;
+    private LocalDateTime feedback_date;
+
     private String feedback_text;
     private int feedback_mark;
 
     private RepairOrderDTO() {
     }
 
+    public LocalDateTime getCreation_date() {
+        return creation_date;
+    }
+
+    public RepairOrderDTO setCreation_date(LocalDateTime creation_date) {
+        this.creation_date = creation_date;
+        return this;
+    }
+
+    public LocalDateTime getFinish_date() {
+        return finish_date;
+    }
+
+    public RepairOrderDTO setFinish_date(LocalDateTime finish_date) {
+        this.finish_date = finish_date;
+        return this;
+    }
+
+    public LocalDateTime getFeedback_date() {
+        return feedback_date;
+    }
+
+    public RepairOrderDTO setFeedback_date(LocalDateTime feedback_date) {
+        this.feedback_date = feedback_date;
+        return this;
+    }
 
     public long getUser_id() {
         return user_id;
@@ -97,12 +130,12 @@ public class RepairOrderDTO extends Entity {
                 this.onConstructRepairOrderDTO =new RepairOrderDTO();
                 return ready;
             } else {
-                throw new IllegalArgumentException("Role not ready");
+                throw new IllegalArgumentException("RepairOrderDTO not ready");
             }
         }
 
         public boolean isReady() {
-            return onConstructRepairOrderDTO.user_id != 0;
+            return onConstructRepairOrderDTO.user_id != 0 && onConstructRepairOrderDTO.creation_date != null;
         }
 
         public long getId() {
@@ -175,6 +208,33 @@ public class RepairOrderDTO extends Entity {
 
         public RepairOrderBuilder setFeedback_mark(int feedback_mark) {
             this.onConstructRepairOrderDTO.feedback_mark=feedback_mark;
+            return this;
+        }
+
+        public LocalDateTime getCreation_date() {
+            return onConstructRepairOrderDTO.creation_date;
+        }
+
+        public RepairOrderBuilder setCreation_date(LocalDateTime creation_date) {
+            this.onConstructRepairOrderDTO.creation_date = creation_date;
+            return this;
+        }
+
+        public LocalDateTime getFinish_date() {
+            return onConstructRepairOrderDTO.finish_date;
+        }
+
+        public RepairOrderBuilder setFinish_date(LocalDateTime finish_date) {
+            this.onConstructRepairOrderDTO.finish_date = finish_date;
+            return this;
+        }
+
+        public LocalDateTime getFeedback_date() {
+            return onConstructRepairOrderDTO.feedback_date;
+        }
+
+        public RepairOrderBuilder setFeedback_date(LocalDateTime feedback_date) {
+            this.onConstructRepairOrderDTO.feedback_date = feedback_date;
             return this;
         }
 

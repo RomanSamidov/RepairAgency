@@ -12,9 +12,12 @@ public class RepairOrderDTOFactory {
                 .setId(order.getId())
                 .setUser_id(order.getUser_id())
                 .setCraftsman_id(order.getCraftsman_id())
+                .setCreation_date(order.getCreation_date())
                 .setText(order.getText())
                 .setPrice(order.getPrice())
+                .setFinish_date(order.getFinish_date())
                 .setStatus(Constants.ORDER_STATUS.values()[(int) order.getStatus_id()].getToString())
+                .setFeedback_date(order.getFeedback_date())
                 .setFeedback_text(order.getFeedback_text())
                 .setFeedback_mark(order.getFeedback_mark())
                 .build();

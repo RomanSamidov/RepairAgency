@@ -13,7 +13,6 @@ import jakarta.servlet.http.HttpServletRequest;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -28,18 +27,16 @@ public class LoginCommand implements IActionCommand, IHasRoleRequirement {
         String password = request.getParameter(Constants.PASSWORD);
 
         // get reCAPTCHA request param
-        String gRecaptchaResponse = request
-                .getParameter("g-recaptcha-response");
+        String gRecaptchaResponse = request.getParameter("g-recaptcha-response");
         boolean verify;
-        try {
-            verify = VerifyRecaptcha.verify(gRecaptchaResponse);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-//////////////////////
-        verify = true;
-///////////////////////
         boolean haveError = false;
+        verify = VerifyRecaptcha.verify(gRecaptchaResponse);
+        if (!verify) {
+            request.getSession().setAttribute("errorRecaptchaMessage","message.error_recaptcha");
+            haveError = true;
+        }
+
+
         if (password == null || password.isEmpty()) {
             request.getSession().setAttribute("errorEmptyPassword","message.empty_password");
             haveError = true;
@@ -49,10 +46,7 @@ public class LoginCommand implements IActionCommand, IHasRoleRequirement {
             haveError = true;
         }
 
-        if (!verify) {
-            request.getSession().setAttribute("errorRecaptchaMessage","message.error_recaptcha");
-            haveError = true;
-        }
+
 
         if(!haveError) {
             try {

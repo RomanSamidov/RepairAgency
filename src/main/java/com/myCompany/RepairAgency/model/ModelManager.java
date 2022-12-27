@@ -4,9 +4,7 @@ package com.myCompany.RepairAgency.model;
 import com.myCompany.RepairAgency.Constants;
 import com.myCompany.RepairAgency.model.db.abstractDB.abstractRepository.abstractRepositoryFactory;
 import com.myCompany.RepairAgency.model.db.abstractDB.abstractRepository.abstractRepositoryFactory.DAOType;
-import com.myCompany.RepairAgency.model.entity.OrderStatus;
 import com.myCompany.RepairAgency.model.entity.RepairOrder;
-import com.myCompany.RepairAgency.model.entity.Role;
 import com.myCompany.RepairAgency.model.entity.User;
 
 import java.util.ArrayList;
@@ -35,15 +33,6 @@ public class ModelManager {
         return DAOType.valueOf(resourceBundle.getString(Constants.DAOType));
     }
 
-
-    public ArrayList<OrderStatus> getAllOrderStatuses() {
-        return DAO_FACTORY.getOrderStatusService().getAll();
-    }
-
-    public OrderStatus getOrderStatus(int id) {
-        return DAO_FACTORY.getOrderStatusService().getById(id);
-    }
-
     public User getUser(long id) {
         return DAO_FACTORY.getUserService().getById(id);
     }
@@ -63,9 +52,6 @@ public class ModelManager {
         DAO_FACTORY.getUserService().delete(user);
     }
 
-    public ArrayList<User> getAllUsers() {
-        return DAO_FACTORY.getUserService().getAll();
-    }
     public ArrayList<User> getAllUsersByRole(long roleId, int skip, int quantity) { return DAO_FACTORY.getUserService().getByRole(roleId, skip, quantity);}
 
     public void incrementUserAccount(long userId, int increment){
@@ -75,17 +61,12 @@ public class ModelManager {
     public long getCountUsersWhereRoleIs(long roleId) {
         return DAO_FACTORY.getUserService().getCountWhereRoleIs(roleId);
     }
+    public long getCountUsers() {
+        return DAO_FACTORY.getUserService().getCount();
+    }
 
     public ArrayList<User> getUsersWithPagination(int skip, int quantity) {
         return DAO_FACTORY.getUserService().getWithPagination(skip, quantity);
-    }
-
-    public ArrayList<Role> getAllRoles() {
-        return DAO_FACTORY.getRoleService().getAll();
-    }
-
-    public Role getRole(int id) {
-        return DAO_FACTORY.getRoleService().getById(id);
     }
 
 
@@ -103,10 +84,6 @@ public class ModelManager {
 
     public void deleteRepairOrder(RepairOrder repairOrder) {
         DAO_FACTORY.getRepairOrderService().delete(repairOrder);
-    }
-
-    public ArrayList<RepairOrder> getAllRepairOrders() {
-        return DAO_FACTORY.getRepairOrderService().getAll();
     }
 
     public ArrayList<RepairOrder> getRepairOrdersWithPagination(int skip, int quantity) {
@@ -130,6 +107,7 @@ public class ModelManager {
     public long getCountRepairOrders() {
         return DAO_FACTORY.getRepairOrderService().getCount();
     }
+
 
 
 }

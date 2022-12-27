@@ -4,10 +4,18 @@
 <html>
 <c:import url="/WEB-INF/template/_head.jsp"/>
 <body>
-<fmt:setLocale value="${language}"/>
-<fmt:setBundle basename="LocalStrings"/>
+
 <c:import url="/WEB-INF/template/menu/_menu.jsp"/>
 <div class="text-center" >
+
+<form name="pages" method="POST" action="">
+    <input type="hidden" name="command" value="users" />
+     <select name="roleUsers">
+       <option value="Client">Client</option>
+       <option value="Craftsman">Craftsman</option>
+     </select>
+    <input type="submit" value="select role"/>
+    </form>
 
 
 <form name="pages" method="POST" action="">
@@ -15,12 +23,13 @@
      <input type="text" name="quantityUsers" value="5"/>
     <input type="submit" value="<fmt:message key="text.show_on_one_page"/>"/>
     </form>
-<table >
+<table class="table table-striped table-bordered table-sm table-th">
+              <caption>List of users</caption>
         <tr>
-            <td> id </td>
-            <td> role </td>
-            <td> login </td>
-            <td> account </td>
+            <th> id </th>
+            <th> role </th>
+            <th> login </th>
+            <th> account </th>
         </tr>
     <c:forEach var="user" items="${users}" varStatus="status">
         <tr>

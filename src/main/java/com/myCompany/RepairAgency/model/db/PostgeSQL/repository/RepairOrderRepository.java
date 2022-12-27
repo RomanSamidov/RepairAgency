@@ -17,9 +17,12 @@ public class RepairOrderRepository implements iRepairOrderRepository {
     public static Object[] extractFields(RepairOrder order, Object... args) {
         Object[] arr1 = new Object[]{order.getUser_id(),
                             order.getCraftsman_id()==0?null:order.getCraftsman_id(),
+                            order.getCreation_date(),
                             order.getText(),
                             order.getPrice(),
+                            order.getFinish_date(),
                             order.getStatus_id(),
+                            order.getFeedback_date(),
                             order.getFeedback_text(),
                             order.getFeedback_mark()};
 
@@ -53,15 +56,6 @@ public class RepairOrderRepository implements iRepairOrderRepository {
     public RepairOrder getById(long id) {
         Connection conn = ConnectionPool.getConnection();
         RepairOrder res = QueryExecutioner.readEntity(RepairOrderFactory.ins, conn, Query.RepairOrdersQuery.SELECT_BY_ID, id);
-        ConnectionPool.releaseConnection(conn);
-        return res;
-    }
-
-    @Override
-    public ArrayList<RepairOrder> getAll() {
-        Connection conn = ConnectionPool.getConnection();
-        ArrayList<RepairOrder> res = QueryExecutioner.readList(RepairOrderFactory.ins, conn,
-                Query.RepairOrdersQuery.SELECT_ALL);
         ConnectionPool.releaseConnection(conn);
         return res;
     }

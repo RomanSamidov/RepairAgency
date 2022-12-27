@@ -19,12 +19,23 @@ public class ShowUsersCommand implements IActionCommand, IHasRoleRequirement {
     public Path execute(HttpServletRequest request) {
         Path page = PathFactory.getPath("path.page.forward.users");
         request.setAttribute("title", "title.users");
-        long roleId = Constants.ROLE.Client.ordinal();
+
         int[] a = ForTables.initSkipQuantity( "Users", request);
         int skip = a[0];
         int quantity = a[1];
-        ForTables.updatePagesForJSP(quantity, skip, ModelManager.ins.getCountUsersWhereRoleIs(roleId), "Users", request);
-        request.setAttribute("users", UserDTOFactory.getUsers(ModelManager.ins.getAllUsersByRole(roleId, skip, quantity)));
+        if(request.getSession().getAttribute("userRole").equals(Constants.ROLE.Admin)) {
+            ForTables.updatePagesForJSP(quantity, skip, ModelManager.ins.getCountUsers(), "Users", request);
+            request.setAttribute("users", UserDTOFactory.getUsers(ModelManager.ins.getUsersWithPagination(skip, quantity)));
+        } else {
+            long roleId = Constants.ROLE.Client.ordinal();
+            if(request.getSession().getAttribute("roleUsers") != null) {
+                Constants.ROLE role = (Constants.ROLE) request.getSession().getAttribute("roleUsers");
+                roleId = role.ordinal();
+            }
+            ForTables.updatePagesForJSP(quantity, skip, ModelManager.ins.getCountUsersWhereRoleIs(roleId), "Users", request);
+            request.setAttribute("users", UserDTOFactory.getUsers(ModelManager.ins.getAllUsersByRole(roleId, skip, quantity)));
+        }
+
         return page;
     }
 

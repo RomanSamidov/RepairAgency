@@ -5,6 +5,8 @@ public class User  extends Entity {
     private String login;
     private String password;
     private String email;
+    private boolean allow_letters = true;
+    private boolean confirmed = false;
     private int role_id;
     private int account;
 
@@ -62,6 +64,24 @@ public class User  extends Entity {
         return this;
     }
 
+    public boolean isAllow_letters() {
+        return allow_letters;
+    }
+
+    public User setAllow_letters(boolean allow_letters) {
+        this.allow_letters = allow_letters;
+        return this;
+    }
+
+    public boolean isConfirmed() {
+        return confirmed;
+    }
+
+    public User setConfirmed(boolean confirmed) {
+        this.confirmed = confirmed;
+        return this;
+    }
+
     public static class UserBuilder {
         private User onConstructUser;
 
@@ -75,7 +95,7 @@ public class User  extends Entity {
                 this.onConstructUser=new User();
                 return ready;
             } else {
-                throw new IllegalArgumentException("UserDTO not ready");
+                throw new IllegalArgumentException("User not ready");
             }
 
         }
@@ -118,6 +138,24 @@ public class User  extends Entity {
 
         public UserBuilder setEmail(String email) {
             onConstructUser.email = email;
+            return this;
+        }
+
+        public boolean isAllow_letters() {
+            return onConstructUser.allow_letters;
+        }
+
+        public UserBuilder setAllow_letters(boolean allow_letters) {
+            this.onConstructUser.allow_letters = allow_letters;
+            return this;
+        }
+
+        public boolean isConfirmed() {
+            return onConstructUser.confirmed;
+        }
+
+        public UserBuilder setConfirmed(boolean confirmed) {
+            this.onConstructUser.confirmed = confirmed;
             return this;
         }
 

@@ -4,18 +4,18 @@
 <html>
 <c:import url="/WEB-INF/template/_head.jsp"/>
 <body>
-<fmt:setLocale value="${language}"/>
-<fmt:setBundle basename="LocalStrings"/>
 <c:import url="/WEB-INF/template/menu/_menu.jsp"/>
 <div class="text-center" >
 
-<table>
+<table class="table table-striped table-bordered table-sm table-th">
+              <caption>User</caption>
         <tr>
-            <td> id </td>
-            <td> role </td>
-            <td> login </td>
-            <td> email </td>
-            <td> account </td>
+            <th> id </th>
+            <th> role </th>
+            <th> login </th>
+            <th> email </th>
+            <th> account </th>
+            <th>  </th>
         </tr>
         <tr>
         <td><c:out value="${ goalUser.id }" /></td>

@@ -17,6 +17,11 @@ public class UsersCommand implements IActionCommand, IHasRoleRequirement {
     @Override
     public Path execute(HttpServletRequest request) {
         ForTables.updateSkipQuantity("Users", request);
+//        roleUsers = Craftsman
+        if(request.getParameter("roleUsers") != null) {
+            Constants.ROLE role = Constants.ROLE.valueOf(request.getParameter("roleUsers"));
+            request.getSession().setAttribute("roleUsers", role);
+        }
         return PathFactory.getPath("path.page.redirect.users");
     }
 
