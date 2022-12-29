@@ -22,9 +22,10 @@ public class UserCommand implements IActionCommand, IHasRoleRequirement {
             int increment = Integer.parseInt(request.getParameter("addToAccount"));
             ModelManager.ins.incrementUserAccount(ForChangeEntity.initGoalId("User", request), increment);
         }
+        Path path = PathFactory.getPath("path.page.redirect.user");
+        path.addParameter("id", request.getParameter("goalIdUser"));
 
-
-        return PathFactory.getPath("path.page.redirect.user");
+        return path;
     }
 
     @Override

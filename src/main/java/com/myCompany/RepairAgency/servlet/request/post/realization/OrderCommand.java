@@ -49,7 +49,10 @@ public class OrderCommand implements IActionCommand, IHasRoleRequirement {
 
         ModelManager.ins.updateRepairOrder(order);
 
-        return PathFactory.getPath("path.page.redirect.order");
+        Path path = PathFactory.getPath("path.page.redirect.order");
+        path.addParameter("id", request.getParameter("goalIdOrder"));
+
+        return path;
     }
 
     @Override

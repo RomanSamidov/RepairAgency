@@ -8,6 +8,7 @@ import com.myCompany.RepairAgency.servlet.request.IHasRoleRequirement;
 import com.myCompany.RepairAgency.servlet.util.ForTables;
 import jakarta.servlet.http.HttpServletRequest;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -17,6 +18,16 @@ public class OrdersCommand implements IActionCommand, IHasRoleRequirement {
     @Override
     public Path execute(HttpServletRequest request) {
         ForTables.updateSkipQuantity("Orders", request);
+
+        if(request.getParameter("statusOrders") != null) {
+            long[] statusId = Arrays.stream(request.getParameterValues("statusOrders")).mapToLong(Long::parseLong).toArray();
+            request.getSession().setAttribute("statusOrders", statusId);
+        }
+        if(request.getParameter("craftsmanIdOrders") != null) {
+            long[] craftsmanId = Arrays.stream(request.getParameterValues("craftsmanIdOrders")).mapToLong(Long::parseLong).toArray();
+            request.getSession().setAttribute("craftsmanIdOrders", craftsmanId);
+        }
+
         return PathFactory.getPath("path.page.redirect.orders");
     }
 

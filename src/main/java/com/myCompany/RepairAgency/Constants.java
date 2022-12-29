@@ -34,9 +34,15 @@ public class Constants {
         COMPLETED("Completed");
 
         private final String toString;
+        private final long ordinal;
 
         ORDER_STATUS(String toString) {
             this.toString=toString;
+            this.ordinal = ordinal();
+        }
+
+        public long getOrdinal() {
+            return ordinal;
         }
 
         public String getToString() {

@@ -38,6 +38,7 @@ public class ForTables {
             nowPage = skip / quantity;
         }
         request.getSession().setAttribute("nowPage" + tableName, nowPage);
+        request.getSession().setAttribute("nowQuantity" + tableName, quantity);
         List<Integer> listPages = IntStream.iterate(0, x -> x + quantity).limit(pages).boxed().collect(Collectors.toList());
         request.getSession().setAttribute("listPages" + tableName, listPages);
     }

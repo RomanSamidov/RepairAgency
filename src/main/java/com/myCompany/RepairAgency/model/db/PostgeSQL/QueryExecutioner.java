@@ -34,6 +34,7 @@ public class QueryExecutioner{
     private static void setArgsForPreparedStatement(PreparedStatement statement, Object... args)
             throws SQLException {
         for (int i = 0; i < args.length; i++) {
+//            System.out.println(args[i] + "   " +i);
             statement.setObject(i + 1, args[i]);
         }
     }

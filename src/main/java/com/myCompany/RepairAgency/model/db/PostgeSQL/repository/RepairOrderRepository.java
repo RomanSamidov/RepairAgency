@@ -70,14 +70,6 @@ public class RepairOrderRepository implements iRepairOrderRepository {
     }
 
     @Override
-    public ArrayList<RepairOrder> getAllWhereStatusIs(Constants.ORDER_STATUS status, int skip, int quantity) {
-        Connection conn = ConnectionPool.getConnection();
-        ArrayList<RepairOrder> res = QueryExecutioner.readList(RepairOrderFactory.ins, conn, Query.RepairOrdersQuery.SELECT_BY_STATUS, status.ordinal(), skip, quantity);
-        ConnectionPool.releaseConnection(conn);
-        return res;
-    }
-
-    @Override
     public ArrayList<RepairOrder> getAllWhereCraftsmanIdIs(long id, int skip, int quantity) {
         Connection conn = ConnectionPool.getConnection();
         ArrayList<RepairOrder> res = QueryExecutioner.readList(RepairOrderFactory.ins, conn, Query.RepairOrdersQuery.SELECT_BY_CRAFTSMAN_ID, id, skip, quantity);
@@ -116,4 +108,69 @@ public class RepairOrderRepository implements iRepairOrderRepository {
         ConnectionPool.releaseConnection(conn);
         return res;
     }
+
+    @Override
+    public ArrayList<RepairOrder> getByCraftUserStatus(long[] craftIds, long userId, long[] statusIds, int skip, int quantity) {
+        Connection conn = ConnectionPool.getConnection();
+        ArrayList<RepairOrder> res = QueryExecutioner.readList(RepairOrderFactory.ins, conn, Query.RepairOrdersQuery.SELECT_BY_CRAFT_USER_STATUS, craftIds, userId, statusIds, skip, quantity);
+        ConnectionPool.releaseConnection(conn);
+        return res;
+    }
+
+    @Override
+    public long getCountByCraftUserStatus(long[] craftIds, long userId, long[] statusIds) {
+        Connection conn = ConnectionPool.getConnection();
+        long res = QueryExecutioner.readNumber(conn, Query.RepairOrdersQuery.COUNT_BY_CRAFT_USER_STATUS, craftIds, userId, statusIds);
+        ConnectionPool.releaseConnection(conn);
+        return res;
+    }
+
+    @Override
+    public ArrayList<RepairOrder> getByCraftStatus(long[] craftIds, long[] statusIds, int skip, int quantity) {
+        Connection conn = ConnectionPool.getConnection();
+        ArrayList<RepairOrder> res = QueryExecutioner.readList(RepairOrderFactory.ins, conn, Query.RepairOrdersQuery.SELECT_BY_CRAFT_STATUS, craftIds, statusIds, skip, quantity);
+        ConnectionPool.releaseConnection(conn);
+        return res;
+    }
+
+    @Override
+    public long getCountByCraftStatus(long[] craftIds, long[] statusIds) {
+        Connection conn = ConnectionPool.getConnection();
+        long res = QueryExecutioner.readNumber(conn, Query.RepairOrdersQuery.COUNT_BY_CRAFT_STATUS, craftIds, statusIds);
+        ConnectionPool.releaseConnection(conn);
+        return res;
+    }
+
+    @Override
+    public ArrayList<RepairOrder> getByUserStatus(long userId, long[] statusIds, int skip, int quantity) {
+        Connection conn = ConnectionPool.getConnection();
+        ArrayList<RepairOrder> res = QueryExecutioner.readList(RepairOrderFactory.ins, conn, Query.RepairOrdersQuery.SELECT_BY_USER_STATUS, userId, statusIds, skip, quantity);
+        ConnectionPool.releaseConnection(conn);
+        return res;
+    }
+
+    @Override
+    public long getCountByUserStatus(long userId, long[] statusIds) {
+        Connection conn = ConnectionPool.getConnection();
+        long res = QueryExecutioner.readNumber(conn, Query.RepairOrdersQuery.COUNT_BY_USER_STATUS, userId, statusIds);
+        ConnectionPool.releaseConnection(conn);
+        return res;
+    }
+
+    @Override
+    public ArrayList<RepairOrder> getByStatus(long[] statusIds, int skip, int quantity) {
+        Connection conn = ConnectionPool.getConnection();
+        ArrayList<RepairOrder> res = QueryExecutioner.readList(RepairOrderFactory.ins, conn, Query.RepairOrdersQuery.SELECT_BY_STATUS, statusIds, skip, quantity);
+        ConnectionPool.releaseConnection(conn);
+        return res;
+    }
+
+    @Override
+    public long getCountByStatus(long[] statusIds) {
+        Connection conn = ConnectionPool.getConnection();
+        long res = QueryExecutioner.readNumber(conn, Query.RepairOrdersQuery.COUNT_BY_STATUS, statusIds);
+        ConnectionPool.releaseConnection(conn);
+        return res;
+    }
+
 }

@@ -109,5 +109,38 @@ public class ModelManager {
     }
 
 
+    public ArrayList<RepairOrder> getByCraftUserStatus(long[] craftIds, long userId, long[] statusIds, int skip, int quantity) {
+        return DAO_FACTORY.getRepairOrderService().getByCraftUserStatus(craftIds, userId, statusIds, skip, quantity);
 
+    }
+
+    public long getCountByCraftUserStatus(long[] craftIds, long userId, long[] statusIds) {
+        return DAO_FACTORY.getRepairOrderService().getCountByCraftUserStatus(craftIds, userId, statusIds);
+
+    }
+
+    public ArrayList<RepairOrder> getByCraftStatus(long[] craftIds, long[] statusIds, int skip, int quantity) {
+        return DAO_FACTORY.getRepairOrderService().getByCraftStatus(craftIds, statusIds, skip, quantity);
+
+    }
+
+    public long getCountByCraftStatus(long[] craftIds, long[] statusIds) {
+        return DAO_FACTORY.getRepairOrderService().getCountByCraftStatus(craftIds, statusIds);
+    }
+
+    public long getCountByUserStatus(long userId, long[] statusIds) {
+        return DAO_FACTORY.getRepairOrderService().getCountByUserStatus(userId, statusIds);
+    }
+
+    public ArrayList<RepairOrder> getByUserStatus(long userId, long[] statusIds, int skip, int quantity) {
+        return DAO_FACTORY.getRepairOrderService().getByUserStatus(userId, statusIds, skip, quantity);
+    }
+
+    public long getCountByStatus(long[] statusIds) {
+        return DAO_FACTORY.getRepairOrderService().getCountByStatus(statusIds);
+    }
+
+    public ArrayList<RepairOrder> getByStatus(long[] statusIds, int skip, int quantity) {
+        return DAO_FACTORY.getRepairOrderService().getByStatus(statusIds, skip, quantity);
+    }
 }

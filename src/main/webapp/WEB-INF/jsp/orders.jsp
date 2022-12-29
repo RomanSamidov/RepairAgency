@@ -4,8 +4,6 @@
 <html>
 <c:import url="/WEB-INF/template/_head.jsp"/>
 <body>
-<fmt:setLocale value="${language}"/>
-<fmt:setBundle basename="LocalStrings"/>
 <c:import url="/WEB-INF/template/menu/_menu.jsp"/>
 <div class="text-center" >
 
@@ -31,9 +29,36 @@
     </c:choose>
 
 
+
+    <form name="pages" method="POST" action="">
+        <input type="hidden" name="command" value="orders" />
+            <c:choose>
+                    <c:when test="${userRole!='Craftsman'}">
+                        <label for="craftsmanIdOrders">Craftsmen:</label>
+                        <select name="craftsmanIdOrders" size="2" multiple>
+                            <option value="0">All</option>
+                            <c:forEach var="craftsman" items="${craftsmen}">
+                               <option value="${craftsman.id}">${craftsman.id} ${craftsman.login}</option>
+                            </c:forEach>
+                        </select>
+                    </c:when>
+            </c:choose>
+
+                    <label for="statusOrders">Statuses:</label>
+                    <select name="statusOrders" size="2" multiple>
+                        <option value="0">All</option>
+                        <c:forEach var="orStatus" items="${orderStatuses}">
+                            <option value="${orStatus.ordinal}">${craftsman.id} ${orStatus.toString}</option>
+                        </c:forEach>
+                    </select>
+
+        <input type="submit" value="select"/>
+    </form>
+
+
         <form name="pages" method="POST" action="">
             <input type="hidden" name="command" value="orders" />
-             <input type="text" name="quantityOrders" value="5"/>
+             <input type="number" name="quantityOrders" value="${nowQuantityOrders}"/>
             <input type="submit" value="<fmt:message key="text.show_on_one_page"/>"/>
             </form>
         <table class="table table-striped table-bordered table-sm table-th">
@@ -64,11 +89,9 @@
                 <td><c:out value="${ order.feedback_date }" /></td>
                 <td><c:out value="${ order.feedback_text }" /></td>
                 <td><c:out value="${ order.feedback_mark }" /></td>
-                <td> <form method="POST" action="">
-                                        <input type="hidden" name="command" value="order" />
-                                        <input type="hidden" name="goalIdOrder" value="${ order.id }" />
-                                        <input type="submit" value="ch"/>
-                </form></td>
+                <td>
+                 <a href="/RepairAgency/controller/order?id=${order.id}" class = "btn px-2  ">ch</a>
+                </td>
                 </tr>
             </c:forEach>
         </table>
@@ -81,7 +104,7 @@
                 <form method="POST" action="">
                     <input type="hidden" name="command" value="orders" />
                     <input type="hidden" name="skipOrders" value="${ page }" />
-                    <input type="submit" value="${ status.count }"/>
+                    <input type="submit" value="${ status.count }" ${nowPageOrders+1==status.count?"disabled=\"disabled\"":""}/>
                 </form>
 
             </c:forEach>

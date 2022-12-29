@@ -17,9 +17,9 @@ CREATE TABLE roles (
 
 CREATE TABLE users (
 	id SERIAL PRIMARY KEY,
-	login VARCHAR(30) UNIQUE,
-	password VARCHAR(63),
-	email VARCHAR(30),
+	login VARCHAR(30) NOT NULL UNIQUE,
+	password VARCHAR(63) NOT NULL,
+	email VARCHAR(30) NOT NULL,
 	allow_letters BOOL DEFAULT(true),
 	confirmed BOOL DEFAULT(false),
 	role_id INT NOT NULL REFERENCES roles(id) on delete cascade,
@@ -33,13 +33,13 @@ CREATE TABLE orders_statuses (
 
 CREATE TABLE repair_orders (
 	id SERIAL PRIMARY KEY,
-	user_id INT REFERENCES users(id) on delete cascade,
+	user_id INT NOT NULL REFERENCES users(id) on delete cascade,
 	craftsman_id INT REFERENCES users(id) on delete CASCADE,
 	creation_date TIMESTAMPTZ NOT NULL,
 	text VARCHAR(255),
 	price INT,
 	finish_date TIMESTAMPTZ,
-	status_id INT REFERENCES orders_statuses(id) on delete cascade,
+	status_id INT NOT NULL REFERENCES orders_statuses(id) on delete cascade,
 	feedback_date TIMESTAMPTZ,
 	feedback_text VARCHAR(255),
 	feedback_mark INT
