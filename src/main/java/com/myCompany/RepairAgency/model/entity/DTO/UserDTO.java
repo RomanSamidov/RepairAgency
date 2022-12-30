@@ -17,7 +17,7 @@ public class UserDTO extends Entity {
     }
 
     public UserDTO setLogin(String login) {
-        this.login=login;
+        this.login = login;
         return this;
     }
 
@@ -44,7 +44,7 @@ public class UserDTO extends Entity {
     }
 
     public UserDTO setAccount(int account) {
-        this.account=account;
+        this.account = account;
         return this;
     }
 
@@ -58,13 +58,13 @@ public class UserDTO extends Entity {
         private UserDTO onConstructUserDTO;
 
         public UserBuilder() {
-            this.onConstructUserDTO =new UserDTO();
+            this.onConstructUserDTO = new UserDTO();
         }
 
         public UserDTO build() {
             if (isReady()) {
-                UserDTO ready= onConstructUserDTO;
-                this.onConstructUserDTO =new UserDTO();
+                UserDTO ready = onConstructUserDTO;
+                this.onConstructUserDTO = new UserDTO();
                 return ready;
             } else {
                 throw new IllegalArgumentException("UserDTO not ready");
@@ -74,7 +74,7 @@ public class UserDTO extends Entity {
 
         public boolean isReady() {
             return onConstructUserDTO.login != null && !onConstructUserDTO.login.isBlank()
-                    &&  onConstructUserDTO.role != null && !onConstructUserDTO.role.isBlank();
+                    && onConstructUserDTO.role != null && !onConstructUserDTO.role.isBlank();
         }
 
         public long getId() {
@@ -82,7 +82,7 @@ public class UserDTO extends Entity {
         }
 
         public UserBuilder setId(long id) {
-            this.onConstructUserDTO.id=id;
+            this.onConstructUserDTO.id = id;
             return this;
         }
 
@@ -91,7 +91,7 @@ public class UserDTO extends Entity {
         }
 
         public UserBuilder setLogin(String login) {
-            this.onConstructUserDTO.login=login;
+            this.onConstructUserDTO.login = login;
             return this;
         }
 
@@ -109,7 +109,7 @@ public class UserDTO extends Entity {
         }
 
         public UserBuilder setRole(String role_id) {
-            this.onConstructUserDTO.role =role_id;
+            this.onConstructUserDTO.role = role_id;
             return this;
         }
 
@@ -118,7 +118,7 @@ public class UserDTO extends Entity {
         }
 
         public UserBuilder setAccount(int account) {
-            this.onConstructUserDTO.account=account;
+            this.onConstructUserDTO.account = account;
             return this;
         }
 

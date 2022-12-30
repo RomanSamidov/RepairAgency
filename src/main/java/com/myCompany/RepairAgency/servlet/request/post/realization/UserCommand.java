@@ -18,9 +18,9 @@ public class UserCommand implements IActionCommand, IHasRoleRequirement {
     @Override
     public Path execute(HttpServletRequest request) {
         ForChangeEntity.updateGoalId("User", request);
-        if(request.getParameter("addToAccount") != null) {
+        if (request.getParameter("addToAccount") != null) {
             int increment = Integer.parseInt(request.getParameter("addToAccount"));
-            ModelManager.ins.incrementUserAccount(ForChangeEntity.initGoalId("User", request), increment);
+            ModelManager.ins.getUserRepository().addToAccount(ForChangeEntity.initGoalId("User", request), increment);
         }
         Path path = PathFactory.getPath("path.page.redirect.user");
         path.addParameter("id", request.getParameter("goalIdUser"));

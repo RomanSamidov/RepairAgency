@@ -2,14 +2,14 @@ package com.myCompany.RepairAgency.model.entity;
 
 import java.time.LocalDateTime;
 
-public class RepairOrder  extends Entity {
+public class RepairOrder extends Entity {
     private long user_id;
     private long craftsman_id;
     private LocalDateTime creation_date;
     private String text;
-    private int price=-10;
+    private int price = -10;
     private LocalDateTime finish_date;
-    private long status_id=1;
+    private long status_id = 1;
     private LocalDateTime feedback_date;
 
     private String feedback_text;
@@ -50,7 +50,7 @@ public class RepairOrder  extends Entity {
     }
 
     public RepairOrder setUser_id(long user_id) {
-        this.user_id=user_id;
+        this.user_id = user_id;
         return this;
     }
 
@@ -59,7 +59,7 @@ public class RepairOrder  extends Entity {
     }
 
     public RepairOrder setCraftsman_id(long craftsman_id) {
-        this.craftsman_id=craftsman_id;
+        this.craftsman_id = craftsman_id;
         return this;
     }
 
@@ -68,7 +68,7 @@ public class RepairOrder  extends Entity {
     }
 
     public RepairOrder setText(String text) {
-        this.text=text;
+        this.text = text;
         return this;
     }
 
@@ -77,7 +77,7 @@ public class RepairOrder  extends Entity {
     }
 
     public RepairOrder setPrice(int price) {
-        this.price=price;
+        this.price = price;
         return this;
     }
 
@@ -86,7 +86,7 @@ public class RepairOrder  extends Entity {
     }
 
     public RepairOrder setStatus_id(long status_id) {
-        this.status_id=status_id;
+        this.status_id = status_id;
         return this;
     }
 
@@ -95,7 +95,7 @@ public class RepairOrder  extends Entity {
     }
 
     public RepairOrder setFeedback_text(String feedback_text) {
-        this.feedback_text=feedback_text;
+        this.feedback_text = feedback_text;
         return this;
     }
 
@@ -104,7 +104,7 @@ public class RepairOrder  extends Entity {
     }
 
     public RepairOrder setFeedback_mark(int feedback_mark) {
-        this.feedback_mark=feedback_mark;
+        this.feedback_mark = feedback_mark;
         return this;
     }
 
@@ -118,13 +118,13 @@ public class RepairOrder  extends Entity {
         private RepairOrder onConstructRepairOrder;
 
         public RepairOrderBuilder() {
-            this.onConstructRepairOrder=new RepairOrder();
+            this.onConstructRepairOrder = new RepairOrder();
         }
 
         public RepairOrder build() {
             if (isReady()) {
-                RepairOrder ready=onConstructRepairOrder;
-                this.onConstructRepairOrder=new RepairOrder();
+                RepairOrder ready = onConstructRepairOrder;
+                this.onConstructRepairOrder = new RepairOrder();
                 return ready;
             } else {
                 throw new IllegalArgumentException("Role not ready");
@@ -141,7 +141,7 @@ public class RepairOrder  extends Entity {
 
 
         public RepairOrderBuilder setId(long id) {
-            this.onConstructRepairOrder.id=id;
+            this.onConstructRepairOrder.id = id;
             return this;
         }
 
@@ -150,7 +150,7 @@ public class RepairOrder  extends Entity {
         }
 
         public RepairOrderBuilder setUser_id(long user_id) {
-            this.onConstructRepairOrder.user_id=user_id;
+            this.onConstructRepairOrder.user_id = user_id;
             return this;
         }
 
@@ -159,7 +159,7 @@ public class RepairOrder  extends Entity {
         }
 
         public RepairOrderBuilder setCraftsman_id(long craftsman_id) {
-            this.onConstructRepairOrder.craftsman_id=craftsman_id;
+            this.onConstructRepairOrder.craftsman_id = craftsman_id;
             return this;
         }
 
@@ -168,7 +168,7 @@ public class RepairOrder  extends Entity {
         }
 
         public RepairOrderBuilder setText(String text) {
-            this.onConstructRepairOrder.text=text;
+            this.onConstructRepairOrder.text = text;
             return this;
         }
 
@@ -177,7 +177,7 @@ public class RepairOrder  extends Entity {
         }
 
         public RepairOrderBuilder setPrice(int price) {
-            this.onConstructRepairOrder.price=price;
+            this.onConstructRepairOrder.price = price;
             return this;
         }
 
@@ -186,7 +186,7 @@ public class RepairOrder  extends Entity {
         }
 
         public RepairOrderBuilder setStatus_id(int status_id) {
-            this.onConstructRepairOrder.status_id=status_id;
+            this.onConstructRepairOrder.status_id = status_id;
             return this;
         }
 
@@ -195,7 +195,7 @@ public class RepairOrder  extends Entity {
         }
 
         public RepairOrderBuilder setFeedback_text(String feedback_text) {
-            this.onConstructRepairOrder.feedback_text=feedback_text;
+            this.onConstructRepairOrder.feedback_text = feedback_text;
             return this;
         }
 
@@ -204,9 +204,10 @@ public class RepairOrder  extends Entity {
         }
 
         public RepairOrderBuilder setFeedback_mark(int feedback_mark) {
-            this.onConstructRepairOrder.feedback_mark=feedback_mark;
+            this.onConstructRepairOrder.feedback_mark = feedback_mark;
             return this;
         }
+
         public LocalDateTime getCreation_date() {
             return onConstructRepairOrder.creation_date;
         }

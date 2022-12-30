@@ -20,34 +20,34 @@ public class OrderCommand implements IActionCommand, IHasRoleRequirement {
     public Path execute(HttpServletRequest request) {
         ForChangeEntity.updateGoalId("Order", request);
 
-        RepairOrder order = ModelManager.ins.getRepairOrder((Long) request.getSession().getAttribute("goalIdOrder"));
+        RepairOrder order = ModelManager.ins.getRepairOrderRepository().getById((Long) request.getSession().getAttribute("goalIdOrder"));
 
         String goalOrderCraftsman_id = request.getParameter("goalOrderCraftsman_id");
-        if(goalOrderCraftsman_id != null && !goalOrderCraftsman_id.isBlank()) {
+        if (goalOrderCraftsman_id != null && !goalOrderCraftsman_id.isBlank()) {
             order.setCraftsman_id(Integer.parseInt(goalOrderCraftsman_id));
         }
 
         String goalOrderFeedback_text = request.getParameter("goalOrderFeedback_text");
-        if(goalOrderFeedback_text != null && !goalOrderFeedback_text.isBlank()) {
+        if (goalOrderFeedback_text != null && !goalOrderFeedback_text.isBlank()) {
             order.setFeedback_text(goalOrderFeedback_text);
         }
 
         String goalOrderFeedback_mark = request.getParameter("goalOrderFeedback_mark");
-        if(goalOrderFeedback_mark != null && !goalOrderFeedback_mark.isBlank()) {
+        if (goalOrderFeedback_mark != null && !goalOrderFeedback_mark.isBlank()) {
             order.setFeedback_mark(Integer.parseInt(goalOrderFeedback_mark));
         }
 
         String goalOrderPrice = request.getParameter("goalOrderPrice");
-        if(goalOrderPrice != null && !goalOrderPrice.isBlank()) {
+        if (goalOrderPrice != null && !goalOrderPrice.isBlank()) {
             order.setPrice(Integer.parseInt(goalOrderPrice));
         }
 
         String goalOrderStatus = request.getParameter("goalOrderStatus");
-        if(goalOrderStatus != null && !goalOrderStatus.isBlank()) {
+        if (goalOrderStatus != null && !goalOrderStatus.isBlank()) {
             order.setStatus_id(Integer.parseInt(goalOrderStatus));
         }
 
-        ModelManager.ins.updateRepairOrder(order);
+        ModelManager.ins.getRepairOrderRepository().update(order);
 
         Path path = PathFactory.getPath("path.page.redirect.order");
         path.addParameter("id", request.getParameter("goalIdOrder"));

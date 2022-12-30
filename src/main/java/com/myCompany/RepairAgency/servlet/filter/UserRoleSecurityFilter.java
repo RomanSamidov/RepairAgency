@@ -4,8 +4,8 @@ package com.myCompany.RepairAgency.servlet.filter;
 import com.myCompany.RepairAgency.Constants;
 import com.myCompany.RepairAgency.servlet.PathFactory;
 import com.myCompany.RepairAgency.servlet.request.IActionCommand;
-import com.myCompany.RepairAgency.servlet.request.get.GetCommandFactory;
 import com.myCompany.RepairAgency.servlet.request.IHasRoleRequirement;
+import com.myCompany.RepairAgency.servlet.request.get.GetCommandFactory;
 import com.myCompany.RepairAgency.servlet.request.post.PostCommandFactory;
 import jakarta.servlet.*;
 import jakarta.servlet.annotation.WebFilter;
@@ -19,7 +19,7 @@ import java.io.IOException;
 
 //@WebFilter(urlPatterns = { "/controller/*" },
 //           servletNames = { "Controller" })
- @WebFilter(urlPatterns = { "/*" })
+@WebFilter(urlPatterns = {"/*"})
 public class UserRoleSecurityFilter implements Filter {
     private static final Logger logger = LogManager.getLogger(UserRoleSecurityFilter.class);
 
@@ -33,8 +33,8 @@ public class UserRoleSecurityFilter implements Filter {
 
         Constants.ROLE userRole = (Constants.ROLE) session.getAttribute("userRole");
         String requestURI = req.getRequestURI();
-        logger.debug("[UserRoleSecurityFilter] RequestURI = "+ req.getRequestURI());
-        if(userRole == null ) {
+        logger.debug("[UserRoleSecurityFilter] RequestURI = " + req.getRequestURI());
+        if (userRole == null) {
             session.setAttribute("userRole", Constants.ROLE.Guest);
             userRole = (Constants.ROLE) session.getAttribute("userRole");
         }
@@ -42,22 +42,20 @@ public class UserRoleSecurityFilter implements Filter {
         logger.debug("[UserRoleSecurityFilter] userRole = " + userRole.name());
 
 
-
-        if(!requestURI.startsWith("/RepairAgency/controller/")) {
-            redirect(req,resp);
+        if (!requestURI.startsWith("/RepairAgency/controller/")) {
+            redirect(req, resp);
             return;
         }
 
         boolean allowed = true;
         String method = req.getMethod();
-        if(method.equals("GET"))
-        {
+        if (method.equals("GET")) {
             allowed = filterForGET(userRole, req, resp);
         } else if (method.equals("POST")) {
-            allowed =  filterForPOST(userRole, req, resp);
+            allowed = filterForPOST(userRole, req, resp);
         }
 
-        if(allowed) {
+        if (allowed) {
             logger.debug("[UserRoleSecurityFilter] pass");
             chain.doFilter(request, response);
         }
@@ -68,6 +66,7 @@ public class UserRoleSecurityFilter implements Filter {
         IActionCommand command = PostCommandFactory.inst.defineCommand(request);
         return checkAlloverRoles(command, userRole, request, response);
     }
+
     private boolean filterForGET(Constants.ROLE userRole, HttpServletRequest request, HttpServletResponse response)
             throws IOException {
         IActionCommand command = GetCommandFactory.inst.defineCommand(request);
@@ -77,8 +76,8 @@ public class UserRoleSecurityFilter implements Filter {
     private boolean checkAlloverRoles(IActionCommand command, Constants.ROLE userRole,
                                       HttpServletRequest request, HttpServletResponse response)
             throws IOException {
-        if(command instanceof IHasRoleRequirement) {
-            if (!((IHasRoleRequirement)command).allowedUserRoles().contains(userRole)) {
+        if (command instanceof IHasRoleRequirement) {
+            if (!((IHasRoleRequirement) command).allowedUserRoles().contains(userRole)) {
                 redirect(request, response);
                 return false;
             }

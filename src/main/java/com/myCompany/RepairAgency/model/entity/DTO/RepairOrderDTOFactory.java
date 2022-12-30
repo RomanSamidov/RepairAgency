@@ -23,7 +23,7 @@ public class RepairOrderDTOFactory {
                 .build();
     }
 
-    public static ArrayList<RepairOrderDTO> getRepairOrders(ArrayList <RepairOrder> orders) {
+    public static ArrayList<RepairOrderDTO> getRepairOrders(ArrayList<RepairOrder> orders) {
         ArrayList<RepairOrderDTO> answer = new ArrayList<>();
         orders.forEach(o -> answer.add(getRepairOrder(o)));
         return answer;

@@ -11,6 +11,7 @@ public class Path {
         this.isRedirect = redirect;
         this.path = path;
     }
+
     public Path(String path) {
         this.isRedirect = false;
         this.path = path;
@@ -18,7 +19,7 @@ public class Path {
 
     @Override
     public String toString() {
-        if(parameters.isEmpty()) return path;
+        if (parameters.isEmpty()) return path;
 
         StringBuilder builder = new StringBuilder(path);
         builder.append("?");

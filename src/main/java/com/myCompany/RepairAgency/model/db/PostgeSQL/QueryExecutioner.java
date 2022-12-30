@@ -7,11 +7,11 @@ import com.myCompany.RepairAgency.model.entity.Entity;
 import java.sql.*;
 import java.util.ArrayList;
 
-public class QueryExecutioner{
+public class QueryExecutioner {
 
     public static void executeUpdate(Connection conn, String query, Object... args) {
         try (PreparedStatement st = conn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
-            if(args != null) setArgsForPreparedStatement(st, args);
+            if (args != null) setArgsForPreparedStatement(st, args);
             st.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -20,9 +20,9 @@ public class QueryExecutioner{
 
     public static long readNumber(Connection conn, String query, Object... args) {
         try (PreparedStatement st = conn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
-            if(args != null) setArgsForPreparedStatement(st, args);
+            if (args != null) setArgsForPreparedStatement(st, args);
             ResultSet rs = st.executeQuery();
-            if(rs.next()) {
+            if (rs.next()) {
                 return rs.getLong(Fields.RESULT);
             }
         } catch (SQLException e) {
@@ -39,7 +39,7 @@ public class QueryExecutioner{
         }
     }
 
-    public static<E extends Entity, F extends abstractEntityFactory<E>>
+    public static <E extends Entity, F extends abstractEntityFactory<E>>
     E readEntity(F factory, Connection conn, final String query, Object... args) {
         E answer = null;
         try (PreparedStatement statement = conn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
@@ -53,7 +53,7 @@ public class QueryExecutioner{
         return answer;
     }
 
-    public static<E extends Entity, F extends abstractEntityFactory<E>>
+    public static <E extends Entity, F extends abstractEntityFactory<E>>
     ArrayList<E> readList(F factory, Connection conn, final String query, Object... args) {
         ArrayList<E> answer = new ArrayList<>();
         try (PreparedStatement statement = conn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {

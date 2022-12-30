@@ -52,6 +52,13 @@
                         </c:forEach>
                     </select>
 
+                    <label for="sortTypeOrders">Sort by:</label>
+                    <select name="sortTypeOrders">
+                        <c:forEach var="sortType" items="${sortTypesOrders}">
+                            <option value="${sortType.toString}"  ${sortType.toString==sortTypeOrders?"selected=\"selected\"":""} >${sortType.toString}</option>
+                        </c:forEach>
+                    </select>
+
         <input type="submit" value="select"/>
     </form>
 

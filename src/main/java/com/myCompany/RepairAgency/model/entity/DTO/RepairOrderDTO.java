@@ -9,7 +9,7 @@ public class RepairOrderDTO extends Entity {
     private long craftsman_id;
     private LocalDateTime creation_date;
     private String text;
-    private int price=-10;
+    private int price = -10;
     private LocalDateTime finish_date;
 
     private String status;
@@ -53,7 +53,7 @@ public class RepairOrderDTO extends Entity {
     }
 
     public RepairOrderDTO setUser_id(long user_id) {
-        this.user_id=user_id;
+        this.user_id = user_id;
         return this;
     }
 
@@ -62,7 +62,7 @@ public class RepairOrderDTO extends Entity {
     }
 
     public RepairOrderDTO setCraftsman_id(long craftsman_id) {
-        this.craftsman_id=craftsman_id;
+        this.craftsman_id = craftsman_id;
         return this;
     }
 
@@ -71,7 +71,7 @@ public class RepairOrderDTO extends Entity {
     }
 
     public RepairOrderDTO setText(String text) {
-        this.text=text;
+        this.text = text;
         return this;
     }
 
@@ -80,7 +80,7 @@ public class RepairOrderDTO extends Entity {
     }
 
     public RepairOrderDTO setPrice(int price) {
-        this.price=price;
+        this.price = price;
         return this;
     }
 
@@ -98,7 +98,7 @@ public class RepairOrderDTO extends Entity {
     }
 
     public RepairOrderDTO setFeedback_text(String feedback_text) {
-        this.feedback_text=feedback_text;
+        this.feedback_text = feedback_text;
         return this;
     }
 
@@ -107,7 +107,7 @@ public class RepairOrderDTO extends Entity {
     }
 
     public RepairOrderDTO setFeedback_mark(int feedback_mark) {
-        this.feedback_mark=feedback_mark;
+        this.feedback_mark = feedback_mark;
         return this;
     }
 
@@ -121,13 +121,13 @@ public class RepairOrderDTO extends Entity {
         private RepairOrderDTO onConstructRepairOrderDTO;
 
         public RepairOrderBuilder() {
-            this.onConstructRepairOrderDTO =new RepairOrderDTO();
+            this.onConstructRepairOrderDTO = new RepairOrderDTO();
         }
 
         public RepairOrderDTO build() {
             if (isReady()) {
-                RepairOrderDTO ready= onConstructRepairOrderDTO;
-                this.onConstructRepairOrderDTO =new RepairOrderDTO();
+                RepairOrderDTO ready = onConstructRepairOrderDTO;
+                this.onConstructRepairOrderDTO = new RepairOrderDTO();
                 return ready;
             } else {
                 throw new IllegalArgumentException("RepairOrderDTO not ready");
@@ -144,7 +144,7 @@ public class RepairOrderDTO extends Entity {
 
 
         public RepairOrderBuilder setId(long id) {
-            this.onConstructRepairOrderDTO.id=id;
+            this.onConstructRepairOrderDTO.id = id;
             return this;
         }
 
@@ -153,7 +153,7 @@ public class RepairOrderDTO extends Entity {
         }
 
         public RepairOrderBuilder setUser_id(long user_id) {
-            this.onConstructRepairOrderDTO.user_id=user_id;
+            this.onConstructRepairOrderDTO.user_id = user_id;
             return this;
         }
 
@@ -162,7 +162,7 @@ public class RepairOrderDTO extends Entity {
         }
 
         public RepairOrderBuilder setCraftsman_id(long craftsman_id) {
-            this.onConstructRepairOrderDTO.craftsman_id=craftsman_id;
+            this.onConstructRepairOrderDTO.craftsman_id = craftsman_id;
             return this;
         }
 
@@ -171,7 +171,7 @@ public class RepairOrderDTO extends Entity {
         }
 
         public RepairOrderBuilder setText(String text) {
-            this.onConstructRepairOrderDTO.text=text;
+            this.onConstructRepairOrderDTO.text = text;
             return this;
         }
 
@@ -180,7 +180,7 @@ public class RepairOrderDTO extends Entity {
         }
 
         public RepairOrderBuilder setPrice(int price) {
-            this.onConstructRepairOrderDTO.price=price;
+            this.onConstructRepairOrderDTO.price = price;
             return this;
         }
 
@@ -189,7 +189,7 @@ public class RepairOrderDTO extends Entity {
         }
 
         public RepairOrderBuilder setStatus(String status_id) {
-            this.onConstructRepairOrderDTO.status =status_id;
+            this.onConstructRepairOrderDTO.status = status_id;
             return this;
         }
 
@@ -198,7 +198,7 @@ public class RepairOrderDTO extends Entity {
         }
 
         public RepairOrderBuilder setFeedback_text(String feedback_text) {
-            this.onConstructRepairOrderDTO.feedback_text=feedback_text;
+            this.onConstructRepairOrderDTO.feedback_text = feedback_text;
             return this;
         }
 
@@ -207,7 +207,7 @@ public class RepairOrderDTO extends Entity {
         }
 
         public RepairOrderBuilder setFeedback_mark(int feedback_mark) {
-            this.onConstructRepairOrderDTO.feedback_mark=feedback_mark;
+            this.onConstructRepairOrderDTO.feedback_mark = feedback_mark;
             return this;
         }
 

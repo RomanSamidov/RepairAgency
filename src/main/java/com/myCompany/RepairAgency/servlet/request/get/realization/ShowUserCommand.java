@@ -20,8 +20,10 @@ public class ShowUserCommand implements IActionCommand, IHasRoleRequirement {
         request.setAttribute("title", "title.user");
 //        long userId = ForChangeEntity.initGoalId("User", request);
         long userId = Long.parseLong(request.getParameter("id"));
-        if(userId == 0) {userId = (long) request.getSession().getAttribute("userId");}
-        request.setAttribute("goalUser", UserDTOFactory.getUser(ModelManager.ins.getUser(userId)));
+        if (userId == 0) {
+            userId = (long) request.getSession().getAttribute("userId");
+        }
+        request.setAttribute("goalUser", UserDTOFactory.getUser(ModelManager.ins.getUserRepository().getById(userId)));
         return page;
     }
 

@@ -15,13 +15,13 @@ import java.util.stream.Stream;
 
 public class UserRepository implements iUserRepository {
     public static Object[] extractFields(User user, Object... args) {
-        Object[] arr1 = new Object[]{ user.getLogin(),
-                             user.getPassword(),
-                             user.getEmail(),
-                             user.isAllow_letters(),
-                             user.isConfirmed(),
-                             user.getRole_id(),
-                             user.getAccount()};
+        Object[] arr1 = new Object[]{user.getLogin(),
+                user.getPassword(),
+                user.getEmail(),
+                user.isAllow_letters(),
+                user.isConfirmed(),
+                user.getRole_id(),
+                user.getAccount()};
 
         return Stream.concat(Arrays.stream(arr1), Arrays.stream(args)).toArray();
     }
@@ -68,13 +68,13 @@ public class UserRepository implements iUserRepository {
     @Override
     public ArrayList<User> getByRole(long roleId, int skip, int quantity) {
         Connection conn = ConnectionPool.getConnection();
-        ArrayList<User> res = QueryExecutioner.readList(UserFactory.ins, conn, Query.UsersQuery.SELECT_ALL_BY_ROLE, roleId,skip,quantity);
+        ArrayList<User> res = QueryExecutioner.readList(UserFactory.ins, conn, Query.UsersQuery.SELECT_ALL_BY_ROLE, roleId, skip, quantity);
         ConnectionPool.releaseConnection(conn);
         return res;
     }
 
     @Override
-    public long getCountWhereRoleIs(long roleId) {
+    public long countWhereRoleIs(long roleId) {
         Connection conn = ConnectionPool.getConnection();
         long res = QueryExecutioner.readNumber(conn, Query.UsersQuery.COUNT_BY_ROLE, roleId);
         ConnectionPool.releaseConnection(conn);
@@ -90,12 +90,12 @@ public class UserRepository implements iUserRepository {
     }
 
     @Override
-    public void incrementUserAccount(long userId, int increment) {
+    public void addToAccount(long userId, int increment) {
         Connection conn = ConnectionPool.getConnection();
         User user = QueryExecutioner.readEntity(UserFactory.ins, conn, Query.UsersQuery.SELECT_BY_ID, userId);
-        user.setAccount(user.getAccount()+increment);
+        user.setAccount(user.getAccount() + increment);
         QueryExecutioner.executeUpdate(conn, Query.UsersQuery.UPDATE,
-        UserRepository.extractFields(user, user.getId()));
+                UserRepository.extractFields(user, user.getId()));
         ConnectionPool.releaseConnection(conn);
     }
 

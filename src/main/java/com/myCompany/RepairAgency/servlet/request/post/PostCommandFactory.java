@@ -11,11 +11,11 @@ import org.apache.logging.log4j.Logger;
 
 public class PostCommandFactory extends abstractCommandFactory {
 
+    public static final PostCommandFactory inst = new PostCommandFactory();
     private static final Logger logger = LogManager.getLogger(PostCommandFactory.class);
 
-    public static final PostCommandFactory inst = new PostCommandFactory();
-
-    private PostCommandFactory() {}
+    private PostCommandFactory() {
+    }
 
     public IActionCommand defineCommand(HttpServletRequest request) {
         IActionCommand current = new EmptyCommand();
@@ -23,7 +23,7 @@ public class PostCommandFactory extends abstractCommandFactory {
         String command = request.getParameter("command");
         logger.debug("[PostCommandFactory] " + command);
         if (command == null || command.isEmpty()) {
-             return current;
+            return current;
         }
 
         try {

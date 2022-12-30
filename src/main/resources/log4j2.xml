@@ -18,23 +18,23 @@
 
 
     <Loggers>
-<!--        <Root level="DEBUG">-->
-<!--            <AppenderRef ref="console"/>-->
-<!--        </Root>-->
+        <!--        <Root level="DEBUG">-->
+        <!--            <AppenderRef ref="console"/>-->
+        <!--        </Root>-->
         <AsyncRoot level="DEBUG">-->
-            <AppenderRef ref="console" />
+            <AppenderRef ref="console"/>
         </AsyncRoot>
     </Loggers>
 
-<!--    <Root level="INFO">-->
-<!--    <Root level="DEBUG">-->
-<!--    <AppenderRef ref="file"/>-->
-<!--    </Root>-->
+    <!--    <Root level="INFO">-->
+    <!--    <Root level="DEBUG">-->
+    <!--    <AppenderRef ref="file"/>-->
+    <!--    </Root>-->
 
 
-<!--    <AsyncRoot level="DEBUG">-->
-<!--        <AppenderRef ref="console" />-->
-<!--&lt;!&ndash;        <AppenderRef ref="file"/>&ndash;&gt;-->
-<!--    </AsyncRoot>-->
+    <!--    <AsyncRoot level="DEBUG">-->
+    <!--        <AppenderRef ref="console" />-->
+    <!--&lt;!&ndash;        <AppenderRef ref="file"/>&ndash;&gt;-->
+    <!--    </AsyncRoot>-->
 
 </Configuration>

@@ -1,12 +1,5 @@
 package com.myCompany.RepairAgency.servlet.util;
 
-import java.io.BufferedReader;
-import java.io.DataOutputStream;
-import java.io.InputStreamReader;
-import java.io.StringReader;
-import java.net.URL;
-
-
 import jakarta.json.Json;
 import jakarta.json.JsonObject;
 import jakarta.json.JsonReader;
@@ -14,16 +7,19 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import javax.net.ssl.HttpsURLConnection;
+import java.io.BufferedReader;
+import java.io.DataOutputStream;
+import java.io.InputStreamReader;
+import java.io.StringReader;
+import java.net.URL;
 
 public class VerifyRecaptcha {
-    private static final Logger logger = LogManager.getLogger(VerifyRecaptcha.class);
-
-
     public static final String url = "https://www.google.com/recaptcha/api/siteverify";
     public static final String secret = "6LfD3asjAAAAAIHPtFURYs0ROyRXLi0FDbCjUQYq";
+    private static final Logger logger = LogManager.getLogger(VerifyRecaptcha.class);
     private final static String USER_AGENT = "Mozilla/5.0";
 
-    public static boolean verify(String gRecaptchaResponse){
+    public static boolean verify(String gRecaptchaResponse) {
 
         if (gRecaptchaResponse == null || gRecaptchaResponse.isBlank()) {
             logger.debug("[VerifyRecaptcha]  for test purpose, change true to false");
@@ -32,7 +28,7 @@ public class VerifyRecaptcha {
 
         }
 
-        try{
+        try {
             URL obj = new URL(url);
             HttpsURLConnection con = (HttpsURLConnection) obj.openConnection();
 
@@ -75,7 +71,7 @@ public class VerifyRecaptcha {
             jsonReader.close();
 
             return jsonObject.getBoolean("success");
-        }catch(Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             return false;
         }

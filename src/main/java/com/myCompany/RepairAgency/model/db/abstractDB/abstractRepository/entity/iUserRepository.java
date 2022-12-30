@@ -7,10 +7,11 @@ import java.util.ArrayList;
 
 public interface iUserRepository extends iRepositoryForChangeAble<User> {
     User getByLogin(String login);
+
     ArrayList<User> getByRole(long roleId, int skip, int quantity);
-    long getCountWhereRoleIs(long id);
 
+    long countWhereRoleIs(long id);
 
-    void incrementUserAccount(long userId, int increment);
+    void addToAccount(long userId, int increment);
 
 }

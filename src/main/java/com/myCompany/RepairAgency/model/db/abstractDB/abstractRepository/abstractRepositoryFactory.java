@@ -12,14 +12,13 @@ public abstract class abstractRepositoryFactory {
         throw new RuntimeException("Wrong DAOType for PSQLRepositoryFactory");
     }
 
+    public abstract iRepairOrderRepository getRepairOrderRepository();
+
+    public abstract iUserRepository getUserRepository();
+
     public enum DAOType {
         Postgresql
     }
-
-    public abstract iRepairOrderRepository getRepairOrderService();
-
-    public abstract iUserRepository getUserService();
-
 
 
 }

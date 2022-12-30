@@ -9,20 +9,19 @@ import java.util.ArrayList;
 public abstract class abstractEntityFactory<T extends Entity> {
 
 
-
-    public ArrayList<T> getListOfResult(ResultSet rs){
+    public ArrayList<T> getListOfResult(ResultSet rs) {
         ArrayList<T> entities = new ArrayList<>();
         T entity = getResult(rs);
-        while (entity != null ) {
+        while (entity != null) {
             entities.add(entity);
             entity = getResult(rs);
         }
         return entities;
     }
 
-    public T getResult(ResultSet rs)  {
+    public T getResult(ResultSet rs) {
         try {
-            if(rs.next()) {
+            if (rs.next()) {
                 return readEntity(rs);
             } else return null;
         } catch (SQLException e) {

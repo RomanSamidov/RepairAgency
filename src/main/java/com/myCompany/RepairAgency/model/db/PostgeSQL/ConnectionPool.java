@@ -12,17 +12,21 @@ import java.util.stream.Stream;
 
 public class ConnectionPool {
 
-    private static final int INITIAL_POOL_SIZE=10;
+    private static final int INITIAL_POOL_SIZE = 10;
     private static final String URL = initializeUrl();
     private static final String USER = initializeUser();
     private static final String PASSWORD = initializePassword();
-    private static final ArrayList<Connection> connectionPool=initializePool();
-    private static final LinkedList<Connection> usedConnections=new LinkedList<>();
+    private static final ArrayList<Connection> connectionPool = initializePool();
+    private static final LinkedList<Connection> usedConnections = new LinkedList<>();
+
+    private ConnectionPool() {
+    }
 
     private static String initializeUrl() {
         ResourceBundle resourceBundle = ResourceBundle.getBundle(Constants.DB_SETTINGS_BUNDLE);
         return resourceBundle.getString(Constants.getConnectionUrl());
     }
+
     private static String initializePassword() {
         ResourceBundle resourceBundle = ResourceBundle.getBundle(Constants.DB_SETTINGS_BUNDLE);
         return resourceBundle.getString(Constants.PASSWORD);
@@ -33,14 +37,8 @@ public class ConnectionPool {
         return resourceBundle.getString(Constants.USER);
     }
 
-    private ConnectionPool() {
-    }
-
-
-
-
     private static ArrayList<Connection> initializePool() {
-        ArrayList<Connection> list=new ArrayList<>(INITIAL_POOL_SIZE);
+        ArrayList<Connection> list = new ArrayList<>(INITIAL_POOL_SIZE);
         try {
             DriverManager.registerDriver(new org.postgresql.Driver());
         } catch (SQLException e) {
@@ -52,7 +50,8 @@ public class ConnectionPool {
             } catch (SQLException e) {
                 throw new RuntimeException(e);
             }
-            list.add(c);});
+            list.add(c);
+        });
         return list;
     }
 
@@ -65,10 +64,10 @@ public class ConnectionPool {
     }
 
     public static Connection getConnection() {
-        Connection con=connectionPool.remove(connectionPool.size() - 1);
+        Connection con = connectionPool.remove(connectionPool.size() - 1);
         try {
             if (!con.isValid(1000))
-                con=createConnection();
+                con = createConnection();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }

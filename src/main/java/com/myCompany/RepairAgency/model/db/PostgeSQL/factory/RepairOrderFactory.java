@@ -8,8 +8,9 @@ import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
-public class RepairOrderFactory extends  abstractEntityFactory<RepairOrder> {
+public class RepairOrderFactory extends abstractEntityFactory<RepairOrder> {
     public final static RepairOrderFactory ins = new RepairOrderFactory();
+
     @Override
     protected RepairOrder readEntity(ResultSet rs) throws SQLException {
         return new RepairOrder.RepairOrderBuilder()
@@ -27,8 +28,8 @@ public class RepairOrderFactory extends  abstractEntityFactory<RepairOrder> {
                 .build();
     }
 
-    private LocalDateTime toLocalDateTime(Timestamp ts){
-        if(ts == null) return null;
+    private LocalDateTime toLocalDateTime(Timestamp ts) {
+        if (ts == null) return null;
         return ts.toLocalDateTime();
     }
 }

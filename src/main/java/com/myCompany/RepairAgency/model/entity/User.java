@@ -1,6 +1,6 @@
 package com.myCompany.RepairAgency.model.entity;
 
-public class User  extends Entity {
+public class User extends Entity {
 
     private String login;
     private String password;
@@ -18,7 +18,7 @@ public class User  extends Entity {
     }
 
     public User setLogin(String login) {
-        this.login=login;
+        this.login = login;
         return this;
     }
 
@@ -27,7 +27,7 @@ public class User  extends Entity {
     }
 
     public User setPassword(String password) {
-        this.password=password;
+        this.password = password;
         return this;
     }
 
@@ -36,7 +36,7 @@ public class User  extends Entity {
     }
 
     public User setRole_id(int role_id) {
-        this.role_id=role_id;
+        this.role_id = role_id;
         return this;
     }
 
@@ -45,7 +45,7 @@ public class User  extends Entity {
     }
 
     public User setAccount(int account) {
-        this.account=account;
+        this.account = account;
         return this;
     }
 
@@ -86,13 +86,13 @@ public class User  extends Entity {
         private User onConstructUser;
 
         public UserBuilder() {
-            this.onConstructUser=new User();
+            this.onConstructUser = new User();
         }
 
         public User build() {
             if (isReady()) {
-                User ready=onConstructUser;
-                this.onConstructUser=new User();
+                User ready = onConstructUser;
+                this.onConstructUser = new User();
                 return ready;
             } else {
                 throw new IllegalArgumentException("User not ready");
@@ -110,7 +110,7 @@ public class User  extends Entity {
         }
 
         public UserBuilder setId(int id) {
-            this.onConstructUser.id=id;
+            this.onConstructUser.id = id;
             return this;
         }
 
@@ -119,7 +119,7 @@ public class User  extends Entity {
         }
 
         public UserBuilder setLogin(String login) {
-            this.onConstructUser.login=login;
+            this.onConstructUser.login = login;
             return this;
         }
 
@@ -128,7 +128,7 @@ public class User  extends Entity {
         }
 
         public UserBuilder setPassword(String password) {
-            this.onConstructUser.password=password;
+            this.onConstructUser.password = password;
             return this;
         }
 
@@ -164,7 +164,7 @@ public class User  extends Entity {
         }
 
         public UserBuilder setRole_id(int role_id) {
-            this.onConstructUser.role_id=role_id;
+            this.onConstructUser.role_id = role_id;
             return this;
         }
 
@@ -173,7 +173,7 @@ public class User  extends Entity {
         }
 
         public UserBuilder setAccount(int account) {
-            this.onConstructUser.account=account;
+            this.onConstructUser.account = account;
             return this;
         }
 

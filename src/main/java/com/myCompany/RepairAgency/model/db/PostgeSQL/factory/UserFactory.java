@@ -6,12 +6,12 @@ import com.myCompany.RepairAgency.model.entity.User;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class UserFactory extends abstractEntityFactory<User>{
+public class UserFactory extends abstractEntityFactory<User> {
 
     public final static UserFactory ins = new UserFactory();
 
     @Override
-    protected User readEntity(ResultSet rs) throws SQLException{
+    protected User readEntity(ResultSet rs) throws SQLException {
         return new User.UserBuilder()
                 .setId(rs.getInt(Fields.ID))
                 .setLogin(rs.getString(Fields.LOGIN))

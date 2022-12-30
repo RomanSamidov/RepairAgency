@@ -1,6 +1,7 @@
 package com.myCompany.RepairAgency.servlet.request.post.realization;
 
 import com.myCompany.RepairAgency.Constants;
+import com.myCompany.RepairAgency.model.db.abstractDB.abstractRepository.entity.iRepairOrderRepository;
 import com.myCompany.RepairAgency.servlet.Path;
 import com.myCompany.RepairAgency.servlet.PathFactory;
 import com.myCompany.RepairAgency.servlet.request.IActionCommand;
@@ -19,13 +20,17 @@ public class OrdersCommand implements IActionCommand, IHasRoleRequirement {
     public Path execute(HttpServletRequest request) {
         ForTables.updateSkipQuantity("Orders", request);
 
-        if(request.getParameter("statusOrders") != null) {
+        if (request.getParameter("statusOrders") != null) {
             long[] statusId = Arrays.stream(request.getParameterValues("statusOrders")).mapToLong(Long::parseLong).toArray();
             request.getSession().setAttribute("statusOrders", statusId);
         }
-        if(request.getParameter("craftsmanIdOrders") != null) {
+        if (request.getParameter("craftsmanIdOrders") != null) {
             long[] craftsmanId = Arrays.stream(request.getParameterValues("craftsmanIdOrders")).mapToLong(Long::parseLong).toArray();
             request.getSession().setAttribute("craftsmanIdOrders", craftsmanId);
+        }
+        if (request.getParameter("sortTypeOrders") != null) {
+            iRepairOrderRepository.SORT_TYPE sortType = iRepairOrderRepository.SORT_TYPE.valueOf(request.getParameter("sortTypeOrders"));
+            request.getSession().setAttribute("sortTypeOrders", sortType);
         }
 
         return PathFactory.getPath("path.page.redirect.orders");

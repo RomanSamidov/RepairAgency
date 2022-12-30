@@ -11,6 +11,7 @@ import org.apache.logging.log4j.Logger;
 public class SessionListener implements HttpSessionListener {
 
     private static final Logger logger = LogManager.getLogger(SessionListener.class);
+
     @Override
     public void sessionCreated(HttpSessionEvent se) {
         logger.debug("[SessionListener] Session created start");

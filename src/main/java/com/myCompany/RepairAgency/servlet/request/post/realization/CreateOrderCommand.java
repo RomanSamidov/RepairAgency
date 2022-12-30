@@ -19,6 +19,7 @@ import java.util.stream.Stream;
 public class CreateOrderCommand implements IActionCommand, IHasRoleRequirement {
 
     private static final Logger logger = LogManager.getLogger(CreateOrderCommand.class);
+
     @Override
     public Path execute(HttpServletRequest request) {
         Path page;
@@ -31,15 +32,15 @@ public class CreateOrderCommand implements IActionCommand, IHasRoleRequirement {
             return page;
         }
         try {
-        RepairOrder order = new RepairOrder.RepairOrderBuilder()
-               .setUser_id(userId)
-               .setCreation_date(LocalDateTime.now())
-               .setText(text).build();
+            RepairOrder order = new RepairOrder.RepairOrderBuilder()
+                    .setUser_id(userId)
+                    .setCreation_date(LocalDateTime.now())
+                    .setText(text).build();
 
-            ModelManager.ins.insertRepairOrder(order);
+            ModelManager.ins.getRepairOrderRepository().insert(order);
             request.getSession().setAttribute("errorOrderTextMessage", "text.order_added");
         } catch (Exception e) {
-            logger.error("[CreateOrderCommand] "+ e);
+            logger.error("[CreateOrderCommand] " + e);
         }
 
         page = PathFactory.getPath("path.page.redirect.orders");

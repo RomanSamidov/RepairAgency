@@ -24,16 +24,16 @@ public class ShowOrderPageCommand implements IActionCommand, IHasRoleRequirement
 //            request.setAttribute("goalOrder", RepairOrderDTOFactory.getRepairOrder(ModelManager.ins.getRepairOrder(orderId)));
 //        }
         long goalId = Long.parseLong(request.getParameter("id"));
-        RepairOrderDTO order = RepairOrderDTOFactory.getRepairOrder(ModelManager.ins.getRepairOrder(goalId));
+        RepairOrderDTO order = RepairOrderDTOFactory.getRepairOrder(ModelManager.ins.getRepairOrderRepository().getById(goalId));
         boolean hasError = false;
-        if((request.getSession().getAttribute("userRole")).equals(Constants.ROLE.Client)){
-            if((long)request.getSession().getAttribute("userId") != order.getUser_id()){
+        if ((request.getSession().getAttribute("userRole")).equals(Constants.ROLE.Client)) {
+            if ((long) request.getSession().getAttribute("userId") != order.getUser_id()) {
                 hasError = true;
                 request.setAttribute("error", "message.not_allowed");
             }
         }
-        if(request.getSession().getAttribute("userRole").equals(Constants.ROLE.Craftsman)){
-            if((long)request.getSession().getAttribute("userId") != order.getCraftsman_id()){
+        if (request.getSession().getAttribute("userRole").equals(Constants.ROLE.Craftsman)) {
+            if ((long) request.getSession().getAttribute("userId") != order.getCraftsman_id()) {
                 hasError = true;
                 request.setAttribute("error", "message.not_allowed");
             }

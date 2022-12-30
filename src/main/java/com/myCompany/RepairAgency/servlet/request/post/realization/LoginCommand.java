@@ -20,6 +20,15 @@ import java.util.stream.Stream;
 public class LoginCommand implements IActionCommand, IHasRoleRequirement {
     private static final Logger logger = LogManager.getLogger(LoginCommand.class);
 
+    public static void initializeUserSessionAttributes(HttpServletRequest request, User user) {
+        request.getSession().setAttribute("userLogin", user.getLogin());
+        request.getSession().setAttribute("userId", user.getId());
+        request.getSession().setAttribute("userRole", Constants.ROLE.values()[user.getRole_id()]);
+        if (user.getRole_id() == Constants.ROLE.Client.ordinal()) {
+            request.getSession().setAttribute("userAccount", user.getAccount());
+        }
+    }
+
     @Override
     public Path execute(HttpServletRequest request) {
         Path page;
@@ -32,35 +41,34 @@ public class LoginCommand implements IActionCommand, IHasRoleRequirement {
         boolean haveError = false;
         verify = VerifyRecaptcha.verify(gRecaptchaResponse);
         if (!verify) {
-            request.getSession().setAttribute("errorRecaptchaMessage","message.error_recaptcha");
+            request.getSession().setAttribute("errorRecaptchaMessage", "message.error_recaptcha");
             haveError = true;
         }
 
 
         if (password == null || password.isEmpty()) {
-            request.getSession().setAttribute("errorEmptyPassword","message.empty_password");
+            request.getSession().setAttribute("errorEmptyPassword", "message.empty_password");
             haveError = true;
         }
         if (login == null || login.isEmpty()) {
-            request.getSession().setAttribute("errorEmptyLogin","message.empty_login");
+            request.getSession().setAttribute("errorEmptyLogin", "message.empty_login");
             haveError = true;
         }
 
 
-
-        if(!haveError) {
+        if (!haveError) {
             try {
-                User user = ModelManager.ins.getUser(login);
+                User user = ModelManager.ins.getUserRepository().getByLogin(login);
                 String userPassword = user.getPassword();
                 if (userPassword.equals(Encrypt.encrypt(password))) {
                     initializeUserSessionAttributes(request, user);
                     page = PathFactory.getPath("path.page.redirect.cabinet");
                     return page;
                 } else {
-                    request.getSession().setAttribute("errorLoginPassMessage","message.login_error");
+                    request.getSession().setAttribute("errorLoginPassMessage", "message.login_error");
                 }
             } catch (Exception e) {
-                request.getSession().setAttribute("errorLoginPassMessage","message.login_not_exist_error");
+                request.getSession().setAttribute("errorLoginPassMessage", "message.login_not_exist_error");
                 logger.error("[LoginCommand] sql error  " + e);
             }
         }
@@ -68,15 +76,6 @@ public class LoginCommand implements IActionCommand, IHasRoleRequirement {
 
         page = PathFactory.getPath("path.page.redirect.login");
         return page;
-    }
-
-    public static void initializeUserSessionAttributes(HttpServletRequest request, User user ) {
-        request.getSession().setAttribute("userLogin", user.getLogin());
-        request.getSession().setAttribute("userId", user.getId());
-        request.getSession().setAttribute("userRole", Constants.ROLE.values()[user.getRole_id()]);
-        if(user.getRole_id() == Constants.ROLE.Client.ordinal()) {
-            request.getSession().setAttribute("userAccount", user.getAccount());
-        }
     }
 
     @Override

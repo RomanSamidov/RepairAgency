@@ -33,8 +33,8 @@ CREATE TABLE orders_statuses (
 
 CREATE TABLE repair_orders (
 	id SERIAL PRIMARY KEY,
-	user_id INT NOT NULL REFERENCES users(id) on delete cascade,
-	craftsman_id INT REFERENCES users(id) on delete CASCADE,
+	user_id INT8 NOT NULL REFERENCES users(id) on delete cascade,
+	craftsman_id INT8 REFERENCES users(id) on delete CASCADE,
 	creation_date TIMESTAMPTZ NOT NULL,
 	text VARCHAR(255),
 	price INT,

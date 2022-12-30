@@ -4,7 +4,7 @@ package com.myCompany.RepairAgency.servlet.request.get;
 import com.myCompany.RepairAgency.servlet.request.IActionCommand;
 import com.myCompany.RepairAgency.servlet.request.get.realization.*;
 
-public enum GetCommandEnum{
+public enum GetCommandEnum {
     LOGIN {{
         this.command = new ShowLoginFormCommand();
     }},
@@ -41,6 +41,7 @@ public enum GetCommandEnum{
 
 
     IActionCommand command;
+
     public IActionCommand getCurrentCommand() {
         return command;
     }

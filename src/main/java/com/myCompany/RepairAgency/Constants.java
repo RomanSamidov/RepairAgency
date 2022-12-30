@@ -17,13 +17,14 @@ public class Constants {
 
     public static void nowIsTest() {
         ResourceBundle resourceBundle = ResourceBundle.getBundle(Constants.DB_SETTINGS_BUNDLE);
-        if(resourceBundle.getString(CONNECTION_URL).equals(resourceBundle.getString(CONNECTION_URL_TEST)))
+        if (resourceBundle.getString(CONNECTION_URL).equals(resourceBundle.getString(CONNECTION_URL_TEST)))
             throw new IllegalArgumentException();
         Constants.test = true;
     }
+
     public static String getConnectionUrl() {
         if (test) return CONNECTION_URL_TEST;
-        else  return  CONNECTION_URL;
+        else return CONNECTION_URL;
     }
 
 
@@ -37,7 +38,7 @@ public class Constants {
         private final long ordinal;
 
         ORDER_STATUS(String toString) {
-            this.toString=toString;
+            this.toString = toString;
             this.ordinal = ordinal();
         }
 

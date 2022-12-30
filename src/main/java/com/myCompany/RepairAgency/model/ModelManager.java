@@ -4,10 +4,9 @@ package com.myCompany.RepairAgency.model;
 import com.myCompany.RepairAgency.Constants;
 import com.myCompany.RepairAgency.model.db.abstractDB.abstractRepository.abstractRepositoryFactory;
 import com.myCompany.RepairAgency.model.db.abstractDB.abstractRepository.abstractRepositoryFactory.DAOType;
-import com.myCompany.RepairAgency.model.entity.RepairOrder;
-import com.myCompany.RepairAgency.model.entity.User;
+import com.myCompany.RepairAgency.model.db.abstractDB.abstractRepository.entity.iRepairOrderRepository;
+import com.myCompany.RepairAgency.model.db.abstractDB.abstractRepository.entity.iUserRepository;
 
-import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 
@@ -18,14 +17,14 @@ public class ModelManager {
     public final DAOType DAO_TYPE;
     private final abstractRepositoryFactory DAO_FACTORY;
 
-    public ModelManager() {
-        DAO_TYPE=initializeDAOType();
-        DAO_FACTORY= abstractRepositoryFactory.getDAOFactory(DAO_TYPE);
+    private ModelManager() {
+        DAO_TYPE = initializeDAOType();
+        DAO_FACTORY = abstractRepositoryFactory.getDAOFactory(DAO_TYPE);
     }
 
     public ModelManager(DAOType DAO_TYPE) {
-        this.DAO_TYPE=DAO_TYPE;
-        DAO_FACTORY= abstractRepositoryFactory.getDAOFactory(DAO_TYPE);
+        this.DAO_TYPE = DAO_TYPE;
+        DAO_FACTORY = abstractRepositoryFactory.getDAOFactory(DAO_TYPE);
     }
 
     private static DAOType initializeDAOType() {
@@ -33,114 +32,12 @@ public class ModelManager {
         return DAOType.valueOf(resourceBundle.getString(Constants.DAOType));
     }
 
-    public User getUser(long id) {
-        return DAO_FACTORY.getUserService().getById(id);
-    }
-    public User getUser(String login) {
-        return DAO_FACTORY.getUserService().getByLogin(login);
+    public iRepairOrderRepository getRepairOrderRepository() {
+        return DAO_FACTORY.getRepairOrderRepository();
     }
 
-    public void insertUser(User user) {
-        DAO_FACTORY.getUserService().insert(user);
+    public iUserRepository getUserRepository() {
+        return DAO_FACTORY.getUserRepository();
     }
 
-    public void updateUser(User user) {
-        DAO_FACTORY.getUserService().update(user);
-    }
-
-    public void deleteUser(User user) {
-        DAO_FACTORY.getUserService().delete(user);
-    }
-
-    public ArrayList<User> getAllUsersByRole(long roleId, int skip, int quantity) { return DAO_FACTORY.getUserService().getByRole(roleId, skip, quantity);}
-
-    public void incrementUserAccount(long userId, int increment){
-        DAO_FACTORY.getUserService().incrementUserAccount(userId, increment);
-    }
-
-    public long getCountUsersWhereRoleIs(long roleId) {
-        return DAO_FACTORY.getUserService().getCountWhereRoleIs(roleId);
-    }
-    public long getCountUsers() {
-        return DAO_FACTORY.getUserService().getCount();
-    }
-
-    public ArrayList<User> getUsersWithPagination(int skip, int quantity) {
-        return DAO_FACTORY.getUserService().getWithPagination(skip, quantity);
-    }
-
-
-    public RepairOrder getRepairOrder(long id) {
-        return DAO_FACTORY.getRepairOrderService().getById(id);
-    }
-
-    public void insertRepairOrder(RepairOrder repairOrder) {
-        DAO_FACTORY.getRepairOrderService().insert(repairOrder);
-    }
-
-    public void updateRepairOrder(RepairOrder repairOrder) {
-        DAO_FACTORY.getRepairOrderService().update(repairOrder);
-    }
-
-    public void deleteRepairOrder(RepairOrder repairOrder) {
-        DAO_FACTORY.getRepairOrderService().delete(repairOrder);
-    }
-
-    public ArrayList<RepairOrder> getRepairOrdersWithPagination(int skip, int quantity) {
-        return DAO_FACTORY.getRepairOrderService().getWithPagination(skip, quantity);
-    }
-
-    public ArrayList<RepairOrder> getAllRepairOrdersWhereUserIdIs(long id, int skip, int quantity) {
-        return DAO_FACTORY.getRepairOrderService().getAllWhereUserIdIs(id, skip, quantity);
-    }
-    public ArrayList<RepairOrder> getAllRepairOrdersWhereCraftsmanIdIs(long id, int skip, int quantity) {
-        return DAO_FACTORY.getRepairOrderService().getAllWhereCraftsmanIdIs(id, skip, quantity);
-    }
-
-    public long getCountRepairOrdersWhereUserIdIs(long id) {
-        return DAO_FACTORY.getRepairOrderService().getCountWhereUserIdIs(id);
-    }
-    public long getCountRepairOrdersWhereCraftsmanIdIs(long id) {
-        return DAO_FACTORY.getRepairOrderService().getCountWhereCraftsmanIdIs(id);
-    }
-
-    public long getCountRepairOrders() {
-        return DAO_FACTORY.getRepairOrderService().getCount();
-    }
-
-
-    public ArrayList<RepairOrder> getByCraftUserStatus(long[] craftIds, long userId, long[] statusIds, int skip, int quantity) {
-        return DAO_FACTORY.getRepairOrderService().getByCraftUserStatus(craftIds, userId, statusIds, skip, quantity);
-
-    }
-
-    public long getCountByCraftUserStatus(long[] craftIds, long userId, long[] statusIds) {
-        return DAO_FACTORY.getRepairOrderService().getCountByCraftUserStatus(craftIds, userId, statusIds);
-
-    }
-
-    public ArrayList<RepairOrder> getByCraftStatus(long[] craftIds, long[] statusIds, int skip, int quantity) {
-        return DAO_FACTORY.getRepairOrderService().getByCraftStatus(craftIds, statusIds, skip, quantity);
-
-    }
-
-    public long getCountByCraftStatus(long[] craftIds, long[] statusIds) {
-        return DAO_FACTORY.getRepairOrderService().getCountByCraftStatus(craftIds, statusIds);
-    }
-
-    public long getCountByUserStatus(long userId, long[] statusIds) {
-        return DAO_FACTORY.getRepairOrderService().getCountByUserStatus(userId, statusIds);
-    }
-
-    public ArrayList<RepairOrder> getByUserStatus(long userId, long[] statusIds, int skip, int quantity) {
-        return DAO_FACTORY.getRepairOrderService().getByUserStatus(userId, statusIds, skip, quantity);
-    }
-
-    public long getCountByStatus(long[] statusIds) {
-        return DAO_FACTORY.getRepairOrderService().getCountByStatus(statusIds);
-    }
-
-    public ArrayList<RepairOrder> getByStatus(long[] statusIds, int skip, int quantity) {
-        return DAO_FACTORY.getRepairOrderService().getByStatus(statusIds, skip, quantity);
-    }
 }

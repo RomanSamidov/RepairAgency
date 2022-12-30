@@ -4,14 +4,14 @@ import java.io.Serializable;
 
 
 public abstract class Entity implements Serializable {
-  protected long id;
+    protected long id;
 
-  public long getId() {
-    return id;
-  }
+    public long getId() {
+        return id;
+    }
 
-  public Entity setId(long id) {
-    this.id = id;
-    return this;
-  }
+    public Entity setId(long id) {
+        this.id = id;
+        return this;
+    }
 }

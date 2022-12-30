@@ -11,6 +11,7 @@ import org.apache.logging.log4j.Logger;
 public class RequestListener implements ServletRequestListener {
 
     private static final Logger logger = LogManager.getLogger(RequestListener.class);
+
     @Override
     public void requestDestroyed(ServletRequestEvent sre) {
         logger.debug("[RequestListener] requestDestroyed");

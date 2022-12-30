@@ -11,6 +11,7 @@ import org.apache.logging.log4j.Logger;
 public class RequestAttributeListener implements ServletRequestAttributeListener {
 
     private static final Logger logger = LogManager.getLogger(RequestAttributeListener.class);
+
     @Override
     public void attributeAdded(ServletRequestAttributeEvent srae) {
         logger.debug("[RequestAttributeListener] attributeAdded start");
