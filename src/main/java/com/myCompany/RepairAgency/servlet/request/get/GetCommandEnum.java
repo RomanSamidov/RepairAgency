@@ -37,6 +37,9 @@ public enum GetCommandEnum {
     }},
     USER {{
         this.command = new ShowUserCommand();
+    }},
+    DOWNLOAD {{
+        this.command = new DownloadFileCommand();
     }};
 
 

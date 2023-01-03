@@ -3,6 +3,7 @@ package com.myCompany.RepairAgency.model.entity.DTO;
 import com.myCompany.RepairAgency.model.entity.Entity;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 public class RepairOrderDTO extends Entity {
     private long user_id;
@@ -12,7 +13,7 @@ public class RepairOrderDTO extends Entity {
     private int price = -10;
     private LocalDateTime finish_date;
 
-    private String status;
+    private long status;
     private LocalDateTime feedback_date;
 
     private String feedback_text;
@@ -21,8 +22,12 @@ public class RepairOrderDTO extends Entity {
     private RepairOrderDTO() {
     }
 
-    public LocalDateTime getCreation_date() {
-        return creation_date;
+//    public LocalDateTime getCreation_date() {
+//        return creation_date;
+//    }
+    public String getCreation_date() {
+        DateTimeFormatter customFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        return creation_date.format(customFormat);    //2022-12-09 18:25:58
     }
 
     public RepairOrderDTO setCreation_date(LocalDateTime creation_date) {
@@ -30,8 +35,14 @@ public class RepairOrderDTO extends Entity {
         return this;
     }
 
-    public LocalDateTime getFinish_date() {
-        return finish_date;
+//    public LocalDateTime getFinish_date() {
+//        return finish_date;
+//    }
+
+    public String getFinish_date() {
+        if(finish_date == null) return "";
+        DateTimeFormatter customFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        return finish_date.format(customFormat);    //2022-12-09 18:25:58
     }
 
     public RepairOrderDTO setFinish_date(LocalDateTime finish_date) {
@@ -39,10 +50,15 @@ public class RepairOrderDTO extends Entity {
         return this;
     }
 
-    public LocalDateTime getFeedback_date() {
-        return feedback_date;
-    }
+//    public LocalDateTime getFeedback_date() {
+//        return feedback_date;
+//    }
 
+    public String getFeedback_date() {
+        if(feedback_date == null) return "";
+        DateTimeFormatter customFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        return feedback_date.format(customFormat);    //2022-12-09 18:25:58
+    }
     public RepairOrderDTO setFeedback_date(LocalDateTime feedback_date) {
         this.feedback_date = feedback_date;
         return this;
@@ -60,6 +76,10 @@ public class RepairOrderDTO extends Entity {
     public long getCraftsman_id() {
         return craftsman_id;
     }
+    public String getTextCraftsman_id() {
+        if (craftsman_id == 0) return "";
+        else return String.valueOf(craftsman_id);
+    }
 
     public RepairOrderDTO setCraftsman_id(long craftsman_id) {
         this.craftsman_id = craftsman_id;
@@ -75,8 +95,9 @@ public class RepairOrderDTO extends Entity {
         return this;
     }
 
-    public int getPrice() {
-        return price;
+    public String getPrice() {
+        if(price == -10) return "";
+        return String.valueOf(price);
     }
 
     public RepairOrderDTO setPrice(int price) {
@@ -84,11 +105,11 @@ public class RepairOrderDTO extends Entity {
         return this;
     }
 
-    public String getStatus() {
+    public long getStatus() {
         return status;
     }
 
-    public RepairOrderDTO setStatus(String status) {
+    public RepairOrderDTO setStatus(long status) {
         this.status = status;
         return this;
     }
@@ -184,11 +205,11 @@ public class RepairOrderDTO extends Entity {
             return this;
         }
 
-        public String getStatus() {
+        public long getStatus() {
             return onConstructRepairOrderDTO.status;
         }
 
-        public RepairOrderBuilder setStatus(String status_id) {
+        public RepairOrderBuilder setStatus(long status_id) {
             this.onConstructRepairOrderDTO.status = status_id;
             return this;
         }

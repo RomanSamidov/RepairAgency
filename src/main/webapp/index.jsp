@@ -36,7 +36,7 @@
 
 
 
-          <form action="/action_page.php" target="_top">
+          <form action="/action_page.php" target="_blank">
          <input type="submit" formtarget="_blank" value="Submit to a new window/tab">
           </form>
 

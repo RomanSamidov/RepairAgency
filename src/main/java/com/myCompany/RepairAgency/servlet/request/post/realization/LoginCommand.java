@@ -10,6 +10,7 @@ import com.myCompany.RepairAgency.servlet.request.IHasRoleRequirement;
 import com.myCompany.RepairAgency.servlet.util.Encrypt;
 import com.myCompany.RepairAgency.servlet.util.VerifyRecaptcha;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -30,7 +31,7 @@ public class LoginCommand implements IActionCommand, IHasRoleRequirement {
     }
 
     @Override
-    public Path execute(HttpServletRequest request) {
+    public Path execute(HttpServletRequest request, HttpServletResponse response) {
         Path page;
         String login = request.getParameter(Constants.LOGIN);
         String password = request.getParameter(Constants.PASSWORD);

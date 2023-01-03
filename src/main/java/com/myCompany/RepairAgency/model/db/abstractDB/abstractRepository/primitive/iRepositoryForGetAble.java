@@ -5,7 +5,7 @@ import java.util.ArrayList;
 public interface iRepositoryForGetAble<T> {
     T getById(long id);
 
-    ArrayList<T> getWithPagination(int skip, int quantity);
+    ArrayList<T> getWithPagination(long skip, long quantity);
 
     long getCount();
 }

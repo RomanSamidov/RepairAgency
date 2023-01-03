@@ -47,7 +47,7 @@ public class Controller extends HttpServlet {
 
         // определение команды, пришедшей из JSP
         IActionCommand command = factory.defineCommand(request);
-        Path page = command.execute(request);
+        Path page = command.execute(request, response);
         logger.debug("[Controller] " + command);
         logger.debug("[Controller] " + page);
 
@@ -56,7 +56,6 @@ public class Controller extends HttpServlet {
 // установка страницы c coобщeнием об ошибке
             page = PathFactory.getPath("path.page.redirect.index");
             logger.debug("[Controller] processRequest end with error");
-            response.sendRedirect(request.getContextPath() + page);
         }
 
         if (page.isRedirect) {

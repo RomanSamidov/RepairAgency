@@ -29,6 +29,7 @@
             <th> role </th>
             <th> login </th>
             <th> account </th>
+            <th>  </th>
         </tr>
     <c:forEach var="user" items="${users}" varStatus="status">
         <tr>

@@ -8,6 +8,7 @@ import com.myCompany.RepairAgency.servlet.PathFactory;
 import com.myCompany.RepairAgency.servlet.request.IActionCommand;
 import com.myCompany.RepairAgency.servlet.request.IHasRoleRequirement;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -21,7 +22,7 @@ public class CreateOrderCommand implements IActionCommand, IHasRoleRequirement {
     private static final Logger logger = LogManager.getLogger(CreateOrderCommand.class);
 
     @Override
-    public Path execute(HttpServletRequest request) {
+    public Path execute(HttpServletRequest request, HttpServletResponse response) {
         Path page;
 
         long userId = Long.parseLong(request.getParameter("userId"));

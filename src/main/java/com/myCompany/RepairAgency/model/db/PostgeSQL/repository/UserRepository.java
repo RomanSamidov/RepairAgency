@@ -100,7 +100,7 @@ public class UserRepository implements iUserRepository {
     }
 
     @Override
-    public ArrayList<User> getWithPagination(int skip, int quantity) {
+    public ArrayList<User> getWithPagination(long skip, long quantity) {
         Connection conn = ConnectionPool.getConnection();
         ArrayList<User> res = QueryExecutioner.readList(UserFactory.ins, conn,
                 Query.UsersQuery.SELECT_WITH_PAGINATION, skip, quantity);

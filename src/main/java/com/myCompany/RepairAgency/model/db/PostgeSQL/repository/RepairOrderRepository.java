@@ -60,7 +60,7 @@ public class RepairOrderRepository implements iRepairOrderRepository {
     }
 
     @Override
-    public ArrayList<RepairOrder> getWithPagination(int skip, int quantity) {
+    public ArrayList<RepairOrder> getWithPagination(long skip, long quantity) {
         Connection conn = ConnectionPool.getConnection();
         ArrayList<RepairOrder> res = QueryExecutioner.readList(RepairOrderFactory.ins, conn,
                 Query.RepairOrdersQuery.SELECT +
@@ -80,7 +80,7 @@ public class RepairOrderRepository implements iRepairOrderRepository {
 
 
     @Override
-    public ArrayList<RepairOrder> getByStatus(long[] statusIds, SORT_TYPE sort, int skip, int quantity) {
+    public ArrayList<RepairOrder> getByStatus(long[] statusIds, SORT_TYPE sort, long skip, long quantity) {
         Connection conn = ConnectionPool.getConnection();
         ArrayList<RepairOrder> res = QueryExecutioner.readList(RepairOrderFactory.ins, conn
                 , Query.RepairOrdersQuery.SELECT_BY_STATUS +
@@ -99,7 +99,7 @@ public class RepairOrderRepository implements iRepairOrderRepository {
     }
 
     @Override
-    public ArrayList<RepairOrder> getByCraftNNStatus(long[] craftIds, long[] statusIds, SORT_TYPE sort, int skip, int quantity) {
+    public ArrayList<RepairOrder> getByCraftNNStatus(long[] craftIds, long[] statusIds, SORT_TYPE sort, long skip, long quantity) {
         Connection conn = ConnectionPool.getConnection();
         ArrayList<RepairOrder> res = QueryExecutioner.readList(RepairOrderFactory.ins, conn
                 , Query.RepairOrdersQuery.SELECT_BY_CRAFT_NN_STATUS +
@@ -118,7 +118,7 @@ public class RepairOrderRepository implements iRepairOrderRepository {
     }
 
     @Override
-    public ArrayList<RepairOrder> getByCraftStatus(long[] craftIds, long[] statusIds, SORT_TYPE sort, int skip, int quantity) {
+    public ArrayList<RepairOrder> getByCraftStatus(long[] craftIds, long[] statusIds, SORT_TYPE sort, long skip, long quantity) {
         Connection conn = ConnectionPool.getConnection();
         ArrayList<RepairOrder> res = QueryExecutioner.readList(RepairOrderFactory.ins, conn
                 , Query.RepairOrdersQuery.SELECT_BY_CRAFT_STATUS +
@@ -137,7 +137,7 @@ public class RepairOrderRepository implements iRepairOrderRepository {
     }
 
     @Override
-    public ArrayList<RepairOrder> getByUserStatus(long userId, long[] statusIds, SORT_TYPE sort, int skip, int quantity) {
+    public ArrayList<RepairOrder> getByUserStatus(long userId, long[] statusIds, SORT_TYPE sort, long skip, long quantity) {
         Connection conn = ConnectionPool.getConnection();
         ArrayList<RepairOrder> res = QueryExecutioner.readList(RepairOrderFactory.ins, conn
                 , Query.RepairOrdersQuery.SELECT_BY_USER_STATUS +
@@ -156,7 +156,7 @@ public class RepairOrderRepository implements iRepairOrderRepository {
     }
 
     @Override
-    public ArrayList<RepairOrder> getByCraftUserStatus(long[] craftIds, long userId, long[] statusIds, SORT_TYPE sort, int skip, int quantity) {
+    public ArrayList<RepairOrder> getByCraftUserStatus(long[] craftIds, long userId, long[] statusIds, SORT_TYPE sort, long skip, long quantity) {
         Connection conn = ConnectionPool.getConnection();
         ArrayList<RepairOrder> res = QueryExecutioner.readList(RepairOrderFactory.ins, conn
                 , Query.RepairOrdersQuery.SELECT_BY_CRAFT_USER_STATUS +

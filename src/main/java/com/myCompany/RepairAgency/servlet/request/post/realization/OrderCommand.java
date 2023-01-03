@@ -3,12 +3,14 @@ package com.myCompany.RepairAgency.servlet.request.post.realization;
 import com.myCompany.RepairAgency.Constants;
 import com.myCompany.RepairAgency.model.ModelManager;
 import com.myCompany.RepairAgency.model.entity.RepairOrder;
+import com.myCompany.RepairAgency.model.entity.User;
 import com.myCompany.RepairAgency.servlet.Path;
 import com.myCompany.RepairAgency.servlet.PathFactory;
 import com.myCompany.RepairAgency.servlet.request.IActionCommand;
 import com.myCompany.RepairAgency.servlet.request.IHasRoleRequirement;
 import com.myCompany.RepairAgency.servlet.util.ForChangeEntity;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -17,7 +19,7 @@ import java.util.stream.Stream;
 
 public class OrderCommand implements IActionCommand, IHasRoleRequirement {
     @Override
-    public Path execute(HttpServletRequest request) {
+    public Path execute(HttpServletRequest request, HttpServletResponse response) {
         ForChangeEntity.updateGoalId("Order", request);
 
         RepairOrder order = ModelManager.ins.getRepairOrderRepository().getById((Long) request.getSession().getAttribute("goalIdOrder"));
@@ -47,7 +49,19 @@ public class OrderCommand implements IActionCommand, IHasRoleRequirement {
             order.setStatus_id(Integer.parseInt(goalOrderStatus));
         }
 
+
+        if(request.getSession().getAttribute("userRole") == Constants.ROLE.Client){
+            if(request.getParameter("payOrder") != null &&
+                    request.getParameter("payOrder").equals("true")){
+                order.setStatus_id(Constants.ORDER_STATUS.PAID.ordinal());
+                User user = ModelManager.ins.getUserRepository().getById((Long) request.getSession().getAttribute("userId"));
+                user.setAccount(user.getAccount() - order.getPrice());
+                ModelManager.ins.getUserRepository().update(user);
+            }
+        }
+
         ModelManager.ins.getRepairOrderRepository().update(order);
+
 
         Path path = PathFactory.getPath("path.page.redirect.order");
         path.addParameter("id", request.getParameter("goalIdOrder"));

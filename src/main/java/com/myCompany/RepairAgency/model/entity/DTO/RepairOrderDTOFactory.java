@@ -1,6 +1,5 @@
 package com.myCompany.RepairAgency.model.entity.DTO;
 
-import com.myCompany.RepairAgency.Constants;
 import com.myCompany.RepairAgency.model.entity.RepairOrder;
 
 import java.util.ArrayList;
@@ -16,7 +15,7 @@ public class RepairOrderDTOFactory {
                 .setText(order.getText())
                 .setPrice(order.getPrice())
                 .setFinish_date(order.getFinish_date())
-                .setStatus(Constants.ORDER_STATUS.values()[(int) order.getStatus_id()].getToString())
+                .setStatus(order.getStatus_id())
                 .setFeedback_date(order.getFeedback_date())
                 .setFeedback_text(order.getFeedback_text())
                 .setFeedback_mark(order.getFeedback_mark())

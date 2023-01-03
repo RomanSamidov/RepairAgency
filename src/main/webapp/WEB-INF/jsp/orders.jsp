@@ -48,7 +48,7 @@
                     <select name="statusOrders" size="2" multiple>
                         <option value="0">All</option>
                         <c:forEach var="orStatus" items="${orderStatuses}">
-                            <option value="${orStatus.ordinal}">${craftsman.id} ${orStatus.toString}</option>
+                            <option value="${orStatus.ordinal}">${orStatus.ordinal} ${orStatus.toString}</option>
                         </c:forEach>
                     </select>
 
@@ -61,6 +61,19 @@
 
         <input type="submit" value="select"/>
     </form>
+
+
+            <form name="createReport" method="POST" action="" target="_blank">
+                <input type="hidden" name="command" value="orders" />
+                <input type="hidden" name="createReport" value="true" />
+                <select name="reportFormat">
+                                        <c:forEach var="format" items="${reportFormats}">
+                                            <option value="${format.toString}"  ${format.toString==reportFormat?"selected=\"selected\"":""} >${format.toString}</option>
+                                        </c:forEach>
+                                    </select>
+                <input type="submit" value="Create report"/>
+            </form>
+
 
 
         <form name="pages" method="POST" action="">
@@ -82,20 +95,21 @@
                 <th> feedback_date </th>
                 <th> feedback_text </th>
                 <th> feedback_mark </th>
+                <th> </th>
                 </tr>
             <c:forEach var="order" items="${orders}" varStatus="status">
                 <tr>
-                <td><c:out value="${ order.id }" /></td>
-                <td><c:out value="${ order.user_id }" /></td>
-                <td><c:out value="${ order.craftsman_id }" /></td>
-                <td><c:out value="${ order.creation_date }" /></td>
-                <td><c:out value="${ order.text }" /></td>
-                <td><c:out value="${ order.price }" /></td>
-                <td><c:out value="${ order.finish_date }" /></td>
-                <td><c:out value="${ order.status }" /></td>
-                <td><c:out value="${ order.feedback_date }" /></td>
-                <td><c:out value="${ order.feedback_text }" /></td>
-                <td><c:out value="${ order.feedback_mark }" /></td>
+                <td>${ order.id }</td>
+                <td>${ order.user_id }</td>
+                <td>${ order.craftsman_id==0?"":order.craftsman_id }</td>
+                <td>${ order.creation_date }</td>
+                <td>${ order.text }</td>
+                <td>${ order.price }</td>
+                <td>${ order.finish_date }</td>
+                <td><fmt:message key="text.order.status.${order.status}"/> </td>
+                <td>${ order.feedback_date }</td>
+                <td>${ order.feedback_text }</td>
+                <td>${ order.feedback_mark==0?"":order.feedback_mark}</td>
                 <td>
                  <a href="/RepairAgency/controller/order?id=${order.id}" class = "btn px-2  ">ch</a>
                 </td>

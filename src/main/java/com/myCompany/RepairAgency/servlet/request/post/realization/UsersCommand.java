@@ -7,6 +7,7 @@ import com.myCompany.RepairAgency.servlet.request.IActionCommand;
 import com.myCompany.RepairAgency.servlet.request.IHasRoleRequirement;
 import com.myCompany.RepairAgency.servlet.util.ForTables;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -15,7 +16,7 @@ import java.util.stream.Stream;
 
 public class UsersCommand implements IActionCommand, IHasRoleRequirement {
     @Override
-    public Path execute(HttpServletRequest request) {
+    public Path execute(HttpServletRequest request, HttpServletResponse response) {
         ForTables.updateSkipQuantity("Users", request);
 //        roleUsers = Craftsman
         if (request.getParameter("roleUsers") != null) {

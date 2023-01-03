@@ -55,5 +55,18 @@ public class Constants {
         Guest, Admin, Manager, Craftsman, Client
     }
 
+    public enum REPORT_FORMAT {
+        PDF;
 
+        private final String toString;
+
+        REPORT_FORMAT() {
+            this.toString = this.toString();
+        }
+
+
+        public String getToString() {
+            return toString;
+        }
+    }
 }
