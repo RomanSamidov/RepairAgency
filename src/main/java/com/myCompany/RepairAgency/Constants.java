@@ -52,11 +52,27 @@ public class Constants {
     }
 
     public enum ROLE {
-        Guest, Admin, Manager, Craftsman, Client
+        Guest, Admin, Manager, Craftsman, Client;
+
+        private final String toString;
+        private final long ordinal;
+
+        ROLE() {
+            this.toString = this.toString();
+            this.ordinal = ordinal();
+        }
+
+        public long getOrdinal() {
+            return ordinal;
+        }
+
+        public String getToString() {
+            return toString;
+        }
     }
 
     public enum REPORT_FORMAT {
-        PDF;
+        PDF, XLSX, XLS;
 
         private final String toString;
 

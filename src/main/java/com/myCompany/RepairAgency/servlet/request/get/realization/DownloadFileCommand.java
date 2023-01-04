@@ -6,6 +6,7 @@ import com.myCompany.RepairAgency.servlet.request.IActionCommand;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.OutputStream;
@@ -25,7 +26,7 @@ public class DownloadFileCommand implements IActionCommand {
         response.setHeader("Expires", "0");
         response.setHeader("Cache-Control", "must-revalidate, post-check=0, pre-check=0");
         response.setHeader("Pragma", "public");
-        response.setContentType("application/pdf");
+//        response.setContentType("application/pdf");
 
 ////
         try {
@@ -44,6 +45,7 @@ public class DownloadFileCommand implements IActionCommand {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+        new File(filepath + filename).delete();
         return PathFactory.getPath("path.page.forward.index");
     }
 

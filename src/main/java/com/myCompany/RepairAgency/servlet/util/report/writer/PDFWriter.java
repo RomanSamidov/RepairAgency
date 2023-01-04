@@ -1,4 +1,4 @@
-package com.myCompany.RepairAgency.servlet.util.report;
+package com.myCompany.RepairAgency.servlet.util.report.writer;
 
 import com.myCompany.RepairAgency.model.entity.DTO.RepairOrderDTO;
 import org.apache.pdfbox.pdmodel.PDDocument;
@@ -11,6 +11,7 @@ import org.apache.pdfbox.pdmodel.font.Standard14Fonts;
 import java.awt.*;
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.FileSystems;
 import java.util.ArrayList;
 import java.util.Locale;
 import java.util.ResourceBundle;
@@ -62,7 +63,7 @@ public class PDFWriter{
                 RepairOrderDTO order = repairOrders.get(i);
                 createTableCell(contentStream, writer, 5, String.valueOf(order.getId()));
                 createTableCell(contentStream, writer, 10, String.valueOf(order.getUser_id()));
-                createTableCell(contentStream, writer, 10, String.valueOf(order.getTextCraftsman_id()));
+                createTableCell(contentStream, writer, 10, order.getTextCraftsman_id());
                 createTableCell(contentStream, writer, 100, order.getCreation_date());
                 createTableCell(contentStream, writer, 20, String.valueOf(order.getPrice()));
                 createTableCell(contentStream, writer, 100, order.getFinish_date());
@@ -77,7 +78,7 @@ public class PDFWriter{
         }
 
         new File("reports").mkdirs();
-        document.save("reports/" + filename + ".pdf");
+        document.save("reports" + FileSystems.getDefault().getSeparator() + filename + ".pdf");
         document.close();
     }
 

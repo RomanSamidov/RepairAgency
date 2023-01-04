@@ -22,6 +22,15 @@
         <label for="passwordRepeat"><fmt:message key="text.password_repeat"/></label><br/>
         <input type="password" name="passwordRepeat" required placeholder="password" /><br/>
 
+        <c:if test="${userRole=='Admin'}" >
+             <label for="role"><fmt:message key="text.role"/></label><br/>
+                      <select name="role" required>
+                                         <c:forEach var="rol" items="${roles}">
+                                            <option value="${rol.ordinal}"  >${rol.ordinal} ${rol.toString}</option>
+                                         </c:forEach>
+                                     </select>
+        </c:if>
+
         <label for="email"><fmt:message key="text.email"/></label><br/>
         <input type="email" name="email" required placeholder="email"/><br/>
 

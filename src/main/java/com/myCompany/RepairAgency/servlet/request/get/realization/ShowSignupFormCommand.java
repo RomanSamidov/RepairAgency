@@ -8,6 +8,7 @@ import com.myCompany.RepairAgency.servlet.request.IHasRoleRequirement;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -24,6 +25,12 @@ public class ShowSignupFormCommand implements IActionCommand, IHasRoleRequiremen
                 request.getSession().getAttribute("errorEmptyLogin"));
         request.setAttribute("errorEmptyPasswordRepeat",
                 request.getSession().getAttribute("errorEmptyPasswordRepeat"));
+
+        if ( request.getSession().getAttribute("userRole").equals(Constants.ROLE.Admin)) {
+            ArrayList<Constants.ROLE> roles = new ArrayList<>(List.of(Constants.ROLE.values()));
+            roles.remove(0);
+            request.setAttribute("roles", roles);
+        }
 
         request.getSession().removeAttribute("errorEmptyPassword");
         request.getSession().removeAttribute("errorLoginPassMessage");

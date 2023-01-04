@@ -30,6 +30,10 @@ public class SignupCommand implements IActionCommand, IHasRoleRequirement {
         String password = request.getParameter(Constants.PASSWORD);
         String passwordRepeat = request.getParameter(Constants.PASSWORD_REPEAT);
         String email = request.getParameter(Constants.EMAIL);
+        int roleId = 0;
+        if(request.getSession().getAttribute("userRole").equals(Constants.ROLE.Admin)) {
+            roleId = Integer.parseInt(request.getParameter("role"));
+        }
         // get reCAPTCHA request param
         String gRecaptchaResponse = request.getParameter("g-recaptcha-response");
         boolean haveError = false;
@@ -65,7 +69,14 @@ public class SignupCommand implements IActionCommand, IHasRoleRequirement {
                         .setConfirmed(false)
                         .setRole_id(Constants.ROLE.Client.ordinal())
                         .build();
+                if (roleId != 0) user.setRole_id(roleId);
+                System.out.println(user.getRole_id());
+                System.out.println(roleId);
                 userRepository.insert(user);
+                if(request.getSession().getAttribute("userRole").equals(Constants.ROLE.Admin)) {
+                    page = PathFactory.getPath("path.page.redirect.signup");
+                    return page;
+                }
                 user = userRepository.getByLogin(login);
                 LoginCommand.initializeUserSessionAttributes(request, user);
                 page = PathFactory.getPath("path.page.redirect.cabinet");
@@ -83,6 +94,6 @@ public class SignupCommand implements IActionCommand, IHasRoleRequirement {
 
     @Override
     public List<Constants.ROLE> allowedUserRoles() {
-        return Stream.of(Constants.ROLE.Guest).collect(Collectors.toList());
+        return Stream.of(Constants.ROLE.Guest, Constants.ROLE.Admin).collect(Collectors.toList());
     }
 }
