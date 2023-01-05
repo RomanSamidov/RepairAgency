@@ -26,12 +26,21 @@
  </tr>
 </table>
 
+<c:if test="${goalUser.role == 'Client'}" >
  <form method="POST" action="">
             <input type="hidden" name="command" value="user" />
             <input type="hidden" name="goalIdUser" value="${ goalUser.id }" />
             <input type="number" name="addToAccount" value=""/><br/>
             <input type="submit" value="addToAccount"/>
         </form>
+ </c:if>
+            <c:if test="${userRole == 'Admin' && userId != goalUser.id}" >
+                <form method="POST" action="">
+                    <input type="hidden" name="command" value="deleteUser" />
+                    <input type="hidden" name="goalIdUser" value="${ goalUser.id }" />
+                    <input type="submit" value="Delete user"/>
+                </form>
+            </c:if>
 
 </div>
 </body></html>

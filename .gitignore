@@ -37,3 +37,5 @@ out/
 *.iml
 *.ipr
 *.iws
+/src/main/resources/email.properties
+/src/main/resources/recaptcha.properties

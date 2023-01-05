@@ -21,6 +21,7 @@ public class QueryExecutioner {
     public static long readNumber(Connection conn, String query, Object... args) {
         try (PreparedStatement st = conn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
             if (args != null) setArgsForPreparedStatement(st, args);
+            System.out.println(st);
             ResultSet rs = st.executeQuery();
             if (rs.next()) {
                 return rs.getLong(Fields.RESULT);
@@ -34,7 +35,7 @@ public class QueryExecutioner {
     private static void setArgsForPreparedStatement(PreparedStatement statement, Object... args)
             throws SQLException {
         for (int i = 0; i < args.length; i++) {
-//            System.out.println(args[i] + "   " +i);
+            System.out.println(args[i] + "   " +i);
             statement.setObject(i + 1, args[i]);
         }
     }
@@ -58,6 +59,7 @@ public class QueryExecutioner {
         ArrayList<E> answer = new ArrayList<>();
         try (PreparedStatement statement = conn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
             setArgsForPreparedStatement(statement, args);
+            System.out.println(statement);
             ResultSet ser = statement.executeQuery();
             answer = factory.getListOfResult(ser);
             ser.close();

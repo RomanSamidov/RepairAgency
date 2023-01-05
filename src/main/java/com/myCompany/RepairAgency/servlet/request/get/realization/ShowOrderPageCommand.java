@@ -49,6 +49,10 @@ public class ShowOrderPageCommand implements IActionCommand, IHasRoleRequirement
                 request.setAttribute("error", "message.not_allowed");
             }
         }
+        if (request.getSession().getAttribute("error") != null) {
+            request.setAttribute("error", request.getSession().getAttribute("error"));
+            request.getSession().removeAttribute("error");
+        }
 
         if (!hasError) request.setAttribute("goalOrder", order);
 

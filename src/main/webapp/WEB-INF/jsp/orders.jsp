@@ -67,10 +67,10 @@
                 <input type="hidden" name="command" value="orders" />
                 <input type="hidden" name="createReport" value="true" />
                 <select name="reportFormat">
-                                        <c:forEach var="format" items="${reportFormats}">
-                                            <option value="${format.toString}"  ${format.toString==reportFormat?"selected=\"selected\"":""} >${format.toString}</option>
-                                        </c:forEach>
-                                    </select>
+                    <c:forEach var="format" items="${reportFormats}">
+                        <option value="${format.toString}"  ${format.toString==reportFormat?"selected=\"selected\"":""} >${format.toString}</option>
+                    </c:forEach>
+                </select>
                 <input type="submit" value="Create report"/>
             </form>
 
@@ -81,6 +81,9 @@
              <input type="number" name="quantityOrders" value="${nowQuantityOrders}"/>
             <input type="submit" value="<fmt:message key="text.show_on_one_page"/>"/>
             </form>
+            <c:if test="${orders.isEmpty() == true}" >
+            Founded no orders!
+            </c:if>
         <table class="table table-striped table-bordered table-sm table-th">
         <caption>List of orders</caption>
         <tr>
@@ -116,7 +119,9 @@
                 </tr>
             </c:forEach>
         </table>
-
+        <c:if test="${orders.isEmpty() == true}" >
+            Founded no orders!
+        </c:if>
         <br/>
 
         <table>

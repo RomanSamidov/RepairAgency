@@ -10,8 +10,13 @@
 <form name="pages" method="POST" action="">
     <input type="hidden" name="command" value="users" />
      <select name="roleUsers" autocomplete="off">
-       <option value="Client" ${roleUsers == 'Client' ? 'selected="selected"' : ''}>Client</option>
-       <option value="Craftsman" ${roleUsers == 'Craftsman' ? 'selected="selected"' : ''}>Craftsman</option>
+        <c:if test="${userRole == 'Admin'}" >
+            <option value="0" ${roleUsers == null ? 'selected="selected"' : ''}>All</option>
+        </c:if>
+        <c:forEach var="role" items="${rolesUsers}">
+            <option value="${role.toString}"  ${roleUsers.toString == role.toString ? 'selected="selected"' : ''}><fmt:message key="text.user.role.${role.ordinal}"  /></option>
+        </c:forEach>
+
      </select>
     <input type="submit" value="select role"/>
     </form>
@@ -22,6 +27,9 @@
      <input type="number" name="quantityUsers" value="${nowQuantityUsers}"/>
     <input type="submit" value="<fmt:message key="text.show_on_one_page"/>"/>
     </form>
+<c:if test="${users.isEmpty() == true}" >
+            Founded no users!
+</c:if>
 <table class="table table-striped table-bordered table-sm table-th">
               <caption>List of users</caption>
         <tr>
@@ -43,6 +51,9 @@
         </tr>
     </c:forEach>
 </table>
+<c:if test="${users.isEmpty() == true}" >
+            Founded no users!
+</c:if>
 
 <br/>
 
@@ -59,4 +70,5 @@
 </tr>
 </table>
 </div>
+${nowPageUsers}
 </body></html>

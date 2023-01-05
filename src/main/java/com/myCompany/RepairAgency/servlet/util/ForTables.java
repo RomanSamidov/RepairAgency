@@ -8,11 +8,18 @@ import java.util.stream.IntStream;
 
 
 public class ForTables {
-    public static int[] initSkipQuantity(String tableName, HttpServletRequest request) {
+    public static int[] initSkipQuantity(String tableName, long numberOf, HttpServletRequest request) {
         Integer skip = (Integer) request.getSession().getAttribute("skip" + tableName);
         Integer quantity = (Integer) request.getSession().getAttribute("quantity" + tableName);
         if (quantity == null || quantity == 0) quantity = 5;
         if (skip == null) skip = 0;
+        if (request.getSession().getAttribute("numberOf" + tableName) != null){
+            if((long)request.getSession().getAttribute("numberOf" + tableName) != numberOf){
+                skip = 0;
+                request.getSession().setAttribute("skip" + tableName, 0);
+            }
+        }
+        request.getSession().setAttribute("numberOf" + tableName, numberOf);
         return new int[]{skip, quantity};
     }
 
@@ -36,6 +43,7 @@ public class ForTables {
         if (pages > 0) {
             nowPage = skip / quantity;
         }
+
         request.getSession().setAttribute("nowPage" + tableName, nowPage);
         request.getSession().setAttribute("nowQuantity" + tableName, quantity);
         List<Integer> listPages = IntStream.iterate(0, x -> x + quantity).limit(pages).boxed().collect(Collectors.toList());

@@ -161,7 +161,7 @@ public class RepairOrderRepository implements iRepairOrderRepository {
         ArrayList<RepairOrder> res = QueryExecutioner.readList(RepairOrderFactory.ins, conn
                 , Query.RepairOrdersQuery.SELECT_BY_CRAFT_USER_STATUS +
                         Query.RepairOrdersQuery.getSortQuery(sort)
-                , craftIds, userId, statusIds, skip, quantity);
+                , craftIds, new long[]{}, craftIds, userId, userId, statusIds, new long[]{}, statusIds, skip, quantity);
         ConnectionPool.releaseConnection(conn);
         return res;
     }
@@ -169,7 +169,8 @@ public class RepairOrderRepository implements iRepairOrderRepository {
     @Override
     public long countByCraftUserStatus(long[] craftIds, long userId, long[] statusIds) {
         Connection conn = ConnectionPool.getConnection();
-        long res = QueryExecutioner.readNumber(conn, Query.RepairOrdersQuery.COUNT_BY_CRAFT_USER_STATUS, craftIds, userId, statusIds);
+        long res = QueryExecutioner.readNumber(conn, Query.RepairOrdersQuery.COUNT_BY_CRAFT_USER_STATUS
+                , craftIds, new long[]{}, craftIds, userId, userId, statusIds, new long[]{}, statusIds);
         ConnectionPool.releaseConnection(conn);
         return res;
     }

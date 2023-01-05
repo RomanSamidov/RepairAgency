@@ -25,8 +25,11 @@ public class ShowLoginFormCommand implements IActionCommand, IHasRoleRequirement
                 request.getSession().getAttribute("errorLoginPassMessage"));
         request.setAttribute("errorEmptyLogin",
                 request.getSession().getAttribute("errorEmptyLogin"));
+        request.setAttribute("errorRecaptchaMessage",
+                request.getSession().getAttribute("errorRecaptchaMessage"));
 
         request.getSession().removeAttribute("errorEmptyPassword");
+        request.getSession().removeAttribute("errorRecaptchaMessage");
         request.getSession().removeAttribute("errorLoginPassMessage");
         request.getSession().removeAttribute("errorEmptyLogin");
 

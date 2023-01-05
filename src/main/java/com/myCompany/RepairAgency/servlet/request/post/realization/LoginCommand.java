@@ -25,9 +25,6 @@ public class LoginCommand implements IActionCommand, IHasRoleRequirement {
         request.getSession().setAttribute("userLogin", user.getLogin());
         request.getSession().setAttribute("userId", user.getId());
         request.getSession().setAttribute("userRole", Constants.ROLE.values()[user.getRole_id()]);
-        if (user.getRole_id() == Constants.ROLE.Client.ordinal()) {
-            request.getSession().setAttribute("userAccount", user.getAccount());
-        }
     }
 
     @Override
@@ -35,8 +32,6 @@ public class LoginCommand implements IActionCommand, IHasRoleRequirement {
         Path page;
         String login = request.getParameter(Constants.LOGIN);
         String password = request.getParameter(Constants.PASSWORD);
-
-        // get reCAPTCHA request param
         String gRecaptchaResponse = request.getParameter("g-recaptcha-response");
         boolean verify;
         boolean haveError = false;
@@ -45,7 +40,6 @@ public class LoginCommand implements IActionCommand, IHasRoleRequirement {
             request.getSession().setAttribute("errorRecaptchaMessage", "message.error_recaptcha");
             haveError = true;
         }
-
 
         if (password == null || password.isEmpty()) {
             request.getSession().setAttribute("errorEmptyPassword", "message.empty_password");
@@ -73,7 +67,6 @@ public class LoginCommand implements IActionCommand, IHasRoleRequirement {
                 logger.error("[LoginCommand] sql error  " + e);
             }
         }
-
 
         page = PathFactory.getPath("path.page.redirect.login");
         return page;

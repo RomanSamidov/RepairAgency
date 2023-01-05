@@ -45,13 +45,23 @@ public class SignupCommand implements IActionCommand, IHasRoleRequirement {
             haveError = true;
         }
 
-        if (password == null || password.isEmpty() ||
-                passwordRepeat == null || passwordRepeat.isEmpty() ||
-                login == null || login.isEmpty() ||
-                email == null || email.isEmpty()) {
-            request.getSession().setAttribute("errorEmpty", "message.empty_some_line");
+        if (email == null || email.isEmpty()) {
+            request.getSession().setAttribute("errorEmptyEmail", "message.empty_emailsome_line");
             haveError = true;
         }
+        if (password == null || password.isEmpty()) {
+            request.getSession().setAttribute("errorEmptyPassword", "message.empty_password");
+            haveError = true;
+        }
+        if (passwordRepeat == null || passwordRepeat.isEmpty()) {
+            request.getSession().setAttribute("errorEmptyPasswordRepeat", "message.empty_repeat_password");
+            haveError = true;
+        }
+        if (login == null || login.isEmpty()) {
+            request.getSession().setAttribute("errorEmptyLogin", "message.empty_login");
+            haveError = true;
+        }
+
 
         if (!haveError) {
             try {
@@ -69,9 +79,9 @@ public class SignupCommand implements IActionCommand, IHasRoleRequirement {
                         .setConfirmed(false)
                         .setRole_id(Constants.ROLE.Client.ordinal())
                         .build();
-                if (roleId != 0) user.setRole_id(roleId);
-                System.out.println(user.getRole_id());
-                System.out.println(roleId);
+                if(request.getSession().getAttribute("userRole").equals(Constants.ROLE.Admin)){
+                    if (roleId != 0) user.setRole_id(roleId);
+                }
                 userRepository.insert(user);
                 if(request.getSession().getAttribute("userRole").equals(Constants.ROLE.Admin)) {
                     page = PathFactory.getPath("path.page.redirect.signup");

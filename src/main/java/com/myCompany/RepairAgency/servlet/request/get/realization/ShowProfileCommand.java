@@ -1,6 +1,8 @@
 package com.myCompany.RepairAgency.servlet.request.get.realization;
 
 import com.myCompany.RepairAgency.Constants;
+import com.myCompany.RepairAgency.model.ModelManager;
+import com.myCompany.RepairAgency.model.entity.User;
 import com.myCompany.RepairAgency.servlet.Path;
 import com.myCompany.RepairAgency.servlet.PathFactory;
 import com.myCompany.RepairAgency.servlet.request.IActionCommand;
@@ -17,6 +19,10 @@ public class ShowProfileCommand implements IActionCommand, IHasRoleRequirement {
     public Path execute(HttpServletRequest request, HttpServletResponse response) {
         Path page = PathFactory.getPath("path.page.forward.cabinet");
         request.setAttribute("title", "title.cabinet");
+        User user = ModelManager.ins.getUserRepository().getById((Long) request.getSession().getAttribute("userId"));
+        if (user.getRole_id() == Constants.ROLE.Client.ordinal()) {
+            request.setAttribute("userAccount", user.getAccount());
+        }
         return page;
     }
 

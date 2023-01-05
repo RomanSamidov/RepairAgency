@@ -10,7 +10,7 @@
 <my:message key="${error}" defaultvalue=""/>
 <c:choose>
 
-         <c:when test="${error == null}">
+         <c:when test="${goalOrder != null}">
 
     <table class="table table-striped table-bordered table-sm table-th">
             <caption>Order</caption>
@@ -70,40 +70,53 @@
              </c:when>
 
             <c:when test="${userRole=='Manager'||userRole=='Admin'}">
-                <form method="POST" action="">
-                <input type="hidden" name="command" value="order" />
-                <input type="hidden" name="goalIdOrder" value="${ goalOrder.id }" />
-                craftsman_id
-                <select name="goalOrderCraftsman_id" required>
-                    <c:forEach var="craftsman" items="${craftsmen}">
-                       <option value="${craftsman.id}"  ${craftsman.id==goalOrder.craftsman_id?"selected=\"selected\"":""} >${craftsman.id} ${craftsman.login}</option>
-                    </c:forEach>
-                </select>
-                price
-                <input type="number" name="goalOrderPrice" value="${goalOrder.price}" required/><br/>
-                 Status
-                  <select name="goalOrderStatus" required>
-                     <c:forEach var="orStatus" items="${orderStatuses}">
-                         <option value="${orStatus.ordinal}"  ${orStatus.ordinal==goalOrder.status?"selected=\"selected\"":""} >${orStatus.ordinal} ${orStatus.toString}</option>
-                     </c:forEach>
-                  </select>
-                <input type="submit" value="change"/>
-            </form>
+                <c:if test="${goalOrder.status==1}" >
+                    <form method="POST" action="">
+                    <input type="hidden" name="command" value="order" />
+                    <input type="hidden" name="goalIdOrder" value="${ goalOrder.id }" />
+                    <input type="hidden" name="goalOrderStatus" value="2" />
+                    craftsman_id
+                    <select name="goalOrderCraftsman_id" required>
+                        <c:forEach var="craftsman" items="${craftsmen}">
+                           <option value="${craftsman.id}"  ${craftsman.id==goalOrder.craftsman_id?"selected=\"selected\"":""} >${craftsman.id} ${craftsman.login}</option>
+                        </c:forEach>
+                    </select>
+                    price
+                    <input type="number" name="goalOrderPrice" value="${goalOrder.price}" required/>
+                    <input type="submit" value="change"/>
+                    </form>
+                </c:if>
             </c:when>
             <c:when test="${userRole=='Craftsman'}">
-                        <form method="POST" action="">
-                        <input type="hidden" name="command" value="order" />
-                        <input type="hidden" name="goalIdOrder" value="${ goalOrder.id }" />
-                         Status
-                        <select name="goalOrderStatus" required>
-                             <c:forEach var="orStatus" items="${orderStatuses}">
-                                 <option value="${orStatus.ordinal}" ${orStatus.ordinal==goalOrder.status?"selected=\"selected\"":""} >${orStatus.ordinal} ${orStatus.toString}</option>
-                             </c:forEach>
-                          </select><br/>
-                        <input type="submit" value="change"/>
-                    </form>
+            <c:if test="${goalOrder.status==3}" >
+            <form method="POST" action="">
+                                <input type="hidden" name="command" value="order" />
+                                <input type="hidden" name="goalIdOrder" value="${ goalOrder.id }" />
+                                <input type="hidden" name="goalOrderStatus" value="5" />
+                                <input type="submit" value="Take to progress"/>
+                            </form>
+            </c:if>
+            <c:if test="${goalOrder.status==5}" >
+            <form method="POST" action="">
+                                <input type="hidden" name="command" value="order" />
+                                <input type="hidden" name="goalIdOrder" value="${ goalOrder.id }" />
+                                <input type="hidden" name="goalOrderStatus" value="6" />
+                                <input type="submit" value="Complete"/>
+                            </form>
+            </c:if>
+
             </c:when>
         </c:choose>
+
+
+<c:if test="${goalOrder.status!=6 && goalOrder.status!=4}" >
+            <form method="POST" action="">
+                                <input type="hidden" name="command" value="order" />
+                                <input type="hidden" name="goalIdOrder" value="${ goalOrder.id }" />
+                                <input type="hidden" name="goalOrderStatus" value="4" />
+                                <input type="submit" value="Cancel order"/>
+                            </form>
+            </c:if>
 
  </c:when>
 </c:choose>

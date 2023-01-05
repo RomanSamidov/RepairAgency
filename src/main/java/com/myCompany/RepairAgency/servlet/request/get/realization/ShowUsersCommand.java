@@ -12,6 +12,7 @@ import com.myCompany.RepairAgency.servlet.util.ForTables;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -23,21 +24,38 @@ public class ShowUsersCommand implements IActionCommand, IHasRoleRequirement {
         Path page = PathFactory.getPath("path.page.forward.users");
         request.setAttribute("title", "title.users");
 
-        int[] a = ForTables.initSkipQuantity("Users", request);
+
+        long roleId;
+
+
+        if (request.getSession().getAttribute("roleUsers") != null) {
+            Constants.ROLE role = (Constants.ROLE) request.getSession().getAttribute("roleUsers");
+            roleId = role.ordinal();
+        } else {
+            if (request.getSession().getAttribute("userRole").equals(Constants.ROLE.Admin)) {
+                roleId = 0;
+            } else {
+                request.getSession().setAttribute("roleUsers", Constants.ROLE.Client);
+                roleId = Constants.ROLE.Client.ordinal();
+            }
+        }
+
+
+        ArrayList<Constants.ROLE> orderStatuses = new ArrayList<>(List.of(Constants.ROLE.values()));
+        orderStatuses.remove(0);
+        if(!request.getSession().getAttribute("userRole").equals(Constants.ROLE.Admin)){
+            orderStatuses.remove(0);
+            orderStatuses.remove(0);
+        }
+        request.setAttribute("rolesUsers", orderStatuses);
+
+        long numberOfUsers = userRepository.countWhereRoleIs(roleId);
+        int[] a = ForTables.initSkipQuantity("Users", numberOfUsers, request);
         int skip = a[0];
         int quantity = a[1];
-        if (request.getSession().getAttribute("userRole").equals(Constants.ROLE.Admin)) {
-            ForTables.updatePagesForJSP(quantity, skip, userRepository.getCount(), "Users", request);
-            request.setAttribute("users", UserDTOFactory.getUsers(userRepository.getWithPagination(skip, quantity)));
-        } else {
-            long roleId = Constants.ROLE.Client.ordinal();
-            if (request.getSession().getAttribute("roleUsers") != null) {
-                Constants.ROLE role = (Constants.ROLE) request.getSession().getAttribute("roleUsers");
-                roleId = role.ordinal();
-            }
-            ForTables.updatePagesForJSP(quantity, skip, userRepository.countWhereRoleIs(roleId), "Users", request);
-            request.setAttribute("users", UserDTOFactory.getUsers(userRepository.getByRole(roleId, skip, quantity)));
-        }
+
+        ForTables.updatePagesForJSP(quantity, skip, numberOfUsers, "Users", request);
+        request.setAttribute("users", UserDTOFactory.getUsers(userRepository.getByRole(roleId, skip, quantity)));
 
         return page;
     }

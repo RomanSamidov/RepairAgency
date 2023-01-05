@@ -28,6 +28,9 @@ public enum PostCommandEnum {
     }},
     USER {{
         this.command = new UserCommand();
+    }},
+    DELETEUSER {{
+        this.command = new DeleteUserCommand();
     }};
 
 

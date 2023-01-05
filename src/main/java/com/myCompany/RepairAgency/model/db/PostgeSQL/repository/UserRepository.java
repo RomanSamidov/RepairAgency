@@ -68,7 +68,7 @@ public class UserRepository implements iUserRepository {
     @Override
     public ArrayList<User> getByRole(long roleId, int skip, int quantity) {
         Connection conn = ConnectionPool.getConnection();
-        ArrayList<User> res = QueryExecutioner.readList(UserFactory.ins, conn, Query.UsersQuery.SELECT_ALL_BY_ROLE, roleId, skip, quantity);
+        ArrayList<User> res = QueryExecutioner.readList(UserFactory.ins, conn, Query.UsersQuery.SELECT_ALL_BY_ROLE, roleId, roleId, skip, quantity);
         ConnectionPool.releaseConnection(conn);
         return res;
     }
@@ -76,7 +76,7 @@ public class UserRepository implements iUserRepository {
     @Override
     public long countWhereRoleIs(long roleId) {
         Connection conn = ConnectionPool.getConnection();
-        long res = QueryExecutioner.readNumber(conn, Query.UsersQuery.COUNT_BY_ROLE, roleId);
+        long res = QueryExecutioner.readNumber(conn, Query.UsersQuery.COUNT_BY_ROLE, roleId, roleId);
         ConnectionPool.releaseConnection(conn);
         return res;
     }

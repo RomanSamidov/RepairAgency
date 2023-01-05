@@ -12,10 +12,14 @@ import java.io.DataOutputStream;
 import java.io.InputStreamReader;
 import java.io.StringReader;
 import java.net.URL;
+import java.util.ResourceBundle;
 
 public class VerifyRecaptcha {
+    private final static ResourceBundle resourceBundle =
+            ResourceBundle.getBundle("recaptcha");
+
     public static final String url = "https://www.google.com/recaptcha/api/siteverify";
-    public static final String secret = "6LfD3asjAAAAAIHPtFURYs0ROyRXLi0FDbCjUQYq";
+    public static final String secret = resourceBundle.getString("secret");
     private static final Logger logger = LogManager.getLogger(VerifyRecaptcha.class);
     private final static String USER_AGENT = "Mozilla/5.0";
 

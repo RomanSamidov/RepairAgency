@@ -19,12 +19,16 @@ public class ShowSignupFormCommand implements IActionCommand, IHasRoleRequiremen
         Path page = PathFactory.getPath("path.page.forward.signup");
         request.setAttribute("errorEmptyPassword",
                 request.getSession().getAttribute("errorEmptyPassword"));
+        request.setAttribute("errorEmptyPasswordRepeat",
+                request.getSession().getAttribute("errorEmptyPasswordRepeat"));
         request.setAttribute("errorLoginPassMessage",
                 request.getSession().getAttribute("errorLoginPassMessage"));
         request.setAttribute("errorEmptyLogin",
                 request.getSession().getAttribute("errorEmptyLogin"));
-        request.setAttribute("errorEmptyPasswordRepeat",
-                request.getSession().getAttribute("errorEmptyPasswordRepeat"));
+        request.setAttribute("errorRecaptchaMessage",
+                request.getSession().getAttribute("errorRecaptchaMessage"));
+        request.setAttribute("errorEmptyEmail",
+                request.getSession().getAttribute("errorEmptyEmail"));
 
         if ( request.getSession().getAttribute("userRole").equals(Constants.ROLE.Admin)) {
             ArrayList<Constants.ROLE> roles = new ArrayList<>(List.of(Constants.ROLE.values()));
@@ -33,9 +37,12 @@ public class ShowSignupFormCommand implements IActionCommand, IHasRoleRequiremen
         }
 
         request.getSession().removeAttribute("errorEmptyPassword");
+        request.getSession().removeAttribute("errorEmptyPasswordRepeat");
+        request.getSession().removeAttribute("errorEmptyEmail");
         request.getSession().removeAttribute("errorLoginPassMessage");
         request.getSession().removeAttribute("errorEmptyLogin");
-        request.getSession().removeAttribute("errorEmptyPasswordRepeat");
+        request.getSession().removeAttribute("errorRecaptchaMessage");
+
         request.setAttribute("title", "title.signup");
         return page;
     }
