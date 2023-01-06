@@ -12,24 +12,28 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 import java.util.List;
+import java.util.Random;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-public class DeleteUserCommand implements IActionCommand, IHasRoleRequirement {
+public class ChangeEmailCommand implements IActionCommand, IHasRoleRequirement {
     @Override
     public Path execute(HttpServletRequest request, HttpServletResponse response) {
-
-        long userId = Long.parseLong(request.getParameter("goalIdUser"));
-        User user = ModelManager.ins.getUserRepository().getById(userId);
-        ModelManager.ins.getUserRepository().delete(user);
-        EmailSender.send(user.getEmail(),
-                "Your profile was deleted.",
-                "Your profile  was deleted.");
-        return PathFactory.getPath("path.page.redirect.users");
+    User user = ModelManager.ins.getUserRepository().getById((Long) request.getSession().getAttribute("userId"));
+    user.setConfirmed(false);
+    String email = (String) request.getAttribute("email");
+    user.setEmail(email);
+    ModelManager.ins.getUserRepository().update(user);
+    request.getSession().setAttribute("userEmail", user.getEmail());
+    request.getSession().setAttribute("isUserConfirmed", user.isConfirmed());
+    return PathFactory.getPath("path.page.redirect.cabinet");
     }
 
     @Override
     public List<Constants.ROLE> allowedUserRoles() {
-        return Stream.of(Constants.ROLE.Admin).collect(Collectors.toList());
+        return Stream.of(Constants.ROLE.Client,
+                Constants.ROLE.Admin,
+                Constants.ROLE.Manager,
+                Constants.ROLE.Craftsman).collect(Collectors.toList());
     }
 }

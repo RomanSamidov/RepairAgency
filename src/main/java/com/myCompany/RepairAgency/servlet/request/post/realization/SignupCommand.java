@@ -79,6 +79,7 @@ public class SignupCommand implements IActionCommand, IHasRoleRequirement {
                         .setConfirmed(false)
                         .setRole_id(Constants.ROLE.Client.ordinal())
                         .build();
+
                 if(request.getSession().getAttribute("userRole").equals(Constants.ROLE.Admin)){
                     if (roleId != 0) user.setRole_id(roleId);
                 }

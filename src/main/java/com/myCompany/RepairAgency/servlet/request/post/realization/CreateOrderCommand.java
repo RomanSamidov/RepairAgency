@@ -7,6 +7,7 @@ import com.myCompany.RepairAgency.servlet.Path;
 import com.myCompany.RepairAgency.servlet.PathFactory;
 import com.myCompany.RepairAgency.servlet.request.IActionCommand;
 import com.myCompany.RepairAgency.servlet.request.IHasRoleRequirement;
+import com.myCompany.RepairAgency.servlet.util.EmailSender;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.apache.logging.log4j.LogManager;
@@ -25,7 +26,12 @@ public class CreateOrderCommand implements IActionCommand, IHasRoleRequirement {
     public Path execute(HttpServletRequest request, HttpServletResponse response) {
         Path page;
 
-        long userId = Long.parseLong(request.getParameter("userId"));
+        if(!(boolean)request.getSession().getAttribute("isUserConfirmed")) {
+            request.getSession().setAttribute("errorOrderTextMessage", "text.you_not_confirmed");
+            return PathFactory.getPath("path.page.redirect.orders");
+        }
+
+        long userId = (long) request.getSession().getAttribute("userId");
         String text = request.getParameter("orderText");
         if (text == null || text.isBlank()) {
             request.getSession().setAttribute("errorOrderTextMessage", "text.order_empty");
@@ -39,6 +45,11 @@ public class CreateOrderCommand implements IActionCommand, IHasRoleRequirement {
                     .setText(text).build();
 
             ModelManager.ins.getRepairOrderRepository().insert(order);
+            if((boolean)request.getSession().getAttribute("isUserAllowLetters")) {
+                EmailSender.send((String)request.getSession().getAttribute("userEmail"),
+                        "Your order created",
+                        "Order with id " + order.getId() + " created.");
+            }
             request.getSession().setAttribute("errorOrderTextMessage", "text.order_added");
         } catch (Exception e) {
             logger.error("[CreateOrderCommand] " + e);

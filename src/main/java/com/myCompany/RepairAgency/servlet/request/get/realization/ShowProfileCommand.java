@@ -23,6 +23,9 @@ public class ShowProfileCommand implements IActionCommand, IHasRoleRequirement {
         if (user.getRole_id() == Constants.ROLE.Client.ordinal()) {
             request.setAttribute("userAccount", user.getAccount());
         }
+        request.setAttribute("confirmationCodeError"
+                , request.getSession().getAttribute("confirmationCodeError"));
+        request.getSession().removeAttribute("confirmationCodeError");
         return page;
     }
 

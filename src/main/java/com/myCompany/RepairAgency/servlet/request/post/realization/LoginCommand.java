@@ -24,7 +24,10 @@ public class LoginCommand implements IActionCommand, IHasRoleRequirement {
     public static void initializeUserSessionAttributes(HttpServletRequest request, User user) {
         request.getSession().setAttribute("userLogin", user.getLogin());
         request.getSession().setAttribute("userId", user.getId());
+        request.getSession().setAttribute("userEmail", user.getEmail());
         request.getSession().setAttribute("userRole", Constants.ROLE.values()[user.getRole_id()]);
+        request.getSession().setAttribute("isUserAllowLetters", user.isAllow_letters());
+        request.getSession().setAttribute("isUserConfirmed", user.isConfirmed());
     }
 
     @Override

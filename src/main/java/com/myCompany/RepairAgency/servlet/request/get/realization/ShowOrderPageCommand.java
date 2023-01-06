@@ -22,10 +22,6 @@ public class ShowOrderPageCommand implements IActionCommand, IHasRoleRequirement
     public Path execute(HttpServletRequest request, HttpServletResponse response) {
         Path page = PathFactory.getPath("path.page.forward.order");
         request.setAttribute("title", "title.order");
-//        long orderId = ForChangeEntity.initGoalId("Order", request);
-//        if(orderId != 0) {
-//            request.setAttribute("goalOrder", RepairOrderDTOFactory.getRepairOrder(ModelManager.ins.getRepairOrder(orderId)));
-//        }
 
         long goalId;
         if(request.getParameter("id") != null) {

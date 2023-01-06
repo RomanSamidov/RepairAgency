@@ -19,7 +19,6 @@ public class ShowUserCommand implements IActionCommand, IHasRoleRequirement {
     public Path execute(HttpServletRequest request, HttpServletResponse response) {
         Path page = PathFactory.getPath("path.page.forward.user");
         request.setAttribute("title", "title.user");
-//        long userId = ForChangeEntity.initGoalId("User", request);
         long userId = 0;
         if(request.getParameter("id") != null) {
             userId = Long.parseLong(request.getParameter("id"));

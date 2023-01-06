@@ -28,7 +28,7 @@
 
 <c:if test="${goalUser.role == 'Client'}" >
  <form method="POST" action="">
-            <input type="hidden" name="command" value="user" />
+            <input type="hidden" name="command" value="addToUserAccount" />
             <input type="hidden" name="goalIdUser" value="${ goalUser.id }" />
             <input type="number" name="addToAccount" value=""/><br/>
             <input type="submit" value="addToAccount"/>

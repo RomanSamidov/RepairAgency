@@ -20,17 +20,35 @@ public enum PostCommandEnum {
     ORDERS {{
         this.command = new OrdersCommand();
     }},
-    ORDER {{
-        this.command = new OrderCommand();
+    SET_ORDER_STATUS {{
+        this.command = new SetOrderStatusCommand();
+    }},
+    SET_FEEDBACK_FOR_ORDER {{
+        this.command = new SetFeedbackForOrderCommand();
     }},
     USERS {{
         this.command = new UsersCommand();
     }},
-    USER {{
-        this.command = new UserCommand();
+    ADD_TO_USER_ACCOUNT {{
+        this.command = new AddToUserAccountCommand();
     }},
-    DELETEUSER {{
+    DELETE_USER {{
         this.command = new DeleteUserCommand();
+    }},
+    CONFIRM_EMAIL {{
+        this.command = new ConfirmEmailCommand();
+    }},
+    CHANGE_EMAIL {{
+        this.command = new ChangeEmailCommand();
+    }},
+    PAY_FOR_ORDER {{
+        this.command = new PayForOrderCommand();
+    }},
+    CANCEL_ORDER {{
+        this.command = new CancelOrderCommand();
+    }},
+    SET_CRAFTSMAN_AND_PRICE {{
+        this.command = new SetCraftsmanAndPriceCommand();
     }};
 
 

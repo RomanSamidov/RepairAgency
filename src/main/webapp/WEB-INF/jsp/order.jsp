@@ -50,7 +50,7 @@
              <c:when test="${userRole=='Client'}">
                 <c:if test="${goalOrder.status==6}" >
                      <form method="POST" action="">
-                         <input type="hidden" name="command" value="order" />
+                         <input type="hidden" name="command" value="SET_FEEDBACK_FOR_ORDER" />
                          <input type="hidden" name="goalIdOrder" value="${ goalOrder.id }" />
                          feedback_text
                          <input type="text" name="goalOrderFeedback_text" value=""/><br/>
@@ -61,7 +61,7 @@
                 </c:if>
                 <c:if test="${goalOrder.status==2}" >
                              <form method="POST" action="">
-                                 <input type="hidden" name="command" value="order" />
+                                 <input type="hidden" name="command" value="payForOrder" />
                                  <input type="hidden" name="goalIdOrder" value="${ goalOrder.id }" />
                                  <input type="hidden" name="payOrder" value="true" />
                                  <input type="submit" value="pay"/>
@@ -72,9 +72,8 @@
             <c:when test="${userRole=='Manager'||userRole=='Admin'}">
                 <c:if test="${goalOrder.status==1}" >
                     <form method="POST" action="">
-                    <input type="hidden" name="command" value="order" />
+                    <input type="hidden" name="command" value="SET_CRAFTSMAN_AND_PRICE" />
                     <input type="hidden" name="goalIdOrder" value="${ goalOrder.id }" />
-                    <input type="hidden" name="goalOrderStatus" value="2" />
                     craftsman_id
                     <select name="goalOrderCraftsman_id" required>
                         <c:forEach var="craftsman" items="${craftsmen}">
@@ -90,7 +89,7 @@
             <c:when test="${userRole=='Craftsman'}">
             <c:if test="${goalOrder.status==3}" >
             <form method="POST" action="">
-                                <input type="hidden" name="command" value="order" />
+                                <input type="hidden" name="command" value="SET_ORDER_STATUS" />
                                 <input type="hidden" name="goalIdOrder" value="${ goalOrder.id }" />
                                 <input type="hidden" name="goalOrderStatus" value="5" />
                                 <input type="submit" value="Take to progress"/>
@@ -98,7 +97,7 @@
             </c:if>
             <c:if test="${goalOrder.status==5}" >
             <form method="POST" action="">
-                                <input type="hidden" name="command" value="order" />
+                                <input type="hidden" name="command" value="SET_ORDER_STATUS" />
                                 <input type="hidden" name="goalIdOrder" value="${ goalOrder.id }" />
                                 <input type="hidden" name="goalOrderStatus" value="6" />
                                 <input type="submit" value="Complete"/>
@@ -111,7 +110,7 @@
 
 <c:if test="${goalOrder.status!=6 && goalOrder.status!=4}" >
             <form method="POST" action="">
-                                <input type="hidden" name="command" value="order" />
+                                <input type="hidden" name="command" value="CANCEL_ORDER" />
                                 <input type="hidden" name="goalIdOrder" value="${ goalOrder.id }" />
                                 <input type="hidden" name="goalOrderStatus" value="4" />
                                 <input type="submit" value="Cancel order"/>
