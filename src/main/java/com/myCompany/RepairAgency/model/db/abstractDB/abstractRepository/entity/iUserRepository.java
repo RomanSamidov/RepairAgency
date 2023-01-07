@@ -12,6 +12,4 @@ public interface iUserRepository extends iRepositoryForChangeAble<User> {
 
     long countWhereRoleIs(long id);
 
-    void addToAccount(long userId, int increment);
-
 }

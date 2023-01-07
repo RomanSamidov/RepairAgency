@@ -19,7 +19,8 @@ import java.io.IOException;
 
 //@WebFilter(urlPatterns = { "/controller/*" },
 //           servletNames = { "Controller" })
-@WebFilter(urlPatterns = {"/*"})
+@WebFilter(filterName="UserRoleSecurityFilter",
+        urlPatterns = {"/*"})
 public class UserRoleSecurityFilter implements Filter {
     private static final Logger logger = LogManager.getLogger(UserRoleSecurityFilter.class);
 

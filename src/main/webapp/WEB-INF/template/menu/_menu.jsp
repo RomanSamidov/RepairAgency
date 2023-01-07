@@ -3,6 +3,8 @@
 ${Locale}
 <fmt:setLocale value="${language}"/>
 <fmt:setBundle basename="LocalStrings"/>
+${Locale}
+
 <div class="text-center " align="center">
     <header class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 mb-4 border-bottom">
 
@@ -20,6 +22,7 @@ ${Locale}
                 <a href="/RepairAgency/controller/users" class = "btn px-2  "><fmt:message key="title.users"/></a>
             </c:if>
         </ul>
+        <myc:info-time/>
 
         <form name="changeLanguage">
              <select  class="form-select form-select-sm" id="language" name="language" onchange="submit()" >

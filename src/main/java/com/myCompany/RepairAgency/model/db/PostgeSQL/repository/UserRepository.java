@@ -80,31 +80,4 @@ public class UserRepository implements iUserRepository {
         ConnectionPool.releaseConnection(conn);
         return res;
     }
-
-    @Override
-    public long getCount() {
-        Connection conn = ConnectionPool.getConnection();
-        long res = QueryExecutioner.readNumber(conn, Query.UsersQuery.COUNT);
-        ConnectionPool.releaseConnection(conn);
-        return res;
-    }
-
-    @Override
-    public void addToAccount(long userId, int increment) {
-        Connection conn = ConnectionPool.getConnection();
-        User user = QueryExecutioner.readEntity(UserFactory.ins, conn, Query.UsersQuery.SELECT_BY_ID, userId);
-        user.setAccount(user.getAccount() + increment);
-        QueryExecutioner.executeUpdate(conn, Query.UsersQuery.UPDATE,
-                UserRepository.extractFields(user, user.getId()));
-        ConnectionPool.releaseConnection(conn);
-    }
-
-    @Override
-    public ArrayList<User> getWithPagination(long skip, long quantity) {
-        Connection conn = ConnectionPool.getConnection();
-        ArrayList<User> res = QueryExecutioner.readList(UserFactory.ins, conn,
-                Query.UsersQuery.SELECT_WITH_PAGINATION, skip, quantity);
-        ConnectionPool.releaseConnection(conn);
-        return res;
-    }
 }

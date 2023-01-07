@@ -6,21 +6,6 @@ import com.myCompany.RepairAgency.model.entity.RepairOrder;
 import java.util.ArrayList;
 
 public interface iRepairOrderRepository extends iRepositoryForChangeAble<RepairOrder> {
-    ArrayList<RepairOrder> getByStatus(long[] statusIds, SORT_TYPE sort, long skip, long quantity);
-
-    long countByStatus(long[] statusIds);
-
-    ArrayList<RepairOrder> getByCraftNNStatus(long[] craftIds, long[] statusIds, SORT_TYPE sort, long skip, long quantity);
-
-    long countByCraftNNStatus(long[] craftIds, long[] statusIds);
-
-    ArrayList<RepairOrder> getByCraftStatus(long[] craftIds, long[] statusIds, SORT_TYPE sort, long skip, long quantity);
-
-    long countByCraftStatus(long[] craftIds, long[] statusIds);
-
-    ArrayList<RepairOrder> getByUserStatus(long userId, long[] statusIds, SORT_TYPE sort, long skip, long quantity);
-
-    long countByUserStatus(long userId, long[] statusIds);
 
     ArrayList<RepairOrder> getByCraftUserStatus(long[] craftIds, long userId, long[] statusIds, SORT_TYPE sort, long skip, long quantity);
 

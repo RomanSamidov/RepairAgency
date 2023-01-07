@@ -41,13 +41,13 @@ public class ShowUsersCommand implements IActionCommand, IHasRoleRequirement {
         }
 
 
-        ArrayList<Constants.ROLE> orderStatuses = new ArrayList<>(List.of(Constants.ROLE.values()));
-        orderStatuses.remove(0);
+        ArrayList<Constants.ROLE> rolesUsers = new ArrayList<>(List.of(Constants.ROLE.values()));
+        rolesUsers.remove(0);
         if(!request.getSession().getAttribute("userRole").equals(Constants.ROLE.Admin)){
-            orderStatuses.remove(0);
-            orderStatuses.remove(0);
+            rolesUsers.remove(0);
+            rolesUsers.remove(0);
         }
-        request.setAttribute("rolesUsers", orderStatuses);
+        request.setAttribute("rolesUsers", rolesUsers);
 
         long numberOfUsers = userRepository.countWhereRoleIs(roleId);
         int[] a = ForTables.initSkipQuantity("Users", numberOfUsers, request);
