@@ -27,9 +27,8 @@ public class VerifyRecaptcha {
 
         if (gRecaptchaResponse == null || gRecaptchaResponse.isBlank()) {
             logger.debug("[VerifyRecaptcha]  for test purpose, change true to false");
-            return true;
+            return false;
             /////// for test purpose, change true to false
-
         }
 
         try {

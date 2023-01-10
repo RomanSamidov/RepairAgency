@@ -63,7 +63,7 @@ public class ConnectionPool {
         }
     }
 
-    public static Connection getConnection() {
+    public static synchronized Connection getConnection() {
         Connection con = connectionPool.remove(connectionPool.size() - 1);
         try {
             if (!con.isValid(1000))
@@ -75,7 +75,7 @@ public class ConnectionPool {
         return con;
     }
 
-    public static void releaseConnection(Connection connection) {
+    public static synchronized void releaseConnection(Connection connection) {
         try {
 //            connection.commit();
             connection.setAutoCommit(true);

@@ -84,6 +84,13 @@
                     <input type="submit" value="<fmt:message key="text.change"/>"/>
                     </form>
                 </c:if>
+                <c:if test="${goalOrder.status==2}" >
+                     <form method="POST" action="">
+                         <input type="hidden" name="command" value="pay_For_Order" />
+                         <input type="hidden" name="goalIdOrder" value="${ goalOrder.id }" />
+                         <input type="submit" value="<fmt:message key="text.pay"/>"/>
+                      </form>
+                </c:if>
             </c:when>
             <c:when test="${userRole=='Craftsman'}">
             <c:if test="${goalOrder.status==3}" >

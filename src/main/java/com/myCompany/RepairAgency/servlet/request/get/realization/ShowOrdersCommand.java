@@ -119,8 +119,7 @@ public class ShowOrdersCommand implements IActionCommand, IHasRoleRequirement {
                               long[] craftIds, long userId, long[] statusIds
             , iRepairOrderRepository.SORT_TYPE  sortType) {
         try {
-            Locale language =
-                    Locale.forLanguageTag((String) request.getSession().getAttribute("language"));
+            Locale language =new Locale((String) request.getSession().getAttribute("language"));
             String filename;
             Constants.REPORT_FORMAT format =
                     (Constants.REPORT_FORMAT) request.getSession().getAttribute("reportFormat");

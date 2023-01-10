@@ -23,7 +23,7 @@
 </form>
     <form class="text-center" name="allowLetters" method="POST" action=""  target="_top">
         <input type="hidden" name="command" value="change_profile_settings" />
-        <input type="checkbox" name="newIsUserAllowLetters" value="${!isUserAllowLetters}"   ${isUserAllowLetters ? 'checked' : ''}>
+        <input type="checkbox" name="newIsUserAllowLetters" value="true" default="false"   ${isUserAllowLetters ? 'checked' : ''}>
         <label for="newIsUserAllowLetters"><fmt:message key="text.i_agree_to_receive_letters"/></label><br>
         <input type="submit" value="<fmt:message key="text.update"/>"/>
     </form>

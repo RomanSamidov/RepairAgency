@@ -5,12 +5,12 @@ import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.PDPage;
 import org.apache.pdfbox.pdmodel.PDPageContentStream;
 import org.apache.pdfbox.pdmodel.common.PDRectangle;
-import org.apache.pdfbox.pdmodel.font.PDType1Font;
-import org.apache.pdfbox.pdmodel.font.Standard14Fonts;
+import org.apache.pdfbox.pdmodel.font.*;
 
 import java.awt.*;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.file.FileSystems;
 import java.util.ArrayList;
 import java.util.Locale;
@@ -56,7 +56,14 @@ public class PDFWriter{
             PDPageContentStream contentStream = new PDPageContentStream(document, page);
             contentStream.setStrokingColor(Color.DARK_GRAY);
             contentStream.setLineWidth(1);
-            contentStream.setFont(new PDType1Font(Standard14Fonts.FontName.TIMES_ROMAN), 12);
+//            PDFont font = new PDType1Font(Standard14Fonts.FontName.TIMES_ROMAN);
+
+            ClassLoader classloader = Thread.currentThread().getContextClassLoader();
+            InputStream is = classloader.getResourceAsStream("NotoSansMono-VariableFont_wdth,wght.ttf");
+
+            PDFont font = PDType0Font.load(document, is);
+
+            contentStream.setFont(font, 8);
 
             createTableHeader(contentStream, writer, resourceBundle);
 

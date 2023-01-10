@@ -2,6 +2,7 @@ package com.myCompany.RepairAgency.servlet.request.post.realization;
 
 import com.myCompany.RepairAgency.Constants;
 import com.myCompany.RepairAgency.model.ModelManager;
+import com.myCompany.RepairAgency.model.entity.RepairOrder;
 import com.myCompany.RepairAgency.model.entity.User;
 import com.myCompany.RepairAgency.servlet.Path;
 import com.myCompany.RepairAgency.servlet.PathFactory;
@@ -34,6 +35,14 @@ public class PayForOrderCommand implements IActionCommand, IHasRoleRequirement {
                     request.getSession().setAttribute("error","message.not_enough_money");
                 }
 
+        } else if(request.getSession().getAttribute("userRole") == Constants.ROLE.Manager ||
+                request.getSession().getAttribute("userRole") == Constants.ROLE.Admin ){
+            RepairOrder order = ModelManager.ins.getRepairOrderRepository().getById(
+                    Long.parseLong(request.getParameter("goalIdOrder")));
+            order.setStatus_id(Constants.ORDER_STATUS.PAID.ordinal());
+            ModelManager.ins.getRepairOrderRepository().update(order);
+            User user = ModelManager.ins.getUserRepository().getById(order.getUser_id());
+            ifNeedSendEmail(user, Long.parseLong(request.getParameter("goalIdOrder")));
         }
 
         Path path = PathFactory.getPath("path.page.redirect.order");
