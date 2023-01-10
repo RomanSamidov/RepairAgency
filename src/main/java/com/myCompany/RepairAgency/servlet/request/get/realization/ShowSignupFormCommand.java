@@ -17,6 +17,27 @@ public class ShowSignupFormCommand implements IActionCommand, IHasRoleRequiremen
     @Override
     public Path execute(HttpServletRequest request, HttpServletResponse response) {
         Path page = PathFactory.getPath("path.page.forward.signup");
+        request.setAttribute("title", "title.signup");
+
+        copyAttributesFromSessionToRequest(request);
+
+        if ( request.getSession().getAttribute("userRole").equals(Constants.ROLE.Admin)) {
+            ArrayList<Constants.ROLE> roles = new ArrayList<>(List.of(Constants.ROLE.values()));
+            roles.remove(0);
+            request.setAttribute("roles", roles);
+        }
+
+        deleteAttributesFromSession(request);
+        return page;
+    }
+
+    @Override
+    public List<Constants.ROLE> allowedUserRoles() {
+        return Stream.of(Constants.ROLE.Guest,
+                Constants.ROLE.Admin).collect(Collectors.toList());
+    }
+
+    private void copyAttributesFromSessionToRequest(HttpServletRequest request) {
         request.setAttribute("errorEmptyPassword",
                 request.getSession().getAttribute("errorEmptyPassword"));
         request.setAttribute("errorEmptyPasswordRepeat",
@@ -29,27 +50,14 @@ public class ShowSignupFormCommand implements IActionCommand, IHasRoleRequiremen
                 request.getSession().getAttribute("errorRecaptchaMessage"));
         request.setAttribute("errorEmptyEmail",
                 request.getSession().getAttribute("errorEmptyEmail"));
+    }
 
-        if ( request.getSession().getAttribute("userRole").equals(Constants.ROLE.Admin)) {
-            ArrayList<Constants.ROLE> roles = new ArrayList<>(List.of(Constants.ROLE.values()));
-            roles.remove(0);
-            request.setAttribute("roles", roles);
-        }
-
+    private void deleteAttributesFromSession(HttpServletRequest request) {
         request.getSession().removeAttribute("errorEmptyPassword");
         request.getSession().removeAttribute("errorEmptyPasswordRepeat");
         request.getSession().removeAttribute("errorEmptyEmail");
         request.getSession().removeAttribute("errorLoginPassMessage");
         request.getSession().removeAttribute("errorEmptyLogin");
         request.getSession().removeAttribute("errorRecaptchaMessage");
-
-        request.setAttribute("title", "title.signup");
-        return page;
-    }
-
-    @Override
-    public List<Constants.ROLE> allowedUserRoles() {
-        return Stream.of(Constants.ROLE.Guest,
-                Constants.ROLE.Admin).collect(Collectors.toList());
     }
 }

@@ -13,19 +13,19 @@
          <c:when test="${goalOrder != null}">
 
     <table class="table table-striped table-bordered table-sm table-th">
-            <caption>Order</caption>
+            <caption><fmt:message key="title.order"/></caption>
             <tr>
-                    <th> id </th>
-                    <th> user_id </th>
-                    <th> craftsman_id </th>
-                    <th> creation_date </th>
-                    <th> text </th>
-                    <th> price </th>
-                    <th> finish_date </th>
-                    <th> status </th>
-                    <th> feedback_date </th>
-                    <th> feedback_text </th>
-                    <th> feedback_mark </th>
+                <th><fmt:message key="text.order.id"/>  </th>
+                <th><fmt:message key="text.order.user_id"/>  </th>
+                <th><fmt:message key="text.order.craftsman_id"/>  </th>
+                <th><fmt:message key="text.order.creation_date"/>  </th>
+                <th><fmt:message key="text.order.text"/>  </th>
+                <th><fmt:message key="text.order.price"/>  </th>
+                <th><fmt:message key="text.order.finish_date"/>  </th>
+                <th><fmt:message key="text.order.status"/>  </th>
+                <th><fmt:message key="text.order.feedback_date"/>  </th>
+                <th><fmt:message key="text.order.feedback_text"/>  </th>
+                <th><fmt:message key="text.order.feedback_mark"/>  </th>
                     </tr>
 
                 <tr>
@@ -52,19 +52,18 @@
                      <form method="POST" action="">
                          <input type="hidden" name="command" value="SET_FEEDBACK_FOR_ORDER" />
                          <input type="hidden" name="goalIdOrder" value="${ goalOrder.id }" />
-                         feedback_text
+                         <label for="goalOrderFeedback_text"><fmt:message key="text.order.feedback_text"/></label>
                          <input type="text" name="goalOrderFeedback_text" value=""/><br/>
-                         feedback_mark
+                         <label for="goalOrderFeedback_mark"><fmt:message key="text.order.feedback_mark"/></label>
                          <input type="number" name="goalOrderFeedback_mark" value=""/><br/>
-                         <input type="submit" value="change"/>
+                         <input type="submit" value="<fmt:message key="text.change"/>"/>
                       </form>
                 </c:if>
                 <c:if test="${goalOrder.status==2}" >
                              <form method="POST" action="">
-                                 <input type="hidden" name="command" value="payForOrder" />
+                                 <input type="hidden" name="command" value="pay_For_Order" />
                                  <input type="hidden" name="goalIdOrder" value="${ goalOrder.id }" />
-                                 <input type="hidden" name="payOrder" value="true" />
-                                 <input type="submit" value="pay"/>
+                                 <input type="submit" value="<fmt:message key="text.pay"/>"/>
                               </form>
                 </c:if>
              </c:when>
@@ -74,15 +73,15 @@
                     <form method="POST" action="">
                     <input type="hidden" name="command" value="SET_CRAFTSMAN_AND_PRICE" />
                     <input type="hidden" name="goalIdOrder" value="${ goalOrder.id }" />
-                    craftsman_id
+                    <label for="goalOrderCraftsman_id"><fmt:message key="text.craftsman"/></label>
                     <select name="goalOrderCraftsman_id" required>
                         <c:forEach var="craftsman" items="${craftsmen}">
                            <option value="${craftsman.id}"  ${craftsman.id==goalOrder.craftsman_id?"selected=\"selected\"":""} >${craftsman.id} ${craftsman.login}</option>
                         </c:forEach>
                     </select>
-                    price
+                    <label for="goalOrderCraftsman_id"><fmt:message key="text.order.price"/></label>
                     <input type="number" name="goalOrderPrice" value="${goalOrder.price}" required/>
-                    <input type="submit" value="change"/>
+                    <input type="submit" value="<fmt:message key="text.change"/>"/>
                     </form>
                 </c:if>
             </c:when>
@@ -92,7 +91,7 @@
                                 <input type="hidden" name="command" value="SET_ORDER_STATUS" />
                                 <input type="hidden" name="goalIdOrder" value="${ goalOrder.id }" />
                                 <input type="hidden" name="goalOrderStatus" value="5" />
-                                <input type="submit" value="Take to progress"/>
+                                <input type="submit" value="<fmt:message key="text.take_to_progress"/>"/>
                             </form>
             </c:if>
             <c:if test="${goalOrder.status==5}" >
@@ -100,7 +99,7 @@
                                 <input type="hidden" name="command" value="SET_ORDER_STATUS" />
                                 <input type="hidden" name="goalIdOrder" value="${ goalOrder.id }" />
                                 <input type="hidden" name="goalOrderStatus" value="6" />
-                                <input type="submit" value="Complete"/>
+                                <input type="submit" value="<fmt:message key="text.complete"/>"/>
                             </form>
             </c:if>
 
@@ -113,7 +112,7 @@
                                 <input type="hidden" name="command" value="CANCEL_ORDER" />
                                 <input type="hidden" name="goalIdOrder" value="${ goalOrder.id }" />
                                 <input type="hidden" name="goalOrderStatus" value="4" />
-                                <input type="submit" value="Cancel order"/>
+                                <input type="submit" value="<fmt:message key="text.cancel_order"/>"/>
                             </form>
             </c:if>
 

@@ -16,3 +16,5 @@ JSTL i18n tag library.
 <%@ taglib prefix="my" tagdir="/WEB-INF/tags" %>
 
 <%@ taglib prefix="myc" uri="/WEB-INF/tld/custom.tld" %>
+<fmt:setLocale value="${language}"/>
+<fmt:setBundle basename="LocalStrings"/>

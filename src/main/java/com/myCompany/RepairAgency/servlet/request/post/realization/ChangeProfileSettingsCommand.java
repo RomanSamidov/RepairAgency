@@ -1,4 +1,4 @@
-package com.myCompany.RepairAgency.servlet.request.get.realization;
+package com.myCompany.RepairAgency.servlet.request.post.realization;
 
 import com.myCompany.RepairAgency.Constants;
 import com.myCompany.RepairAgency.model.ModelManager;
@@ -14,22 +14,18 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-public class ShowProfileCommand implements IActionCommand, IHasRoleRequirement {
+public class ChangeProfileSettingsCommand implements IActionCommand, IHasRoleRequirement {
+
     @Override
     public Path execute(HttpServletRequest request, HttpServletResponse response) {
-        Path page = PathFactory.getPath("path.page.forward.cabinet");
-        request.setAttribute("title", "title.cabinet");
-        User user = ModelManager.ins.getUserRepository().getById(
-                (Long)request.getSession().getAttribute("userId"));
-        if (user.getRole_id() == Constants.ROLE.Client.ordinal()) {
-            request.setAttribute("userAccount", user.getAccount());
-        }
-            request.setAttribute("isUserAllowLetters",user.isAllow_letters());
-        request.setAttribute("confirmationCodeError"
-                , request.getSession().getAttribute("confirmationCodeError"));
-        request.getSession().removeAttribute("confirmationCodeError");
+        User user = ModelManager.ins.getUserRepository().getById((Long) request.getSession().getAttribute("userId"));
 
-        return page;
+        boolean isUserAllowLetters = Boolean.parseBoolean(request.getParameter("newIsUserAllowLetters"));
+        user.setAllow_letters(isUserAllowLetters);
+        ModelManager.ins.getUserRepository().update(user);
+        request.getSession().setAttribute("isUserAllowLetters", user.isAllow_letters());
+
+        return PathFactory.getPath("path.page.redirect.cabinet");
     }
 
     @Override
@@ -39,4 +35,5 @@ public class ShowProfileCommand implements IActionCommand, IHasRoleRequirement {
                 Constants.ROLE.Manager,
                 Constants.ROLE.Craftsman).collect(Collectors.toList());
     }
+
 }

@@ -7,15 +7,15 @@
 
     <filter-mapping>
         <filter-name>SessionLocaleFilter</filter-name>
-        <url-pattern/>
+        <url-pattern>/*</url-pattern>
     </filter-mapping>
     <filter-mapping>
         <filter-name>EncodingFilter</filter-name>
-        <url-pattern/>
+        <url-pattern>/*</url-pattern>
     </filter-mapping>
     <filter-mapping>
         <filter-name>UserRoleSecurityFilter</filter-name>
-        <url-pattern/>
+        <url-pattern>/*</url-pattern>
     </filter-mapping>
 
 

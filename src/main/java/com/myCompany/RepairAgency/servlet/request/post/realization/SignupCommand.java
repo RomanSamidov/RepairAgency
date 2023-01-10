@@ -8,6 +8,7 @@ import com.myCompany.RepairAgency.servlet.Path;
 import com.myCompany.RepairAgency.servlet.PathFactory;
 import com.myCompany.RepairAgency.servlet.request.IActionCommand;
 import com.myCompany.RepairAgency.servlet.request.IHasRoleRequirement;
+import com.myCompany.RepairAgency.servlet.util.EmailSender;
 import com.myCompany.RepairAgency.servlet.util.Encrypt;
 import com.myCompany.RepairAgency.servlet.util.VerifyRecaptcha;
 import jakarta.servlet.http.HttpServletRequest;
@@ -15,8 +16,8 @@ import jakarta.servlet.http.HttpServletResponse;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -28,39 +29,20 @@ public class SignupCommand implements IActionCommand, IHasRoleRequirement {
         Path page;
         String login = request.getParameter(Constants.LOGIN);
         String password = request.getParameter(Constants.PASSWORD);
-        String passwordRepeat = request.getParameter(Constants.PASSWORD_REPEAT);
         String email = request.getParameter(Constants.EMAIL);
-        int roleId = 0;
-        if(request.getSession().getAttribute("userRole").equals(Constants.ROLE.Admin)) {
-            roleId = Integer.parseInt(request.getParameter("role"));
-        }
-        // get reCAPTCHA request param
+        int roleId = initRoleId(request);
         String gRecaptchaResponse = request.getParameter("g-recaptcha-response");
-        boolean haveError = false;
 
-        boolean verify;
-        verify = VerifyRecaptcha.verify(gRecaptchaResponse);
+
+        boolean haveError = isInputHasErrors(request);
+
+        boolean verify = VerifyRecaptcha.verify(gRecaptchaResponse);
         if (!verify) {
             request.getSession().setAttribute("errorRecaptchaMessage", "message.error_recaptcha");
             haveError = true;
         }
 
-        if (email == null || email.isEmpty()) {
-            request.getSession().setAttribute("errorEmptyEmail", "message.empty_emailsome_line");
-            haveError = true;
-        }
-        if (password == null || password.isEmpty()) {
-            request.getSession().setAttribute("errorEmptyPassword", "message.empty_password");
-            haveError = true;
-        }
-        if (passwordRepeat == null || passwordRepeat.isEmpty()) {
-            request.getSession().setAttribute("errorEmptyPasswordRepeat", "message.empty_repeat_password");
-            haveError = true;
-        }
-        if (login == null || login.isEmpty()) {
-            request.getSession().setAttribute("errorEmptyLogin", "message.empty_login");
-            haveError = true;
-        }
+
 
 
         if (!haveError) {
@@ -77,13 +59,12 @@ public class SignupCommand implements IActionCommand, IHasRoleRequirement {
                         .setEmail(email)
                         .setAllow_letters(true)
                         .setConfirmed(false)
-                        .setRole_id(Constants.ROLE.Client.ordinal())
+                        .setRole_id(roleId)
                         .build();
 
-                if(request.getSession().getAttribute("userRole").equals(Constants.ROLE.Admin)){
-                    if (roleId != 0) user.setRole_id(roleId);
-                }
                 userRepository.insert(user);
+                ifNeedSendEmail(user);
+
                 if(request.getSession().getAttribute("userRole").equals(Constants.ROLE.Admin)) {
                     page = PathFactory.getPath("path.page.redirect.signup");
                     return page;
@@ -94,7 +75,6 @@ public class SignupCommand implements IActionCommand, IHasRoleRequirement {
                 return page;
             } catch (Exception e) {
                 logger.error("[SignupCommand] sql error  " + e);
-                Arrays.stream(e.getStackTrace()).iterator().forEachRemaining(x -> logger.error("[SignupCommand] sql error  " + x));
             }
         }
 
@@ -102,9 +82,55 @@ public class SignupCommand implements IActionCommand, IHasRoleRequirement {
         return page;
     }
 
-
     @Override
     public List<Constants.ROLE> allowedUserRoles() {
         return Stream.of(Constants.ROLE.Guest, Constants.ROLE.Admin).collect(Collectors.toList());
+    }
+    private int initRoleId(HttpServletRequest request) {
+        if(request.getSession().getAttribute("userRole").equals(Constants.ROLE.Admin)) {
+            return Integer.parseInt(request.getParameter("role"));
+        } return Constants.ROLE.Client.ordinal();
+    }
+
+    private boolean isInputHasErrors(HttpServletRequest request){
+        String login = request.getParameter(Constants.LOGIN);
+        String password = request.getParameter(Constants.PASSWORD);
+        String passwordRepeat = request.getParameter(Constants.PASSWORD_REPEAT);
+        String email = request.getParameter(Constants.EMAIL);
+        boolean haveError = false;
+        if (email == null || email.isEmpty()) {
+            request.getSession().setAttribute("errorEmptyEmail", "message.empty_email");
+            haveError = true;
+        }
+        if (password == null || password.isEmpty()) {
+            request.getSession().setAttribute("errorEmptyPassword", "message.empty_password");
+            haveError = true;
+        }
+        if (passwordRepeat == null || passwordRepeat.isEmpty()) {
+            request.getSession().setAttribute("errorEmptyPasswordRepeat",
+                    "message.empty_repeat_password");
+            haveError = true;
+        }
+        if (login == null || login.isEmpty()) {
+            request.getSession().setAttribute("errorEmptyLogin", "message.empty_login");
+            haveError = true;
+        }
+        if(!Objects.equals(passwordRepeat, password)){
+            request.getSession().setAttribute("errorPasswordsNotEqual", "message.not_equal_passwords");
+            haveError = true;
+        }
+
+        return haveError;
+    }
+
+
+    private void ifNeedSendEmail(User user){
+        if(user.isAllow_letters()){
+            Constants.LOCALE locale = Constants.LOCALE.values()[user.getLocale_id()];
+            EmailSender.send(user.getEmail(),
+                    user.getLogin() + "  " + locale.getString("text.you_signup"),
+                    locale.getString("text.you_have_signup"));
+            logger.debug("Send email about successful registration");
+        }
     }
 }

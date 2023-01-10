@@ -1,5 +1,7 @@
 package com.myCompany.RepairAgency;
 
+
+import java.util.Locale;
 import java.util.ResourceBundle;
 
 public class Constants {
@@ -11,21 +13,7 @@ public class Constants {
     public static final String LOGIN = "login";
     public static final String EMAIL = "email";
     public static final String DAOType = "DAOType";
-    private static final String CONNECTION_URL = "connection.url";
-    private static final String CONNECTION_URL_TEST = "connection.url.test";
-    private static boolean test = false;
-
-    public static void nowIsTest() {
-        ResourceBundle resourceBundle = ResourceBundle.getBundle(Constants.DB_SETTINGS_BUNDLE);
-        if (resourceBundle.getString(CONNECTION_URL).equals(resourceBundle.getString(CONNECTION_URL_TEST)))
-            throw new IllegalArgumentException();
-        Constants.test = true;
-    }
-
-    public static String getConnectionUrl() {
-        if (test) return CONNECTION_URL_TEST;
-        else return CONNECTION_URL;
-    }
+    public static final String CONNECTION_URL = "connection.url";
 
 
     public enum ORDER_STATUS {
@@ -83,6 +71,23 @@ public class Constants {
 
         public String getToString() {
             return toString;
+        }
+    }
+
+
+    public enum LOCALE {
+        NULL, en_US, uk_UA;
+        private final String toString = this.toString();
+        private final ResourceBundle resourceBundle =
+                ResourceBundle.getBundle("LocalStrings", new Locale(getToString()));
+//        LOCALE() {
+//            this.toString = this.toString();
+//        }
+        public String getToString() {
+            return toString;
+        }
+        public String getString(String key) {
+            return resourceBundle.getString(key);
         }
     }
 }

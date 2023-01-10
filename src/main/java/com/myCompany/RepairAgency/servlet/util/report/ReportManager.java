@@ -14,7 +14,8 @@ public class ReportManager {
 
     private ReportManager() {}
 
-        public static String getReportWriter(ArrayList<RepairOrderDTO> repairOrders, Locale language, long userId, Constants.REPORT_FORMAT format) throws IOException {
+        public static String getReportWriter(ArrayList<RepairOrderDTO> repairOrders, Locale language, long userId,
+                                             Constants.REPORT_FORMAT format) throws IOException {
             String filename;
         switch (format){
             case PDF:

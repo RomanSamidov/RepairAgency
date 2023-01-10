@@ -16,6 +16,7 @@ public class Fields {
     public static final String ALLOW_LETTERS = "allow_letters";
     public static final String CONFIRMED = "confirmed";
     public static final String ROLE_ID = "role_id";
+    public static final String LOCALE_ID = "locale_id";
     public static final String ACCOUNT = "account";
     public static final String USER_ID = "user_id";
     public static final String CRAFTSMAN_ID = "craftsman_id";

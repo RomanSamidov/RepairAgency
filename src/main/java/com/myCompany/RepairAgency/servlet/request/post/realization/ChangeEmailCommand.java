@@ -10,23 +10,28 @@ import com.myCompany.RepairAgency.servlet.request.IHasRoleRequirement;
 import com.myCompany.RepairAgency.servlet.util.EmailSender;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.util.List;
-import java.util.Random;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class ChangeEmailCommand implements IActionCommand, IHasRoleRequirement {
+    private static final Logger logger = LogManager.getLogger(ChangeEmailCommand.class);
+
     @Override
     public Path execute(HttpServletRequest request, HttpServletResponse response) {
-    User user = ModelManager.ins.getUserRepository().getById((Long) request.getSession().getAttribute("userId"));
-    user.setConfirmed(false);
-    String email = (String) request.getAttribute("email");
-    user.setEmail(email);
-    ModelManager.ins.getUserRepository().update(user);
-    request.getSession().setAttribute("userEmail", user.getEmail());
-    request.getSession().setAttribute("isUserConfirmed", user.isConfirmed());
-    return PathFactory.getPath("path.page.redirect.cabinet");
+        User user = ModelManager.ins.getUserRepository().getById((Long) request.getSession().getAttribute("userId"));
+        user.setConfirmed(false);
+        String email = request.getParameter("email");
+        user.setEmail(email);
+        ModelManager.ins.getUserRepository().update(user);
+        request.getSession().setAttribute("userEmail", user.getEmail());
+        request.getSession().setAttribute("isUserConfirmed", user.isConfirmed());
+        ifNeedSendEmail(user);
+        logger.debug("User email was changed ");
+        return PathFactory.getPath("path.page.redirect.cabinet");
     }
 
     @Override
@@ -36,4 +41,15 @@ public class ChangeEmailCommand implements IActionCommand, IHasRoleRequirement {
                 Constants.ROLE.Manager,
                 Constants.ROLE.Craftsman).collect(Collectors.toList());
     }
+
+    private void ifNeedSendEmail(User user){
+        if(user.isAllow_letters()){
+            Constants.LOCALE locale = Constants.LOCALE.values()[user.getLocale_id()];
+            EmailSender.send(user.getEmail(),
+                    user.getLogin() + "  " + locale.getString("text.your_email_changed"),
+                    locale.getString("text.your_email_changed"));
+            logger.debug("Send email about email change");
+        }
+    }
+
 }

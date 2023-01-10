@@ -24,7 +24,7 @@ public class ConnectionPool {
 
     private static String initializeUrl() {
         ResourceBundle resourceBundle = ResourceBundle.getBundle(Constants.DB_SETTINGS_BUNDLE);
-        return resourceBundle.getString(Constants.getConnectionUrl());
+        return resourceBundle.getString(Constants.CONNECTION_URL);
     }
 
     private static String initializePassword() {

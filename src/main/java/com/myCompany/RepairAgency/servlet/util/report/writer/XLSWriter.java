@@ -14,7 +14,8 @@ import java.util.Locale;
 import java.util.ResourceBundle;
 
 public class XLSWriter {
-    public static void createReport(ArrayList<RepairOrderDTO> repairOrders, Locale language, String filename) throws IOException {
+    public static void createReport(ArrayList<RepairOrderDTO> repairOrders, Locale language, String filename)
+            throws IOException {
         HSSFWorkbook workbook = new HSSFWorkbook();
         ResourceBundle resourceBundle =
                 ResourceBundle.getBundle("LocalStrings", language);
@@ -103,7 +104,8 @@ public class XLSWriter {
         headerCell.setCellStyle(headerStyle);
     }
 
-    private static void createTableRow( Row row, CellStyle headerStyle, ResourceBundle resourceBundle, RepairOrderDTO order){
+    private static void createTableRow( Row row, CellStyle headerStyle, ResourceBundle resourceBundle,
+                                        RepairOrderDTO order){
         Cell headerCell = row.createCell(0);
         headerCell.setCellValue(order.getId());
         headerCell.setCellStyle(headerStyle);

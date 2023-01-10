@@ -4,11 +4,11 @@
 <html>
 <c:import url="/WEB-INF/template/_head.jsp"/>
 <body>
-<fmt:setLocale value="${language}"/>
-<fmt:setBundle basename="LocalStrings"/>
-<c:import url="/WEB-INF/template/menu/_menu.jsp"/>
+    <fmt:setLocale value="${language}"/>
+    <fmt:setBundle basename="LocalStrings"/>
+    <c:import url="/WEB-INF/template/menu/_menu.jsp"/>
 
-<p class="text-center"><fmt:message key="text.faqs"/></p>
+    <p class="text-center"><fmt:message key="text.faqs"/></p>
 
 </body>
 </html>

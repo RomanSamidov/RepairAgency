@@ -28,7 +28,8 @@ public class PDFWriter{
         cellWidth = 20;
     }
 
-    public static void createReport(ArrayList<RepairOrderDTO> repairOrders, Locale language, String filename) throws IOException {
+    public static void createReport(ArrayList<RepairOrderDTO> repairOrders, Locale language, String filename)
+            throws IOException {
         ResourceBundle resourceBundle =
                 ResourceBundle.getBundle("LocalStrings", language);
 
@@ -67,7 +68,8 @@ public class PDFWriter{
                 createTableCell(contentStream, writer, 100, order.getCreation_date());
                 createTableCell(contentStream, writer, 20, String.valueOf(order.getPrice()));
                 createTableCell(contentStream, writer, 100, order.getFinish_date());
-                createTableCell(contentStream, writer, 30, resourceBundle.getString("text.order.status." + order.getStatus() + ".short"));
+                createTableCell(contentStream, writer, 30, resourceBundle.getString("text.order.status."
+                        + order.getStatus() + ".short"));
                 createTableCell(contentStream, writer, 100, order.getFeedback_date());
 
                 writer.initX = 30;

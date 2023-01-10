@@ -30,6 +30,7 @@ public class PostCommandFactory extends abstractCommandFactory {
             PostCommandEnum currentEnum = PostCommandEnum.valueOf(command.toUpperCase());
             current = currentEnum.getCurrentCommand();
         } catch (IllegalArgumentException e) {
+            logger.debug("Wrong command");
             request.setAttribute("wrongCommand",
                     command + "message.wrongCommand");
         }

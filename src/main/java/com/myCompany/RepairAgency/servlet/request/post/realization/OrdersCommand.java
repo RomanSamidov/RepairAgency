@@ -21,6 +21,18 @@ public class OrdersCommand implements IActionCommand, IHasRoleRequirement {
     public Path execute(HttpServletRequest request, HttpServletResponse response) {
         ForTables.updateSkipQuantity("Orders", request);
 
+        prepareAttributes(request);
+
+        return PathFactory.getPath("path.page.redirect.orders");
+    }
+
+    @Override
+    public List<Constants.ROLE> allowedUserRoles() {
+        return Stream.of(Constants.ROLE.Client, Constants.ROLE.Admin, Constants.ROLE.Craftsman, Constants.ROLE.Manager).collect(Collectors.toList());
+
+    }
+
+    private void prepareAttributes(HttpServletRequest request) {
         if (request.getParameter("statusOrders") != null) {
             long[] statusId = Arrays.stream(request.getParameterValues("statusOrders")).mapToLong(Long::parseLong).toArray();
             request.getSession().setAttribute("statusOrders", statusId);
@@ -38,18 +50,9 @@ public class OrdersCommand implements IActionCommand, IHasRoleRequirement {
             if (createReport)request.getSession().setAttribute("createReport", true);
         }
 
-
         if (request.getParameter("reportFormat") != null) {
             Constants.REPORT_FORMAT format = Constants.REPORT_FORMAT.valueOf(request.getParameter("reportFormat"));
             request.getSession().setAttribute("reportFormat", format);
         }
-
-        return PathFactory.getPath("path.page.redirect.orders");
-    }
-
-    @Override
-    public List<Constants.ROLE> allowedUserRoles() {
-        return Stream.of(Constants.ROLE.Client, Constants.ROLE.Admin, Constants.ROLE.Craftsman, Constants.ROLE.Manager).collect(Collectors.toList());
-
     }
 }

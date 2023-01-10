@@ -37,7 +37,8 @@ public class ForTables {
     }
 
 
-    public static void updatePagesForJSP(Integer quantity, int skip, long numberOfGoal, String tableName, HttpServletRequest request) {
+    public static void updatePagesForJSP(Integer quantity, int skip, long numberOfGoal,
+                                         String tableName, HttpServletRequest request) {
         int pages = (int) Math.ceil(((double) numberOfGoal) / ((double) quantity));
         int nowPage = 0;
         if (pages > 0) {
@@ -46,7 +47,8 @@ public class ForTables {
 
         request.getSession().setAttribute("nowPage" + tableName, nowPage);
         request.getSession().setAttribute("nowQuantity" + tableName, quantity);
-        List<Integer> listPages = IntStream.iterate(0, x -> x + quantity).limit(pages).boxed().collect(Collectors.toList());
+        List<Integer> listPages = IntStream.iterate(0, x -> x + quantity).limit(pages)
+                .boxed().collect(Collectors.toList());
         request.getSession().setAttribute("listPages" + tableName, listPages);
     }
 }

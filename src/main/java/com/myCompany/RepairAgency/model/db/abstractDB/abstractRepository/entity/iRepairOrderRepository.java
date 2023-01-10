@@ -7,9 +7,13 @@ import java.util.ArrayList;
 
 public interface iRepairOrderRepository extends iRepositoryForChangeAble<RepairOrder> {
 
-    ArrayList<RepairOrder> getByCraftUserStatus(long[] craftIds, long userId, long[] statusIds, SORT_TYPE sort, long skip, long quantity);
+    ArrayList<RepairOrder> getByCraftUserStatus(long[] craftIds, long userId,
+                                                long[] statusIds, SORT_TYPE sort, long skip, long quantity);
 
     long countByCraftUserStatus(long[] craftIds, long userId, long[] statusIds);
+
+    void cancelOrderWithMoneyReturn(long orderId);
+    boolean payOrder(long orderId);
 
 
     enum SORT_TYPE {

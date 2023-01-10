@@ -9,7 +9,6 @@ public interface iUserRepository extends iRepositoryForChangeAble<User> {
     User getByLogin(String login);
 
     ArrayList<User> getByRole(long roleId, int skip, int quantity);
-
     long countWhereRoleIs(long id);
 
 }

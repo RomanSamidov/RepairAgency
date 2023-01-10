@@ -3,6 +3,7 @@ package com.myCompany.RepairAgency.servlet.request.get.realization;
 import com.myCompany.RepairAgency.Constants;
 import com.myCompany.RepairAgency.model.ModelManager;
 import com.myCompany.RepairAgency.model.entity.DTO.UserDTOFactory;
+import com.myCompany.RepairAgency.model.entity.User;
 import com.myCompany.RepairAgency.servlet.Path;
 import com.myCompany.RepairAgency.servlet.PathFactory;
 import com.myCompany.RepairAgency.servlet.request.IActionCommand;
@@ -19,14 +20,13 @@ public class ShowUserCommand implements IActionCommand, IHasRoleRequirement {
     public Path execute(HttpServletRequest request, HttpServletResponse response) {
         Path page = PathFactory.getPath("path.page.forward.user");
         request.setAttribute("title", "title.user");
-        long userId = 0;
-        if(request.getParameter("id") != null) {
-            userId = Long.parseLong(request.getParameter("id"));
-        }
-        if (userId == 0) {
-            userId = (long) request.getSession().getAttribute("userId");
-        }
-        request.setAttribute("goalUser", UserDTOFactory.getUser(ModelManager.ins.getUserRepository().getById(userId)));
+
+        long userId = initUserId(request);
+
+        User user =  ModelManager.ins.getUserRepository().getById(userId);
+        if(user == null) return PathFactory.getPath("path.page.redirect.users");
+
+        request.setAttribute("goalUser", UserDTOFactory.getUser(user));
         return page;
     }
 
@@ -34,4 +34,23 @@ public class ShowUserCommand implements IActionCommand, IHasRoleRequirement {
     public List<Constants.ROLE> allowedUserRoles() {
         return Stream.of(Constants.ROLE.Manager, Constants.ROLE.Admin).collect(Collectors.toList());
     }
+
+    private long initUserId(HttpServletRequest request) {
+        Constants.ROLE userRole = (Constants.ROLE) request.getSession().getAttribute("userRole");
+        long userId = 0;
+        if(!(userRole.equals(Constants.ROLE.Admin) || userRole.equals(Constants.ROLE.Manager))) {
+            userId = (long) request.getSession().getAttribute("userId");
+        } else {
+            if(request.getParameter("id") != null) {
+                userId = Long.parseLong(request.getParameter("id"));
+            }
+        }
+
+        if (userId <= 0) {
+            userId = (long) request.getSession().getAttribute("userId");
+        }
+
+        return userId;
+    }
+
 }

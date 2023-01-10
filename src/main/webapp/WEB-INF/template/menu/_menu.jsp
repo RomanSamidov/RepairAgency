@@ -38,8 +38,8 @@ ${Locale}
          </c:if>
             <c:choose>
                 <c:when test="${userRole=='Guest'}" >
-                    <a href="/RepairAgency/controller/login" class = "btn  btn-outline-primary px-2  "><fmt:message key="text.login"/></a>
-                    <a href="/RepairAgency/controller/signup" class = "btn  btn-primary px-2  "><fmt:message key="text.signup"/></a>
+                    <a href="/RepairAgency/controller/login" class = "btn  btn-outline-primary px-2  "><fmt:message key="text.sign_in"/></a>
+                    <a href="/RepairAgency/controller/signup" class = "btn  btn-primary px-2  "><fmt:message key="text.sign_up"/></a>
                 </c:when>
                 <c:otherwise >
                     <form name="logoutForm" method="POST" action="">

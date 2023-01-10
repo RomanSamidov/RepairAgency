@@ -40,6 +40,9 @@ public enum GetCommandEnum {
     }},
     DOWNLOAD {{
         this.command = new DownloadFileCommand();
+    }},
+    CHANGE_PASSWORD {{
+        this.command = new ShowChangePasswordCommand();
     }};
 
 

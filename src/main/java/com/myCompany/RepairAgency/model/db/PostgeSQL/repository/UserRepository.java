@@ -21,7 +21,8 @@ public class UserRepository implements iUserRepository {
                 user.isAllow_letters(),
                 user.isConfirmed(),
                 user.getRole_id(),
-                user.getAccount()};
+                user.getAccount(),
+                user.getLocale_id()};
 
         return Stream.concat(Arrays.stream(arr1), Arrays.stream(args)).toArray();
     }
@@ -68,7 +69,8 @@ public class UserRepository implements iUserRepository {
     @Override
     public ArrayList<User> getByRole(long roleId, int skip, int quantity) {
         Connection conn = ConnectionPool.getConnection();
-        ArrayList<User> res = QueryExecutioner.readList(UserFactory.ins, conn, Query.UsersQuery.SELECT_ALL_BY_ROLE, roleId, roleId, skip, quantity);
+        ArrayList<User> res = QueryExecutioner.readList(UserFactory.ins, conn, Query.UsersQuery.SELECT_ALL_BY_ROLE,
+                roleId, roleId, skip, quantity);
         ConnectionPool.releaseConnection(conn);
         return res;
     }

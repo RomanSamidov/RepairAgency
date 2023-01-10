@@ -18,7 +18,6 @@ public class UsersCommand implements IActionCommand, IHasRoleRequirement {
     @Override
     public Path execute(HttpServletRequest request, HttpServletResponse response) {
         ForTables.updateSkipQuantity("Users", request);
-//        roleUsers = Craftsman
         if (request.getParameter("roleUsers") != null) {
             if(request.getParameter("roleUsers").equals("0")){
                 request.getSession().removeAttribute("roleUsers");

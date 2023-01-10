@@ -7,10 +7,20 @@ public class User extends Entity {
     private String email;
     private boolean allow_letters = true;
     private boolean confirmed = false;
-    private int role_id;
+    private int role_id = 4;
     private int account;
+    private int locale_id = 1;
 
     private User() {
+    }
+
+    public int getLocale_id() {
+        return locale_id;
+    }
+
+    public User setLocale_id(int locale_id) {
+        this.locale_id = locale_id;
+        return this;
     }
 
     public String getLogin() {
@@ -177,6 +187,14 @@ public class User extends Entity {
             return this;
         }
 
+        public int getLocale_id() {
+            return onConstructUser.locale_id;
+        }
+
+        public UserBuilder setLocale_id(int locale_id) {
+            this.onConstructUser.locale_id = locale_id;
+            return this;
+        }
 
     }
 }

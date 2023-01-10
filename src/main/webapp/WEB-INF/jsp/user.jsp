@@ -8,37 +8,40 @@
 <div class="text-center" >
 
 <table class="table table-striped table-bordered table-sm table-th">
-              <caption>User</caption>
+              <caption><fmt:message key="title.user"/></caption>
         <tr>
-            <th> id </th>
-            <th> role </th>
-            <th> login </th>
-            <th> email </th>
-            <th> account </th>
-            <th>  </th>
+            <th><fmt:message key="text.user.id"/>  </th>
+            <th><fmt:message key="text.user.role"/>  </th>
+            <th><fmt:message key="text.user.login"/>  </th>
+            <th><fmt:message key="text.user.email"/>  </th>
+            <c:if test="${goalUser.role == 'Client'}" >
+            <th><fmt:message key="text.user.account"/>  </th>
+            </c:if>
         </tr>
         <tr>
-        <td><c:out value="${ goalUser.id }" /></td>
-        <td><c:out value="${ goalUser.role }" /></td>
-        <td><c:out value="${ goalUser.login }" /></td>
-        <td><c:out value="${ goalUser.email }" /></td>
-        <td><c:out value="${ goalUser.account }" /></td>
+        <td>${ goalUser.id }</td>
+        <td><fmt:message key="${goalUser.role}"/></td>
+        <td>${ goalUser.login }</td>
+        <td>${ goalUser.email }</td>
+        <c:if test="${goalUser.role == 'Client'}" >
+        <td>${ goalUser.account }</td>
+        </c:if>
  </tr>
 </table>
 
 <c:if test="${goalUser.role == 'Client'}" >
  <form method="POST" action="">
-            <input type="hidden" name="command" value="addToUserAccount" />
+            <input type="hidden" name="command" value="add_To_User_Account" />
             <input type="hidden" name="goalIdUser" value="${ goalUser.id }" />
-            <input type="number" name="addToAccount" value=""/><br/>
-            <input type="submit" value="addToAccount"/>
+            <input type="number" name="addToAccount" value=""/>
+            <input type="submit" value="<fmt:message key="text.add_to_account"/>"/>
         </form>
  </c:if>
             <c:if test="${userRole == 'Admin' && userId != goalUser.id}" >
                 <form method="POST" action="">
-                    <input type="hidden" name="command" value="deleteUser" />
+                    <input type="hidden" name="command" value="delete_User" />
                     <input type="hidden" name="goalIdUser" value="${ goalUser.id }" />
-                    <input type="submit" value="Delete user"/>
+                    <input type="submit" value="<fmt:message key="text.delete_user"/>"/>
                 </form>
             </c:if>
 

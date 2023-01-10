@@ -24,23 +24,34 @@ public class ShowUsersCommand implements IActionCommand, IHasRoleRequirement {
         Path page = PathFactory.getPath("path.page.forward.users");
         request.setAttribute("title", "title.users");
 
+        long roleId = initRoleId(request);
+        setListOfRolesUsers(request);
 
-        long roleId;
+        long numberOfUsers = userRepository.countWhereRoleIs(roleId);
+        int[] a = ForTables.initSkipQuantity("Users", numberOfUsers, request);
+        int skip = a[0];
+        int quantity = a[1];
+        ForTables.updatePagesForJSP(quantity, skip, numberOfUsers, "Users", request);
+        request.setAttribute("users", UserDTOFactory.getUsers(userRepository.getByRole(roleId, skip, quantity)));
 
+        return page;
+    }
 
+    private long initRoleId(HttpServletRequest request) {
         if (request.getSession().getAttribute("roleUsers") != null) {
             Constants.ROLE role = (Constants.ROLE) request.getSession().getAttribute("roleUsers");
-            roleId = role.ordinal();
+            return role.ordinal();
         } else {
             if (request.getSession().getAttribute("userRole").equals(Constants.ROLE.Admin)) {
-                roleId = 0;
+                return 0;
             } else {
                 request.getSession().setAttribute("roleUsers", Constants.ROLE.Client);
-                roleId = Constants.ROLE.Client.ordinal();
+                return Constants.ROLE.Client.ordinal();
             }
         }
+    }
 
-
+    private void setListOfRolesUsers(HttpServletRequest request) {
         ArrayList<Constants.ROLE> rolesUsers = new ArrayList<>(List.of(Constants.ROLE.values()));
         rolesUsers.remove(0);
         if(!request.getSession().getAttribute("userRole").equals(Constants.ROLE.Admin)){
@@ -48,16 +59,6 @@ public class ShowUsersCommand implements IActionCommand, IHasRoleRequirement {
             rolesUsers.remove(0);
         }
         request.setAttribute("rolesUsers", rolesUsers);
-
-        long numberOfUsers = userRepository.countWhereRoleIs(roleId);
-        int[] a = ForTables.initSkipQuantity("Users", numberOfUsers, request);
-        int skip = a[0];
-        int quantity = a[1];
-
-        ForTables.updatePagesForJSP(quantity, skip, numberOfUsers, "Users", request);
-        request.setAttribute("users", UserDTOFactory.getUsers(userRepository.getByRole(roleId, skip, quantity)));
-
-        return page;
     }
 
     @Override

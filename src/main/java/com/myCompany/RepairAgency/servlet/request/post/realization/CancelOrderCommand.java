@@ -9,39 +9,43 @@ import com.myCompany.RepairAgency.servlet.PathFactory;
 import com.myCompany.RepairAgency.servlet.request.IActionCommand;
 import com.myCompany.RepairAgency.servlet.request.IHasRoleRequirement;
 import com.myCompany.RepairAgency.servlet.util.EmailSender;
-import com.myCompany.RepairAgency.servlet.util.ForChangeEntity;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 
 public class CancelOrderCommand implements IActionCommand, IHasRoleRequirement {
+    private static final Logger logger = LogManager.getLogger(CancelOrderCommand.class);
+
     @Override
     public Path execute(HttpServletRequest request, HttpServletResponse response) {
-        ForChangeEntity.updateGoalId("Order", request);
 
-        RepairOrder order = ModelManager.ins.getRepairOrderRepository().getById((Long) request.getSession().getAttribute("goalIdOrder"));
+        RepairOrder order = ModelManager.ins.getRepairOrderRepository()
+                .getById(Long.parseLong(request.getParameter("goalIdOrder")));
+
+        User user = ModelManager.ins.getUserRepository().getById(order.getUser_id());
+
         if (order.getStatus_id() > Constants.ORDER_STATUS.PENDING_PAYMENT.ordinal() &&
             order.getStatus_id() != Constants.ORDER_STATUS.CANCELED.ordinal() &&
             order.getStatus_id() != Constants.ORDER_STATUS.COMPLETED.ordinal()){
-            order.setFinish_date(LocalDateTime.now());
-            User user = ModelManager.ins.getUserRepository().getById(order.getUser_id());
-            user.setAccount(user.getAccount() + order.getPrice());
-            ModelManager.ins.getUserRepository().update(user);
-            EmailSender.send(user.getEmail(),
-                    "Your order was canceled.",
-                    "Your order " + order.getId() + " was canceled.");
+
+            ModelManager.ins.getRepairOrderRepository().cancelOrderWithMoneyReturn(order.getId());
+
+            ifNeedSendEmail(user, order.getPrice());
+        } else {
+            order.setStatus_id(Constants.ORDER_STATUS.CANCELED.ordinal());
+            ModelManager.ins.getRepairOrderRepository().update(order);
+            ifNeedSendEmail(user, 0);
         }
-        order.setStatus_id(Constants.ORDER_STATUS.CANCELED.ordinal());
-        ModelManager.ins.getRepairOrderRepository().update(order);
 
         Path path = PathFactory.getPath("path.page.redirect.order");
         path.addParameter("id", request.getParameter("goalIdOrder"));
-
+        logger.debug("Order "+order.getId()+" was canceled.");
         return path;
     }
 
@@ -49,4 +53,21 @@ public class CancelOrderCommand implements IActionCommand, IHasRoleRequirement {
     public List<Constants.ROLE> allowedUserRoles() {
         return Stream.of(Constants.ROLE.Client, Constants.ROLE.Manager, Constants.ROLE.Admin, Constants.ROLE.Craftsman).collect(Collectors.toList());
     }
+
+    private void ifNeedSendEmail(User user, int increment){
+        if(user.isAllow_letters()){
+            Constants.LOCALE locale = Constants.LOCALE.values()[user.getLocale_id()];
+            if(increment == 0) {
+                EmailSender.send(user.getEmail(),
+                        user.getLogin() + "  " + locale.getString("text.your_order_was_cancelled"),
+                        locale.getString("text.your_order_was_cancelled_and_return") + increment);
+            } else {
+                EmailSender.send(user.getEmail(),
+                        user.getLogin() + "  " + locale.getString("text.your_order_was_cancelled"),
+                        locale.getString("text.your_order_was_cancelled"));
+            }
+            logger.debug("Send email about order cancellation ");
+        }
+    }
+
 }

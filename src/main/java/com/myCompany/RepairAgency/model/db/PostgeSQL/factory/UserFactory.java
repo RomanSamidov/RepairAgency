@@ -21,6 +21,7 @@ public class UserFactory extends abstractEntityFactory<User> {
                 .setConfirmed(rs.getBoolean(Fields.CONFIRMED))
                 .setRole_id(rs.getInt(Fields.ROLE_ID))
                 .setAccount(rs.getInt(Fields.ACCOUNT))
+                .setLocale_id(rs.getInt(Fields.LOCALE_ID))
                 .build();
     }
 

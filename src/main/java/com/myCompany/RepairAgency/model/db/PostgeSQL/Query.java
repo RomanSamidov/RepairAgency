@@ -6,8 +6,8 @@ public abstract class Query {
 
 
     public static class UsersQuery {
-        public static final String INSERT = "INSERT INTO users VALUES (DEFAULT, ?, ?, ?, ?, ?, ?, ?);";
-        public static final String UPDATE = "UPDATE users SET login = ?, password = ?, email = ?, allow_letters = ?, confirmed = ?, role_id = ?, account = ? WHERE id = ?;";
+        public static final String INSERT = "INSERT INTO users VALUES (DEFAULT, ?, ?, ?, ?, ?, ?, ?, ?);";
+        public static final String UPDATE = "UPDATE users SET login = ?, password = ?, email = ?, allow_letters = ?, confirmed = ?, role_id = ?, account = ?, locale_id = ? WHERE id = ?;";
         public static final String DELETE = "DELETE FROM users WHERE id = ?;";
         public static final String SELECT_BY_ID = "SELECT * FROM users WHERE id = ?;";
         public static final String SELECT_BY_LOGIN = "SELECT * FROM users WHERE login = ?;";

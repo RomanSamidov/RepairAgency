@@ -21,10 +21,9 @@ public class GetCommandFactory extends abstractCommandFactory {
     public IActionCommand defineCommand(HttpServletRequest request) {
         IActionCommand current = new EmptyCommand();
 
-//        String command = request.getParameter("command");
         String command = request.getRequestURI();
         command = command.substring(command.indexOf("/controller/") + 12);
-        logger.debug("[GetCommandFactory] " + command);
+        logger.debug(command);
         if (command.isEmpty()) {
             return current;
         }
@@ -33,6 +32,7 @@ public class GetCommandFactory extends abstractCommandFactory {
             GetCommandEnum currentEnum = GetCommandEnum.valueOf(command.toUpperCase());
             current = currentEnum.getCurrentCommand();
         } catch (IllegalArgumentException e) {
+            logger.debug("Wrong command");
             request.setAttribute("wrongCommand",
                     command + "message.wrongCommand");
         }

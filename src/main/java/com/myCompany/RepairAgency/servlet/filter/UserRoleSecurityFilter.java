@@ -86,7 +86,6 @@ public class UserRoleSecurityFilter implements Filter {
         return true;
     }
 
-
     private void redirect(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         resp.sendRedirect(req.getContextPath()
                 + PathFactory.getPath("path.page.redirect.home"));

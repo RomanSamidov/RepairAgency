@@ -11,42 +11,42 @@
     <input type="hidden" name="command" value="users" />
      <select name="roleUsers" autocomplete="off">
         <c:if test="${userRole == 'Admin'}" >
-            <option value="0" ${roleUsers == null ? 'selected="selected"' : ''}>All</option>
+            <option value="0" ${roleUsers == null ? 'selected="selected"' : ''}> <fmt:message key="text.all"/></option>
         </c:if>
         <c:forEach var="role" items="${rolesUsers}">
             <option value="${role.toString}"  ${roleUsers.toString == role.toString ? 'selected="selected"' : ''}><fmt:message key="text.user.role.${role.ordinal}"  /></option>
         </c:forEach>
 
      </select>
-    <input type="submit" value="select role"/>
+    <input type="submit" value="<fmt:message key="text_select_role"/>"/>
     </form>
 
 
 <form name="pages" method="POST" action="">
     <input type="hidden" name="command" value="users" />
-     <input type="number" name="quantityUsers" value="${nowQuantityUsers}"/>
+     <input type="number" name="quantityUsers" value="${nowQuantityUsers}" min="1" max="500"/>
     <input type="submit" value="<fmt:message key="text.show_on_one_page"/>"/>
     </form>
 <c:if test="${users.isEmpty() == true}" >
             Founded no users!
 </c:if>
 <table class="table table-striped table-bordered table-sm table-th">
-              <caption>List of users</caption>
+              <caption><fmt:message key="text.list_of_users"/></caption>
         <tr>
-            <th> id </th>
-            <th> role </th>
-            <th> login </th>
-            <th> account </th>
+            <th><fmt:message key="text.user.id"/>  </th>
+            <th><fmt:message key="text.user.role"/>  </th>
+            <th><fmt:message key="text.user.login"/>  </th>
+            <th><fmt:message key="text.user.account"/>  </th>
             <th>  </th>
         </tr>
     <c:forEach var="user" items="${users}" varStatus="status">
         <tr>
-        <td><c:out value="${ user.id }" /></td>
-        <td><c:out value="${ user.role }" /></td>
-        <td><c:out value="${ user.login }" /></td>
-        <td><c:out value="${ user.account }" /></td>
+        <td>${ user.id }</td>
+        <td><fmt:message key="${user.role}"/></td>
+        <td>${ user.login }</td>
+        <td>${ user.account }</td>
         <td>
-        <a href="/RepairAgency/controller/user?id=${user.id}" class = "btn px-2  ">ch</a>
+        <a href="/RepairAgency/controller/user?id=${user.id}" class = "btn px-2  "><fmt:message key="text.go_to"/></a>
         </td>
         </tr>
     </c:forEach>
@@ -70,5 +70,4 @@
 </tr>
 </table>
 </div>
-${nowPageUsers}
 </body></html>

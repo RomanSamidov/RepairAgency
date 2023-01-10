@@ -9,6 +9,6 @@ import jakarta.servlet.http.HttpServletResponse;
 public class EmptyCommand implements IActionCommand {
     @Override
     public Path execute(HttpServletRequest request, HttpServletResponse response) {
-        return PathFactory.getPath("path.page.redirect.login");
+        return PathFactory.getPath("path.page.redirect.home");
     }
 }

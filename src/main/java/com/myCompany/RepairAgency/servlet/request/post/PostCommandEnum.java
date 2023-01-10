@@ -49,6 +49,12 @@ public enum PostCommandEnum {
     }},
     SET_CRAFTSMAN_AND_PRICE {{
         this.command = new SetCraftsmanAndPriceCommand();
+    }},
+    CHANGE_PASSWORD {{
+        this.command = new ChangePasswordCommand();
+    }},
+    CHANGE_PROFILE_SETTINGS {{
+        this.command = new ChangeProfileSettingsCommand();
     }};
 
 

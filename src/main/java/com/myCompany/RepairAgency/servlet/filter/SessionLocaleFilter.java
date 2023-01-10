@@ -1,5 +1,8 @@
 package com.myCompany.RepairAgency.servlet.filter;
 
+import com.myCompany.RepairAgency.Constants;
+import com.myCompany.RepairAgency.model.ModelManager;
+import com.myCompany.RepairAgency.model.entity.User;
 import jakarta.servlet.*;
 import jakarta.servlet.annotation.WebFilter;
 import jakarta.servlet.http.HttpServletRequest;
@@ -20,7 +23,15 @@ import java.io.IOException;
             HttpServletRequest req = (HttpServletRequest) request;
 
             if (req.getParameter("language") != null) {
-                logger.debug("language changed from " + req.getSession().getAttribute("language") + " to " + req.getParameter("language"));
+                if(((HttpServletRequest)request).getSession().getAttribute("userId") != null){
+                    User user = ModelManager.ins.getUserRepository().getById((Long) (
+                            (HttpServletRequest)request).getSession().getAttribute("userId"));
+                    user.setLocale_id(Constants.LOCALE.valueOf(req.getParameter("language")).ordinal());
+                    ModelManager.ins.getUserRepository().update(user);
+                }
+
+                logger.debug("language changed from " + req.getSession().getAttribute("language")
+                        + " to " + req.getParameter("language"));
                 req.getSession().setAttribute("language", req.getParameter("language"));
             }
 
