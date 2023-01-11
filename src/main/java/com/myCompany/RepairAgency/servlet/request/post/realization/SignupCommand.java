@@ -33,7 +33,6 @@ public class SignupCommand implements IActionCommand, IHasRoleRequirement {
         int roleId = initRoleId(request);
         String gRecaptchaResponse = request.getParameter("g-recaptcha-response");
 
-
         boolean haveError = isInputHasErrors(request);
 
         boolean verify = VerifyRecaptcha.verify(gRecaptchaResponse);
@@ -42,17 +41,14 @@ public class SignupCommand implements IActionCommand, IHasRoleRequirement {
             haveError = true;
         }
 
-
-
-
         if (!haveError) {
             try {
                 iUserRepository userRepository = ModelManager.ins.getUserRepository();
-                if (userRepository.getByLogin(login) != null) {
-                    request.getSession().setAttribute("errorLoginPassMessage", "message.login_exist");
-                    page = PathFactory.getPath("path.page.redirect.signup");
-                    return page;
-                }
+                    if (userRepository.getByLogin(login) != null) {
+                        request.getSession().setAttribute("errorLoginPassMessage", "message.login_exist");
+                        page = PathFactory.getPath("path.page.redirect.signup");
+                        return page;
+                    }
                 String userPassword = Encrypt.encrypt(password);
                 User user = new User.UserBuilder().setLogin(login)
                         .setPassword(userPassword)
