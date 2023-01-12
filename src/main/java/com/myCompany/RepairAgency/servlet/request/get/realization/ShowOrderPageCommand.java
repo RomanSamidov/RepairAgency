@@ -31,7 +31,7 @@ public class ShowOrderPageCommand implements IActionCommand, IHasRoleRequirement
             return page;
         }
 
-        RepairOrder order = ModelManager.ins.getRepairOrderRepository().getById(goalId);
+        RepairOrder order = ModelManager.getInstance().getRepairOrderRepository().getById(goalId);
         if(order == null) return PathFactory.getPath("path.page.redirect.orders");
 
         if (!checkAccessibility(request, RepairOrderDTOFactory.getRepairOrder(order))) {
@@ -42,7 +42,7 @@ public class ShowOrderPageCommand implements IActionCommand, IHasRoleRequirement
         orderStatuses.remove(0);
         request.getSession().setAttribute("orderStatuses", orderStatuses);
         request.getSession().setAttribute("craftsmen", UserDTOFactory.getUsers(
-                ModelManager.ins.getUserRepository()
+                ModelManager.getInstance().getUserRepository()
                         .getByRole(Constants.ROLE.Craftsman.ordinal(), 0, 50)));
 
         return page;

@@ -32,7 +32,7 @@ public class DownloadFileCommand implements IActionCommand {
     }
 
     private void ifNeedSendEmail(HttpServletRequest request, String filename){
-        User user = ModelManager.ins.getUserRepository().getById((Long)
+        User user = ModelManager.getInstance().getUserRepository().getById((Long)
                 request.getSession().getAttribute("userId"));
         if(user.isAllow_letters()){
             Constants.LOCALE locale = Constants.LOCALE.values()[user.getLocale_id()];

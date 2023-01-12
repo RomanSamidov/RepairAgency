@@ -23,8 +23,8 @@ public class DeleteUserCommand implements IActionCommand, IHasRoleRequirement {
     public Path execute(HttpServletRequest request, HttpServletResponse response) {
 
         long userId = Long.parseLong(request.getParameter("goalIdUser"));
-        User user = ModelManager.ins.getUserRepository().getById(userId);
-        ModelManager.ins.getUserRepository().delete(user);
+        User user = ModelManager.getInstance().getUserRepository().getById(userId);
+        ModelManager.getInstance().getUserRepository().delete(user);
         ifNeedSendEmail(user);
         logger.debug("User profile deleted");
         return PathFactory.getPath("path.page.redirect.users");

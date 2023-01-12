@@ -25,7 +25,7 @@ public class ConfirmEmailCommand implements IActionCommand, IHasRoleRequirement 
     @Override
     public Path execute(HttpServletRequest request, HttpServletResponse response) {
         String code = request.getParameter("confirmationCode");
-        User user = ModelManager.ins.getUserRepository().getById((Long) request.getSession().getAttribute("userId"));
+        User user = ModelManager.getInstance().getUserRepository().getById((Long) request.getSession().getAttribute("userId"));
 
         if(request.getSession().getAttribute("waitedCode") == null || Boolean.parseBoolean(request.getParameter("sendCodeAgain"))) {
             int leftLimit = 97; // letter 'a'
@@ -49,7 +49,7 @@ public class ConfirmEmailCommand implements IActionCommand, IHasRoleRequirement 
         code = code.trim();
         if(code.equals(request.getSession().getAttribute("waitedCode"))){
             user.setConfirmed(true);
-            ModelManager.ins.getUserRepository().update(user);
+            ModelManager.getInstance().getUserRepository().update(user);
             request.getSession().setAttribute("isUserConfirmed", user.isConfirmed());
             request.getSession().removeAttribute("waitedCode");
             ifNeedSendEmail(user);

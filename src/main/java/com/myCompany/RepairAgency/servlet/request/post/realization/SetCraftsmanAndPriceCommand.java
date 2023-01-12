@@ -28,13 +28,13 @@ public class SetCraftsmanAndPriceCommand implements IActionCommand, IHasRoleRequ
         String goalOrderPrice = request.getParameter("goalOrderPrice");
         if (goalOrderCraftsman_id != null && !goalOrderCraftsman_id.isBlank() &&
                 goalOrderPrice != null && !goalOrderPrice.isBlank()) {
-            RepairOrder order = ModelManager.ins.getRepairOrderRepository().getById(
+            RepairOrder order = ModelManager.getInstance().getRepairOrderRepository().getById(
                     Long.parseLong(request.getParameter("goalIdOrder")));
             order.setCraftsman_id(Integer.parseInt(goalOrderCraftsman_id));
             order.setPrice(Integer.parseInt(goalOrderPrice));
             order.setStatus_id(Constants.ORDER_STATUS.PENDING_PAYMENT.ordinal());
-            ModelManager.ins.getRepairOrderRepository().update(order);
-            User user = ModelManager.ins.getUserRepository().getById(order.getUser_id());
+            ModelManager.getInstance().getRepairOrderRepository().update(order);
+            User user = ModelManager.getInstance().getUserRepository().getById(order.getUser_id());
             ifNeedSendEmail(user, order.getId());
             logger.debug("Order successfully paid");
         }

@@ -28,10 +28,10 @@ import java.util.stream.Stream;
 
             if (req.getParameter("language") != null) {
                 if(((HttpServletRequest)request).getSession().getAttribute("userId") != null){
-                    User user = ModelManager.ins.getUserRepository().getById((Long) (
+                    User user = ModelManager.getInstance().getUserRepository().getById((Long) (
                             (HttpServletRequest)request).getSession().getAttribute("userId"));
                     user.setLocale_id(Constants.LOCALE.valueOf(req.getParameter("language")).ordinal());
-                    ModelManager.ins.getUserRepository().update(user);
+                    ModelManager.getInstance().getUserRepository().update(user);
                 }
 
                 logger.debug("language changed from " + req.getSession().getAttribute("language")

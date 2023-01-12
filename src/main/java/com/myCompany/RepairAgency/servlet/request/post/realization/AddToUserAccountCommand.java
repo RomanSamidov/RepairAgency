@@ -26,10 +26,10 @@ public class AddToUserAccountCommand implements IActionCommand, IHasRoleRequirem
     public Path execute(HttpServletRequest request, HttpServletResponse response) {
         if (request.getParameter("addToAccount") != null) {
             int increment = Integer.parseInt(request.getParameter("addToAccount"));
-            User user = ModelManager.ins.getUserRepository()
+            User user = ModelManager.getInstance().getUserRepository()
                     .getById(Long.parseLong(request.getParameter("goalIdUser")));
             user.setAccount(user.getAccount() + increment);
-            ModelManager.ins.getUserRepository().update(user);
+            ModelManager.getInstance().getUserRepository().update(user);
             ifNeedSendEmail(user, increment);
             logger.debug("User account was changed ");
         }

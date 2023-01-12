@@ -20,7 +20,7 @@ import java.util.stream.Stream;
 public class ShowUsersCommand implements IActionCommand, IHasRoleRequirement {
     @Override
     public Path execute(HttpServletRequest request, HttpServletResponse response) {
-        iUserRepository userRepository = ModelManager.ins.getUserRepository();
+        iUserRepository userRepository = ModelManager.getInstance().getUserRepository();
         Path page = PathFactory.getPath("path.page.forward.users");
         request.setAttribute("title", "title.users");
 

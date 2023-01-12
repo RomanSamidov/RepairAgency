@@ -27,7 +27,7 @@ public class SetOrderStatusCommand implements IActionCommand, IHasRoleRequiremen
     public Path execute(HttpServletRequest request, HttpServletResponse response) {
         String goalOrderStatus = request.getParameter("goalOrderStatus");
         if (goalOrderStatus != null && !goalOrderStatus.isBlank()) {
-            RepairOrder order = ModelManager.ins.getRepairOrderRepository().getById(
+            RepairOrder order = ModelManager.getInstance().getRepairOrderRepository().getById(
                     Long.parseLong(request.getParameter("goalIdOrder")));
             if(request.getSession().getAttribute("userRole").equals(Constants.ROLE.Craftsman) &&
                     request.getSession().getAttribute("userId").equals(order.getCraftsman_id())) {
@@ -35,8 +35,8 @@ public class SetOrderStatusCommand implements IActionCommand, IHasRoleRequiremen
                 if (order.getStatus_id() == Constants.ORDER_STATUS.COMPLETED.ordinal()) {
                     order.setFinish_date(LocalDateTime.now());
                 }
-                ModelManager.ins.getRepairOrderRepository().update(order);
-                User user = ModelManager.ins.getUserRepository().getById(order.getUser_id());
+                ModelManager.getInstance().getRepairOrderRepository().update(order);
+                User user = ModelManager.getInstance().getUserRepository().getById(order.getUser_id());
                 ifNeedSendEmail(user, order.getId());
             }
         }

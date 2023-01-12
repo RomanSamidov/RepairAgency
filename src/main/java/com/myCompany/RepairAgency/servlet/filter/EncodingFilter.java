@@ -28,7 +28,7 @@ public class EncodingFilter implements Filter {
     logger.debug("Filter starts");
 
     logger.debug("Change request encoding from " + request.getCharacterEncoding() + " to " + encoding );
-
+        System.out.println(encoding);
     request.setCharacterEncoding(encoding);
 //        response.setCharacterEncoding(encoding);
 
@@ -39,6 +39,7 @@ public class EncodingFilter implements Filter {
     @Override
     public void init(FilterConfig config) {
     logger.debug("Filter initialization starts");
+        System.out.println(config.getInitParameter("encoding"));
     encoding = config.getInitParameter("encoding");
     logger.debug("Filter initialization finished");
     }

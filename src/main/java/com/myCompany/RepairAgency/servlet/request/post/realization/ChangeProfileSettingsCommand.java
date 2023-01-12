@@ -18,11 +18,11 @@ public class ChangeProfileSettingsCommand implements IActionCommand, IHasRoleReq
 
     @Override
     public Path execute(HttpServletRequest request, HttpServletResponse response) {
-        User user = ModelManager.ins.getUserRepository().getById((Long) request.getSession().getAttribute("userId"));
+        User user = ModelManager.getInstance().getUserRepository().getById((Long) request.getSession().getAttribute("userId"));
 
         boolean isUserAllowLetters = Boolean.parseBoolean(request.getParameter("newIsUserAllowLetters"));
         user.setAllow_letters(isUserAllowLetters);
-        ModelManager.ins.getUserRepository().update(user);
+        ModelManager.getInstance().getUserRepository().update(user);
         request.getSession().setAttribute("isUserAllowLetters", user.isAllow_letters());
 
         return PathFactory.getPath("path.page.redirect.cabinet");

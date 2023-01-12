@@ -12,7 +12,11 @@ import java.util.ResourceBundle;
 
 public class ModelManager {
 
-    public static final ModelManager ins = new ModelManager();
+    private static final ModelManager ins = new ModelManager();
+
+    public static ModelManager getInstance(){
+        return ins;
+    }
 
     public final DAOType DAO_TYPE;
     private final abstractRepositoryFactory DAO_FACTORY;

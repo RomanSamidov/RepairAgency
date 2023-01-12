@@ -22,11 +22,11 @@ public class ChangeEmailCommand implements IActionCommand, IHasRoleRequirement {
 
     @Override
     public Path execute(HttpServletRequest request, HttpServletResponse response) {
-        User user = ModelManager.ins.getUserRepository().getById((Long) request.getSession().getAttribute("userId"));
+        User user = ModelManager.getInstance().getUserRepository().getById((Long) request.getSession().getAttribute("userId"));
         user.setConfirmed(false);
         String email = request.getParameter("email");
         user.setEmail(email);
-        ModelManager.ins.getUserRepository().update(user);
+        ModelManager.getInstance().getUserRepository().update(user);
         request.getSession().setAttribute("userEmail", user.getEmail());
         request.getSession().setAttribute("isUserConfirmed", user.isConfirmed());
         ifNeedSendEmail(user);

@@ -25,9 +25,9 @@ public class PayForOrderCommand implements IActionCommand, IHasRoleRequirement {
     @Override
     public Path execute(HttpServletRequest request, HttpServletResponse response) {
         if(request.getSession().getAttribute("userRole") == Constants.ROLE.Client){
-                User user = ModelManager.ins.getUserRepository().getById((Long)
+                User user = ModelManager.getInstance().getUserRepository().getById((Long)
                         request.getSession().getAttribute("userId"));
-                if(ModelManager.ins.getRepairOrderRepository().payOrder(
+                if(ModelManager.getInstance().getRepairOrderRepository().payOrder(
                         Long.parseLong(request.getParameter("goalIdOrder")))) {
                     logger.debug("Successfully paid");
                     ifNeedSendEmail(user, Long.parseLong(request.getParameter("goalIdOrder")));
@@ -37,11 +37,11 @@ public class PayForOrderCommand implements IActionCommand, IHasRoleRequirement {
 
         } else if(request.getSession().getAttribute("userRole") == Constants.ROLE.Manager ||
                 request.getSession().getAttribute("userRole") == Constants.ROLE.Admin ){
-            RepairOrder order = ModelManager.ins.getRepairOrderRepository().getById(
+            RepairOrder order = ModelManager.getInstance().getRepairOrderRepository().getById(
                     Long.parseLong(request.getParameter("goalIdOrder")));
             order.setStatus_id(Constants.ORDER_STATUS.PAID.ordinal());
-            ModelManager.ins.getRepairOrderRepository().update(order);
-            User user = ModelManager.ins.getUserRepository().getById(order.getUser_id());
+            ModelManager.getInstance().getRepairOrderRepository().update(order);
+            User user = ModelManager.getInstance().getUserRepository().getById(order.getUser_id());
             ifNeedSendEmail(user, Long.parseLong(request.getParameter("goalIdOrder")));
         }
 

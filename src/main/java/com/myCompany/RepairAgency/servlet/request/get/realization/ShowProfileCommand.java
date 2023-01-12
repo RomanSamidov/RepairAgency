@@ -19,7 +19,7 @@ public class ShowProfileCommand implements IActionCommand, IHasRoleRequirement {
     public Path execute(HttpServletRequest request, HttpServletResponse response) {
         Path page = PathFactory.getPath("path.page.forward.cabinet");
         request.setAttribute("title", "title.cabinet");
-        User user = ModelManager.ins.getUserRepository().getById(
+        User user = ModelManager.getInstance().getUserRepository().getById(
                 (Long)request.getSession().getAttribute("userId"));
         if (user.getRole_id() == Constants.ROLE.Client.ordinal()) {
             request.setAttribute("userAccount", user.getAccount());

@@ -25,21 +25,21 @@ public class CancelOrderCommand implements IActionCommand, IHasRoleRequirement {
     @Override
     public Path execute(HttpServletRequest request, HttpServletResponse response) {
 
-        RepairOrder order = ModelManager.ins.getRepairOrderRepository()
+        RepairOrder order = ModelManager.getInstance().getRepairOrderRepository()
                 .getById(Long.parseLong(request.getParameter("goalIdOrder")));
 
-        User user = ModelManager.ins.getUserRepository().getById(order.getUser_id());
+        User user = ModelManager.getInstance().getUserRepository().getById(order.getUser_id());
 
         if (order.getStatus_id() > Constants.ORDER_STATUS.PENDING_PAYMENT.ordinal() &&
             order.getStatus_id() != Constants.ORDER_STATUS.CANCELED.ordinal() &&
             order.getStatus_id() != Constants.ORDER_STATUS.COMPLETED.ordinal()){
 
-            ModelManager.ins.getRepairOrderRepository().cancelOrderWithMoneyReturn(order.getId());
+            ModelManager.getInstance().getRepairOrderRepository().cancelOrderWithMoneyReturn(order.getId());
 
             ifNeedSendEmail(user, order.getPrice());
         } else {
             order.setStatus_id(Constants.ORDER_STATUS.CANCELED.ordinal());
-            ModelManager.ins.getRepairOrderRepository().update(order);
+            ModelManager.getInstance().getRepairOrderRepository().update(order);
             ifNeedSendEmail(user, 0);
         }
 

@@ -23,12 +23,12 @@ public class SetFeedbackForOrderCommand implements IActionCommand, IHasRoleRequi
         if (goalOrderFeedback_mark != null && !goalOrderFeedback_mark.isBlank()) {
             String goalOrderFeedback_text = request.getParameter("goalOrderFeedback_text");
             if (goalOrderFeedback_text != null && !goalOrderFeedback_text.isBlank()) {
-                RepairOrder order = ModelManager.ins.getRepairOrderRepository()
+                RepairOrder order = ModelManager.getInstance().getRepairOrderRepository()
                         .getById(Long.parseLong(request.getParameter("goalIdOrder")));
                 order.setFeedback_text(goalOrderFeedback_text);
                 order.setFeedback_date(LocalDateTime.now());
                 order.setFeedback_mark(Integer.parseInt(goalOrderFeedback_mark));
-                ModelManager.ins.getRepairOrderRepository().update(order);
+                ModelManager.getInstance().getRepairOrderRepository().update(order);
             }
         }
 

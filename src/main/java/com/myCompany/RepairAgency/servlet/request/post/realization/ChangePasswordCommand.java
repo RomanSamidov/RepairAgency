@@ -48,7 +48,7 @@ public class ChangePasswordCommand implements IActionCommand {
             return PathFactory.getPath("path.page.redirect.change_password");
         }
 
-        User user = ModelManager.ins.getUserRepository().getByLogin(login);
+        User user = ModelManager.getInstance().getUserRepository().getByLogin(login);
         if(user == null){
             request.getSession().setAttribute("confirmationCodeError", "message.login_not_exist_error");
             return PathFactory.getPath("path.page.redirect.change_password");
@@ -88,7 +88,7 @@ public class ChangePasswordCommand implements IActionCommand {
             code = code.trim();
             if (code.equals(request.getSession().getAttribute("waitedCodePassword"))) {
                 user.setPassword(Encrypt.encrypt(password));
-                ModelManager.ins.getUserRepository().update(user);
+                ModelManager.getInstance().getUserRepository().update(user);
                 ifNeedSendEmail(user);
                 request.getSession().removeAttribute("waitedCodePassword");
                 request.getSession().removeAttribute("login");

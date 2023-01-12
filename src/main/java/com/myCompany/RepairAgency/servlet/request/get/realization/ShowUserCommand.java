@@ -23,7 +23,7 @@ public class ShowUserCommand implements IActionCommand, IHasRoleRequirement {
 
         long userId = initUserId(request);
 
-        User user =  ModelManager.ins.getUserRepository().getById(userId);
+        User user =  ModelManager.getInstance().getUserRepository().getById(userId);
         if(user == null) return PathFactory.getPath("path.page.redirect.users");
 
         request.setAttribute("goalUser", UserDTOFactory.getUser(user));

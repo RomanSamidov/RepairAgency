@@ -46,7 +46,7 @@ public class CreateOrderCommand implements IActionCommand, IHasRoleRequirement {
                     .setCreation_date(LocalDateTime.now())
                     .setText(text).build();
 
-            ModelManager.ins.getRepairOrderRepository().insert(order);
+            ModelManager.getInstance().getRepairOrderRepository().insert(order);
 
 
             ifNeedSendEmail(order);
@@ -66,7 +66,7 @@ public class CreateOrderCommand implements IActionCommand, IHasRoleRequirement {
     }
 
     private void ifNeedSendEmail(RepairOrder order){
-        User user = ModelManager.ins.getUserRepository().getById(order.getUser_id());
+        User user = ModelManager.getInstance().getUserRepository().getById(order.getUser_id());
         if(user.isAllow_letters()){
             Constants.LOCALE locale = Constants.LOCALE.values()[user.getLocale_id()];
             EmailSender.send(user.getEmail(),

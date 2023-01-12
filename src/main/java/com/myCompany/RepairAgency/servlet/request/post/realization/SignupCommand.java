@@ -43,7 +43,7 @@ public class SignupCommand implements IActionCommand, IHasRoleRequirement {
 
         if (!haveError) {
             try {
-                iUserRepository userRepository = ModelManager.ins.getUserRepository();
+                iUserRepository userRepository = ModelManager.getInstance().getUserRepository();
                     if (userRepository.getByLogin(login) != null) {
                         request.getSession().setAttribute("errorLoginPassMessage", "message.login_exist");
                         page = PathFactory.getPath("path.page.redirect.signup");

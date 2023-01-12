@@ -57,7 +57,7 @@ public class LoginCommand implements IActionCommand, IHasRoleRequirement {
 
         if (!haveError) {
             try {
-                User user = ModelManager.ins.getUserRepository().getByLogin(login);
+                User user = ModelManager.getInstance().getUserRepository().getByLogin(login);
                 String userPassword = user.getPassword();
                 if (userPassword.equals(Encrypt.encrypt(password))) {
                     initializeUserSessionAttributes(request, user);

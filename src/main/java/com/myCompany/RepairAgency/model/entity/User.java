@@ -11,7 +11,7 @@ public class User extends Entity {
     private int account;
     private int locale_id = 1;
 
-    private User() {
+    protected User() {
     }
 
     public int getLocale_id() {

@@ -38,7 +38,7 @@ public class ShowOrdersCommand implements IActionCommand, IHasRoleRequirement {
 
         iRepairOrderRepository.SORT_TYPE sortType = initSortType(request);
 
-        iRepairOrderRepository orderRepository = ModelManager.ins.getRepairOrderRepository();
+        iRepairOrderRepository orderRepository = ModelManager.getInstance().getRepairOrderRepository();
         long numberOfOrders = orderRepository.countByCraftUserStatus(craftIds, userId, statusIds);
 
         int[] a = ForTables.initSkipQuantity("Orders",numberOfOrders, request);
@@ -61,7 +61,7 @@ public class ShowOrdersCommand implements IActionCommand, IHasRoleRequirement {
         request.setAttribute("sortTypeOrders", sortType);
         request.setAttribute("sortTypesOrders", iRepairOrderRepository.SORT_TYPE.values());
         request.setAttribute("craftsmen", UserDTOFactory.getUsers(
-                ModelManager.ins.getUserRepository()
+                ModelManager.getInstance().getUserRepository()
                         .getByRole(Constants.ROLE.Craftsman.ordinal(), 0, 50)));
         return page;
     }
@@ -123,7 +123,7 @@ public class ShowOrdersCommand implements IActionCommand, IHasRoleRequirement {
             String filename;
             Constants.REPORT_FORMAT format =
                     (Constants.REPORT_FORMAT) request.getSession().getAttribute("reportFormat");
-            iRepairOrderRepository orderRepository = ModelManager.ins.getRepairOrderRepository();
+            iRepairOrderRepository orderRepository = ModelManager.getInstance().getRepairOrderRepository();
 
             filename = ReportManager.getReportWriter(
                     RepairOrderDTOFactory.getRepairOrders(
