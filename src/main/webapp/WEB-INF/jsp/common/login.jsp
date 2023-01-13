@@ -1,12 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jspf/directive/taglib.jspf" %>
+
 <!DOCTYPE html>
 <html>
-<script src="https://www.google.com/recaptcha/api.js"></script>
+
 <c:import url="/WEB-INF/template/_head.jsp"/>
 <body>
-    <fmt:setLocale value="${language}"/>
-    <fmt:setBundle basename="LocalStrings"/>
     <c:import url="/WEB-INF/template/menu/_menu.jsp"/>
 
      <div align="center">
@@ -22,6 +21,7 @@
             <input type="password" name="password" required placeholder="<fmt:message key="text.password"/>"/><br/>
 
             <my:message key="${errorRecaptchaMessage}" defaultvalue=""/><br/>
+            <script src="https://www.google.com/recaptcha/api.js"></script>
             <div align="center" class="g-recaptcha" data-sitekey="6LfD3asjAAAAADySW6TW3x1ZMqI4FpXSYEG2zR4N"></div><br/>
 
             <my:message key="${errorLoginPassMessage}" defaultvalue=""/>

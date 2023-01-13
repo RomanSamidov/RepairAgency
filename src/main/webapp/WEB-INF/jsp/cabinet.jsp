@@ -1,32 +1,19 @@
 <%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jspf/directive/taglib.jspf" %>
+
 <!DOCTYPE html>
 <html>
 <c:import url="/WEB-INF/template/_head.jsp"/>
 <body>
-<fmt:setLocale value="${language}"/>
-<fmt:setBundle basename="LocalStrings"/>
 <c:import url="/WEB-INF/template/menu/_menu.jsp"/>
+  <%--  <c:import url="${_menu_url}"/>--%>
 
 <div class="text-center" >
-    <h3><fmt:message key="text.greetings"/> <fmt:message key="${userRole}"/></h3>
-    <hr/> <fmt:message key="text.your_login"/> ${userLogin}<br/>
-     <a href="/RepairAgency/controller/change_password" class = "btn px-2  "><fmt:message key="text.to_change_your_password_press"/></a> <br/>
-    <fmt:message key="text.your_email"/>${ userEmail }<br/>
+    <c:import url="/WEB-INF/jsp/parts/forCabinet/cabinet_text.jsp"/>
 
-<form class="text-center" name="changeEmail" method="POST" action=""  target="_top">
-        <input type="hidden" name="command" value="change_Email" />
-        <my:message key="${errorEmptyEmail}" defaultvalue=""/>
-        <label for="email"><fmt:message key="text.change_email_to"/></label><br/>
-        <input type="email" name="email" required placeholder="<fmt:message key="text.email"/>"/><br/>
-        <input type="submit" value="<fmt:message key="text.set_new_email"/>"/>
-</form>
-    <form class="text-center" name="allowLetters" method="POST" action=""  target="_top">
-        <input type="hidden" name="command" value="change_profile_settings" />
-        <input type="checkbox" name="newIsUserAllowLetters" value="true" default="false"   ${isUserAllowLetters ? 'checked' : ''}>
-        <label for="newIsUserAllowLetters"><fmt:message key="text.i_agree_to_receive_letters"/></label><br>
-        <input type="submit" value="<fmt:message key="text.update"/>"/>
-    </form>
+    <c:import url="/WEB-INF/jsp/parts/forCabinet/change_email_form.jsp"/>
+
+    <c:import url="/WEB-INF/jsp/parts/forCabinet/change_profile_settings_form.jsp"/>
 
     <c:if test="${ isUserConfirmed }" >
         <fmt:message key="text.your_email_confirmed"/>
