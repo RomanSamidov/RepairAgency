@@ -31,7 +31,6 @@ public class ShowUsersCommand implements IActionCommand, IHasRoleRequirement {
         int[] a = ForTables.initSkipQuantity("Users", numberOfUsers, request);
         int skip = a[0];
         int quantity = a[1];
-        ForTables.updatePagesForJSP(quantity, skip, numberOfUsers, "Users", request);
         request.setAttribute("users", UserDTOFactory.getUsers(userRepository.getByRole(roleId, skip, quantity)));
 
         return page;

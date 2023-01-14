@@ -11,31 +11,14 @@
     <%--<c:import url="/WEB-INF/jsp/manager/parts/forUsers/select_role_users.jsp"/>--%>
     <c:import url="${_select_role_users_url}"/>
 
-    <form name="pages" method="POST" action="">
-        <input type="hidden" name="command" value="users" />
-         <input type="number" name="quantityUsers" value="${nowQuantityUsers}" min="1" max="500"/>
-        <input type="submit" value="<fmt:message key="text.show_on_one_page"/>"/>
-    </form>
+    <my:quantitySelectorForTable table_name="Users" command ="users"/>
 
     <%--<c:import url="/WEB-INF/jsp/parts/forUsers/show_users.jsp"/>--%>
     <c:import url="${_show_users_url}"/>
 
-
     <my:message key="${error}" defaultvalue=""/>
 
-    <table>
-        <tr>
-            <c:forEach var="page" items="${listPagesUsers}" varStatus="status">
-                <form method="POST" action="">
-                    <input type="hidden" name="command" value="users" />
-                    <input type="hidden" name="skipUsers" value="${ page }" />
-                    <input type="submit" value="${ status.count }"  ${nowPageUsers+1==status.count?"disabled=\"disabled\"":""}/>
-                </form>
-
-            </c:forEach>
-        </tr>
-
-    </table>
+    <my:pageControlPanelForTable table_name="Users" command ="users"/>
 
 </div>
 </body></html>

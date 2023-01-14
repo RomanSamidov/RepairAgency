@@ -94,33 +94,4 @@ class ForTablesTest {
         assertTrue(inSession.containsAll(goal));
     }
 
-    @Test
-    void updatePagesForJSP() {
-        String tableName = "Test";
-
-        request = new MockHttpServletRequest();
-        session = new MockHttpSession();
-        request.setSession(session);
-
-        ForTables.updatePagesForJSP(5,0,100,tableName,  request);
-
-        assertEquals( 0,
-                session.getAttribute("nowPage" + tableName));
-        assertEquals( 5,
-                session.getAttribute("nowQuantity" + tableName));
-        assertEquals( new ArrayList<>(
-                Arrays.asList( 0, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60, 65, 70, 75, 80, 85, 90, 95)),
-                session.getAttribute("listPages" + tableName));
-
-        List<String> inSession = StreamSupport.stream(
-                        Spliterators.spliteratorUnknownSize(session.getAttributeNames().asIterator(), Spliterator.ORDERED), false)
-                .toList();
-        List<String> goal = new ArrayList<>();
-        goal.add("listPages" + tableName);
-        goal.add("nowQuantity" + tableName);
-        goal.add("nowPage" + tableName);
-
-        assertTrue(goal.containsAll(inSession));
-        assertTrue(inSession.containsAll(goal));
-    }
 }

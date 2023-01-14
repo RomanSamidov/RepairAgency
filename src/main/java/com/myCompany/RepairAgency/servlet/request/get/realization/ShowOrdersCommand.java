@@ -41,7 +41,7 @@ public class ShowOrdersCommand implements IActionCommand, IHasRoleRequirement {
         iRepairOrderRepository orderRepository = ModelManager.getInstance().getRepairOrderRepository();
         long numberOfOrders = orderRepository.countByCraftUserStatus(craftIds, userId, statusIds);
 
-        int[] a = ForTables.initSkipQuantity("Orders",numberOfOrders, request);
+        int[] a = ForTables.initSkipQuantity("Orders", numberOfOrders, request);
         int skip = a[0];
         int quantity = a[1];
 
@@ -52,7 +52,7 @@ public class ShowOrdersCommand implements IActionCommand, IHasRoleRequirement {
 
         request.setAttribute("orders", RepairOrderDTOFactory.getRepairOrders(
                 orderRepository.getByCraftUserStatus(craftIds, userId, statusIds, sortType, skip, quantity)));
-        ForTables.updatePagesForJSP(quantity, skip, numberOfOrders, "Orders", request);
+
         ArrayList<Constants.ORDER_STATUS> orderStatuses = new ArrayList<>(List.of(Constants.ORDER_STATUS.values()));
         orderStatuses.remove(0);
 

@@ -2,53 +2,40 @@ package com.myCompany.RepairAgency.servlet.util;
 
 import jakarta.servlet.http.HttpServletRequest;
 
-import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
-
 
 public class ForTables {
     public static int[] initSkipQuantity(String tableName, long numberOf, HttpServletRequest request) {
-        Integer skip = (Integer) request.getSession().getAttribute("skip" + tableName);
-        Integer quantity = (Integer) request.getSession().getAttribute("quantity" + tableName);
+        Integer page = (Integer) request.getSession().getAttribute("nowPageFor" + tableName);
+        Integer quantity = (Integer) request.getSession().getAttribute("nowQuantityFor" + tableName);
         if (quantity == null || quantity == 0) quantity = 5;
-        if (skip == null) skip = 0;
+        if (page == null) {
+            page = 1;
+            request.getSession().setAttribute("nowPageFor" + tableName, page);
+        }
         if (request.getSession().getAttribute("numberOf" + tableName) != null){
             if((long)request.getSession().getAttribute("numberOf" + tableName) != numberOf){
-                skip = 0;
-                request.getSession().setAttribute("skip" + tableName, 0);
+                page = 1;
+                request.getSession().setAttribute("nowPageFor" + tableName, page);
             }
         }
         request.getSession().setAttribute("numberOf" + tableName, numberOf);
-        return new int[]{skip, quantity};
+
+        int pages = (int) Math.ceil(((double) numberOf) / ((double) quantity));
+        request.getSession().setAttribute("maxPageFor" + tableName, pages);
+        request.getSession().setAttribute("nowQuantityFor" + tableName, quantity);
+        return new int[]{(page-1)*quantity, quantity};
     }
 
     public static void updateSkipQuantity(String tableName, HttpServletRequest request) {
-        if (request.getParameter("quantity" + tableName) != null) {
-            int quantity = Integer.parseInt(request.getParameter("quantity" + tableName));
+        if (request.getParameter("newQuantityFor" + tableName) != null) {
+            int quantity = Integer.parseInt(request.getParameter("newQuantityFor" + tableName));
             if (quantity <= 0) quantity = 5;
-            request.getSession().setAttribute("quantity" + tableName, quantity);
-            request.getSession().setAttribute("skip" + tableName, 0);
-        } else if (request.getParameter("skip" + tableName) != null) {
-            int skip = Integer.parseInt(request.getParameter("skip" + tableName));
-            if (skip <= 0) skip = 0;
-            request.getSession().setAttribute("skip" + tableName, skip);
+            request.getSession().setAttribute("nowQuantityFor" + tableName, quantity);
+            request.getSession().setAttribute("nowPageFor" + tableName, 1);
+        } else if (request.getParameter("goToPageFor" + tableName) != null) {
+            int page = Integer.parseInt(request.getParameter("goToPageFor" + tableName));
+            if (page <= 0) page = 1;
+            request.getSession().setAttribute("nowPageFor" + tableName, page);
         }
-    }
-
-
-    public static void updatePagesForJSP(Integer quantity, int skip, long numberOfGoal,
-                                         String tableName, HttpServletRequest request) {
-        int pages = (int) Math.ceil(((double) numberOfGoal) / ((double) quantity));
-        int nowPage = 0;
-        if (pages > 0) {
-            nowPage = skip / quantity;
-        }
-
-        request.getSession().setAttribute("nowPage" + tableName, nowPage);
-        request.getSession().setAttribute("nowQuantity" + tableName, quantity);
-        List<Integer> listPages = IntStream.iterate(0, x -> x + quantity).limit(pages)
-                .boxed().collect(Collectors.toList());
-        request.getSession().setAttribute("listPages" + tableName, listPages);
     }
 }
