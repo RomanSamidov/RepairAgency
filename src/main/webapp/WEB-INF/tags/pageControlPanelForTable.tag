@@ -36,13 +36,13 @@
         <form method="POST" action="">
             <input type="hidden" name="command" value="${command}" />
             <input type="hidden" name="goToPageFor${table_name}" value="${nowPageFor+1}" />
-            <input type="submit"  value=">" ${nowPageFor>=maxPageFor?"disabled=\"disabled\"":""}/>
+            <input type="submit"  value=">" ${nowPageFor==maxPageFor?"disabled=\"disabled\"":""}/>
         </form>
 
         <form method="POST" action="">
             <input type="hidden" name="command" value="${command}" />
             <input type="hidden" name="goToPageFor${table_name}" value="${maxPageFor}" />
-            <input type="submit"  value=">>" ${nowPageFor>=maxPageFor?"disabled=\"disabled\"":""}/>
+            <input type="submit"  value=">>" ${nowPageFor==maxPageFor?"disabled=\"disabled\"":""}/>
         </form>
     </tr>
 </table>

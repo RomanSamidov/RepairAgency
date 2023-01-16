@@ -21,6 +21,7 @@ public class ForTables {
         request.getSession().setAttribute("numberOf" + tableName, numberOf);
 
         int pages = (int) Math.ceil(((double) numberOf) / ((double) quantity));
+        if(pages == 0) pages =1;
         request.getSession().setAttribute("maxPageFor" + tableName, pages);
         request.getSession().setAttribute("nowQuantityFor" + tableName, quantity);
         return new int[]{(page-1)*quantity, quantity};
