@@ -2,7 +2,7 @@ package com.myCompany.RepairAgency.servlet.request.post.realization;
 
 import com.myCompany.RepairAgency.Constants;
 import com.myCompany.RepairAgency.model.ModelManager;
-import com.myCompany.RepairAgency.model.db.abstractDB.abstractRepository.entity.iUserRepository;
+import com.myCompany.RepairAgency.model.db.abstractDB.repository.entity.iUserRepository;
 import com.myCompany.RepairAgency.model.entity.User;
 import com.myCompany.RepairAgency.servlet.Path;
 import com.myCompany.RepairAgency.servlet.PathFactory;

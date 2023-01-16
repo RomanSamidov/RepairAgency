@@ -1,6 +1,6 @@
-package com.myCompany.RepairAgency.model.db.abstractDB.abstractRepository.entity;
+package com.myCompany.RepairAgency.model.db.abstractDB.repository.entity;
 
-import com.myCompany.RepairAgency.model.db.abstractDB.abstractRepository.primitive.iRepositoryForChangeAble;
+import com.myCompany.RepairAgency.model.db.abstractDB.repository.primitive.iRepositoryForChangeAble;
 import com.myCompany.RepairAgency.model.entity.User;
 
 import java.util.ArrayList;

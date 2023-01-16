@@ -2,12 +2,12 @@ package com.myCompany.RepairAgency.servlet.request.get.realization;
 
 import com.myCompany.RepairAgency.Constants;
 import com.myCompany.RepairAgency.model.ModelManager;
-import com.myCompany.RepairAgency.model.db.abstractDB.abstractRepository.entity.iUserRepository;
+import com.myCompany.RepairAgency.model.db.abstractDB.repository.entity.iUserRepository;
 import com.myCompany.RepairAgency.model.entity.DTO.UserDTOFactory;
 import com.myCompany.RepairAgency.servlet.Path;
-import com.myCompany.RepairAgency.servlet.PathFactory;
 import com.myCompany.RepairAgency.servlet.request.IActionCommand;
 import com.myCompany.RepairAgency.servlet.request.IHasRoleRequirement;
+import com.myCompany.RepairAgency.servlet.service.ViewValidationService;
 import com.myCompany.RepairAgency.servlet.util.ForTables;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -21,12 +21,7 @@ public class ShowUsersCommand implements IActionCommand, IHasRoleRequirement {
     @Override
     public Path execute(HttpServletRequest request, HttpServletResponse response) {
         iUserRepository userRepository = ModelManager.getInstance().getUserRepository();
-        Constants.ROLE userRole = (Constants.ROLE) request.getSession().getAttribute("userRole");
-        Path page = switch (userRole) {
-            case Guest, Craftsman, Client -> null;
-            case Admin -> PathFactory.getPath("path.page.forward.admin.users");
-            case Manager -> PathFactory.getPath("path.page.forward.manager.users");
-        };
+        Path page = ViewValidationService.validateForUsersPage(request);
         request.setAttribute("title", "title.users");
 
         long roleId = initRoleId(request);

@@ -26,7 +26,7 @@ public class ClientPayForOrderCommand implements IActionCommand, IHasRoleRequire
         if(request.getSession().getAttribute("userRole") == Constants.ROLE.Client){
                 User user = ModelManager.getInstance().getUserRepository().getById((Long)
                         request.getSession().getAttribute("userId"));
-                if(ModelManager.getInstance().getRepairOrderRepository().payOrder(
+                if(ModelManager.getInstance().getOrderUserService().payOrder(
                         Long.parseLong(request.getParameter("goalIdOrder")))) {
                     logger.debug("Successfully paid");
                     ifNeedSendEmail(user, Long.parseLong(request.getParameter("goalIdOrder")));

@@ -1,4 +1,4 @@
-package com.myCompany.RepairAgency.model.db.abstractDB.abstractRepository.primitive;
+package com.myCompany.RepairAgency.model.db.abstractDB.repository.primitive;
 
 
 public interface iRepositoryForChangeAble<T> extends iRepositoryForGetAble<T> {

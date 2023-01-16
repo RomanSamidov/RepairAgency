@@ -7,6 +7,7 @@ import com.myCompany.RepairAgency.servlet.Path;
 import com.myCompany.RepairAgency.servlet.PathFactory;
 import com.myCompany.RepairAgency.servlet.request.IActionCommand;
 import com.myCompany.RepairAgency.servlet.request.IHasRoleRequirement;
+import com.myCompany.RepairAgency.servlet.service.ViewValidationService;
 import com.myCompany.RepairAgency.servlet.util.EmailSender;
 import com.myCompany.RepairAgency.servlet.util.Encrypt;
 import com.myCompany.RepairAgency.servlet.util.VerifyRecaptcha;
@@ -33,13 +34,7 @@ public class LoginCommand implements IActionCommand, IHasRoleRequirement {
         Constants.ROLE userRole = Constants.ROLE.values()[user.getRole_id()];
         session.setAttribute("userRole", userRole);
 
-        switch (userRole) {
-            case Admin -> session.setAttribute("_menu_url", PathFactory.getPath("path.template.menu.admin").toString());
-            case Manager -> session.setAttribute("_menu_url", PathFactory.getPath("path.template.menu.manager").toString());
-            case Craftsman -> session.setAttribute("_menu_url", PathFactory.getPath("path.template.menu.craftsman").toString());
-            case Client -> session.setAttribute("_menu_url", PathFactory.getPath("path.template.menu.client").toString());
-        }
-
+        ViewValidationService.setMenu(request, userRole);
     }
 
     @Override

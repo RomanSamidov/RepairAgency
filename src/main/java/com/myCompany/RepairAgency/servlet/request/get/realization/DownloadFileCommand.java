@@ -6,6 +6,7 @@ import com.myCompany.RepairAgency.model.entity.User;
 import com.myCompany.RepairAgency.servlet.Path;
 import com.myCompany.RepairAgency.servlet.PathFactory;
 import com.myCompany.RepairAgency.servlet.request.IActionCommand;
+import com.myCompany.RepairAgency.servlet.request.IHasRoleRequirement;
 import com.myCompany.RepairAgency.servlet.util.EmailSender;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -16,8 +17,11 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
-public class DownloadFileCommand implements IActionCommand {
+public class DownloadFileCommand implements IActionCommand, IHasRoleRequirement {
     private static final Logger logger = LogManager.getLogger(DownloadFileCommand.class);
     @Override
     public Path execute(HttpServletRequest request, HttpServletResponse response) {
@@ -26,7 +30,7 @@ public class DownloadFileCommand implements IActionCommand {
         ifNeedSendEmail(request, filename);
         setResponseHead(response, filename);
         writeFileToResponse(response, filename);
-//        if(new File( filename).delete()) logger.debug("File " + filename + " deleted.");
+        if(new File( filename).delete()) logger.debug("File " + filename + " deleted.");
         logger.debug("Downloading have to start.");
         Path path = PathFactory.getPath("path.page.redirect.home");
         path.setDownload(true);
@@ -72,5 +76,13 @@ public class DownloadFileCommand implements IActionCommand {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    @Override
+    public List<Constants.ROLE> allowedUserRoles() {
+        return Stream.of(Constants.ROLE.Client,
+                Constants.ROLE.Craftsman,
+                Constants.ROLE.Manager,
+                Constants.ROLE.Admin).collect(Collectors.toList());
     }
 }

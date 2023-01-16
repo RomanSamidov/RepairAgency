@@ -34,7 +34,7 @@ public class CancelOrderCommand implements IActionCommand, IHasRoleRequirement {
             order.getStatus_id() != Constants.ORDER_STATUS.CANCELED.ordinal() &&
             order.getStatus_id() != Constants.ORDER_STATUS.COMPLETED.ordinal()){
 
-            ModelManager.getInstance().getRepairOrderRepository().cancelOrderWithMoneyReturn(order.getId());
+            ModelManager.getInstance().getOrderUserService().cancelOrderWithMoneyReturn(order.getId());
 
             ifNeedSendEmail(user, order.getPrice());
         } else {

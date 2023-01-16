@@ -2,10 +2,11 @@ package com.myCompany.RepairAgency.model;
 
 
 import com.myCompany.RepairAgency.Constants;
-import com.myCompany.RepairAgency.model.db.abstractDB.abstractRepository.abstractRepositoryFactory;
-import com.myCompany.RepairAgency.model.db.abstractDB.abstractRepository.abstractRepositoryFactory.DAOType;
-import com.myCompany.RepairAgency.model.db.abstractDB.abstractRepository.entity.iRepairOrderRepository;
-import com.myCompany.RepairAgency.model.db.abstractDB.abstractRepository.entity.iUserRepository;
+import com.myCompany.RepairAgency.model.db.abstractDB.repository.abstractRepositoryFactory;
+import com.myCompany.RepairAgency.model.db.abstractDB.repository.abstractRepositoryFactory.DAOType;
+import com.myCompany.RepairAgency.model.db.abstractDB.repository.entity.iRepairOrderRepository;
+import com.myCompany.RepairAgency.model.db.abstractDB.repository.entity.iUserRepository;
+import com.myCompany.RepairAgency.model.db.abstractDB.service.iOrderUserService;
 
 import java.util.ResourceBundle;
 
@@ -38,6 +39,9 @@ public class ModelManager {
 
     public iRepairOrderRepository getRepairOrderRepository() {
         return DAO_FACTORY.getRepairOrderRepository();
+    }
+    public iOrderUserService getOrderUserService() {
+        return DAO_FACTORY.getOrderUserService();
     }
 
     public iUserRepository getUserRepository() {

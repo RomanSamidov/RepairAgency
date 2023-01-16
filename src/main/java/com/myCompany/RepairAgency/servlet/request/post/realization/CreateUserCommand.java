@@ -2,7 +2,7 @@ package com.myCompany.RepairAgency.servlet.request.post.realization;
 
 import com.myCompany.RepairAgency.Constants;
 import com.myCompany.RepairAgency.model.ModelManager;
-import com.myCompany.RepairAgency.model.db.abstractDB.abstractRepository.entity.iUserRepository;
+import com.myCompany.RepairAgency.model.db.abstractDB.repository.entity.iUserRepository;
 import com.myCompany.RepairAgency.model.entity.User;
 import com.myCompany.RepairAgency.servlet.Path;
 import com.myCompany.RepairAgency.servlet.PathFactory;
@@ -46,7 +46,7 @@ public class CreateUserCommand implements IActionCommand, IHasRoleRequirement {
                 iUserRepository userRepository = ModelManager.getInstance().getUserRepository();
                     if (userRepository.getByLogin(login) != null) {
                         request.getSession().setAttribute("errorLoginPassMessage", "message.login_exist");
-                        page = PathFactory.getPath("path.page.redirect.signup");
+                        page = PathFactory.getPath("path.page.redirect.create_user");
                         return page;
                     }
                 String userPassword = Encrypt.encrypt(password);
@@ -69,7 +69,7 @@ public class CreateUserCommand implements IActionCommand, IHasRoleRequirement {
             }
         }
 
-        page = PathFactory.getPath("path.page.redirect.signup");
+        page = PathFactory.getPath("path.page.redirect.create_user");
         return page;
     }
 

@@ -1,6 +1,6 @@
 package com.myCompany.RepairAgency.model.db.PostgeSQL;
 
-import com.myCompany.RepairAgency.model.db.abstractDB.abstractRepository.entity.iRepairOrderRepository;
+import com.myCompany.RepairAgency.model.db.abstractDB.repository.entity.iRepairOrderRepository;
 
 public abstract class Query {
 
@@ -35,30 +35,18 @@ public abstract class Query {
         private static final String ORDER_BY_PRICE_DESC = " ORDER BY price DESC " + PAGINATION;
 
         public static String getSortQuery(iRepairOrderRepository.SORT_TYPE type) {
-            switch (type) {
-                case ORDER_BY_ID_ASC:
-                    return ORDER_BY_ID_ASC;
-                case ORDER_BY_ID_DESC:
-                    return ORDER_BY_ID_DESC;
-                case ORDER_BY_CREATION_DATE_ASC:
-                    return ORDER_BY_CREATION_DATE_ASC;
-                case ORDER_BY_CREATION_DATE_DESC:
-                    return ORDER_BY_CREATION_DATE_DESC;
-                case ORDER_BY_STATUS_ASC:
-                    return ORDER_BY_STATUS_ASC;
-                case ORDER_BY_STATUS_DESC:
-                    return ORDER_BY_STATUS_DESC;
-                case ORDER_BY_PRICE_ASC:
-                    return ORDER_BY_PRICE_ASC;
-                case ORDER_BY_PRICE_DESC:
-                    return ORDER_BY_PRICE_DESC;
-                case ORDER_BY_CRAFTSMAN_ID_ASC:
-                    return ORDER_BY_CRAFTSMAN_ID_ASC;
-                case ORDER_BY_CRAFTSMAN_ID_DESC:
-                    return ORDER_BY_CRAFTSMAN_ID_DESC;
-
-            }
-            return ORDER_BY_ID_ASC;
+            return switch (type) {
+                case ORDER_BY_ID_ASC -> ORDER_BY_ID_ASC;
+                case ORDER_BY_ID_DESC -> ORDER_BY_ID_DESC;
+                case ORDER_BY_CREATION_DATE_ASC -> ORDER_BY_CREATION_DATE_ASC;
+                case ORDER_BY_CREATION_DATE_DESC -> ORDER_BY_CREATION_DATE_DESC;
+                case ORDER_BY_STATUS_ASC -> ORDER_BY_STATUS_ASC;
+                case ORDER_BY_STATUS_DESC -> ORDER_BY_STATUS_DESC;
+                case ORDER_BY_PRICE_ASC -> ORDER_BY_PRICE_ASC;
+                case ORDER_BY_PRICE_DESC -> ORDER_BY_PRICE_DESC;
+                case ORDER_BY_CRAFTSMAN_ID_ASC -> ORDER_BY_CRAFTSMAN_ID_ASC;
+                case ORDER_BY_CRAFTSMAN_ID_DESC -> ORDER_BY_CRAFTSMAN_ID_DESC;
+            };
         }
 
     }

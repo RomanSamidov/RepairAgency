@@ -2,13 +2,14 @@ package com.myCompany.RepairAgency.servlet.request.get.realization;
 
 import com.myCompany.RepairAgency.Constants;
 import com.myCompany.RepairAgency.model.ModelManager;
-import com.myCompany.RepairAgency.model.db.abstractDB.abstractRepository.entity.iRepairOrderRepository;
+import com.myCompany.RepairAgency.model.db.abstractDB.repository.entity.iRepairOrderRepository;
 import com.myCompany.RepairAgency.model.entity.DTO.RepairOrderDTOFactory;
 import com.myCompany.RepairAgency.model.entity.DTO.UserDTOFactory;
 import com.myCompany.RepairAgency.servlet.Path;
 import com.myCompany.RepairAgency.servlet.PathFactory;
 import com.myCompany.RepairAgency.servlet.request.IActionCommand;
 import com.myCompany.RepairAgency.servlet.request.IHasRoleRequirement;
+import com.myCompany.RepairAgency.servlet.service.ViewValidationService;
 import com.myCompany.RepairAgency.servlet.util.ForTables;
 import com.myCompany.RepairAgency.servlet.util.report.ReportManager;
 import jakarta.servlet.http.HttpServletRequest;
@@ -24,14 +25,8 @@ import java.util.stream.Stream;
 public class ShowOrdersCommand implements IActionCommand, IHasRoleRequirement {
     @Override
     public Path execute(HttpServletRequest request, HttpServletResponse response) {
+        Path page = ViewValidationService.validateForOrdersPage(request);
         Constants.ROLE userRole = (Constants.ROLE) request.getSession().getAttribute("userRole");
-        Path page = switch (userRole) {
-            case Guest -> null;
-            case Admin -> PathFactory.getPath("path.page.forward.admin.orders");
-            case Manager -> PathFactory.getPath("path.page.forward.manager.orders");
-            case Craftsman -> PathFactory.getPath("path.page.forward.craftsman.orders");
-            case Client -> PathFactory.getPath("path.page.forward.client.orders");
-        };
         setPageTittle(request, userRole);
 
         request.setAttribute("errorOrderTextMessage",

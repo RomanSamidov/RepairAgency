@@ -2,7 +2,7 @@ package com.myCompany.RepairAgency.servlet.filter;
 
 import com.myCompany.RepairAgency.Constants;
 import com.myCompany.RepairAgency.model.ModelManager;
-import com.myCompany.RepairAgency.model.db.abstractDB.abstractRepository.entity.iUserRepository;
+import com.myCompany.RepairAgency.model.db.abstractDB.repository.entity.iUserRepository;
 import com.myCompany.RepairAgency.model.entity.User;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.Cookie;

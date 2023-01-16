@@ -11,6 +11,9 @@ public enum GetCommandEnum {
     SIGNUP {{
         this.command = new ShowSignupFormCommand();
     }},
+    CREATE_USER {{
+        this.command = new ShowCreateUserFormCommand();
+    }},
     ABOUT {{
         this.command = new ShowAboutCommand();
     }},

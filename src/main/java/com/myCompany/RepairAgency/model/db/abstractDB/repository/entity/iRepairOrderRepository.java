@@ -1,6 +1,6 @@
-package com.myCompany.RepairAgency.model.db.abstractDB.abstractRepository.entity;
+package com.myCompany.RepairAgency.model.db.abstractDB.repository.entity;
 
-import com.myCompany.RepairAgency.model.db.abstractDB.abstractRepository.primitive.iRepositoryForChangeAble;
+import com.myCompany.RepairAgency.model.db.abstractDB.repository.primitive.iRepositoryForChangeAble;
 import com.myCompany.RepairAgency.model.entity.RepairOrder;
 
 import java.util.ArrayList;
@@ -12,8 +12,7 @@ public interface iRepairOrderRepository extends iRepositoryForChangeAble<RepairO
 
     long countByCraftUserStatus(long[] craftIds, long userId, long[] statusIds);
 
-    void cancelOrderWithMoneyReturn(long orderId);
-    boolean payOrder(long orderId);
+
 
 
     enum SORT_TYPE {

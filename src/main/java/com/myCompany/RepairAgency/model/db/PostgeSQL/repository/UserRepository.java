@@ -5,7 +5,7 @@ import com.myCompany.RepairAgency.model.db.PostgeSQL.ConnectionPool;
 import com.myCompany.RepairAgency.model.db.PostgeSQL.Query;
 import com.myCompany.RepairAgency.model.db.PostgeSQL.QueryExecutioner;
 import com.myCompany.RepairAgency.model.db.PostgeSQL.factory.UserFactory;
-import com.myCompany.RepairAgency.model.db.abstractDB.abstractRepository.entity.iUserRepository;
+import com.myCompany.RepairAgency.model.db.abstractDB.repository.entity.iUserRepository;
 import com.myCompany.RepairAgency.model.entity.User;
 
 import java.sql.Connection;
