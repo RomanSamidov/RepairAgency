@@ -51,6 +51,10 @@ public class Controller extends HttpServlet {
         logger.debug("[Controller] " + command);
         logger.debug("[Controller] " + page);
 
+        if (page.isDownload()) {
+            logger.debug("ProcessRequest end with download");
+            return;
+        }
 
         if (page == null || page.isBlank()) {
 // установка страницы c coобщeнием об ошибке

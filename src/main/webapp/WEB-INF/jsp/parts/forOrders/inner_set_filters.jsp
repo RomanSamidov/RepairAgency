@@ -1,7 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jspf/directive/taglib.jspf" %>
 
-
 <label for="statusOrders"> <fmt:message key="text.statuses"/></label>
 <select name="statusOrders" size="2" multiple>
     <option value="0"><fmt:message key="text.all"/></option>

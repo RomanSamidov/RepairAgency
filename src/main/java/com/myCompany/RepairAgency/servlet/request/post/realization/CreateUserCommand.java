@@ -21,8 +21,8 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-public class SignupCommand implements IActionCommand, IHasRoleRequirement {
-    private static final Logger logger = LogManager.getLogger(SignupCommand.class);
+public class CreateUserCommand implements IActionCommand, IHasRoleRequirement {
+    private static final Logger logger = LogManager.getLogger(CreateUserCommand.class);
 
     @Override
     public Path execute(HttpServletRequest request, HttpServletResponse response) {
@@ -61,11 +61,9 @@ public class SignupCommand implements IActionCommand, IHasRoleRequirement {
                 userRepository.insert(user);
                 ifNeedSendEmail(user);
 
-
-                user = userRepository.getByLogin(login);
-                LoginCommand.initializeUserSessionAttributes(request, user);
-                page = PathFactory.getPath("path.page.redirect.cabinet");
+                page = PathFactory.getPath("path.page.forward.admin.create_user");
                 return page;
+
             } catch (Exception e) {
                 logger.error("[SignupCommand] sql error  " + e);
             }
@@ -77,7 +75,7 @@ public class SignupCommand implements IActionCommand, IHasRoleRequirement {
 
     @Override
     public List<Constants.ROLE> allowedUserRoles() {
-        return Stream.of(Constants.ROLE.Guest).collect(Collectors.toList());
+        return Stream.of(Constants.ROLE.Admin).collect(Collectors.toList());
     }
     private int initRoleId(HttpServletRequest request) {
         if(request.getSession().getAttribute("userRole").equals(Constants.ROLE.Admin)) {

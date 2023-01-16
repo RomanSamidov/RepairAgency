@@ -35,7 +35,7 @@ public class PDFWriter{
 
         PDDocument document = new PDDocument();
         int i;
-        int rowCount = repairOrders.size()-1;
+        int rowCount = repairOrders.size();
         int rowCountOnPage= 0;
 
         while (rowCountOnPage != rowCount) {
@@ -67,7 +67,7 @@ public class PDFWriter{
 
             createTableHeader(contentStream, writer, resourceBundle);
 
-            for (; i <= rowCountOnPage; i++) {
+            for (; i < rowCountOnPage; i++) {
                 RepairOrderDTO order = repairOrders.get(i);
                 createTableCell(contentStream, writer, 5, String.valueOf(order.getId()));
                 createTableCell(contentStream, writer, 10, String.valueOf(order.getUser_id()));

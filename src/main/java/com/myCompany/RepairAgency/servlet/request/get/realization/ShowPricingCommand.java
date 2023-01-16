@@ -9,7 +9,7 @@ import jakarta.servlet.http.HttpServletResponse;
 public class ShowPricingCommand implements IActionCommand {
     @Override
     public Path execute(HttpServletRequest request, HttpServletResponse response) {
-        Path page = PathFactory.getPath("path.page.forward.pricing");
+        Path page = PathFactory.getPath("path.page.forward.common.pricing");
         request.setAttribute("title", "title.pricing");
         return page;
     }

@@ -5,7 +5,6 @@
 <html>
 <c:import url="/WEB-INF/template/_head.jsp"/>
 <body>
-<%--<c:import url="/WEB-INF/template/menu/_menu.jsp"/>--%>
     <c:import url="${_menu_url}"/>
 
  <div align="center">
@@ -16,7 +15,6 @@
 
         <c:import url="/WEB-INF/jsp/parts/email_input.jsp"/>
 
-    <%--<c:import url="/WEB-INF/jsp/common/parts/part_of_change_password.jsp"/>--%>
         <c:import url="${_part_of_change_password_url}"/>
 
         <c:import url="/WEB-INF/jsp/parts/recaptcha_input.jsp"/>
@@ -29,36 +27,3 @@
 </div>
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

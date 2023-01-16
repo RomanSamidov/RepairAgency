@@ -18,14 +18,39 @@ import java.util.stream.Stream;
 public class ShowUserCommand implements IActionCommand, IHasRoleRequirement {
     @Override
     public Path execute(HttpServletRequest request, HttpServletResponse response) {
-        Path page = PathFactory.getPath("path.page.forward.user");
+        Constants.ROLE userRole = (Constants.ROLE) request.getSession().getAttribute("userRole");
+        Path page = switch (userRole) {
+            case Guest, Craftsman, Client -> null;
+            case Admin -> PathFactory.getPath("path.page.forward.admin.user");
+            case Manager -> PathFactory.getPath("path.page.forward.manager.user");
+        };
         request.setAttribute("title", "title.user");
 
         long userId = initUserId(request);
 
         User user =  ModelManager.getInstance().getUserRepository().getById(userId);
-        if(user == null) return PathFactory.getPath("path.page.redirect.users");
+        if(user == null) {
+            request.setAttribute("error", "text.there_are_no_users");
+            request.setAttribute("_show_user_url", PathFactory.getPath("path.page.forward.common.empty").toString());
+            request.setAttribute("_add_to_account_url", PathFactory.getPath("path.page.forward.common.empty").toString());
+            request.setAttribute("_delete_user_url", PathFactory.getPath("path.page.forward.common.empty").toString());
+            return page;
+        }
 
+
+        if(userRole == Constants.ROLE.Admin){
+            request.setAttribute("_delete_user_url", PathFactory.getPath("path.page.user.part.admin.delete_user").toString());
+        } else{
+            request.setAttribute("_delete_user_url", PathFactory.getPath("path.page.forward.common.empty").toString());
+        }
+        if(user.getRole_id() == Constants.ROLE.Client.ordinal()){
+            request.setAttribute("_add_to_account_url", PathFactory.getPath("path.page.user.part.manager.add_to_account").toString());
+        } else{
+            request.setAttribute("_add_to_account_url", PathFactory.getPath("path.page.forward.common.empty").toString());
+        }
+
+
+        request.setAttribute("_show_user_url", PathFactory.getPath("path.page.user.part.show_user").toString());
         request.setAttribute("goalUser", UserDTOFactory.getUser(user));
         return page;
     }

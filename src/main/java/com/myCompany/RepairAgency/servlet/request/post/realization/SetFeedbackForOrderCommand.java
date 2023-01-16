@@ -25,10 +25,13 @@ public class SetFeedbackForOrderCommand implements IActionCommand, IHasRoleRequi
             if (goalOrderFeedback_text != null && !goalOrderFeedback_text.isBlank()) {
                 RepairOrder order = ModelManager.getInstance().getRepairOrderRepository()
                         .getById(Long.parseLong(request.getParameter("goalIdOrder")));
+                if(request.getSession().getAttribute("userId").equals(order.getUser_id()) ||
+                        request.getSession().getAttribute("userRole").equals(Constants.ROLE.Admin)) {
                 order.setFeedback_text(goalOrderFeedback_text);
                 order.setFeedback_date(LocalDateTime.now());
                 order.setFeedback_mark(Integer.parseInt(goalOrderFeedback_mark));
                 ModelManager.getInstance().getRepairOrderRepository().update(order);
+                }
             }
         }
 
@@ -40,6 +43,7 @@ public class SetFeedbackForOrderCommand implements IActionCommand, IHasRoleRequi
 
     @Override
     public List<Constants.ROLE> allowedUserRoles() {
-        return Stream.of(Constants.ROLE.Client).collect(Collectors.toList());
+        return Stream.of(Constants.ROLE.Client,
+                Constants.ROLE.Admin).collect(Collectors.toList());
     }
 }

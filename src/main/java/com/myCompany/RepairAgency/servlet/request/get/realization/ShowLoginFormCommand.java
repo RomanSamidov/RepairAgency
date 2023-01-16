@@ -15,7 +15,7 @@ import java.util.stream.Stream;
 public class ShowLoginFormCommand implements IActionCommand, IHasRoleRequirement {
     @Override
     public Path execute(HttpServletRequest request, HttpServletResponse response) {
-        Path page = PathFactory.getPath("path.page.forward.login");
+        Path page = PathFactory.getPath("path.page.forward.guest.login");
         request.setAttribute("title", "title.login");
         copyAttributesFromSessionToRequest(request);
         deleteAttributesFromSession(request);

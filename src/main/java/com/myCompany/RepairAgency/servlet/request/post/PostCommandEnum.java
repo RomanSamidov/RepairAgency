@@ -14,8 +14,14 @@ public enum PostCommandEnum {
     SIGNUP {{
         this.command = new SignupCommand();
     }},
-    CREATE_ORDER {{
-        this.command = new CreateOrderCommand();
+    CREATE_USER {{
+        this.command = new CreateUserCommand();
+    }},
+    USER_CREATE_ORDER {{
+        this.command = new UserCreateOrderCommand();
+    }},
+    ADMIN_CREATE_ORDER {{
+        this.command = new AdminCreateOrderCommand();
     }},
     ORDERS {{
         this.command = new OrdersCommand();
@@ -35,14 +41,20 @@ public enum PostCommandEnum {
     DELETE_USER {{
         this.command = new DeleteUserCommand();
     }},
+    DELETE_ORDER {{
+        this.command = new DeleteOrderCommand();
+    }},
     CONFIRM_EMAIL {{
         this.command = new ConfirmEmailCommand();
     }},
     CHANGE_EMAIL {{
         this.command = new ChangeEmailCommand();
     }},
-    PAY_FOR_ORDER {{
-        this.command = new PayForOrderCommand();
+    CLIENT_PAY_FOR_ORDER {{
+        this.command = new ClientPayForOrderCommand();
+    }},
+    MANAGER_PAY_FOR_ORDER {{
+        this.command = new ManagerPayForOrderCommand();
     }},
     CANCEL_ORDER {{
         this.command = new CancelOrderCommand();

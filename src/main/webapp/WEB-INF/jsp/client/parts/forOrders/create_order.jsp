@@ -1,7 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jspf/directive/taglib.jspf" %>
 
-
 <form id="createOrderForm" method="POST" action="">
     <input type="hidden" name="command" value="user_create_Order" /><br/>
     <input type="hidden" name="clientId" value="${userId}" /><br/>
@@ -11,6 +10,3 @@
     <br/>
     <input type="submit" value="<fmt:message key="text.create_order"/>"/>
 </form><hr/>
-
-
-

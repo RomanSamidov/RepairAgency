@@ -8,13 +8,11 @@
 <c:import url="/WEB-INF/template/menu/admin/_menu.jsp"/>
 <div class="text-center" >
 
-    <%--<c:import url="/WEB-INF/jsp/admin/parts/forUsers/select_role_users.jsp"/>--%>
-    <c:import url="${_select_role_users_url}"/>
+    <c:import url="/WEB-INF/jsp/admin/parts/forUsers/select_role_users.jsp"/>
 
     <my:quantitySelectorForTable table_name="Users" command ="users"/>
 
-    <%--<c:import url="/WEB-INF/jsp/parts/forUsers/show_users.jsp"/>--%>
-    <c:import url="${_show_users_url}"/>
+    <c:import url="/WEB-INF/jsp/parts/forUsers/show_users.jsp"/>
 
     <my:message key="${error}" defaultvalue=""/>
 

@@ -24,12 +24,20 @@ import java.util.stream.Stream;
 public class ShowOrdersCommand implements IActionCommand, IHasRoleRequirement {
     @Override
     public Path execute(HttpServletRequest request, HttpServletResponse response) {
-        Path page = PathFactory.getPath("path.page.forward.orders");
         Constants.ROLE userRole = (Constants.ROLE) request.getSession().getAttribute("userRole");
+        Path page = switch (userRole) {
+            case Guest -> null;
+            case Admin -> PathFactory.getPath("path.page.forward.admin.orders");
+            case Manager -> PathFactory.getPath("path.page.forward.manager.orders");
+            case Craftsman -> PathFactory.getPath("path.page.forward.craftsman.orders");
+            case Client -> PathFactory.getPath("path.page.forward.client.orders");
+        };
         setPageTittle(request, userRole);
 
         request.setAttribute("errorOrderTextMessage",
                 request.getSession().getAttribute("errorOrderTextMessage"));
+        request.setAttribute("errorOrderClientIdMessage",
+                request.getSession().getAttribute("errorOrderClientIdMessage"));
         request.getSession().removeAttribute("errorOrderTextMessage");
 
         long[] craftIds = initCraftsmenIds(request, userRole);
@@ -50,6 +58,9 @@ public class ShowOrdersCommand implements IActionCommand, IHasRoleRequirement {
                 page = createReport(request, numberOfOrders, craftIds, userId, statusIds, sortType);
         }
 
+        if (numberOfOrders == 0){
+            request.setAttribute("error", "text.there_are_no_orders");
+        }
         request.setAttribute("orders", RepairOrderDTOFactory.getRepairOrders(
                 orderRepository.getByCraftUserStatus(craftIds, userId, statusIds, sortType, skip, quantity)));
 

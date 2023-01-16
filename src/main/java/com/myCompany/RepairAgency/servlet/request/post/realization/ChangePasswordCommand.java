@@ -126,8 +126,8 @@ public class ChangePasswordCommand implements IActionCommand {
     private void ifNeedSendEmail(User user){
         Constants.LOCALE locale = Constants.LOCALE.values()[user.getLocale_id()];
         EmailSender.send(user.getEmail(),
-                user.getLogin() + "  " + locale.getString("text.your_email_confirmed"),
-                locale.getString("text.your_email_confirmed"));
-        logger.debug("Send email about email confirming");
+                user.getLogin() + "  " + locale.getString("text.your_password_changed"),
+                locale.getString("text.your_password_changed"));
+        logger.debug("Send email about password changing");
     }
 }

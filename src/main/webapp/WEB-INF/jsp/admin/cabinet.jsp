@@ -5,19 +5,17 @@
 <html>
 <c:import url="/WEB-INF/template/_head.jsp"/>
 <body>
-<%--<c:import url="/WEB-INF/template/menu/_menu.jsp"/>--%>
     <c:import url="/WEB-INF/template/menu/admin/_menu.jsp"/>
 
-<div class="text-center" >
-    <c:import url="/WEB-INF/jsp/parts/forCabinet/cabinet_text.jsp"/>
+    <div class="text-center" >
+        <c:import url="/WEB-INF/jsp/parts/forCabinet/cabinet_text.jsp"/>
 
-    <c:import url="/WEB-INF/jsp/parts/forCabinet/change_email_form.jsp"/>
+        <c:import url="/WEB-INF/jsp/parts/forCabinet/change_email_form.jsp"/>
 
-    <c:import url="/WEB-INF/jsp/parts/forCabinet/change_profile_settings_form.jsp"/>
+        <c:import url="/WEB-INF/jsp/parts/forCabinet/change_profile_settings_form.jsp"/>
 
-<%--<c:import url="/WEB-INF/jsp/parts/forCabinet/email_confirmed.jsp"/>--%>
-    <c:import url="${_email_confirmed_url}"/>
+        <c:import url="${_email_confirmed_url}"/>
 
-</div>
+    </div>
 
 </body></html>

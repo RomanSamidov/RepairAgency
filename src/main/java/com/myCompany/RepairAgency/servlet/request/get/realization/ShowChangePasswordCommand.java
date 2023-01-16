@@ -6,16 +6,27 @@ import com.myCompany.RepairAgency.servlet.PathFactory;
 import com.myCompany.RepairAgency.servlet.request.IActionCommand;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 
 
 public class ShowChangePasswordCommand implements IActionCommand{
     @Override
     public Path execute(HttpServletRequest request, HttpServletResponse response) {
-        Path page = PathFactory.getPath("path.page.forward.change_password");
+        Path page = PathFactory.getPath("path.page.forward.common.change_password");
         request.setAttribute("title", "title.change_password");
         copyAttributesFromSessionToRequest(request);
 
         deleteAttributesFromSession(request);
+
+        HttpSession session = request.getSession();
+        if(session.getAttribute("waitedCodePassword") != null){
+            session.setAttribute("_part_of_change_password_url",
+                    PathFactory.getPath("path.page.forward.common.parts.part_of_change_password").toString());
+        } else {
+            session.setAttribute("_part_of_change_password_url",
+                    PathFactory.getPath("path.page.forward.common.empty").toString());
+        }
+
 
         return page;
     }

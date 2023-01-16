@@ -12,6 +12,7 @@ import com.myCompany.RepairAgency.servlet.util.Encrypt;
 import com.myCompany.RepairAgency.servlet.util.VerifyRecaptcha;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -23,12 +24,22 @@ public class LoginCommand implements IActionCommand, IHasRoleRequirement {
     private static final Logger logger = LogManager.getLogger(LoginCommand.class);
 
     public static void initializeUserSessionAttributes(HttpServletRequest request, User user) {
-        request.getSession().setAttribute("language", Constants.LOCALE.values()[user.getLocale_id()].toString());
-        request.getSession().setAttribute("userLogin", user.getLogin());
-        request.getSession().setAttribute("userId", user.getId());
-        request.getSession().setAttribute("userEmail", user.getEmail());
-        request.getSession().setAttribute("isUserConfirmed", user.isConfirmed());
-        request.getSession().setAttribute("userRole", Constants.ROLE.values()[user.getRole_id()]);
+        HttpSession session = request.getSession();
+        session.setAttribute("language", Constants.LOCALE.values()[user.getLocale_id()].toString());
+        session.setAttribute("userLogin", user.getLogin());
+        session.setAttribute("userId", user.getId());
+        session.setAttribute("userEmail", user.getEmail());
+        session.setAttribute("isUserConfirmed", user.isConfirmed());
+        Constants.ROLE userRole = Constants.ROLE.values()[user.getRole_id()];
+        session.setAttribute("userRole", userRole);
+
+        switch (userRole) {
+            case Admin -> session.setAttribute("_menu_url", PathFactory.getPath("path.template.menu.admin").toString());
+            case Manager -> session.setAttribute("_menu_url", PathFactory.getPath("path.template.menu.manager").toString());
+            case Craftsman -> session.setAttribute("_menu_url", PathFactory.getPath("path.template.menu.craftsman").toString());
+            case Client -> session.setAttribute("_menu_url", PathFactory.getPath("path.template.menu.client").toString());
+        }
+
     }
 
     @Override

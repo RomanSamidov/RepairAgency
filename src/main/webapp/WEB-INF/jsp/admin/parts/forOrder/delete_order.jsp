@@ -2,8 +2,7 @@
 <%@ include file="/WEB-INF/jspf/directive/taglib.jspf" %>
 
 <form method="POST" action="">
-    <input type="hidden" name="command" value="CANCEL_ORDER" />
+    <input type="hidden" name="command" value="delete_order" />
     <input type="hidden" name="goalIdOrder" value="${ goalOrder.id }" />
-    <input type="hidden" name="goalOrderStatus" value="4" />
-    <input type="submit" value="<fmt:message key="text.cancel_order"/>"/>
+    <input type="submit" value="<fmt:message key="text.delete_order"/>"/>
 </form>

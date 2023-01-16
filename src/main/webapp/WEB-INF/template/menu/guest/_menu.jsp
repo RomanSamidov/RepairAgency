@@ -8,7 +8,7 @@
         </ul>
         <myc:info-time/>
         <c:import url="/WEB-INF/template/menu/parts/changeLanguageForm.jsp"/>
-        <ul class="text-right">
+        <ul class="text-right" >
             <a href="/RepairAgency/controller/login" class = "btn  btn-outline-primary px-2  "><fmt:message key="text.sign_in"/></a>
             <a href="/RepairAgency/controller/signup" class = "btn  btn-primary px-2  "><fmt:message key="text.sign_up"/></a>
         </ul>

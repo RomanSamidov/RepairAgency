@@ -19,9 +19,9 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-public class CreateOrderCommand implements IActionCommand, IHasRoleRequirement {
+public class UserCreateOrderCommand implements IActionCommand, IHasRoleRequirement {
 
-    private static final Logger logger = LogManager.getLogger(CreateOrderCommand.class);
+    private static final Logger logger = LogManager.getLogger(UserCreateOrderCommand.class);
 
     @Override
     public Path execute(HttpServletRequest request, HttpServletResponse response) {

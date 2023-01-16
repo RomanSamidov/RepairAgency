@@ -10,19 +10,17 @@
 
     <my:message key="${error}" defaultvalue=""/>
 
-    <%--<c:import url="/WEB-INF/jsp/parts/forOrder/show_order.jsp"/>--%>
     <c:import url="${_show_order_url}"/>
 
-    <%--<c:import url="WEB-INF/jsp/craftsman/parts/forOrder/take_order.jsp"/>--%>
-    <%--<c:import url="WEB-INF/jsp/craftsman/parts/forOrder/complete_order.jsp"/>--%>
-    <c:import url="${_craft_order_url}"/>=
+    <c:import url="${_craft_order_url}"/>
 
-    <%--<c:import url="WEB-INF/jsp/client/parts/forOrder/set_feedback.jsp"/>--%>
-    <%--<c:import url="WEB-INF/jsp/client/parts/forOrder/pay_order.jsp"/>--%>
-    <c:import url="${_user_order_url}"/>
+    <c:import url="${_client_order_url}"/>
 
-    <%--<c:import url="/WEB-INF/jsp/parts/forOrder/cancel_order.jsp"/>--%>
+    <c:import url="${_manager_order_url}"/>
+
     <c:import url="${_cancel_order_url}"/>
+
+    <c:import url="/WEB-INF/jsp/admin/parts/forOrder/delete_order.jsp"/>
 
 </div>
 </body></html>

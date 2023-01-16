@@ -10,14 +10,11 @@
 
     <my:message key="${error}" defaultvalue=""/>
 
-    <%--<c:import url="/WEB-INF/jsp/parts/forUser/show_user.jsp"/>--%>
     <c:import url="${_show_user_url}"/>
 
-    <%--<c:import url="/WEB-INF/jsp/manager/parts/forUser/add_to_account.jsp"/>--%>
     <c:import url="${_add_to_account_url}"/>
 
-    <%--<c:import url="/WEB-INF/jsp/admin/parts/forUser/delete_user.jsp"/>--%>
-    <c:import url="${_delete_account_url}"/>
+    <c:import url="${_delete_user_url}"/>
 
 </div>
 </body></html>

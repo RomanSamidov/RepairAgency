@@ -14,33 +14,22 @@ import jakarta.servlet.http.HttpServletResponse;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-
-public class SetOrderStatusCommand implements IActionCommand, IHasRoleRequirement {
-    private static final Logger logger = LogManager.getLogger(SetOrderStatusCommand.class);
-
+public class DeleteOrderCommand implements IActionCommand, IHasRoleRequirement {
+    private static final Logger logger = LogManager.getLogger(DeleteOrderCommand.class);
     @Override
     public Path execute(HttpServletRequest request, HttpServletResponse response) {
-        String goalOrderStatus = request.getParameter("goalOrderStatus");
-        if (goalOrderStatus != null && !goalOrderStatus.isBlank()) {
             RepairOrder order = ModelManager.getInstance().getRepairOrderRepository().getById(
                     Long.parseLong(request.getParameter("goalIdOrder")));
-            if((request.getSession().getAttribute("userRole").equals(Constants.ROLE.Craftsman) &&
-                    request.getSession().getAttribute("userId").equals(order.getCraftsman_id())) ||
-                    request.getSession().getAttribute("userRole").equals(Constants.ROLE.Admin)) {
-                order.setStatus_id(Integer.parseInt(goalOrderStatus));
-                if (order.getStatus_id() == Constants.ORDER_STATUS.COMPLETED.ordinal()) {
-                    order.setFinish_date(LocalDateTime.now());
-                }
-                ModelManager.getInstance().getRepairOrderRepository().update(order);
+            if(request.getSession().getAttribute("userRole").equals(Constants.ROLE.Admin)) {
+                ModelManager.getInstance().getRepairOrderRepository().delete(order);
                 User user = ModelManager.getInstance().getUserRepository().getById(order.getUser_id());
                 ifNeedSendEmail(user, order.getId());
             }
-        }
+
 
         Path path = PathFactory.getPath("path.page.redirect.order");
         path.addParameter("id", request.getParameter("goalIdOrder"));
@@ -50,16 +39,17 @@ public class SetOrderStatusCommand implements IActionCommand, IHasRoleRequiremen
 
     @Override
     public List<Constants.ROLE> allowedUserRoles() {
-        return Stream.of(Constants.ROLE.Admin, Constants.ROLE.Craftsman).collect(Collectors.toList());
+        return Stream.of(Constants.ROLE.Admin, Constants.ROLE.Client).collect(Collectors.toList());
     }
 
     private void ifNeedSendEmail(User user, long orderId){
         if(user.isAllow_letters()){
             Constants.LOCALE locale = Constants.LOCALE.values()[user.getLocale_id()];
             EmailSender.send(user.getEmail(),
-                    user.getLogin() + "  " + locale.getString("text.your_order_updated"),
-                    locale.getString("text.order_now_has_another_status") + orderId);
-            logger.debug("Send email about successful paid");
+                    user.getLogin() + "  " + locale.getString("text.your_order_deleted"),
+                    locale.getString("text.your_order_deleted_id")+ orderId);
+            logger.debug("Send email profile deletion");
         }
     }
+
 }

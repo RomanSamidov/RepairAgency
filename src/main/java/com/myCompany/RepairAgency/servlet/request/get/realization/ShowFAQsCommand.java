@@ -9,7 +9,7 @@ import jakarta.servlet.http.HttpServletResponse;
 public class ShowFAQsCommand implements IActionCommand {
     @Override
     public Path execute(HttpServletRequest request, HttpServletResponse response) {
-        Path page = PathFactory.getPath("path.page.forward.faqs");
+        Path page = PathFactory.getPath("path.page.forward.common.faqs");
         request.setAttribute("title", "title.faqs");
         return page;
     }

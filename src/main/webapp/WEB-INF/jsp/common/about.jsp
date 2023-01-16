@@ -5,7 +5,6 @@
 <html>
 <c:import url="/WEB-INF/template/_head.jsp"/>
 <body>
-<%--<c:import url="/WEB-INF/template/menu/_menu.jsp"/>--%>
     <c:import url="${_menu_url}"/>
     <p class="text-center"><fmt:message key="text.about"/></p>
 </body>

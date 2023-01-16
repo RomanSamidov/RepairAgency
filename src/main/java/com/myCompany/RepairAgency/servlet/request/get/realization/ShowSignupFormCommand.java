@@ -16,7 +16,7 @@ import java.util.stream.Stream;
 public class ShowSignupFormCommand implements IActionCommand, IHasRoleRequirement {
     @Override
     public Path execute(HttpServletRequest request, HttpServletResponse response) {
-        Path page = PathFactory.getPath("path.page.forward.signup");
+        Path page = PathFactory.getPath("path.page.forward.guest.signup");
         request.setAttribute("title", "title.signup");
 
         copyAttributesFromSessionToRequest(request);
@@ -25,6 +25,7 @@ public class ShowSignupFormCommand implements IActionCommand, IHasRoleRequiremen
             ArrayList<Constants.ROLE> roles = new ArrayList<>(List.of(Constants.ROLE.values()));
             roles.remove(0);
             request.setAttribute("roles", roles);
+            page = PathFactory.getPath("path.page.forward.admin.create_user");
         }
 
         deleteAttributesFromSession(request);

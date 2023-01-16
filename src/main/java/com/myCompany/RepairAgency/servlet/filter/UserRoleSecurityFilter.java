@@ -37,6 +37,7 @@ public class UserRoleSecurityFilter implements Filter {
         logger.debug("[UserRoleSecurityFilter] RequestURI = " + req.getRequestURI());
         if (userRole == null) {
             session.setAttribute("userRole", Constants.ROLE.Guest);
+            session.setAttribute("_menu_url", PathFactory.getPath("path.template.menu.guest"));
             userRole = (Constants.ROLE) session.getAttribute("userRole");
         }
 

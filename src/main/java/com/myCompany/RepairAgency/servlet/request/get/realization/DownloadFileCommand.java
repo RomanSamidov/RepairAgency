@@ -26,9 +26,11 @@ public class DownloadFileCommand implements IActionCommand {
         ifNeedSendEmail(request, filename);
         setResponseHead(response, filename);
         writeFileToResponse(response, filename);
-        if(new File( filename).delete()) logger.debug("File " + filename + " deleted.");
+//        if(new File( filename).delete()) logger.debug("File " + filename + " deleted.");
         logger.debug("Downloading have to start.");
-        return PathFactory.getPath("path.page.forward.index");
+        Path path = PathFactory.getPath("path.page.redirect.home");
+        path.setDownload(true);
+        return path;
     }
 
     private void ifNeedSendEmail(HttpServletRequest request, String filename){

@@ -10,7 +10,7 @@
         </ul>
         <myc:info-time/>
         <c:import url="/WEB-INF/template/menu/parts/changeLanguageForm.jsp"/>
-        <a href="/RepairAgency/controller/signup" class = "btn  btn-primary px-2  "><fmt:message key="text.create_user"/></a><br/>
+        <a href="/RepairAgency/controller/signup" class = "btn  btn-primary px-2  "><fmt:message key="text.create_user"/></a>
         <c:import url="/WEB-INF/template/menu/parts/logoutForm.jsp"/>
     </header>
 </div>

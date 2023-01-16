@@ -21,7 +21,12 @@ public class ShowUsersCommand implements IActionCommand, IHasRoleRequirement {
     @Override
     public Path execute(HttpServletRequest request, HttpServletResponse response) {
         iUserRepository userRepository = ModelManager.getInstance().getUserRepository();
-        Path page = PathFactory.getPath("path.page.forward.users");
+        Constants.ROLE userRole = (Constants.ROLE) request.getSession().getAttribute("userRole");
+        Path page = switch (userRole) {
+            case Guest, Craftsman, Client -> null;
+            case Admin -> PathFactory.getPath("path.page.forward.admin.users");
+            case Manager -> PathFactory.getPath("path.page.forward.manager.users");
+        };
         request.setAttribute("title", "title.users");
 
         long roleId = initRoleId(request);
@@ -32,7 +37,9 @@ public class ShowUsersCommand implements IActionCommand, IHasRoleRequirement {
         int skip = a[0];
         int quantity = a[1];
         request.setAttribute("users", UserDTOFactory.getUsers(userRepository.getByRole(roleId, skip, quantity)));
-
+        if (numberOfUsers == 0){
+            request.setAttribute("error", "text.there_are_no_users");
+        }
         return page;
     }
 

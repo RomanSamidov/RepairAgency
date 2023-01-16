@@ -19,23 +19,12 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 
-public class PayForOrderCommand implements IActionCommand, IHasRoleRequirement {
-    private static final Logger logger = LogManager.getLogger(PayForOrderCommand.class);
+public class ManagerPayForOrderCommand implements IActionCommand, IHasRoleRequirement {
+    private static final Logger logger = LogManager.getLogger(ManagerPayForOrderCommand.class);
 
     @Override
     public Path execute(HttpServletRequest request, HttpServletResponse response) {
-        if(request.getSession().getAttribute("userRole") == Constants.ROLE.Client){
-                User user = ModelManager.getInstance().getUserRepository().getById((Long)
-                        request.getSession().getAttribute("userId"));
-                if(ModelManager.getInstance().getRepairOrderRepository().payOrder(
-                        Long.parseLong(request.getParameter("goalIdOrder")))) {
-                    logger.debug("Successfully paid");
-                    ifNeedSendEmail(user, Long.parseLong(request.getParameter("goalIdOrder")));
-                } else {
-                    request.getSession().setAttribute("error","message.not_enough_money");
-                }
-
-        } else if(request.getSession().getAttribute("userRole") == Constants.ROLE.Manager ||
+        if(request.getSession().getAttribute("userRole") == Constants.ROLE.Manager ||
                 request.getSession().getAttribute("userRole") == Constants.ROLE.Admin ){
             RepairOrder order = ModelManager.getInstance().getRepairOrderRepository().getById(
                     Long.parseLong(request.getParameter("goalIdOrder")));
@@ -53,10 +42,8 @@ public class PayForOrderCommand implements IActionCommand, IHasRoleRequirement {
 
     @Override
     public List<Constants.ROLE> allowedUserRoles() {
-        return Stream.of(Constants.ROLE.Client,
-                Constants.ROLE.Manager,
-                Constants.ROLE.Admin,
-                Constants.ROLE.Craftsman).collect(Collectors.toList());
+        return Stream.of(Constants.ROLE.Manager,
+                Constants.ROLE.Admin).collect(Collectors.toList());
     }
 
     private void ifNeedSendEmail(User user, long orderId){

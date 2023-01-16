@@ -4,19 +4,16 @@
 <html>
 <c:import url="/WEB-INF/template/_head.jsp"/>
 <body>
-<c:import url="/WEB-INF/template/menu/_menu.jsp"/>
+<c:import url="/WEB-INF/template/menu/manager/_menu.jsp"/>
 <div class="text-center" >
 
     <c:import url="/WEB-INF/jsp/parts/forOrders/set_filters.jsp"/>
-    <%--<c:import url="${_show_orders_url}"/>--%>
 
     <c:import url="/WEB-INF/jsp/parts/forOrders/create_report.jsp"/>
-    <%--<c:import url="${_show_orders_url}"/>--%>
 
     <my:quantitySelectorForTable table_name="Orders" command ="orders"/>
 
     <c:import url="/WEB-INF/jsp/parts/forOrders/show_orders.jsp"/>
-    <%--<c:import url="${_show_orders_url}"/>--%>
 
     <my:message key="${error}" defaultvalue=""/>
 

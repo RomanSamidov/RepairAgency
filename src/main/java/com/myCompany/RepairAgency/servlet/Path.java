@@ -4,6 +4,7 @@ import java.util.HashMap;
 
 public class Path {
     public final boolean isRedirect;
+    private boolean isDownload;
     public final String path;
     private final HashMap<String, String> parameters = new HashMap<>();
 
@@ -33,5 +34,13 @@ public class Path {
 
     public void addParameter(String name, String value) {
         parameters.put(name, value);
+    }
+
+    public boolean isDownload() {
+        return isDownload;
+    }
+
+    public void setDownload(boolean download) {
+        isDownload = download;
     }
 }
