@@ -23,18 +23,19 @@ public class ClientPayForOrderCommand implements IActionCommand, IHasRoleRequire
 
     @Override
     public Path execute(HttpServletRequest request, HttpServletResponse response) {
-        if(request.getSession().getAttribute("userRole") == Constants.ROLE.Client){
-                User user = ModelManager.getInstance().getUserRepository().getById((Long)
-                        request.getSession().getAttribute("userId"));
-                if(ModelManager.getInstance().getOrderUserService().payOrder(
-                        Long.parseLong(request.getParameter("goalIdOrder")))) {
-                    logger.debug("Successfully paid");
-                    ifNeedSendEmail(user, Long.parseLong(request.getParameter("goalIdOrder")));
-                } else {
-                    request.getSession().setAttribute("error","message.not_enough_money");
-                }
 
+        User user = ModelManager.getInstance().getUserRepository().getById((Long)
+                request.getSession().getAttribute("userId"));
+        if(user.getId() == (long)request.getSession().getAttribute("userId") &&
+                ModelManager.getInstance().getOrderUserService().payOrder(
+                Long.parseLong(request.getParameter("goalIdOrder")))) {
+            logger.debug("Successfully paid");
+            ifNeedSendEmail(user, Long.parseLong(request.getParameter("goalIdOrder")));
+        } else {
+            request.getSession().setAttribute("error","message.not_enough_money");
         }
+
+
         Path path = PathFactory.getPath("path.page.redirect.order");
         path.addParameter("id", request.getParameter("goalIdOrder"));
 

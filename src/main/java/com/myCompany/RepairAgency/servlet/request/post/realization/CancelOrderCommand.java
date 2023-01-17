@@ -30,6 +30,17 @@ public class CancelOrderCommand implements IActionCommand, IHasRoleRequirement {
 
         User user = ModelManager.getInstance().getUserRepository().getById(order.getUser_id());
 
+
+        if(!((user.getRole_id() == Constants.ROLE.Client.ordinal() && user.getId() == order.getUser_id()) ||
+                (user.getRole_id() == Constants.ROLE.Craftsman.ordinal() && user.getId() == order.getCraftsman_id()) ||
+                user.getRole_id() == Constants.ROLE.Manager.ordinal() ||
+                user.getRole_id() == Constants.ROLE.Admin.ordinal()))
+        {
+            Path path = PathFactory.getPath("path.page.redirect.order");
+            path.addParameter("id", request.getParameter("goalIdOrder"));
+            return path;
+        }
+
         if (order.getStatus_id() > Constants.ORDER_STATUS.PENDING_PAYMENT.ordinal() &&
             order.getStatus_id() != Constants.ORDER_STATUS.CANCELED.ordinal() &&
             order.getStatus_id() != Constants.ORDER_STATUS.COMPLETED.ordinal()){
@@ -51,7 +62,10 @@ public class CancelOrderCommand implements IActionCommand, IHasRoleRequirement {
 
     @Override
     public List<Constants.ROLE> allowedUserRoles() {
-        return Stream.of(Constants.ROLE.Client, Constants.ROLE.Manager, Constants.ROLE.Admin, Constants.ROLE.Craftsman).collect(Collectors.toList());
+        return Stream.of(Constants.ROLE.Client,
+                Constants.ROLE.Manager,
+                Constants.ROLE.Admin,
+                Constants.ROLE.Craftsman).collect(Collectors.toList());
     }
 
     private void ifNeedSendEmail(User user, int increment){

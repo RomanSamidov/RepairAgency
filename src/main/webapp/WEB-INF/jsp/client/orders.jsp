@@ -18,7 +18,7 @@
 
     <c:import url="/WEB-INF/jsp/parts/forOrders/show_orders.jsp"/>
 
-    <my:message key="${error}" defaultvalue=""/>
+    <my:message key="${error}" default_value=""/>
 
     <my:pageControlPanelForTable table_name="Orders" command ="orders"/>
 

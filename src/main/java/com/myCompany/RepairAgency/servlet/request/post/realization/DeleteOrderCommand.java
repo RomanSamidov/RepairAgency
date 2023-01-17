@@ -24,13 +24,9 @@ public class DeleteOrderCommand implements IActionCommand, IHasRoleRequirement {
     public Path execute(HttpServletRequest request, HttpServletResponse response) {
             RepairOrder order = ModelManager.getInstance().getRepairOrderRepository().getById(
                     Long.parseLong(request.getParameter("goalIdOrder")));
-            if(request.getSession().getAttribute("userRole").equals(Constants.ROLE.Admin)) {
                 ModelManager.getInstance().getRepairOrderRepository().delete(order);
                 User user = ModelManager.getInstance().getUserRepository().getById(order.getUser_id());
                 ifNeedSendEmail(user, order.getId());
-            }
-
-
         Path path = PathFactory.getPath("path.page.redirect.order");
         path.addParameter("id", request.getParameter("goalIdOrder"));
 

@@ -28,7 +28,6 @@ public class EncodingFilter implements Filter {
     logger.debug("Filter starts");
 
     logger.debug("Change request encoding from " + request.getCharacterEncoding() + " to " + encoding );
-        System.out.println(encoding);
     request.setCharacterEncoding(encoding);
 //        response.setCharacterEncoding(encoding);
 

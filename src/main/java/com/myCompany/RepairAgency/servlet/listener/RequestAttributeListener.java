@@ -14,25 +14,25 @@ public class RequestAttributeListener implements ServletRequestAttributeListener
 
     @Override
     public void attributeAdded(ServletRequestAttributeEvent srae) {
-        logger.debug("[RequestAttributeListener] attributeAdded start");
-        logger.debug("[RequestAttributeListener] " + srae.getName());
-        logger.debug("[RequestAttributeListener] " + srae.getValue());
-        logger.debug("[RequestAttributeListener] attributeAdded end");
+        logger.debug(" attributeAdded start");
+        logger.debug(" " + srae.getName());
+        logger.debug(" " + srae.getValue());
+        logger.debug(" attributeAdded end");
     }
 
     @Override
     public void attributeRemoved(ServletRequestAttributeEvent srae) {
-        logger.debug("[RequestAttributeListener] attributeRemoved start");
-        logger.debug("[RequestAttributeListener] " + srae.getName());
-        logger.debug("[RequestAttributeListener] " + srae.getValue());
-        logger.debug("[RequestAttributeListener] attributeRemoved end");
+        logger.debug(" attributeRemoved start");
+        logger.debug(" " + srae.getName());
+        logger.debug(" " + srae.getValue());
+        logger.debug(" attributeRemoved end");
     }
 
     @Override
     public void attributeReplaced(ServletRequestAttributeEvent srae) {
-        logger.debug("[RequestAttributeListener] attributeReplaced start");
-        logger.debug("[RequestAttributeListener] " + srae.getName());
-        logger.debug("[RequestAttributeListener] " + srae.getValue());
-        logger.debug("[RequestAttributeListener] attributeReplaced end");
+        logger.debug(" attributeReplaced start");
+        logger.debug(" " + srae.getName());
+        logger.debug(" " + srae.getValue());
+        logger.debug(" attributeReplaced end");
     }
 }

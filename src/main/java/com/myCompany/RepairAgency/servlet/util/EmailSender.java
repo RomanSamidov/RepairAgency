@@ -2,6 +2,7 @@ package com.myCompany.RepairAgency.servlet.util;
 
 
 
+import com.myCompany.RepairAgency.Constants;
 import jakarta.activation.DataHandler;
 import jakarta.activation.DataSource;
 import jakarta.activation.FileDataSource;
@@ -22,9 +23,9 @@ import java.util.ResourceBundle;
 
 public class EmailSender {
     private final static ResourceBundle resourceBundle =
-            ResourceBundle.getBundle("email");
-    private static final String from = resourceBundle.getString("email");
-    private static final String password = resourceBundle.getString("password");
+            ResourceBundle.getBundle(Constants.EMAIL_SETTINGS_BUNDLE);
+    private static final String from = resourceBundle.getString(Constants.EMAIL);
+    private static final String password = resourceBundle.getString(Constants.PASSWORD);
     public static void send(String to, String sub, String msg, File... files){
         System.out.println(to + sub + msg);
         return;

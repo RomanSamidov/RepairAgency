@@ -21,7 +21,7 @@ public class PostCommandFactory extends abstractCommandFactory {
         IActionCommand current = new EmptyCommand();
 
         String command = request.getParameter("command");
-        logger.debug("[PostCommandFactory] " + command);
+        logger.debug(" " + command);
         if (command == null || command.isEmpty()) {
             return current;
         }

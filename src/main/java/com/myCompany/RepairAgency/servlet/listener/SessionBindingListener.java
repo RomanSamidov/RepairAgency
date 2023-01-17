@@ -14,21 +14,21 @@ public class SessionBindingListener implements HttpSessionBindingListener {
 
     @Override
     public void valueBound(HttpSessionBindingEvent event) {
-        logger.debug("[SessionBindingListener] valueBound start");
-        logger.debug("[SessionBindingListener] " + event.toString());
-        logger.debug("[SessionBindingListener] " + event.getSession().getId());
-        logger.debug("[SessionBindingListener] " + event.getSession().toString());
-        logger.debug("[SessionBindingListener] " + event.getSource());
-        logger.debug("[SessionBindingListener] valueBound end");
+        logger.debug(" valueBound start");
+        logger.debug(" " + event.toString());
+        logger.debug(" " + event.getSession().getId());
+        logger.debug(" " + event.getSession().toString());
+        logger.debug(" " + event.getSource());
+        logger.debug(" valueBound end");
     }
 
     @Override
     public void valueUnbound(HttpSessionBindingEvent event) {
-        logger.debug("[SessionBindingListener] valueUnbound start");
-        logger.debug("[SessionBindingListener] " + event.toString());
-        logger.debug("[SessionBindingListener] " + event.getSession().getId());
-        logger.debug("[SessionBindingListener] " + event.getSession().toString());
-        logger.debug("[SessionBindingListener] " + event.getSource());
-        logger.debug("[SessionBindingListener] valueUnbound end");
+        logger.debug(" valueUnbound start");
+        logger.debug(" " + event.toString());
+        logger.debug(" " + event.getSession().getId());
+        logger.debug(" " + event.getSession().toString());
+        logger.debug(" " + event.getSource());
+        logger.debug(" valueUnbound end");
     }
 }

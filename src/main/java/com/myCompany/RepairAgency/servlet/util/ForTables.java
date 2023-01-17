@@ -7,7 +7,10 @@ public class ForTables {
     public static int[] initSkipQuantity(String tableName, long numberOf, HttpServletRequest request) {
         Integer page = (Integer) request.getSession().getAttribute("nowPageFor" + tableName);
         Integer quantity = (Integer) request.getSession().getAttribute("nowQuantityFor" + tableName);
-        if (quantity == null || quantity == 0) quantity = 5;
+        if (quantity == null || quantity == 0) {
+            quantity = 5;
+            request.getSession().setAttribute("nowQuantityFor" + tableName, quantity);
+        }
         if (page == null) {
             page = 1;
             request.getSession().setAttribute("nowPageFor" + tableName, page);
@@ -16,14 +19,13 @@ public class ForTables {
             if((long)request.getSession().getAttribute("numberOf" + tableName) != numberOf){
                 page = 1;
                 request.getSession().setAttribute("nowPageFor" + tableName, page);
+                request.getSession().setAttribute("numberOf" + tableName, numberOf);
             }
-        }
-        request.getSession().setAttribute("numberOf" + tableName, numberOf);
+        } else request.getSession().setAttribute("numberOf" + tableName, numberOf);
 
         int pages = (int) Math.ceil(((double) numberOf) / ((double) quantity));
-        if(pages == 0) pages =1;
+        if(pages == 0) pages = 1;
         request.getSession().setAttribute("maxPageFor" + tableName, pages);
-        request.getSession().setAttribute("nowQuantityFor" + tableName, quantity);
         return new int[]{(page-1)*quantity, quantity};
     }
 

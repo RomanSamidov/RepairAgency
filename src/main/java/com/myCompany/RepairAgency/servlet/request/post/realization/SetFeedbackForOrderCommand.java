@@ -19,22 +19,24 @@ import java.util.stream.Stream;
 public class SetFeedbackForOrderCommand implements IActionCommand, IHasRoleRequirement {
     @Override
     public Path execute(HttpServletRequest request, HttpServletResponse response) {
-        String goalOrderFeedback_mark = request.getParameter("goalOrderFeedback_mark");
-        if (goalOrderFeedback_mark != null && !goalOrderFeedback_mark.isBlank()) {
+        if(request.getParameter("goalIdOrder") != null && request.getParameter("goalIdOrder").isBlank()) {
+            String goalOrderFeedback_mark = request.getParameter("goalOrderFeedback_mark");
             String goalOrderFeedback_text = request.getParameter("goalOrderFeedback_text");
-            if (goalOrderFeedback_text != null && !goalOrderFeedback_text.isBlank()) {
+            if (goalOrderFeedback_mark != null && !goalOrderFeedback_mark.isBlank() &&
+                    goalOrderFeedback_text != null && !goalOrderFeedback_text.isBlank()) {
                 RepairOrder order = ModelManager.getInstance().getRepairOrderRepository()
                         .getById(Long.parseLong(request.getParameter("goalIdOrder")));
-                if(request.getSession().getAttribute("userId").equals(order.getUser_id()) ||
+                if (request.getSession().getAttribute("userId").equals(order.getUser_id()) ||
                         request.getSession().getAttribute("userRole").equals(Constants.ROLE.Admin)) {
-                order.setFeedback_text(goalOrderFeedback_text);
-                order.setFeedback_date(LocalDateTime.now());
-                order.setFeedback_mark(Integer.parseInt(goalOrderFeedback_mark));
-                ModelManager.getInstance().getRepairOrderRepository().update(order);
+                    order.setFeedback_text(goalOrderFeedback_text);
+                    order.setFeedback_date(LocalDateTime.now());
+                    order.setFeedback_mark(Integer.parseInt(goalOrderFeedback_mark));
+                    ModelManager.getInstance().getRepairOrderRepository().update(order);
+
+
                 }
             }
         }
-
         Path path = PathFactory.getPath("path.page.redirect.order");
         path.addParameter("id", request.getParameter("goalIdOrder"));
 

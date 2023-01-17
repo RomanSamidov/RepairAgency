@@ -14,21 +14,21 @@ public class SessionListener implements HttpSessionListener {
 
     @Override
     public void sessionCreated(HttpSessionEvent se) {
-        logger.debug("[SessionListener] Session created start");
-        logger.debug("[SessionListener] " + se.toString());
-        logger.debug("[SessionListener] " + se.getSession().getId());
-        logger.debug("[SessionListener] " + se.getSession().toString());
-        logger.debug("[SessionListener] " + se.getSource().toString());
-        logger.debug("[SessionListener] Session created end");
+        logger.debug(" Session created start");
+        logger.debug(" " + se.toString());
+        logger.debug(" " + se.getSession().getId());
+        logger.debug(" " + se.getSession().toString());
+        logger.debug(" " + se.getSource().toString());
+        logger.debug(" Session created end");
     }
 
     @Override
     public void sessionDestroyed(HttpSessionEvent se) {
-        logger.debug("[SessionListener] Session destroyed start");
-        logger.debug("[SessionListener] " + se.toString());
-        logger.debug("[SessionListener] " + se.getSession().getId());
-        logger.debug("[SessionListener] " + se.getSession().toString());
-        logger.debug("[SessionListener] " + se.getSource().toString());
-        logger.debug("[SessionListener] Session destroyed end");
+        logger.debug(" Session destroyed start");
+        logger.debug(" " + se.toString());
+        logger.debug(" " + se.getSession().getId());
+        logger.debug(" " + se.getSession().toString());
+        logger.debug(" " + se.getSource().toString());
+        logger.debug(" Session destroyed end");
     }
 }

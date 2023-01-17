@@ -14,25 +14,25 @@ public class ContextAttributeListener implements ServletContextAttributeListener
 
     @Override
     public void attributeAdded(ServletContextAttributeEvent event) {
-        logger.debug("[ContextAttributeListener] attributeAdded start");
-        logger.debug("[ContextAttributeListener] " + event.getName());
-        logger.debug("[ContextAttributeListener] " + event.getValue());
-        logger.debug("[ContextAttributeListener] attributeAdded end");
+        logger.debug(" attributeAdded start");
+        logger.debug(" " + event.getName());
+        logger.debug(" " + event.getValue());
+        logger.debug(" attributeAdded end");
     }
 
     @Override
     public void attributeRemoved(ServletContextAttributeEvent event) {
-        logger.debug("[ContextAttributeListener] attributeRemoved start");
-        logger.debug("[ContextAttributeListener] " + event.getName());
-        logger.debug("[ContextAttributeListener] " + event.getValue());
-        logger.debug("[ContextAttributeListener] attributeRemoved end");
+        logger.debug(" attributeRemoved start");
+        logger.debug(" " + event.getName());
+        logger.debug(" " + event.getValue());
+        logger.debug(" attributeRemoved end");
     }
 
     @Override
     public void attributeReplaced(ServletContextAttributeEvent event) {
-        logger.debug("[ContextAttributeListener] attributeReplaced start");
-        logger.debug("[ContextAttributeListener] " + event.getName());
-        logger.debug("[ContextAttributeListener] " + event.getValue());
-        logger.debug("[ContextAttributeListener] attributeReplaced end");
+        logger.debug(" attributeReplaced start");
+        logger.debug(" " + event.getName());
+        logger.debug(" " + event.getValue());
+        logger.debug(" attributeReplaced end");
     }
 }

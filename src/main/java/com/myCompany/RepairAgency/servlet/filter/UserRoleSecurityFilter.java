@@ -27,21 +27,21 @@ public class UserRoleSecurityFilter implements Filter {
     @Override
     public void doFilter(ServletRequest request, ServletResponse response,
                          FilterChain chain) throws IOException, ServletException {
-        logger.debug("[UserRoleSecurityFilter] doFilter");
+        logger.debug(" doFilter");
         HttpServletRequest req = (HttpServletRequest) request;
         HttpServletResponse resp = (HttpServletResponse) response;
         HttpSession session = req.getSession();
 
         Constants.ROLE userRole = (Constants.ROLE) session.getAttribute("userRole");
         String requestURI = req.getRequestURI();
-        logger.debug("[UserRoleSecurityFilter] RequestURI = " + req.getRequestURI());
+        logger.debug(" RequestURI = " + req.getRequestURI());
         if (userRole == null) {
             session.setAttribute("userRole", Constants.ROLE.Guest);
             session.setAttribute("_menu_url", PathFactory.getPath("path.template.menu.guest"));
             userRole = (Constants.ROLE) session.getAttribute("userRole");
         }
 
-        logger.debug("[UserRoleSecurityFilter] userRole = " + userRole.name());
+        logger.debug(" userRole = " + userRole.getToString());
 
 
         if (!requestURI.startsWith("/RepairAgency/controller/")) {
@@ -58,7 +58,7 @@ public class UserRoleSecurityFilter implements Filter {
         }
 
         if (allowed) {
-            logger.debug("[UserRoleSecurityFilter] pass");
+            logger.debug(" pass");
             chain.doFilter(request, response);
         }
     }
@@ -90,17 +90,17 @@ public class UserRoleSecurityFilter implements Filter {
     private void redirect(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         resp.sendRedirect(req.getContextPath()
                 + PathFactory.getPath("path.page.redirect.home"));
-        logger.debug("[UserRoleSecurityFilter] redirected to home");
+        logger.debug(" redirected to home");
 
     }
 
     @Override
     public void init(FilterConfig fConfig) {
-        logger.debug("[UserRoleSecurityFilter] initiated");
+        logger.debug(" initiated");
     }
 
     @Override
     public void destroy() {
-        logger.debug("[UserRoleSecurityFilter] destroyed");
+        logger.debug(" destroyed");
     }
 }

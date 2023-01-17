@@ -15,12 +15,12 @@ public class ContextListener implements ServletContextListener {
 
     @Override
     public void contextInitialized(ServletContextEvent sce) {
-        logger.debug("[ContextListener] contextInitialized");
+        logger.debug(" contextInitialized");
     }
 
     @Override
     public void contextDestroyed(ServletContextEvent sce) {
-        logger.debug("[ContextListener] contextDestroyed");
+        logger.debug(" contextDestroyed");
     }
 
 }

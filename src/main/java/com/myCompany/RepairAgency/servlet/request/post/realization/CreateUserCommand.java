@@ -61,7 +61,7 @@ public class CreateUserCommand implements IActionCommand, IHasRoleRequirement {
                 userRepository.insert(user);
                 ifNeedSendEmail(user);
 
-                page = PathFactory.getPath("path.page.forward.admin.create_user");
+                page = PathFactory.getPath("path.page.redirect.create_user");
                 return page;
 
             } catch (Exception e) {
@@ -78,9 +78,7 @@ public class CreateUserCommand implements IActionCommand, IHasRoleRequirement {
         return Stream.of(Constants.ROLE.Admin).collect(Collectors.toList());
     }
     private int initRoleId(HttpServletRequest request) {
-        if(request.getSession().getAttribute("userRole").equals(Constants.ROLE.Admin)) {
             return Integer.parseInt(request.getParameter("role"));
-        } return Constants.ROLE.Client.ordinal();
     }
 
     private boolean isInputHasErrors(HttpServletRequest request){

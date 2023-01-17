@@ -27,10 +27,6 @@ public class AdminCreateOrderCommand implements IActionCommand, IHasRoleRequirem
     public Path execute(HttpServletRequest request, HttpServletResponse response) {
         Path page;
 
-        if(!(boolean)request.getSession().getAttribute("isUserConfirmed")) {
-            request.getSession().setAttribute("errorOrderTextMessage", "text.you_not_confirmed_your_email");
-            return PathFactory.getPath("path.page.redirect.orders");
-        }
 
         long userId = Long.parseLong(request.getParameter("clientId"));
         String text = request.getParameter("orderText");

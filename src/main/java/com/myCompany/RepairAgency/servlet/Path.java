@@ -4,17 +4,25 @@ import java.util.HashMap;
 
 public class Path {
     public final boolean isRedirect;
-    private boolean isDownload;
+    private final boolean isDownload;
     public final String path;
     private final HashMap<String, String> parameters = new HashMap<>();
 
+    public Path(boolean redirect,boolean download, String path) {
+        this.isRedirect = redirect;
+        this.isDownload = download;
+        this.path = path;
+    }
+
     public Path(boolean redirect, String path) {
         this.isRedirect = redirect;
+        this.isDownload = false;
         this.path = path;
     }
 
     public Path(String path) {
         this.isRedirect = false;
+        this.isDownload = false;
         this.path = path;
     }
 
@@ -40,7 +48,4 @@ public class Path {
         return isDownload;
     }
 
-    public void setDownload(boolean download) {
-        isDownload = download;
-    }
 }

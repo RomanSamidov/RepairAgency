@@ -26,7 +26,7 @@
 
         <c:import url="/WEB-INF/jsp/parts/email_input.jsp"/>
 
-        <my:message key="${errorLoginPassMessage}" defaultvalue=""/>
+        <my:message key="${errorLoginPassMessage}" default_value=""/>
         <input type="submit" value="<fmt:message key="text.sign_up"/>"/>
     </form>
     <hr/>

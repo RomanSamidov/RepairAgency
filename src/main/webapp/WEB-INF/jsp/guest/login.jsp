@@ -17,7 +17,7 @@
 
         <c:import url="/WEB-INF/jsp/parts/recaptcha_input.jsp"/>
 
-        <my:message key="${errorLoginPassMessage}" defaultvalue=""/>
+        <my:message key="${errorLoginPassMessage}" default_value=""/>
         <input type="submit" value="<fmt:message key="text.sign_in"/>"/>
     </form>
     <a href="/RepairAgency/controller/change_password" class = "btn px-2  "><fmt:message key="text.to_change_your_password_press"/></a>

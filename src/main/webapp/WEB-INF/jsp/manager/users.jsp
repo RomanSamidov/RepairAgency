@@ -14,7 +14,7 @@
 
     <c:import url="/WEB-INF/jsp/parts/forUsers/show_users.jsp"/>
 
-    <my:message key="${error}" defaultvalue=""/>
+    <my:message key="${error}" default_value=""/>
 
     <my:pageControlPanelForTable table_name="Users" command ="users"/>
 

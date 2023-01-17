@@ -30,7 +30,6 @@ public class SignupCommand implements IActionCommand, IHasRoleRequirement {
         String login = request.getParameter(Constants.LOGIN);
         String password = request.getParameter(Constants.PASSWORD);
         String email = request.getParameter(Constants.EMAIL);
-        int roleId = initRoleId(request);
         String gRecaptchaResponse = request.getParameter("g-recaptcha-response");
 
         boolean haveError = isInputHasErrors(request);
@@ -55,7 +54,7 @@ public class SignupCommand implements IActionCommand, IHasRoleRequirement {
                         .setEmail(email)
                         .setAllow_letters(true)
                         .setConfirmed(false)
-                        .setRole_id(roleId)
+                        .setRole_id(Constants.ROLE.Client.ordinal())
                         .build();
 
                 userRepository.insert(user);
@@ -67,7 +66,7 @@ public class SignupCommand implements IActionCommand, IHasRoleRequirement {
                 page = PathFactory.getPath("path.page.redirect.cabinet");
                 return page;
             } catch (Exception e) {
-                logger.error("[SignupCommand] sql error  " + e);
+                logger.error("Sql error  " + e);
             }
         }
 
@@ -78,11 +77,6 @@ public class SignupCommand implements IActionCommand, IHasRoleRequirement {
     @Override
     public List<Constants.ROLE> allowedUserRoles() {
         return Stream.of(Constants.ROLE.Guest).collect(Collectors.toList());
-    }
-    private int initRoleId(HttpServletRequest request) {
-        if(request.getSession().getAttribute("userRole").equals(Constants.ROLE.Admin)) {
-            return Integer.parseInt(request.getParameter("role"));
-        } return Constants.ROLE.Client.ordinal();
     }
 
     private boolean isInputHasErrors(HttpServletRequest request){

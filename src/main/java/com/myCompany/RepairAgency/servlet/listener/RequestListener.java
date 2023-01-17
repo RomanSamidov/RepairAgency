@@ -14,11 +14,11 @@ public class RequestListener implements ServletRequestListener {
 
     @Override
     public void requestDestroyed(ServletRequestEvent sre) {
-        logger.debug("[RequestListener] requestDestroyed");
+        logger.debug(" requestDestroyed");
     }
 
     @Override
     public void requestInitialized(ServletRequestEvent sre) {
-        logger.debug("[RequestListener] requestInitialized");
+        logger.debug(" requestInitialized");
     }
 }

@@ -19,8 +19,6 @@ import java.io.IOException;
 import java.util.Arrays;
 
 
-//<c:redirect  url="/controller" />
-//<jsp:forward page = "/WEB_INF/jsp/login.jsp"/>
 
 @WebServlet("/controller/*")
 public class Controller extends HttpServlet {
@@ -30,14 +28,14 @@ public class Controller extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        logger.info("[Controller] its get");
+        logger.info("Its get");
         processRequest(GetCommandFactory.inst, request, response);
     }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        logger.info("[Controller] its post");
+        logger.info("Its post");
         processRequest(PostCommandFactory.inst, request, response);
     }
 
@@ -48,55 +46,54 @@ public class Controller extends HttpServlet {
         // определение команды, пришедшей из JSP
         IActionCommand command = factory.defineCommand(request);
         Path page = command.execute(request, response);
-        logger.debug("[Controller] " + command);
-        logger.debug("[Controller] " + page);
+        logger.debug("Command " + command);
+        logger.debug("Page " + page);
 
-        if (page.isDownload()) {
+        if (page != null && page.isDownload()) {
             logger.debug("ProcessRequest end with download");
             return;
         }
 
         if (page == null || page.isBlank()) {
-// установка страницы c coобщeнием об ошибке
             page = PathFactory.getPath("path.page.redirect.index");
-            logger.debug("[Controller] processRequest end with error");
+            logger.debug("ProcessRequest end with error");
         }
 
         if (page.isRedirect) {
-            logger.debug("[Controller] processRequest end with redirect");
+            logger.debug("ProcessRequest end with redirect");
             response.sendRedirect(request.getContextPath() + page);
             return;
         }
 
         RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(page.toString());
-        logger.debug("[Controller] processRequest end with forward");
+        logger.debug("ProcessRequest end with forward");
         dispatcher.forward(request, response);
     }
 
 
     private void logRequest(HttpServletRequest request) {
-        logger.debug("[Controller] processRequest start");
-        logger.debug("[Controller] request Cookies");
+        logger.debug("ProcessRequest start");
+        logger.debug("Request Cookies");
         Arrays.stream(request.getCookies()).forEach(x -> x
                 .getAttributes()
-                .forEach((key, value) -> logger.debug("[Controller] " + key + " = " + value)));
+                .forEach((key, value) -> logger.debug(" " + key + " = " + value)));
 
-        logger.debug("[Controller] request attributes");
+        logger.debug("Request attributes");
         request.getAttributeNames().asIterator().forEachRemaining(x -> logger
-                .debug("[Controller] " + x + " = " + request.getAttribute(x)));
+                .debug(" " + x + " = " + request.getAttribute(x)));
 
-        logger.debug("[Controller] request parameters");
+        logger.debug("Request parameters");
         request.getParameterMap().forEach((x, y) -> {
-            StringBuilder par = new StringBuilder("[Controller] " + x + " = ");
+            StringBuilder par = new StringBuilder(" " + x + " = ");
             Arrays.stream(y).forEach(c -> par.append(c).append(", "));
             logger.debug(par.toString());
         });
 
-        HttpSession sessi = request.getSession(false);
-        if (sessi != null) {
-            logger.debug("[Controller] request session parameters");
-            sessi.getAttributeNames().asIterator().forEachRemaining(x -> logger
-                    .debug("[Controller] " + x + " = " + sessi.getAttribute(x)));
-        } else logger.debug("[Controller] request has no session");
+        HttpSession session  = request.getSession(false);
+        if (session != null) {
+            logger.debug("Request session parameters");
+            session.getAttributeNames().asIterator().forEachRemaining(x -> logger
+                    .debug(" " + x + " = " + session.getAttribute(x)));
+        } else logger.debug("Request has no session");
     }
 }

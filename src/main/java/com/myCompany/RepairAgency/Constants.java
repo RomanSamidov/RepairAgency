@@ -7,6 +7,9 @@ import java.util.ResourceBundle;
 public class Constants {
 
     public static final String DB_SETTINGS_BUNDLE = "db";
+    public static final String RECAPTCHA_SETTINGS_BUNDLE = "recaptcha";
+    public static final String EMAIL_SETTINGS_BUNDLE = "email";
+    public static final String PATHS_BUNDLE = "paths";
     public static final String USER = "user";
     public static final String PASSWORD = "password";
     public static final String PASSWORD_REPEAT = "passwordRepeat";
@@ -21,54 +24,40 @@ public class Constants {
         PENDING_PAYMENT("Pending payment"), PAID("Paid"),
         CANCELED("Canceled"), IN_PROGRESS("In progress"),
         COMPLETED("Completed");
-
         private final String toString;
-        private final long ordinal;
-
-        ORDER_STATUS(String toString) {
-            this.toString = toString;
-            this.ordinal = ordinal();
+        private final int ordinal = ordinal();
+        ORDER_STATUS(String name) {
+            this.toString = name;
         }
-
-        public long getOrdinal() {
-            return ordinal;
-        }
-
         public String getToString() {
             return toString;
         }
+
+        public int getOrdinal() {
+            return ordinal;
+        }
     }
+
 
     public enum ROLE {
         Guest, Admin, Manager, Craftsman, Client;
-
-        private final String toString;
-        private final long ordinal;
-
-        ROLE() {
-            this.toString = this.toString();
-            this.ordinal = ordinal();
-        }
-
-        public long getOrdinal() {
-            return ordinal;
-        }
-
+        private final String toString = this.toString();
+        private final int ordinal = ordinal();
         public String getToString() {
             return toString;
         }
+        public int getOrdinal() {
+            return ordinal;
+        }
     }
+
 
     public enum REPORT_FORMAT {
         PDF, XLSX, XLS;
-
         private final String toString;
-
         REPORT_FORMAT() {
             this.toString = this.toString();
         }
-
-
         public String getToString() {
             return toString;
         }
@@ -80,9 +69,6 @@ public class Constants {
         private final String toString = this.toString();
         private final ResourceBundle resourceBundle =
                 ResourceBundle.getBundle("LocalStrings", new Locale(getToString()));
-//        LOCALE() {
-//            this.toString = this.toString();
-//        }
         public String getToString() {
             return toString;
         }

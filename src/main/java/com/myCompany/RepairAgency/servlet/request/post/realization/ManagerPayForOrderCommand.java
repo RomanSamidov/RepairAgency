@@ -24,15 +24,13 @@ public class ManagerPayForOrderCommand implements IActionCommand, IHasRoleRequir
 
     @Override
     public Path execute(HttpServletRequest request, HttpServletResponse response) {
-        if(request.getSession().getAttribute("userRole") == Constants.ROLE.Manager ||
-                request.getSession().getAttribute("userRole") == Constants.ROLE.Admin ){
             RepairOrder order = ModelManager.getInstance().getRepairOrderRepository().getById(
                     Long.parseLong(request.getParameter("goalIdOrder")));
             order.setStatus_id(Constants.ORDER_STATUS.PAID.ordinal());
             ModelManager.getInstance().getRepairOrderRepository().update(order);
             User user = ModelManager.getInstance().getUserRepository().getById(order.getUser_id());
             ifNeedSendEmail(user, Long.parseLong(request.getParameter("goalIdOrder")));
-        }
+
 
         Path path = PathFactory.getPath("path.page.redirect.order");
         path.addParameter("id", request.getParameter("goalIdOrder"));

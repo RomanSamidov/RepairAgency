@@ -47,12 +47,27 @@ public class ViewValidationService {
     }
     public static Path validateForOrderPage(HttpServletRequest request, RepairOrder order) {
         Constants.ROLE userRole = (Constants.ROLE) request.getSession().getAttribute("userRole");
+        request.setAttribute("_show_order_url", PathFactory.getPath("path.page.forward.common.empty").toString());
+        request.setAttribute("_craft_order_url", PathFactory.getPath("path.page.forward.common.empty").toString());
+        request.setAttribute("_client_order_url", PathFactory.getPath("path.page.forward.common.empty").toString());
+        request.setAttribute("_manager_order_url", PathFactory.getPath("path.page.forward.common.empty").toString());
+        request.setAttribute("_cancel_order_url", PathFactory.getPath("path.page.forward.common.empty").toString());
+        request.setAttribute("_delete_order_url", PathFactory.getPath("path.page.forward.common.empty").toString());
+
+        Path path = switch (userRole) {
+            case Guest -> null;
+            case Admin -> PathFactory.getPath("path.page.forward.admin.order");
+            case Manager -> PathFactory.getPath("path.page.forward.manager.order");
+            case Craftsman -> PathFactory.getPath("path.page.forward.craftsman.order");
+            case Client -> PathFactory.getPath("path.page.forward.client.order");
+        };
 
         if (!checkAccessibility(request, order)) {
             request.setAttribute("error", "message.not_allowed");
-            request.setAttribute("_show_order_url", PathFactory.getPath("path.page.forward.common.empty").toString());
+            return path;
         } else {
             request.setAttribute("goalOrder", RepairOrderDTOFactory.getRepairOrder(order));
+            request.setAttribute("_delete_order_url", PathFactory.getPath("path.page.order.part.client.delete_order").toString());
             request.setAttribute("_show_order_url", PathFactory.getPath("path.page.order.part.show_order").toString());
         }
 
@@ -62,11 +77,7 @@ public class ViewValidationService {
                 request.setAttribute("_craft_order_url", PathFactory.getPath("path.page.order.part.craftsman.take_order").toString());
             } else if(order.getStatus_id()==Constants.ORDER_STATUS.IN_PROGRESS.ordinal()) {
                 request.setAttribute("_craft_order_url", PathFactory.getPath("path.page.order.part.craftsman.complete_order").toString());
-            }else {
-                request.setAttribute("_craft_order_url", PathFactory.getPath("path.page.forward.common.empty").toString());
             }
-        }else {
-            request.setAttribute("_craft_order_url", PathFactory.getPath("path.page.forward.common.empty").toString());
         }
 
         if((userRole == Constants.ROLE.Client || userRole == Constants.ROLE.Admin)){
@@ -74,11 +85,7 @@ public class ViewValidationService {
                 request.setAttribute("_client_order_url", PathFactory.getPath("path.page.order.part.client.pay_order").toString());
             } else if(order.getStatus_id()==Constants.ORDER_STATUS.COMPLETED.ordinal()) {
                 request.setAttribute("_client_order_url", PathFactory.getPath("path.page.order.part.client.set_feedback").toString());
-            }else {
-                request.setAttribute("_client_order_url", PathFactory.getPath("path.page.forward.common.empty").toString());
             }
-        }else {
-            request.setAttribute("_client_order_url", PathFactory.getPath("path.page.forward.common.empty").toString());
         }
 
         if((userRole == Constants.ROLE.Manager || userRole == Constants.ROLE.Admin)){
@@ -86,26 +93,14 @@ public class ViewValidationService {
                 request.setAttribute("_manager_order_url", PathFactory.getPath("path.page.order.part.manager.pay_order").toString());
             } else if(order.getStatus_id()==Constants.ORDER_STATUS.CREATED.ordinal()) {
                 request.setAttribute("_manager_order_url", PathFactory.getPath("path.page.order.part.manager.set_craftsman_and_price").toString());
-            }else {
-                request.setAttribute("_manager_order_url", PathFactory.getPath("path.page.forward.common.empty").toString());
             }
-        }else {
-            request.setAttribute("_manager_order_url", PathFactory.getPath("path.page.forward.common.empty").toString());
         }
 
         if(order.getStatus_id()!=Constants.ORDER_STATUS.COMPLETED.ordinal() && order.getStatus_id()!=Constants.ORDER_STATUS.CANCELED.ordinal() && checkAccessibility(request, order)) {
             request.setAttribute("_cancel_order_url", PathFactory.getPath("path.page.order.part.cancel_order").toString());
-        } else {
-            request.setAttribute("_cancel_order_url", PathFactory.getPath("path.page.forward.common.empty").toString());
         }
 
-        return switch (userRole) {
-            case Guest -> null;
-            case Admin -> PathFactory.getPath("path.page.forward.admin.order");
-            case Manager -> PathFactory.getPath("path.page.forward.manager.order");
-            case Craftsman -> PathFactory.getPath("path.page.forward.craftsman.order");
-            case Client -> PathFactory.getPath("path.page.forward.client.order");
-        };
+        return path;
     }
 
 

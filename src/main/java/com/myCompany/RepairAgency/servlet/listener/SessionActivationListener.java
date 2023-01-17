@@ -14,21 +14,21 @@ public class SessionActivationListener implements HttpSessionActivationListener 
 
     @Override
     public void sessionWillPassivate(HttpSessionEvent se) {
-        logger.debug("[SessionActivationListener] sessionWillPassivate start");
-        logger.debug("[SessionActivationListener] " + se.toString());
-        logger.debug("[SessionActivationListener] " + se.getSession().getId());
-        logger.debug("[SessionActivationListener] " + se.getSession().toString());
-        logger.debug("[SessionActivationListener] " + se.getSource());
-        logger.debug("[SessionActivationListener] sessionWillPassivate end");
+        logger.debug(" sessionWillPassivate start");
+        logger.debug(" " + se.toString());
+        logger.debug(" " + se.getSession().getId());
+        logger.debug(" " + se.getSession().toString());
+        logger.debug(" " + se.getSource());
+        logger.debug(" sessionWillPassivate end");
     }
 
     @Override
     public void sessionDidActivate(HttpSessionEvent se) {
-        logger.debug("[SessionActivationListener] sessionDidActivate start");
-        logger.debug("[SessionActivationListener] " + se.toString());
-        logger.debug("[SessionActivationListener] " + se.getSession().getId());
-        logger.debug("[SessionActivationListener] " + se.getSession().toString());
-        logger.debug("[SessionActivationListener] " + se.getSource());
-        logger.debug("[SessionActivationListener] sessionDidActivate end");
+        logger.debug(" sessionDidActivate start");
+        logger.debug(" " + se.toString());
+        logger.debug(" " + se.getSession().getId());
+        logger.debug(" " + se.getSession().toString());
+        logger.debug(" " + se.getSource());
+        logger.debug(" sessionDidActivate end");
     }
 }

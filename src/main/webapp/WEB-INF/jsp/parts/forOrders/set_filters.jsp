@@ -13,7 +13,6 @@
     </select>
 
     <c:import url="/WEB-INF/jsp/parts/forOrders/inner_set_filters.jsp"/>
-    <%--<c:import url="${_show_orders_url}"/>--%>
 
     <input type="submit" value="<fmt:message key="text.select"/>"/>
 </form>

@@ -6,15 +6,18 @@
 <c:import url="/WEB-INF/template/_head.jsp"/>
 <body>
 <c:import url="/WEB-INF/template/menu/client/_menu.jsp"/>
-<div class="text-center" >
+    <div class="text-center" >
 
-    <my:message key="${error}" defaultvalue=""/>
+        <my:message key="${error}" default_value=""/>
 
-    <c:import url="${_show_order_url}"/>
+        <c:import url="${_show_order_url}"/>
 
-    <c:import url="${_client_order_url}"/>
+        <c:import url="${_client_order_url}"/>
 
-    <c:import url="${_cancel_order_url}"/>
+        <c:import url="${_cancel_order_url}"/>
 
-</div>
+        <c:import url="${_delete_order_url}"/>
+
+
+    </div>
 </body></html>

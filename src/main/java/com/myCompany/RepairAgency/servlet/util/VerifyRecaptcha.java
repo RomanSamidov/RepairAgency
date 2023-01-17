@@ -1,5 +1,6 @@
 package com.myCompany.RepairAgency.servlet.util;
 
+import com.myCompany.RepairAgency.Constants;
 import jakarta.json.Json;
 import jakarta.json.JsonObject;
 import jakarta.json.JsonReader;
@@ -16,7 +17,7 @@ import java.util.ResourceBundle;
 
 public class VerifyRecaptcha {
     private final static ResourceBundle resourceBundle =
-            ResourceBundle.getBundle("recaptcha");
+            ResourceBundle.getBundle(Constants.RECAPTCHA_SETTINGS_BUNDLE);
 
     public static final String url = "https://www.google.com/recaptcha/api/siteverify";
     public static final String secret = resourceBundle.getString("secret");
@@ -26,7 +27,7 @@ public class VerifyRecaptcha {
     public static boolean verify(String gRecaptchaResponse) {
 
         if (gRecaptchaResponse == null || gRecaptchaResponse.isBlank()) {
-            logger.debug("[VerifyRecaptcha]  for test purpose, change true to false");
+            logger.debug("For test purpose, change true to false");
             return true;
             /////// for test purpose, change true to false
         }
@@ -51,9 +52,9 @@ public class VerifyRecaptcha {
             wr.close();
 
             int responseCode = con.getResponseCode();
-            logger.debug("[VerifyRecaptcha] Sending 'POST' request to URL : " + url);
+            logger.debug("Sending 'POST' request to URL : " + url);
 //            logger.debug("[VerifyRecaptcha] Post parameters : " + postParams);
-            logger.debug("[VerifyRecaptcha] Response Code : " + responseCode);
+            logger.debug("Response Code : " + responseCode);
 
             BufferedReader in = new BufferedReader(new InputStreamReader(
                     con.getInputStream()));
@@ -66,7 +67,7 @@ public class VerifyRecaptcha {
             in.close();
 
             // print result
-            logger.debug("[VerifyRecaptcha] " + response);
+            logger.debug(" " + response);
 
             //parse JSON response and return 'success' value
             JsonReader jsonReader = Json.createReader(new StringReader(response.toString()));

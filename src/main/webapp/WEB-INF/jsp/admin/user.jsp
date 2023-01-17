@@ -8,7 +8,7 @@
 <c:import url="/WEB-INF/template/menu/admin/_menu.jsp"/>
 <div class="text-center" >
 
-    <my:message key="${error}" defaultvalue=""/>
+    <my:message key="${error}" default_value=""/>
 
     <c:import url="${_show_user_url}"/>
 

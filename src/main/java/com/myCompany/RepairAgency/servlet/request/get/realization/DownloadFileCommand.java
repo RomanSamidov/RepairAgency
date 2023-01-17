@@ -32,9 +32,7 @@ public class DownloadFileCommand implements IActionCommand, IHasRoleRequirement 
         writeFileToResponse(response, filename);
         if(new File( filename).delete()) logger.debug("File " + filename + " deleted.");
         logger.debug("Downloading have to start.");
-        Path path = PathFactory.getPath("path.page.redirect.home");
-        path.setDownload(true);
-        return path;
+        return PathFactory.getPath("path.page.redirect.home", true);
     }
 
     private void ifNeedSendEmail(HttpServletRequest request, String filename){

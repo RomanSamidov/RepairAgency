@@ -1,6 +1,6 @@
 <%@ tag body-content="empty" %>
 <%@ attribute name="key" required="true" %>
-<%@ attribute name="defaultvalue" required="true"  %>
+<%@ attribute name="default_value" required="true"  %>
 
 <%@ taglib prefix="c"   uri="http://java.sun.com/jsp/jstl/core"      %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"       %>
@@ -16,7 +16,7 @@
     </c:when>
 
     <c:otherwise>
-        ${defaultvalue}
+        ${default_value}
     </c:otherwise>
 
 </c:choose>

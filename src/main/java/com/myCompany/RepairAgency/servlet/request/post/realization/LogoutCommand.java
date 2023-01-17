@@ -9,7 +9,7 @@ import jakarta.servlet.http.HttpServletResponse;
 public class LogoutCommand implements IActionCommand {
     @Override
     public Path execute(HttpServletRequest request, HttpServletResponse response) {
-        Path page = PathFactory.getPath("path.page.redirect.home");
+        Path page = PathFactory.getPath("path.page.redirect.login");
         request.getSession().invalidate();
         return page;
     }

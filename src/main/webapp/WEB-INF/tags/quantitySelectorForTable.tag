@@ -15,4 +15,3 @@
     <input type="number" name="newQuantityFor${table_name}" value="${nowQuantityFor}" min="1" size="4"/>
     <input type="submit" value="<fmt:message key="text.show_on_one_page"/>"/>
 </form>
-

@@ -7,6 +7,6 @@
 
     ${waitedCodePassword}<br/>
 
-    <my:message key="${confirmationCodeError}" defaultvalue=""/>
+    <my:message key="${confirmationCodeError}" default_value=""/>
     <label for="confirmationCodePassword"><fmt:message key="text.enter_code" /></label><br/>
     <input type="text" name="confirmationCodePassword" required autofocus autocomplete="off" placeholder="<fmt:message key="text.code"/>"/><br/>

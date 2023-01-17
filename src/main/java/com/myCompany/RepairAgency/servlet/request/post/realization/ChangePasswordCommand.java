@@ -70,7 +70,7 @@ public class ChangePasswordCommand implements IActionCommand {
                     .collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append)
                     .toString();
             request.getSession().setAttribute("waitedCodePassword", generatedString);
-            System.out.println(user.getLocale_id());
+
             Constants.LOCALE locale = Constants.LOCALE.values()[user.getLocale_id()];
             EmailSender.send(user.getEmail(),
                     user.getLogin() + "  " + locale.getString("text.confirm_your_password_change")

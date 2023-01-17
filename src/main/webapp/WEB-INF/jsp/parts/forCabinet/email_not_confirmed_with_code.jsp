@@ -5,7 +5,7 @@
 <br/>${ waitedCode }<br/>
 <form class="text-center" name="confirm" method="POST" action=""  target="_top">
     <input type="hidden" name="command" value="confirm_Email" />
-    <my:message key="${confirmationCodeError}" defaultvalue=""/>
+    <my:message key="${confirmationCodeError}" default_value=""/>
     <label for="confirmationCode"><fmt:message key="text.enter_code" /></label><br/>
     <input type="text" name="confirmationCode" required autofocus autocomplete="off" placeholder="code"/><br/>
     <input type="submit" value="<fmt:message key="text.confirm"/>"/>

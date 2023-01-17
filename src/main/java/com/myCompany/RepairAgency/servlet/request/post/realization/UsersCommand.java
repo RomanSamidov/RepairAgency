@@ -23,6 +23,10 @@ public class UsersCommand implements IActionCommand, IHasRoleRequirement {
                 request.getSession().removeAttribute("roleUsers");
             } else {
                 Constants.ROLE role = Constants.ROLE.valueOf(request.getParameter("roleUsers"));
+
+                if(request.getSession().getAttribute("userRole").equals(Constants.ROLE.Manager) &&
+                (role != Constants.ROLE.Client && role != Constants.ROLE.Craftsman)) role = Constants.ROLE.Client;
+
                 request.getSession().setAttribute("roleUsers", role);
             }
         }

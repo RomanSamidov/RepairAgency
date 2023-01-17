@@ -7,19 +7,19 @@
 <body>
     <c:import url="/WEB-INF/template/menu/client/_menu.jsp"/>
 
-<div class="text-center" >
-    <c:import url="/WEB-INF/jsp/parts/forCabinet/cabinet_text.jsp"/>
+    <div class="text-center" >
+        <c:import url="/WEB-INF/jsp/parts/forCabinet/cabinet_text.jsp"/>
 
-    <c:import url="/WEB-INF/jsp/parts/forCabinet/change_email_form.jsp"/>
+        <c:import url="/WEB-INF/jsp/parts/forCabinet/change_email_form.jsp"/>
 
-    <c:import url="/WEB-INF/jsp/parts/forCabinet/change_profile_settings_form.jsp"/>
+        <c:import url="/WEB-INF/jsp/parts/forCabinet/change_profile_settings_form.jsp"/>
 
-    <c:import url="${_email_confirmed_url}"/>
+        <c:import url="${_email_confirmed_url}"/>
 
-    <hr/>
-        <fmt:message key="text.your_account"/> ${userAccount}
-    <hr/>
+        <hr/>
+            <fmt:message key="text.your_account"/> ${userAccount}
+        <hr/>
 
-</div>
+    </div>
 
 </body></html>

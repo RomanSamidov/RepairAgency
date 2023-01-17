@@ -46,10 +46,9 @@ public class SetCraftsmanAndPriceCommand implements IActionCommand, IHasRoleRequ
 
     @Override
     public List<Constants.ROLE> allowedUserRoles() {
-        return Stream.of(Constants.ROLE.Client,
+        return Stream.of(
                 Constants.ROLE.Manager,
-                Constants.ROLE.Admin,
-                Constants.ROLE.Craftsman).collect(Collectors.toList());
+                Constants.ROLE.Admin).collect(Collectors.toList());
     }
 
     private void ifNeedSendEmail(User user, long orderId){
