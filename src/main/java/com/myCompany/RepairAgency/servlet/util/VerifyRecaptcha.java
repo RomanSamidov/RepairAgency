@@ -20,15 +20,18 @@ public class VerifyRecaptcha {
     private final static ResourceBundle resourceBundle =
             ResourceBundle.getBundle(Constants.RECAPTCHA_SETTINGS_BUNDLE);
     public static final String secret = resourceBundle.getString("secret");
+    public static final Boolean checkRecaptcha = Boolean.parseBoolean(resourceBundle.getString("check_recaptcha"));
     private static final Logger logger = LogManager.getLogger(VerifyRecaptcha.class);
     private final static String USER_AGENT = "Mozilla/5.0";
 
     public static boolean verify(String gRecaptchaResponse) {
+        if(!checkRecaptcha) {
+            return true;
+        }
+
 
         if (gRecaptchaResponse == null || gRecaptchaResponse.isBlank()) {
-            logger.debug("For test purpose, change true to false");
-            return true;
-            /////// for test purpose, change true to false
+            return false;
         }
 
         try {
