@@ -11,22 +11,27 @@ public class ForTables {
             quantity = 5;
             request.getSession().setAttribute("nowQuantityFor" + tableName, quantity);
         }
-        if (page == null) {
+        if (page == null || page == 0) {
             page = 1;
             request.getSession().setAttribute("nowPageFor" + tableName, page);
         }
-        if (request.getSession().getAttribute("numberOf" + tableName) != null){
-            if((long)request.getSession().getAttribute("numberOf" + tableName) != numberOf){
+        if (request.getSession().getAttribute("numberOf" + tableName) != null) {
+            if ((long) request.getSession().getAttribute("numberOf" + tableName) != numberOf) {
                 page = 1;
                 request.getSession().setAttribute("nowPageFor" + tableName, page);
-                request.getSession().setAttribute("numberOf" + tableName, numberOf);
             }
-        } else request.getSession().setAttribute("numberOf" + tableName, numberOf);
+        }
+        request.getSession().setAttribute("numberOf" + tableName, numberOf);
 
         int pages = (int) Math.ceil(((double) numberOf) / ((double) quantity));
-        if(pages == 0) pages = 1;
-        request.getSession().setAttribute("maxPageFor" + tableName, pages);
-        return new int[]{(page-1)*quantity, quantity};
+        if (pages == 0) pages = 1;
+        request.setAttribute("maxPageFor" + tableName, pages);
+        if (page > pages) {
+            page = pages;
+            request.getSession().setAttribute("nowPageFor" + tableName, page);
+        }
+
+        return new int[]{(page - 1) * quantity, quantity};
     }
 
     public static void updateSkipQuantity(String tableName, HttpServletRequest request) {

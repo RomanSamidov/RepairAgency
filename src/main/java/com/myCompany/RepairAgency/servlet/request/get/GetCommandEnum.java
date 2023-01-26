@@ -5,51 +5,26 @@ import com.myCompany.RepairAgency.servlet.request.IActionCommand;
 import com.myCompany.RepairAgency.servlet.request.get.realization.*;
 
 public enum GetCommandEnum {
-    LOGIN {{
-        this.command = new ShowLoginFormCommand();
-    }},
-    SIGNUP {{
-        this.command = new ShowSignupFormCommand();
-    }},
-    CREATE_USER {{
-        this.command = new ShowCreateUserFormCommand();
-    }},
-    ABOUT {{
-        this.command = new ShowAboutCommand();
-    }},
-    FAQS {{
-        this.command = new ShowFAQsCommand();
-    }},
-    HOME {{
-        this.command = new ShowHomeCommand();
-    }},
-    PRICING {{
-        this.command = new ShowPricingCommand();
-    }},
-    CABINET {{
-        this.command = new ShowProfileCommand();
-    }},
-    ORDER {{
-        this.command = new ShowOrderPageCommand();
-    }},
-    ORDERS {{
-        this.command = new ShowOrdersCommand();
-    }},
-    USERS {{
-        this.command = new ShowUsersCommand();
-    }},
-    USER {{
-        this.command = new ShowUserCommand();
-    }},
-    DOWNLOAD {{
-        this.command = new DownloadFileCommand();
-    }},
-    CHANGE_PASSWORD {{
-        this.command = new ShowChangePasswordCommand();
-    }};
+    LOGIN(new ShowLoginFormCommand()),
+    SIGNUP(new ShowSignupFormCommand()),
+    CREATE_USER(new ShowCreateUserFormCommand()),
+    ABOUT(new ShowAboutCommand()),
+    FAQS(new ShowFAQsCommand()),
+    HOME(new ShowHomeCommand()),
+    PRICING(new ShowPricingCommand()),
+    CABINET(new ShowProfileCommand()),
+    ORDER(new ShowOrderPageCommand()),
+    ORDERS(new ShowOrdersCommand()),
+    USERS(new ShowUsersCommand()),
+    USER(new ShowUserCommand()),
+    DOWNLOAD(new DownloadFileCommand()),
+    CHANGE_PASSWORD(new ShowChangePasswordCommand());
 
+    private final IActionCommand command;
 
-    IActionCommand command;
+    GetCommandEnum(IActionCommand command) {
+        this.command = command;
+    }
 
     public IActionCommand getCurrentCommand() {
         return command;

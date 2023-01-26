@@ -1,13 +1,14 @@
 package com.myCompany.RepairAgency.servlet.request.post.realization;
 
 import com.myCompany.RepairAgency.Constants;
-import com.myCompany.RepairAgency.model.ModelManager;
+import com.myCompany.RepairAgency.model.db.abstractDB.exception.MyDBException;
 import com.myCompany.RepairAgency.model.entity.User;
 import com.myCompany.RepairAgency.servlet.Path;
 import com.myCompany.RepairAgency.servlet.PathFactory;
 import com.myCompany.RepairAgency.servlet.request.IActionCommand;
 import com.myCompany.RepairAgency.servlet.request.IHasRoleRequirement;
-import com.myCompany.RepairAgency.servlet.util.EmailSender;
+import com.myCompany.RepairAgency.servlet.service.SendEmailService;
+import com.myCompany.RepairAgency.servlet.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.apache.logging.log4j.LogManager;
@@ -19,13 +20,19 @@ import java.util.stream.Stream;
 
 public class DeleteUserCommand implements IActionCommand, IHasRoleRequirement {
     private static final Logger logger = LogManager.getLogger(DeleteUserCommand.class);
+
     @Override
     public Path execute(HttpServletRequest request, HttpServletResponse response) {
+        User user;
+        try {
+            long userId = Long.parseLong(request.getParameter("goalIdUser"));
+            user = UserService.get(userId);
+            UserService.delete(user);
+        } catch (NumberFormatException | MyDBException e) {
+            throw new RuntimeException(e);
+        }
 
-        long userId = Long.parseLong(request.getParameter("goalIdUser"));
-        User user = ModelManager.getInstance().getUserRepository().getById(userId);
-        ModelManager.getInstance().getUserRepository().delete(user);
-        ifNeedSendEmail(user);
+        SendEmailService.forDeleteUser(user);
         logger.debug("User profile deleted");
         return PathFactory.getPath("path.page.redirect.users");
     }
@@ -35,14 +42,5 @@ public class DeleteUserCommand implements IActionCommand, IHasRoleRequirement {
         return Stream.of(Constants.ROLE.Admin).collect(Collectors.toList());
     }
 
-    private void ifNeedSendEmail(User user){
-        if(user.isAllow_letters()){
-            Constants.LOCALE locale = Constants.LOCALE.values()[user.getLocale_id()];
-            EmailSender.send(user.getEmail(),
-                    user.getLogin() + "  " + locale.getString("text.your_profile_deleted"),
-                    locale.getString("text.your_profile_deleted"));
-            logger.debug("Send email profile deletion");
-        }
-    }
 
 }

@@ -1,10 +1,15 @@
 package com.myCompany.RepairAgency.servlet.util;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpSession;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Spliterator;
+import java.util.Spliterators;
 import java.util.stream.StreamSupport;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -12,83 +17,120 @@ import static org.junit.jupiter.api.Assertions.*;
 class ForTablesTest {
     //        HttpServletRequest request = mock(HttpServletRequest.class);
     //        when(request.getSession()).thenReturn(session);
-    private MockHttpServletRequest request;
-    private MockHttpSession session;
-    @Test
-    void initSkipQuantity() {
-        String tableName = "Test";
+    @Mock
+    MockHttpServletRequest request;
+    @Mock
+    MockHttpSession session;
 
+    String tableName = "Test";
+
+    @BeforeEach
+    public void initMocks() {
         request = new MockHttpServletRequest();
         session = new MockHttpSession();
         request.setSession(session);
+    }
 
-        session.setAttribute("skip" + tableName, 0);
-        session.setAttribute("quantity" + tableName, 5);
+    @Test
+    void initSkipQuantity1() {
+
+        session.setAttribute("nowPageFor" + tableName, null);
+        session.setAttribute("nowQuantityFor" + tableName, 0);
         session.setAttribute("numberOf" + tableName, 50L);
 
 
-        assertArrayEquals( new int[]{0,5},
-                ForTables.initSkipQuantity(tableName, 100L, request));
-        assertEquals( 0,
-                session.getAttribute("skip" + tableName));
-        assertEquals( 100L,
+        assertArrayEquals(new int[]{0, 5},
+                ForTables.initSkipQuantity(tableName, 0L, request));
+        assertEquals(5,
+                session.getAttribute("nowQuantityFor" + tableName));
+        assertEquals(0L,
                 session.getAttribute("numberOf" + tableName));
+        assertEquals(1,
+                session.getAttribute("nowPageFor" + tableName));
+        assertEquals(1,
+                request.getAttribute("maxPageFor" + tableName));
 
         List<String> inSession = StreamSupport.stream(
                         Spliterators.spliteratorUnknownSize(session.getAttributeNames().asIterator(), Spliterator.ORDERED), false)
                 .toList();
         List<String> goal = new ArrayList<>();
-        goal.add("skip" + tableName);
+        goal.add("nowQuantityFor" + tableName);
         goal.add("numberOf" + tableName);
-        goal.add("quantity" + tableName);
+        goal.add("nowPageFor" + tableName);
 
         assertTrue(goal.containsAll(inSession));
         assertTrue(inSession.containsAll(goal));
     }
 
     @Test
-    void updateSkipQuantity() {
-        String tableName = "Test";
+    void initSkipQuantity2() {
 
-        request = new MockHttpServletRequest();
-        session = new MockHttpSession();
-        request.setSession(session);
+        session.setAttribute("nowPageFor" + tableName, 10000);
+        session.setAttribute("nowQuantityFor" + tableName, 0);
+        session.setAttribute("numberOf" + tableName, 50L);
 
-        request.setParameter("quantity" + tableName, String.valueOf(-10));
 
-        ForTables.updateSkipQuantity(tableName,  request);
-
-        assertEquals( 0,
-                session.getAttribute("skip" + tableName));
-        assertEquals( 5,
-                session.getAttribute("quantity" + tableName));
+        assertArrayEquals(new int[]{0, 5},
+                ForTables.initSkipQuantity(tableName, 0L, request));
+        assertEquals(5,
+                session.getAttribute("nowQuantityFor" + tableName));
+        assertEquals(0L,
+                session.getAttribute("numberOf" + tableName));
+        assertEquals(1,
+                session.getAttribute("nowPageFor" + tableName));
+        assertEquals(1,
+                request.getAttribute("maxPageFor" + tableName));
 
         List<String> inSession = StreamSupport.stream(
                         Spliterators.spliteratorUnknownSize(session.getAttributeNames().asIterator(), Spliterator.ORDERED), false)
                 .toList();
         List<String> goal = new ArrayList<>();
-        goal.add("skip" + tableName);
-        goal.add("quantity" + tableName);
+        goal.add("nowQuantityFor" + tableName);
+        goal.add("numberOf" + tableName);
+        goal.add("nowPageFor" + tableName);
 
         assertTrue(goal.containsAll(inSession));
         assertTrue(inSession.containsAll(goal));
-///////////////
-        request = new MockHttpServletRequest();
-        session = new MockHttpSession();
-        request.setSession(session);
+    }
 
-        request.setParameter("skip" + tableName, String.valueOf(-10));
+    @Test
+    void updateSkipQuantity_1() {
 
-        ForTables.updateSkipQuantity(tableName,  request);
+        request.setParameter("newQuantityFor" + tableName, String.valueOf(-10));
 
-        assertEquals( 0,
-                session.getAttribute("skip" + tableName));
+        ForTables.updateSkipQuantity(tableName, request);
 
-        inSession = StreamSupport.stream(
+        assertEquals(5,
+                session.getAttribute("nowQuantityFor" + tableName));
+        assertEquals(1,
+                session.getAttribute("nowPageFor" + tableName));
+
+        List<String> inSession = StreamSupport.stream(
                         Spliterators.spliteratorUnknownSize(session.getAttributeNames().asIterator(), Spliterator.ORDERED), false)
                 .toList();
-         goal = new ArrayList<>();
-        goal.add("skip" + tableName);
+        List<String> goal = new ArrayList<>();
+        goal.add("nowQuantityFor" + tableName);
+        goal.add("nowPageFor" + tableName);
+
+        assertTrue(goal.containsAll(inSession));
+        assertTrue(inSession.containsAll(goal));
+    }
+
+    @Test
+    void updateSkipQuantity_2() {
+
+        request.setParameter("goToPageFor" + tableName, String.valueOf(-10));
+
+        ForTables.updateSkipQuantity(tableName, request);
+
+        assertEquals(1,
+                session.getAttribute("nowPageFor" + tableName));
+
+        List<String> inSession = StreamSupport.stream(
+                        Spliterators.spliteratorUnknownSize(session.getAttributeNames().asIterator(), Spliterator.ORDERED), false)
+                .toList();
+        List<String> goal = new ArrayList<>();
+        goal.add("nowPageFor" + tableName);
 
         assertTrue(goal.containsAll(inSession));
         assertTrue(inSession.containsAll(goal));

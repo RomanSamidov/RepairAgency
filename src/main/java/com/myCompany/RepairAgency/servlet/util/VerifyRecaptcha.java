@@ -16,10 +16,9 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 public class VerifyRecaptcha {
+    public static final String url = "https://www.google.com/recaptcha/api/siteverify";
     private final static ResourceBundle resourceBundle =
             ResourceBundle.getBundle(Constants.RECAPTCHA_SETTINGS_BUNDLE);
-
-    public static final String url = "https://www.google.com/recaptcha/api/siteverify";
     public static final String secret = resourceBundle.getString("secret");
     private static final Logger logger = LogManager.getLogger(VerifyRecaptcha.class);
     private final static String USER_AGENT = "Mozilla/5.0";

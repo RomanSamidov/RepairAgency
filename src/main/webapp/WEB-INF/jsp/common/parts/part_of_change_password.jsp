@@ -10,3 +10,6 @@
     <my:message key="${confirmationCodeError}" default_value=""/>
     <label for="confirmationCodePassword"><fmt:message key="text.enter_code" /></label><br/>
     <input type="text" name="confirmationCodePassword" required autofocus autocomplete="off" placeholder="<fmt:message key="text.code"/>"/><br/>
+
+    <label for="sendCodeAgain"><fmt:message key="text.send_code_again" /></label>
+    <input type="checkbox" name="sendCodeAgain" value="true" default="false" >

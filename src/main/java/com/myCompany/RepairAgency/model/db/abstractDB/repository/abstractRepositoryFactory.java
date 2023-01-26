@@ -16,6 +16,7 @@ public abstract class abstractRepositoryFactory {
     public abstract iRepairOrderRepository getRepairOrderRepository();
 
     public abstract iUserRepository getUserRepository();
+
     public abstract iOrderUserService getOrderUserService();
 
     public enum DAOType {

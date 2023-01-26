@@ -1,23 +1,9 @@
 package com.myCompany.RepairAgency.servlet.util;
 
 
-
 import com.myCompany.RepairAgency.Constants;
-import jakarta.activation.DataHandler;
-import jakarta.activation.DataSource;
-import jakarta.activation.FileDataSource;
-import jakarta.mail.*;
-import jakarta.mail.internet.InternetAddress;
-import jakarta.mail.internet.MimeBodyPart;
-import jakarta.mail.internet.MimeMessage;
-
-
-import jakarta.mail.MessagingException;
-import jakarta.mail.Session;
-import jakarta.mail.internet.MimeMultipart;
 
 import java.io.File;
-import java.util.Properties;
 import java.util.ResourceBundle;
 
 
@@ -26,10 +12,10 @@ public class EmailSender {
             ResourceBundle.getBundle(Constants.EMAIL_SETTINGS_BUNDLE);
     private static final String from = resourceBundle.getString(Constants.EMAIL);
     private static final String password = resourceBundle.getString(Constants.PASSWORD);
-    public static void send(String to, String sub, String msg, File... files){
+
+    public static void send(String to, String sub, String msg, File... files) {
         System.out.println(to + sub + msg);
-        return;
-//          //Get properties object
+        //          //Get properties object
 //          Properties props = new Properties();
 //          props.put("mail.smtp.host", "smtp.gmail.com");
 //          props.put("mail.smtp.socketFactory.port", "465");

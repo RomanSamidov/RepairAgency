@@ -4,15 +4,15 @@
 
     <Appenders>
 
-<!--        <Console name="console" target="SYSTEM_OUT">-->
-<!--            <PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss} %p %m%n"/>-->
-<!--        </Console>-->
+        <!--        <Console name="console" target="SYSTEM_OUT">-->
+        <!--            <PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss} %p %m%n"/>-->
+        <!--        </Console>-->
         <Console name="console" target="SYSTEM_OUT">
             <PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss} [%-5p][%-16.16t][%32.32c] - %m%n"/>
         </Console>
-<!--        <Console name="console" target="SYSTEM_OUT">-->
-<!--            <PatternLayout pattern="%d [%-5p][%-16.16t][%32.32c] - %m%n"/>-->
-<!--        </Console>-->
+        <!--        <Console name="console" target="SYSTEM_OUT">-->
+        <!--            <PatternLayout pattern="%d [%-5p][%-16.16t][%32.32c] - %m%n"/>-->
+        <!--        </Console>-->
 
         <File name="file" fileName="Logs.log" append="true">
             <PatternLayout>

@@ -26,12 +26,12 @@ public class OrderUserService implements iOrderUserService {
             order.setStatus_id(Constants.ORDER_STATUS.CANCELED.ordinal());
             order.setFinish_date(LocalDateTime.now());
             User user = new UserRepository().getById(order.getUser_id());
-            user.setAccount(user.getAccount()+order.getPrice());
+            user.setAccount(user.getAccount() + order.getPrice());
 
             QueryExecutioner.executeUpdate(conn, Query.RepairOrdersQuery.UPDATE,
                     RepairOrderRepository.extractFields(order, order.getId()));
             QueryExecutioner.executeUpdate(conn, Query.UsersQuery.UPDATE,
-                    UserRepository.extractFields(user,user.getId()));
+                    UserRepository.extractFields(user, user.getId()));
 
             conn.commit();
             conn.setAutoCommit(true);
@@ -50,15 +50,15 @@ public class OrderUserService implements iOrderUserService {
             RepairOrder order = orderRepository.getById(orderId);
             order.setStatus_id(Constants.ORDER_STATUS.PAID.ordinal());
             User user = new UserRepository().getById(order.getUser_id());
-            if(user.getAccount() < order.getPrice()) {
+            if (user.getAccount() < order.getPrice()) {
                 conn.rollback();
                 conn.setAutoCommit(true);
                 ConnectionPool.releaseConnection(conn);
                 return false;
             }
-            user.setAccount(user.getAccount()-order.getPrice());
+            user.setAccount(user.getAccount() - order.getPrice());
             QueryExecutioner.executeUpdate(conn, Query.UsersQuery.UPDATE,
-                    UserRepository.extractFields(user,user.getId()));
+                    UserRepository.extractFields(user, user.getId()));
             QueryExecutioner.executeUpdate(conn, Query.RepairOrdersQuery.UPDATE,
                     RepairOrderRepository.extractFields(order, order.getId()));
             conn.commit();

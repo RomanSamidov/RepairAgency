@@ -13,15 +13,9 @@ import java.util.ResourceBundle;
 
 public class ModelManager {
 
-    private static final ModelManager ins = new ModelManager();
-
-    public static ModelManager getInstance(){
-        return ins;
-    }
-
+    private static ModelManager ins;
     public final DAOType DAO_TYPE;
     private final abstractRepositoryFactory DAO_FACTORY;
-
     private ModelManager() {
         DAO_TYPE = initializeDAOType();
         DAO_FACTORY = abstractRepositoryFactory.getDAOFactory(DAO_TYPE);
@@ -32,6 +26,11 @@ public class ModelManager {
         DAO_FACTORY = abstractRepositoryFactory.getDAOFactory(DAO_TYPE);
     }
 
+    public static ModelManager getInstance() {
+        if (ins == null) ins = new ModelManager();
+        return ins;
+    }
+
     private static DAOType initializeDAOType() {
         ResourceBundle resourceBundle = ResourceBundle.getBundle(Constants.DB_SETTINGS_BUNDLE);
         return DAOType.valueOf(resourceBundle.getString(Constants.DAOType));
@@ -40,6 +39,7 @@ public class ModelManager {
     public iRepairOrderRepository getRepairOrderRepository() {
         return DAO_FACTORY.getRepairOrderRepository();
     }
+
     public iOrderUserService getOrderUserService() {
         return DAO_FACTORY.getOrderUserService();
     }

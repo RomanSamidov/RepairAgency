@@ -47,12 +47,7 @@ public class OrdersCommand implements IActionCommand, IHasRoleRequirement {
         }
         if (request.getParameter("createReport") != null) {
             boolean createReport = Boolean.parseBoolean(request.getParameter("createReport"));
-            if (createReport)request.getSession().setAttribute("createReport", true);
-        }
-
-        if (request.getParameter("reportFormat") != null) {
-            Constants.REPORT_FORMAT format = Constants.REPORT_FORMAT.valueOf(request.getParameter("reportFormat"));
-            request.getSession().setAttribute("reportFormat", format);
+            if (createReport) request.getSession().setAttribute("createReport", true);
         }
     }
 }

@@ -20,7 +20,7 @@ public abstract class Query {
         public static final String UPDATE = "UPDATE repair_orders SET user_id = ?, craftsman_id = ?, creation_date = ?, text = ?, price = ?, finish_date = ?, status_id = ?, feedback_date = ?, feedback_text = ?, feedback_mark = ?  WHERE id = ?;";
         public static final String DELETE = "DELETE FROM repair_orders WHERE id = ?;";
         public static final String SELECT_BY_ID = "SELECT * FROM repair_orders WHERE id = ?;";
-        public static final String SELECT_BY_CRAFT_USER_STATUS = "SELECT * FROM repair_orders WHERE (craftsman_id IS NOT NULL OR craftsman_id = ANY(?) OR ? = ?) AND  (user_id = ? OR 0 = ?) AND  (status_id = ANY(?) OR ? = ?)";
+        public static final String SELECT_BY_CRAFT_USER_STATUS = "SELECT * FROM repair_orders WHERE ((craftsman_id IS NOT NULL AND craftsman_id = ANY(?)) OR ? = ?) AND  (user_id = ? OR 0 = ?) AND  (status_id = ANY(?) OR ? = ?)";
         public static final String COUNT_BY_CRAFT_USER_STATUS = "SELECT COUNT(id) AS result FROM repair_orders WHERE (craftsman_id IS NOT NULL OR craftsman_id = ANY(?) OR ? = ?) AND  (user_id = ? OR 0 = ?) AND  (status_id = ANY(?) OR ? = ?);";
         private static final String PAGINATION = "OFFSET ? ROWS FETCH NEXT ? ROWS ONLY;";
         private static final String ORDER_BY_ID_ASC = " ORDER BY id ASC " + PAGINATION;

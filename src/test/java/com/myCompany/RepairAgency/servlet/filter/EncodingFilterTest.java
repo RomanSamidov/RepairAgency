@@ -9,7 +9,7 @@ import org.springframework.mock.web.MockHttpServletResponse;
 
 import java.io.IOException;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class EncodingFilterTest {
 
@@ -21,12 +21,12 @@ class EncodingFilterTest {
         MockHttpServletResponse response = new MockHttpServletResponse();
         MockFilterConfig filterConfig = new MockFilterConfig();
 
-        filterConfig.addInitParameter("encoding","UTF-8");
+        filterConfig.addInitParameter("encoding", "UTF-8");
 
         filterUnderTest.init(filterConfig);
         filterUnderTest.doFilter(request, response, mockChain);
         filterUnderTest.destroy();
 
-        assertEquals("UTF-8",request.getCharacterEncoding());
+        assertEquals("UTF-8", request.getCharacterEncoding());
     }
 }

@@ -2,8 +2,7 @@
 <%@ include file="/WEB-INF/jspf/directive/taglib.jspf" %>
 
 <form name="createReport" method="POST" action="" target="_blank">
-    <input type="hidden" name="command" value="orders" />
-    <input type="hidden" name="createReport" value="true" />
+    <input type="hidden" name="command" value="create_report" />
     <select name="reportFormat">
         <c:forEach var="format" items="${reportFormats}">
             <option value="${format.toString}"  ${format.toString==reportFormat?"selected=\"selected\"":""} >${format.toString}</option>

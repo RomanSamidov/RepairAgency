@@ -56,7 +56,7 @@ public class XLSWriter {
         style.setWrapText(true);
 
         final int[] i = {1};
-        repairOrders.forEach(o ->{
+        repairOrders.forEach(o -> {
             Row row = sheet.createRow(i[0]++);
             createTableRow(row, style, resourceBundle, o);
         });
@@ -70,7 +70,7 @@ public class XLSWriter {
         workbook.close();
     }
 
-    private static void createTableHeader( Row header, CellStyle headerStyle, ResourceBundle resourceBundle){
+    private static void createTableHeader(Row header, CellStyle headerStyle, ResourceBundle resourceBundle) {
         Cell headerCell = header.createCell(0);
         headerCell.setCellValue(resourceBundle.getString("text.order.id"));
         headerCell.setCellStyle(headerStyle);
@@ -80,32 +80,32 @@ public class XLSWriter {
         headerCell.setCellStyle(headerStyle);
 
         headerCell = header.createCell(2);
-        headerCell.setCellValue( resourceBundle.getString("text.order.craftsman_id"));
+        headerCell.setCellValue(resourceBundle.getString("text.order.craftsman_id"));
         headerCell.setCellStyle(headerStyle);
 
         headerCell = header.createCell(3);
-        headerCell.setCellValue( resourceBundle.getString("text.order.creation_date"));
+        headerCell.setCellValue(resourceBundle.getString("text.order.creation_date"));
         headerCell.setCellStyle(headerStyle);
 
         headerCell = header.createCell(4);
-        headerCell.setCellValue( resourceBundle.getString("text.order.price"));
+        headerCell.setCellValue(resourceBundle.getString("text.order.price"));
         headerCell.setCellStyle(headerStyle);
 
         headerCell = header.createCell(5);
-        headerCell.setCellValue( resourceBundle.getString("text.order.finish_date"));
+        headerCell.setCellValue(resourceBundle.getString("text.order.finish_date"));
         headerCell.setCellStyle(headerStyle);
 
         headerCell = header.createCell(6);
-        headerCell.setCellValue( resourceBundle.getString("text.order.status"));
+        headerCell.setCellValue(resourceBundle.getString("text.order.status"));
         headerCell.setCellStyle(headerStyle);
 
         headerCell = header.createCell(7);
-        headerCell.setCellValue( resourceBundle.getString("text.order.feedback_date"));
+        headerCell.setCellValue(resourceBundle.getString("text.order.feedback_date"));
         headerCell.setCellStyle(headerStyle);
     }
 
-    private static void createTableRow( Row row, CellStyle headerStyle, ResourceBundle resourceBundle,
-                                        RepairOrderDTO order){
+    private static void createTableRow(Row row, CellStyle headerStyle, ResourceBundle resourceBundle,
+                                       RepairOrderDTO order) {
         Cell headerCell = row.createCell(0);
         headerCell.setCellValue(order.getId());
         headerCell.setCellStyle(headerStyle);
@@ -131,11 +131,11 @@ public class XLSWriter {
         headerCell.setCellStyle(headerStyle);
 
         headerCell = row.createCell(6);
-        headerCell.setCellValue( resourceBundle.getString("text.order.status." + order.getStatus()));
+        headerCell.setCellValue(resourceBundle.getString("text.order.status." + order.getStatus()));
         headerCell.setCellStyle(headerStyle);
 
         headerCell = row.createCell(7);
-        headerCell.setCellValue( order.getFeedback_date());
+        headerCell.setCellValue(order.getFeedback_date());
         headerCell.setCellStyle(headerStyle);
     }
 }

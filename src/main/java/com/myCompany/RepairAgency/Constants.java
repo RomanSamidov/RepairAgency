@@ -20,15 +20,20 @@ public class Constants {
 
 
     public enum ORDER_STATUS {
-        NULL(null), CREATED("Created"),
-        PENDING_PAYMENT("Pending payment"), PAID("Paid"),
-        CANCELED("Canceled"), IN_PROGRESS("In progress"),
+        NULL(null),
+        CREATED("Created"),
+        PENDING_PAYMENT("Pending payment"),
+        PAID("Paid"),
+        CANCELED("Canceled"),
+        IN_PROGRESS("In progress"),
         COMPLETED("Completed");
         private final String toString;
         private final int ordinal = ordinal();
+
         ORDER_STATUS(String name) {
             this.toString = name;
         }
+
         public String getToString() {
             return toString;
         }
@@ -40,12 +45,18 @@ public class Constants {
 
 
     public enum ROLE {
-        Guest, Admin, Manager, Craftsman, Client;
+        Guest,
+        Admin,
+        Manager,
+        Craftsman,
+        Client;
         private final String toString = this.toString();
         private final int ordinal = ordinal();
+
         public String getToString() {
             return toString;
         }
+
         public int getOrdinal() {
             return ordinal;
         }
@@ -53,11 +64,15 @@ public class Constants {
 
 
     public enum REPORT_FORMAT {
-        PDF, XLSX, XLS;
+        PDF,
+        XLSX,
+        XLS;
         private final String toString;
+
         REPORT_FORMAT() {
             this.toString = this.toString();
         }
+
         public String getToString() {
             return toString;
         }
@@ -65,13 +80,17 @@ public class Constants {
 
 
     public enum LOCALE {
-        NULL, en_US, uk_UA;
+        NULL,
+        en_US,
+        uk_UA;
         private final String toString = this.toString();
         private final ResourceBundle resourceBundle =
                 ResourceBundle.getBundle("LocalStrings", new Locale(getToString()));
+
         public String getToString() {
             return toString;
         }
+
         public String getString(String key) {
             return resourceBundle.getString(key);
         }

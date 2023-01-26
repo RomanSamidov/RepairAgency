@@ -22,7 +22,7 @@ public class RepairOrderDTO extends Entity {
     private RepairOrderDTO() {
     }
 
-//    public LocalDateTime getCreation_date() {
+    //    public LocalDateTime getCreation_date() {
 //        return creation_date;
 //    }
     public String getCreation_date() {
@@ -40,7 +40,7 @@ public class RepairOrderDTO extends Entity {
 //    }
 
     public String getFinish_date() {
-        if(finish_date == null) return "";
+        if (finish_date == null) return "";
         DateTimeFormatter customFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         return finish_date.format(customFormat);    //2022-12-09 18:25:58
     }
@@ -55,10 +55,11 @@ public class RepairOrderDTO extends Entity {
 //    }
 
     public String getFeedback_date() {
-        if(feedback_date == null) return "";
+        if (feedback_date == null) return "";
         DateTimeFormatter customFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         return feedback_date.format(customFormat);    //2022-12-09 18:25:58
     }
+
     public RepairOrderDTO setFeedback_date(LocalDateTime feedback_date) {
         this.feedback_date = feedback_date;
         return this;
@@ -76,14 +77,15 @@ public class RepairOrderDTO extends Entity {
     public long getCraftsman_id() {
         return craftsman_id;
     }
-    public String getTextCraftsman_id() {
-        if (craftsman_id == 0) return "";
-        else return String.valueOf(craftsman_id);
-    }
 
     public RepairOrderDTO setCraftsman_id(long craftsman_id) {
         this.craftsman_id = craftsman_id;
         return this;
+    }
+
+    public String getTextCraftsman_id() {
+        if (craftsman_id == 0) return "";
+        else return String.valueOf(craftsman_id);
     }
 
     public String getText() {
@@ -96,7 +98,7 @@ public class RepairOrderDTO extends Entity {
     }
 
     public String getPrice() {
-        if(price == -10) return "";
+        if (price == -10) return "";
         return String.valueOf(price);
     }
 

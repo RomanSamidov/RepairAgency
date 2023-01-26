@@ -22,5 +22,7 @@
 
     <c:import url="/WEB-INF/jsp/admin/parts/forOrder/delete_order.jsp"/>
 
+
+
 </div>
 </body></html>

@@ -11,10 +11,14 @@ import org.apache.logging.log4j.Logger;
 
 public class PostCommandFactory extends abstractCommandFactory {
 
-    public static final PostCommandFactory inst = new PostCommandFactory();
+    private static final PostCommandFactory instance = new PostCommandFactory();
     private static final Logger logger = LogManager.getLogger(PostCommandFactory.class);
 
     private PostCommandFactory() {
+    }
+
+    public static PostCommandFactory getInstance() {
+        return instance;
     }
 
     public IActionCommand defineCommand(HttpServletRequest request) {
@@ -32,7 +36,7 @@ public class PostCommandFactory extends abstractCommandFactory {
         } catch (IllegalArgumentException e) {
             logger.debug("Wrong command");
             request.setAttribute("wrongCommand",
-                    command + "message.wrongCommand");
+                    command.toUpperCase() + " message.wrongCommand");
         }
         return current;
     }

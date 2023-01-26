@@ -1,5 +1,6 @@
 package com.myCompany.RepairAgency.model.db.abstractDB.repository.entity;
 
+import com.myCompany.RepairAgency.model.db.abstractDB.exception.MyDBException;
 import com.myCompany.RepairAgency.model.db.abstractDB.repository.primitive.iRepositoryForChangeAble;
 import com.myCompany.RepairAgency.model.entity.RepairOrder;
 
@@ -8,11 +9,9 @@ import java.util.ArrayList;
 public interface iRepairOrderRepository extends iRepositoryForChangeAble<RepairOrder> {
 
     ArrayList<RepairOrder> getByCraftUserStatus(long[] craftIds, long userId,
-                                                long[] statusIds, SORT_TYPE sort, long skip, long quantity);
+                                                long[] statusIds, SORT_TYPE sort, long skip, long quantity) throws MyDBException;
 
-    long countByCraftUserStatus(long[] craftIds, long userId, long[] statusIds);
-
-
+    long countByCraftUserStatus(long[] craftIds, long userId, long[] statusIds) throws MyDBException;
 
 
     enum SORT_TYPE {
@@ -27,13 +26,8 @@ public interface iRepairOrderRepository extends iRepositoryForChangeAble<RepairO
         ORDER_BY_PRICE_ASC,
         ORDER_BY_PRICE_DESC;
 
-        private final String toString;
-        private final long ordinal;
-
-        SORT_TYPE() {
-            this.toString = this.name();
-            this.ordinal = ordinal();
-        }
+        private final String toString = name();
+        private final long ordinal = ordinal();
 
         public long getOrdinal() {
             return ordinal;

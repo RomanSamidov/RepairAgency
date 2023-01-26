@@ -19,7 +19,7 @@ import java.io.IOException;
 
 //@WebFilter(urlPatterns = { "/controller/*" },
 //           servletNames = { "Controller" })
-@WebFilter(filterName="UserRoleSecurityFilter",
+@WebFilter(filterName = "UserRoleSecurityFilter",
         urlPatterns = {"/*"})
 public class UserRoleSecurityFilter implements Filter {
     private static final Logger logger = LogManager.getLogger(UserRoleSecurityFilter.class);
@@ -32,22 +32,23 @@ public class UserRoleSecurityFilter implements Filter {
         HttpServletResponse resp = (HttpServletResponse) response;
         HttpSession session = req.getSession();
 
-        Constants.ROLE userRole = (Constants.ROLE) session.getAttribute("userRole");
         String requestURI = req.getRequestURI();
         logger.debug(" RequestURI = " + req.getRequestURI());
+        if (!requestURI.startsWith("/RepairAgency/controller/")) {
+            logger.debug(" RequestURI do not start with /RepairAgency/controller/ then redirect");
+            redirect(req, resp);
+            return;
+        }
+
+        Constants.ROLE userRole = (Constants.ROLE) session.getAttribute("userRole");
         if (userRole == null) {
-            session.setAttribute("userRole", Constants.ROLE.Guest);
-            session.setAttribute("_menu_url", PathFactory.getPath("path.template.menu.guest"));
-            userRole = (Constants.ROLE) session.getAttribute("userRole");
+            userRole = Constants.ROLE.Guest;
+            session.setAttribute("userRole", userRole);
+            session.setAttribute("_menu_url", PathFactory.getPath("path.template.menu.guest").toString());
         }
 
         logger.debug(" userRole = " + userRole.getToString());
 
-
-        if (!requestURI.startsWith("/RepairAgency/controller/")) {
-            redirect(req, resp);
-            return;
-        }
 
         boolean allowed = true;
         String method = req.getMethod();
@@ -65,13 +66,13 @@ public class UserRoleSecurityFilter implements Filter {
 
     private boolean filterForPOST(Constants.ROLE userRole, HttpServletRequest request, HttpServletResponse response)
             throws IOException {
-        IActionCommand command = PostCommandFactory.inst.defineCommand(request);
+        IActionCommand command = PostCommandFactory.getInstance().defineCommand(request);
         return checkAlloverRoles(command, userRole, request, response);
     }
 
     private boolean filterForGET(Constants.ROLE userRole, HttpServletRequest request, HttpServletResponse response)
             throws IOException {
-        IActionCommand command = GetCommandFactory.inst.defineCommand(request);
+        IActionCommand command = GetCommandFactory.getInstance().defineCommand(request);
         return checkAlloverRoles(command, userRole, request, response);
     }
 

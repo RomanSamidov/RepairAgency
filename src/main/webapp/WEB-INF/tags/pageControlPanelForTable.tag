@@ -8,7 +8,7 @@
 <fmt:setLocale value="${language}"/>
 <fmt:setBundle basename="LocalStrings"/>
 <c:set var="nowPageFor"><%= session.getAttribute("nowPageFor"+table_name) %></c:set>
-<c:set var="maxPageFor"><%= session.getAttribute("maxPageFor"+table_name) %></c:set>
+<c:set var="maxPageFor"><%= request.getAttribute("maxPageFor"+table_name) %></c:set>
 
 <table>
     <tr>

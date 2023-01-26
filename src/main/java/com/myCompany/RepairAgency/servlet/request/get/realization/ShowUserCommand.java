@@ -15,14 +15,14 @@ import java.util.stream.Stream;
 public class ShowUserCommand implements IActionCommand, IHasRoleRequirement {
     @Override
     public Path execute(HttpServletRequest request, HttpServletResponse response) {
-        Path page = ViewValidationService.validateForUserPage(request);
         request.setAttribute("title", "title.user");
-        return page;
+        return ViewValidationService.validateForUserPage(request);
     }
 
     @Override
     public List<Constants.ROLE> allowedUserRoles() {
-        return Stream.of(Constants.ROLE.Manager, Constants.ROLE.Admin).collect(Collectors.toList());
+        return Stream.of(Constants.ROLE.Manager,
+                Constants.ROLE.Admin).collect(Collectors.toList());
     }
 
 

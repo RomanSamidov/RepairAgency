@@ -5,6 +5,7 @@ import com.myCompany.RepairAgency.model.db.PostgeSQL.ConnectionPool;
 import com.myCompany.RepairAgency.model.db.PostgeSQL.Query;
 import com.myCompany.RepairAgency.model.db.PostgeSQL.QueryExecutioner;
 import com.myCompany.RepairAgency.model.db.PostgeSQL.factory.UserFactory;
+import com.myCompany.RepairAgency.model.db.abstractDB.exception.MyDBException;
 import com.myCompany.RepairAgency.model.db.abstractDB.repository.entity.iUserRepository;
 import com.myCompany.RepairAgency.model.entity.User;
 
@@ -28,7 +29,7 @@ public class UserRepository implements iUserRepository {
     }
 
     @Override
-    public void update(User user) {
+    public void update(User user) throws MyDBException {
         Connection conn = ConnectionPool.getConnection();
         QueryExecutioner.executeUpdate(conn, Query.UsersQuery.UPDATE,
                 UserRepository.extractFields(user, user.getId()));
@@ -36,22 +37,30 @@ public class UserRepository implements iUserRepository {
     }
 
     @Override
-    public void delete(User user) {
+    public void delete(User user) throws MyDBException {
         Connection conn = ConnectionPool.getConnection();
         QueryExecutioner.executeUpdate(conn, Query.UsersQuery.DELETE, user.getId());
         ConnectionPool.releaseConnection(conn);
     }
 
     @Override
-    public void insert(User user) {
+    public void delete(long id) throws MyDBException {
         Connection conn = ConnectionPool.getConnection();
-        QueryExecutioner.executeUpdate(conn, Query.UsersQuery.INSERT,
-                UserRepository.extractFields(user));
+        QueryExecutioner.executeUpdate(conn, Query.UsersQuery.DELETE, id);
         ConnectionPool.releaseConnection(conn);
     }
 
     @Override
-    public User getById(long id) {
+    public void insert(User user) throws MyDBException {
+        Connection conn = ConnectionPool.getConnection();
+        long id = QueryExecutioner.executeUpdate(conn, Query.UsersQuery.INSERT,
+                UserRepository.extractFields(user));
+        ConnectionPool.releaseConnection(conn);
+        user.setId(id);
+    }
+
+    @Override
+    public User getById(long id) throws MyDBException {
         Connection conn = ConnectionPool.getConnection();
         User res = QueryExecutioner.readEntity(UserFactory.ins, conn, Query.UsersQuery.SELECT_BY_ID, id);
         ConnectionPool.releaseConnection(conn);
@@ -59,7 +68,7 @@ public class UserRepository implements iUserRepository {
     }
 
     @Override
-    public User getByLogin(String login) {
+    public User getByLogin(String login) throws MyDBException {
         Connection conn = ConnectionPool.getConnection();
         User res = QueryExecutioner.readEntity(UserFactory.ins, conn, Query.UsersQuery.SELECT_BY_LOGIN, login);
         ConnectionPool.releaseConnection(conn);
@@ -67,7 +76,7 @@ public class UserRepository implements iUserRepository {
     }
 
     @Override
-    public ArrayList<User> getByRole(long roleId, int skip, int quantity) {
+    public ArrayList<User> getByRole(long roleId, int skip, int quantity) throws MyDBException {
         Connection conn = ConnectionPool.getConnection();
         ArrayList<User> res = QueryExecutioner.readList(UserFactory.ins, conn, Query.UsersQuery.SELECT_ALL_BY_ROLE,
                 roleId, roleId, skip, quantity);
@@ -76,7 +85,7 @@ public class UserRepository implements iUserRepository {
     }
 
     @Override
-    public long countWhereRoleIs(long roleId) {
+    public long countWhereRoleIs(long roleId) throws MyDBException {
         Connection conn = ConnectionPool.getConnection();
         long res = QueryExecutioner.readNumber(conn, Query.UsersQuery.COUNT_BY_ROLE, roleId, roleId);
         ConnectionPool.releaseConnection(conn);

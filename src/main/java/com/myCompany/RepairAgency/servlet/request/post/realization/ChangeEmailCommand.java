@@ -1,13 +1,14 @@
 package com.myCompany.RepairAgency.servlet.request.post.realization;
 
 import com.myCompany.RepairAgency.Constants;
-import com.myCompany.RepairAgency.model.ModelManager;
 import com.myCompany.RepairAgency.model.entity.User;
 import com.myCompany.RepairAgency.servlet.Path;
 import com.myCompany.RepairAgency.servlet.PathFactory;
 import com.myCompany.RepairAgency.servlet.request.IActionCommand;
 import com.myCompany.RepairAgency.servlet.request.IHasRoleRequirement;
-import com.myCompany.RepairAgency.servlet.util.EmailSender;
+import com.myCompany.RepairAgency.servlet.service.ParameterValidationService;
+import com.myCompany.RepairAgency.servlet.service.SendEmailService;
+import com.myCompany.RepairAgency.servlet.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.apache.logging.log4j.LogManager;
@@ -22,14 +23,21 @@ public class ChangeEmailCommand implements IActionCommand, IHasRoleRequirement {
 
     @Override
     public Path execute(HttpServletRequest request, HttpServletResponse response) {
-        User user = ModelManager.getInstance().getUserRepository().getById((Long) request.getSession().getAttribute("userId"));
-        user.setConfirmed(false);
+        User user = UserService.get((Long) request.getSession().getAttribute("userId"));
+
         String email = request.getParameter("email");
-        user.setEmail(email);
-        ModelManager.getInstance().getUserRepository().update(user);
+        if (!ParameterValidationService.validateEmail(request, email)) {
+            return PathFactory.getPath("path.page.redirect.cabinet");
+        }
+        if (email.equals(user.getEmail())) {
+            return PathFactory.getPath("path.page.redirect.cabinet");
+        }
+
+        UserService.changeEmail(user, email);
+
         request.getSession().setAttribute("userEmail", user.getEmail());
         request.getSession().setAttribute("isUserConfirmed", user.isConfirmed());
-        ifNeedSendEmail(user);
+        SendEmailService.forChangeEmail(user);
         logger.debug("User email was changed ");
         return PathFactory.getPath("path.page.redirect.cabinet");
     }
@@ -42,14 +50,5 @@ public class ChangeEmailCommand implements IActionCommand, IHasRoleRequirement {
                 Constants.ROLE.Craftsman).collect(Collectors.toList());
     }
 
-    private void ifNeedSendEmail(User user){
-        if(user.isAllow_letters()){
-            Constants.LOCALE locale = Constants.LOCALE.values()[user.getLocale_id()];
-            EmailSender.send(user.getEmail(),
-                    user.getLogin() + "  " + locale.getString("text.your_email_changed"),
-                    locale.getString("text.your_email_changed"));
-            logger.debug("Send email about email change");
-        }
-    }
 
 }

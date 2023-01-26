@@ -2,23 +2,37 @@ package com.myCompany.RepairAgency.model.db.PostgeSQL;
 
 import com.myCompany.RepairAgency.model.Fields;
 import com.myCompany.RepairAgency.model.db.PostgeSQL.factory.abstractEntityFactory;
+import com.myCompany.RepairAgency.model.db.abstractDB.exception.MyDBException;
 import com.myCompany.RepairAgency.model.entity.Entity;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.sql.*;
 import java.util.ArrayList;
 
 public class QueryExecutioner {
+    private static final Logger logger = LogManager.getLogger(QueryExecutioner.class);
 
-    public static void executeUpdate(Connection conn, String query, Object... args) {
+
+    public static long executeUpdate(Connection conn, String query, Object... args) throws MyDBException {
+        long id = 0;
         try (PreparedStatement st = conn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
             if (args != null) setArgsForPreparedStatement(st, args);
-            st.executeUpdate();
+            int i = st.executeUpdate();
+            if (i != 0) {
+                ResultSet rs = st.getGeneratedKeys();
+                if (rs.next()) {
+                    id = rs.getLong("id");
+                }
+            }
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.debug(e);
+            throw new MyDBException("Something wrong with DB ", e);
         }
+        return id;
     }
 
-    public static long readNumber(Connection conn, String query, Object... args) {
+    public static long readNumber(Connection conn, String query, Object... args) throws MyDBException {
         try (PreparedStatement st = conn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
             if (args != null) setArgsForPreparedStatement(st, args);
             ResultSet rs = st.executeQuery();
@@ -26,7 +40,8 @@ public class QueryExecutioner {
                 return rs.getLong(Fields.RESULT);
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.debug(e);
+            throw new MyDBException("Something wrong with DB ", e);
         }
         return 0;
     }
@@ -39,7 +54,7 @@ public class QueryExecutioner {
     }
 
     public static <E extends Entity, F extends abstractEntityFactory<E>>
-    E readEntity(F factory, Connection conn, final String query, Object... args) {
+    E readEntity(F factory, Connection conn, final String query, Object... args) throws MyDBException {
         E answer = null;
         try (PreparedStatement statement = conn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
             setArgsForPreparedStatement(statement, args);
@@ -47,13 +62,14 @@ public class QueryExecutioner {
             answer = factory.getResult(ser);
             ser.close();
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.debug(e);
+            throw new MyDBException("Something wrong with DB ", e);
         }
         return answer;
     }
 
     public static <E extends Entity, F extends abstractEntityFactory<E>>
-    ArrayList<E> readList(F factory, Connection conn, final String query, Object... args) {
+    ArrayList<E> readList(F factory, Connection conn, final String query, Object... args) throws MyDBException {
         ArrayList<E> answer = new ArrayList<>();
         try (PreparedStatement statement = conn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
             setArgsForPreparedStatement(statement, args);
@@ -61,7 +77,8 @@ public class QueryExecutioner {
             answer = factory.getListOfResult(ser);
             ser.close();
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.debug(e);
+            throw new MyDBException("Something wrong with DB ", e);
         }
         return answer;
     }

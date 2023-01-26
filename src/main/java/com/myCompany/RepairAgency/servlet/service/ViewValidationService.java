@@ -14,13 +14,16 @@ import jakarta.servlet.http.HttpSession;
 
 public class ViewValidationService {
 
-    public static void setMenu(HttpServletRequest request, Constants.ROLE userRole){
+    public static void setMenu(HttpServletRequest request, Constants.ROLE userRole) {
         HttpSession session = request.getSession();
         switch (userRole) {
-            case Client -> session.setAttribute("_menu_url", PathFactory.getPath("path.template.menu.client").toString());
+            case Client ->
+                    session.setAttribute("_menu_url", PathFactory.getPath("path.template.menu.client").toString());
             case Guest -> session.setAttribute("_menu_url", PathFactory.getPath("path.template.menu.guest").toString());
-            case Craftsman -> session.setAttribute("_menu_url", PathFactory.getPath("path.template.menu.craftsman").toString());
-            case Manager -> session.setAttribute("_menu_url", PathFactory.getPath("path.template.menu.manager").toString());
+            case Craftsman ->
+                    session.setAttribute("_menu_url", PathFactory.getPath("path.template.menu.craftsman").toString());
+            case Manager ->
+                    session.setAttribute("_menu_url", PathFactory.getPath("path.template.menu.manager").toString());
             case Admin -> session.setAttribute("_menu_url", PathFactory.getPath("path.template.menu.admin").toString());
         }
     }
@@ -28,7 +31,7 @@ public class ViewValidationService {
 
     public static void validateForChangePassword(HttpServletRequest request) {
         HttpSession session = request.getSession();
-        if(session.getAttribute("waitedCodePassword") != null){
+        if (session.getAttribute("waitedCodePassword") != null) {
             session.setAttribute("_part_of_change_password_url",
                     PathFactory.getPath("path.page.forward.common.parts.part_of_change_password").toString());
         } else {
@@ -37,7 +40,7 @@ public class ViewValidationService {
         }
     }
 
-    private static boolean checkAccessibility(HttpServletRequest request, RepairOrder order){
+    private static boolean checkAccessibility(HttpServletRequest request, RepairOrder order) {
         if ((request.getSession().getAttribute("userRole")).equals(Constants.ROLE.Client)) {
             return (long) request.getSession().getAttribute("userId") == order.getUser_id();
         } else if (request.getSession().getAttribute("userRole").equals(Constants.ROLE.Craftsman)) {
@@ -45,6 +48,7 @@ public class ViewValidationService {
         }
         return true;
     }
+
     public static Path validateForOrderPage(HttpServletRequest request, RepairOrder order) {
         Constants.ROLE userRole = (Constants.ROLE) request.getSession().getAttribute("userRole");
         request.setAttribute("_show_order_url", PathFactory.getPath("path.page.forward.common.empty").toString());
@@ -72,37 +76,36 @@ public class ViewValidationService {
         }
 
 
-        if((userRole == Constants.ROLE.Craftsman || userRole == Constants.ROLE.Admin)){
-            if(order.getStatus_id()==Constants.ORDER_STATUS.PAID.ordinal()) {
+        if ((userRole == Constants.ROLE.Craftsman || userRole == Constants.ROLE.Admin)) {
+            if (order.getStatus_id() == Constants.ORDER_STATUS.PAID.ordinal()) {
                 request.setAttribute("_craft_order_url", PathFactory.getPath("path.page.order.part.craftsman.take_order").toString());
-            } else if(order.getStatus_id()==Constants.ORDER_STATUS.IN_PROGRESS.ordinal()) {
+            } else if (order.getStatus_id() == Constants.ORDER_STATUS.IN_PROGRESS.ordinal()) {
                 request.setAttribute("_craft_order_url", PathFactory.getPath("path.page.order.part.craftsman.complete_order").toString());
             }
         }
 
-        if((userRole == Constants.ROLE.Client || userRole == Constants.ROLE.Admin)){
-            if(order.getStatus_id()==Constants.ORDER_STATUS.PENDING_PAYMENT.ordinal() && userRole != Constants.ROLE.Admin) {
+        if ((userRole == Constants.ROLE.Client || userRole == Constants.ROLE.Admin)) {
+            if (order.getStatus_id() == Constants.ORDER_STATUS.PENDING_PAYMENT.ordinal() && userRole != Constants.ROLE.Admin) {
                 request.setAttribute("_client_order_url", PathFactory.getPath("path.page.order.part.client.pay_order").toString());
-            } else if(order.getStatus_id()==Constants.ORDER_STATUS.COMPLETED.ordinal()) {
+            } else if (order.getStatus_id() == Constants.ORDER_STATUS.COMPLETED.ordinal()) {
                 request.setAttribute("_client_order_url", PathFactory.getPath("path.page.order.part.client.set_feedback").toString());
             }
         }
 
-        if((userRole == Constants.ROLE.Manager || userRole == Constants.ROLE.Admin)){
-            if(order.getStatus_id()==Constants.ORDER_STATUS.PENDING_PAYMENT.ordinal()) {
+        if ((userRole == Constants.ROLE.Manager || userRole == Constants.ROLE.Admin)) {
+            if (order.getStatus_id() == Constants.ORDER_STATUS.PENDING_PAYMENT.ordinal()) {
                 request.setAttribute("_manager_order_url", PathFactory.getPath("path.page.order.part.manager.pay_order").toString());
-            } else if(order.getStatus_id()==Constants.ORDER_STATUS.CREATED.ordinal()) {
+            } else if (order.getStatus_id() == Constants.ORDER_STATUS.CREATED.ordinal()) {
                 request.setAttribute("_manager_order_url", PathFactory.getPath("path.page.order.part.manager.set_craftsman_and_price").toString());
             }
         }
 
-        if(order.getStatus_id()!=Constants.ORDER_STATUS.COMPLETED.ordinal() && order.getStatus_id()!=Constants.ORDER_STATUS.CANCELED.ordinal() && checkAccessibility(request, order)) {
+        if (order.getStatus_id() != Constants.ORDER_STATUS.COMPLETED.ordinal() && order.getStatus_id() != Constants.ORDER_STATUS.CANCELED.ordinal() && checkAccessibility(request, order)) {
             request.setAttribute("_cancel_order_url", PathFactory.getPath("path.page.order.part.cancel_order").toString());
         }
 
         return path;
     }
-
 
 
     public static Path validateForOrdersPage(HttpServletRequest request) {
@@ -117,12 +120,11 @@ public class ViewValidationService {
     }
 
 
-
     public static Path validateForProfilePage(HttpServletRequest request) {
         HttpSession session = request.getSession();
-        if((boolean)session.getAttribute("isUserConfirmed")){
+        if ((boolean) session.getAttribute("isUserConfirmed")) {
             request.setAttribute("_email_confirmed_url", PathFactory.getPath("path.page.cabinet.part.email_confirmed").toString());
-        } else if(session.getAttribute("waitedCode") != null){
+        } else if (session.getAttribute("waitedCode") != null) {
             request.setAttribute("_email_confirmed_url", PathFactory.getPath("path.page.cabinet.part.email_not_confirmed_with_code").toString());
         } else {
             request.setAttribute("_email_confirmed_url", PathFactory.getPath("path.page.cabinet.part.email_not_confirmed_without_code").toString());
@@ -140,19 +142,16 @@ public class ViewValidationService {
     }
 
 
-
-
-
     public static Path validateForUserPage(HttpServletRequest request) {
         long userId;
-        if(request.getParameter("id") != null) {
+        if (request.getParameter("id") != null) {
             userId = Long.parseLong(request.getParameter("id"));
         } else {
             userId = (long) request.getSession().getAttribute("userId");
         }
         Constants.ROLE userRole = (Constants.ROLE) request.getSession().getAttribute("userRole");
-        User user =  ModelManager.getInstance().getUserRepository().getById(userId);
-        if(user == null) {
+        User user = ModelManager.getInstance().getUserRepository().getById(userId);
+        if (user == null) {
             request.setAttribute("error", "text.there_are_no_users");
             request.setAttribute("_show_user_url", PathFactory.getPath("path.page.forward.common.empty").toString());
             request.setAttribute("_add_to_account_url", PathFactory.getPath("path.page.forward.common.empty").toString());
@@ -179,7 +178,6 @@ public class ViewValidationService {
             case Manager -> PathFactory.getPath("path.page.forward.manager.user");
         };
     }
-
 
 
     public static Path validateForUsersPage(HttpServletRequest request) {

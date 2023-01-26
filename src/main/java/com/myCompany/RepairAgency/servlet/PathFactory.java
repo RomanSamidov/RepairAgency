@@ -14,6 +14,7 @@ public class PathFactory {
     public static Path getPath(String key) {
         return new Path(key.startsWith("path.page.redirect."), resourceBundle.getString(key));
     }
+
     public static Path getPath(String key, boolean isDownload) {
         return new Path(key.startsWith("path.page.redirect."), isDownload, resourceBundle.getString(key));
     }

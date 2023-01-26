@@ -6,6 +6,7 @@ import com.myCompany.RepairAgency.model.entity.User;
 import com.myCompany.RepairAgency.servlet.Path;
 import com.myCompany.RepairAgency.servlet.request.IActionCommand;
 import com.myCompany.RepairAgency.servlet.request.IHasRoleRequirement;
+import com.myCompany.RepairAgency.servlet.service.AttributeFSTRService;
 import com.myCompany.RepairAgency.servlet.service.ViewValidationService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -18,15 +19,17 @@ public class ShowProfileCommand implements IActionCommand, IHasRoleRequirement {
     @Override
     public Path execute(HttpServletRequest request, HttpServletResponse response) {
         request.setAttribute("title", "title.cabinet");
+
         User user = ModelManager.getInstance().getUserRepository().getById(
-                (Long)request.getSession().getAttribute("userId"));
+                (Long) request.getSession().getAttribute("userId"));
+
         if (user.getRole_id() == Constants.ROLE.Client.ordinal()) {
             request.setAttribute("userAccount", user.getAccount());
         }
-            request.setAttribute("isUserAllowLetters",user.isAllow_letters());
-        request.setAttribute("confirmationCodeError"
-                , request.getSession().getAttribute("confirmationCodeError"));
-        request.getSession().removeAttribute("confirmationCodeError");
+
+        request.setAttribute("isUserAllowLetters", user.isAllow_letters());
+
+        AttributeFSTRService.forShowProfile(request);
 
         return ViewValidationService.validateForProfilePage(request);
     }
@@ -35,7 +38,7 @@ public class ShowProfileCommand implements IActionCommand, IHasRoleRequirement {
     public List<Constants.ROLE> allowedUserRoles() {
         return Stream.of(Constants.ROLE.Client,
                 Constants.ROLE.Admin,
-                Constants.ROLE.Manager,
-                Constants.ROLE.Craftsman).collect(Collectors.toList());
+                Constants.ROLE.Craftsman,
+                Constants.ROLE.Manager).collect(Collectors.toList());
     }
 }

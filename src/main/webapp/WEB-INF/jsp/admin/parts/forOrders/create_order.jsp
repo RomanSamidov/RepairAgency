@@ -6,7 +6,7 @@
 
     <fmt:message key="text.order_client_id"/><br/>
     <my:message key="${errorOrderClientIdMessage}" default_value=""/>
-    <input type="number" name="clientId" value="0" min="1"/>
+    <input type="number" name="clientId" value="0" min="1"/><br/>
 
     <fmt:message key="text.order_text"/><br/>
     <my:message key="${errorOrderTextMessage}" default_value=""/>

@@ -1,13 +1,15 @@
 package com.myCompany.RepairAgency.servlet.request.get.realization;
 
 import com.myCompany.RepairAgency.Constants;
-import com.myCompany.RepairAgency.model.ModelManager;
 import com.myCompany.RepairAgency.model.entity.DTO.UserDTOFactory;
 import com.myCompany.RepairAgency.model.entity.RepairOrder;
 import com.myCompany.RepairAgency.servlet.Path;
 import com.myCompany.RepairAgency.servlet.PathFactory;
 import com.myCompany.RepairAgency.servlet.request.IActionCommand;
 import com.myCompany.RepairAgency.servlet.request.IHasRoleRequirement;
+import com.myCompany.RepairAgency.servlet.service.InitValuesFromRequestService;
+import com.myCompany.RepairAgency.servlet.service.RepairOrderService;
+import com.myCompany.RepairAgency.servlet.service.UserService;
 import com.myCompany.RepairAgency.servlet.service.ViewValidationService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -23,25 +25,21 @@ public class ShowOrderPageCommand implements IActionCommand, IHasRoleRequirement
     public Path execute(HttpServletRequest request, HttpServletResponse response) {
         request.setAttribute("title", "title.order");
 
-        long goalId = initGoalId(request);
-        if(goalId == 0)  {
+        long goalId = InitValuesFromRequestService.initGoalId(request);
+        if (goalId == 0) {
             return PathFactory.getPath("path.page.redirect.orders");
         }
 
-        RepairOrder order = ModelManager.getInstance().getRepairOrderRepository().getById(goalId);
-        if(order == null) return PathFactory.getPath("path.page.redirect.orders");
-
-        Path page = ViewValidationService.validateForOrderPage(request, order);
-
+        RepairOrder order = RepairOrderService.get(goalId);
+        if (order == null) return PathFactory.getPath("path.page.redirect.orders");
 
         ArrayList<Constants.ORDER_STATUS> orderStatuses = new ArrayList<>(List.of(Constants.ORDER_STATUS.values()));
         orderStatuses.remove(0);
         request.getSession().setAttribute("orderStatuses", orderStatuses);
         request.getSession().setAttribute("craftsmen", UserDTOFactory.getUsers(
-                ModelManager.getInstance().getUserRepository()
-                        .getByRole(Constants.ROLE.Craftsman.ordinal(), 0, 50)));
+                UserService.getByRole(Constants.ROLE.Craftsman.ordinal(), 0, 50)));
 
-        return page;
+        return ViewValidationService.validateForOrderPage(request, order);
     }
 
     @Override
@@ -50,13 +48,6 @@ public class ShowOrderPageCommand implements IActionCommand, IHasRoleRequirement
                 Constants.ROLE.Admin,
                 Constants.ROLE.Manager,
                 Constants.ROLE.Craftsman).collect(Collectors.toList());
-    }
-
-    private long initGoalId(HttpServletRequest request){
-        if(request.getParameter("id") != null) {
-            return Long.parseLong(request.getParameter("id"));
-        }
-        return 0;
     }
 
 

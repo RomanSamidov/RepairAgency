@@ -5,13 +5,17 @@ public class User extends Entity {
     private String login;
     private String password;
     private String email;
-    private boolean allow_letters = true;
-    private boolean confirmed = false;
-    private int role_id = 4;
+    private boolean allow_letters;
+    private boolean confirmed;
+    private int role_id;
     private int account;
-    private int locale_id = 1;
+    private int locale_id;
 
     protected User() {
+        allow_letters = true;
+        confirmed = false;
+        role_id = 4;
+        locale_id = 1;
     }
 
     public int getLocale_id() {

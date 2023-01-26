@@ -1,12 +1,13 @@
 package com.myCompany.RepairAgency.servlet.request.post.realization;
 
 import com.myCompany.RepairAgency.Constants;
-import com.myCompany.RepairAgency.model.ModelManager;
 import com.myCompany.RepairAgency.model.entity.User;
 import com.myCompany.RepairAgency.servlet.Path;
 import com.myCompany.RepairAgency.servlet.PathFactory;
 import com.myCompany.RepairAgency.servlet.request.IActionCommand;
 import com.myCompany.RepairAgency.servlet.request.IHasRoleRequirement;
+import com.myCompany.RepairAgency.servlet.service.ParameterValidationService;
+import com.myCompany.RepairAgency.servlet.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
@@ -18,11 +19,16 @@ public class ChangeProfileSettingsCommand implements IActionCommand, IHasRoleReq
 
     @Override
     public Path execute(HttpServletRequest request, HttpServletResponse response) {
-        User user = ModelManager.getInstance().getUserRepository().getById((Long) request.getSession().getAttribute("userId"));
+        User user = UserService.get((Long) request.getSession().getAttribute("userId"));
 
-        boolean isUserAllowLetters = Boolean.parseBoolean(request.getParameter("newIsUserAllowLetters"));
+        String allowLetters = request.getParameter("newIsUserAllowLetters");
+
+        if (!ParameterValidationService.validateBoolean(allowLetters))
+            return PathFactory.getPath("path.page.redirect.cabinet");
+
+        boolean isUserAllowLetters = Boolean.parseBoolean(allowLetters);
         user.setAllow_letters(isUserAllowLetters);
-        ModelManager.getInstance().getUserRepository().update(user);
+        UserService.update(user);
         request.getSession().setAttribute("isUserAllowLetters", user.isAllow_letters());
 
         return PathFactory.getPath("path.page.redirect.cabinet");

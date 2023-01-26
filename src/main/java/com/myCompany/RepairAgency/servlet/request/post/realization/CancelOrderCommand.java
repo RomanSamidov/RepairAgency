@@ -1,14 +1,13 @@
 package com.myCompany.RepairAgency.servlet.request.post.realization;
 
 import com.myCompany.RepairAgency.Constants;
-import com.myCompany.RepairAgency.model.ModelManager;
 import com.myCompany.RepairAgency.model.entity.RepairOrder;
 import com.myCompany.RepairAgency.model.entity.User;
 import com.myCompany.RepairAgency.servlet.Path;
 import com.myCompany.RepairAgency.servlet.PathFactory;
 import com.myCompany.RepairAgency.servlet.request.IActionCommand;
 import com.myCompany.RepairAgency.servlet.request.IHasRoleRequirement;
-import com.myCompany.RepairAgency.servlet.util.EmailSender;
+import com.myCompany.RepairAgency.servlet.service.*;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.apache.logging.log4j.LogManager;
@@ -25,38 +24,40 @@ public class CancelOrderCommand implements IActionCommand, IHasRoleRequirement {
     @Override
     public Path execute(HttpServletRequest request, HttpServletResponse response) {
 
-        RepairOrder order = ModelManager.getInstance().getRepairOrderRepository()
-                .getById(Long.parseLong(request.getParameter("goalIdOrder")));
+        String goalIdOrder = request.getParameter("goalIdOrder");
+        if (!ParameterValidationService.validateGoalId(goalIdOrder))
+            return PathFactory.getPath("path.page.redirect.orders");
 
-        User user = ModelManager.getInstance().getUserRepository().getById(order.getUser_id());
 
+        RepairOrder order = RepairOrderService.get(Long.parseLong(goalIdOrder));
 
-        if(!((user.getRole_id() == Constants.ROLE.Client.ordinal() && user.getId() == order.getUser_id()) ||
+        User user = UserService.get(order.getUser_id());
+
+        if (!((user.getRole_id() == Constants.ROLE.Client.ordinal() && user.getId() == order.getUser_id()) ||
                 (user.getRole_id() == Constants.ROLE.Craftsman.ordinal() && user.getId() == order.getCraftsman_id()) ||
                 user.getRole_id() == Constants.ROLE.Manager.ordinal() ||
-                user.getRole_id() == Constants.ROLE.Admin.ordinal()))
-        {
+                user.getRole_id() == Constants.ROLE.Admin.ordinal())) {
             Path path = PathFactory.getPath("path.page.redirect.order");
             path.addParameter("id", request.getParameter("goalIdOrder"));
             return path;
         }
 
         if (order.getStatus_id() > Constants.ORDER_STATUS.PENDING_PAYMENT.ordinal() &&
-            order.getStatus_id() != Constants.ORDER_STATUS.CANCELED.ordinal() &&
-            order.getStatus_id() != Constants.ORDER_STATUS.COMPLETED.ordinal()){
+                order.getStatus_id() != Constants.ORDER_STATUS.CANCELED.ordinal() &&
+                order.getStatus_id() != Constants.ORDER_STATUS.COMPLETED.ordinal()) {
 
-            ModelManager.getInstance().getOrderUserService().cancelOrderWithMoneyReturn(order.getId());
+            OrderUserService.cancelOrderWithMoneyReturn(order.getId());
 
-            ifNeedSendEmail(user, order.getPrice());
+            SendEmailService.forCancelOrder(user, order.getPrice());
         } else {
             order.setStatus_id(Constants.ORDER_STATUS.CANCELED.ordinal());
-            ModelManager.getInstance().getRepairOrderRepository().update(order);
-            ifNeedSendEmail(user, 0);
+            RepairOrderService.update(order);
+            SendEmailService.forCancelOrder(user);
         }
 
         Path path = PathFactory.getPath("path.page.redirect.order");
         path.addParameter("id", request.getParameter("goalIdOrder"));
-        logger.debug("Order "+order.getId()+" was canceled.");
+        logger.debug("Order " + order.getId() + " was canceled.");
         return path;
     }
 
@@ -68,20 +69,5 @@ public class CancelOrderCommand implements IActionCommand, IHasRoleRequirement {
                 Constants.ROLE.Craftsman).collect(Collectors.toList());
     }
 
-    private void ifNeedSendEmail(User user, int increment){
-        if(user.isAllow_letters()){
-            Constants.LOCALE locale = Constants.LOCALE.values()[user.getLocale_id()];
-            if(increment == 0) {
-                EmailSender.send(user.getEmail(),
-                        user.getLogin() + "  " + locale.getString("text.your_order_was_cancelled"),
-                        locale.getString("text.your_order_was_cancelled_and_return") + increment);
-            } else {
-                EmailSender.send(user.getEmail(),
-                        user.getLogin() + "  " + locale.getString("text.your_order_was_cancelled"),
-                        locale.getString("text.your_order_was_cancelled"));
-            }
-            logger.debug("Send email about order cancellation ");
-        }
-    }
 
 }

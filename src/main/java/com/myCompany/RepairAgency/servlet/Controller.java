@@ -19,7 +19,6 @@ import java.io.IOException;
 import java.util.Arrays;
 
 
-
 @WebServlet("/controller/*")
 public class Controller extends HttpServlet {
 
@@ -29,14 +28,14 @@ public class Controller extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         logger.info("Its get");
-        processRequest(GetCommandFactory.inst, request, response);
+        processRequest(GetCommandFactory.getInstance(), request, response);
     }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         logger.info("Its post");
-        processRequest(PostCommandFactory.inst, request, response);
+        processRequest(PostCommandFactory.getInstance(), request, response);
     }
 
     private void processRequest(abstractCommandFactory factory, HttpServletRequest request, HttpServletResponse response)
@@ -45,7 +44,13 @@ public class Controller extends HttpServlet {
 
         // определение команды, пришедшей из JSP
         IActionCommand command = factory.defineCommand(request);
-        Path page = command.execute(request, response);
+        Path page;
+        try {
+            page = command.execute(request, response);
+        } catch (Throwable e) {
+            logger.error(e);
+            page = null;
+        }
         logger.debug("Command " + command);
         logger.debug("Page " + page);
 
@@ -55,7 +60,7 @@ public class Controller extends HttpServlet {
         }
 
         if (page == null || page.isBlank()) {
-            page = PathFactory.getPath("path.page.redirect.index");
+            page = PathFactory.getPath("path.page.redirect.home");
             logger.debug("ProcessRequest end with error");
         }
 
@@ -73,10 +78,14 @@ public class Controller extends HttpServlet {
 
     private void logRequest(HttpServletRequest request) {
         logger.debug("ProcessRequest start");
-        logger.debug("Request Cookies");
-        Arrays.stream(request.getCookies()).forEach(x -> x
-                .getAttributes()
-                .forEach((key, value) -> logger.debug(" " + key + " = " + value)));
+        if (request.getCookies() == null) {
+            logger.debug("Request has no Cookies");
+        } else {
+            logger.debug("Request Cookies");
+            Arrays.stream(request.getCookies()).forEach(x -> x
+                    .getAttributes()
+                    .forEach((key, value) -> logger.debug(" " + key + " = " + value)));
+        }
 
         logger.debug("Request attributes");
         request.getAttributeNames().asIterator().forEachRemaining(x -> logger
@@ -89,7 +98,7 @@ public class Controller extends HttpServlet {
             logger.debug(par.toString());
         });
 
-        HttpSession session  = request.getSession(false);
+        HttpSession session = request.getSession(false);
         if (session != null) {
             logger.debug("Request session parameters");
             session.getAttributeNames().asIterator().forEachRemaining(x -> logger

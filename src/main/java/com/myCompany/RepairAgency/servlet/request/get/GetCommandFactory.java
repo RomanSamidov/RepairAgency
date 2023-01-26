@@ -4,7 +4,6 @@ package com.myCompany.RepairAgency.servlet.request.get;
 import com.myCompany.RepairAgency.servlet.request.IActionCommand;
 import com.myCompany.RepairAgency.servlet.request.abstractCommandFactory;
 import com.myCompany.RepairAgency.servlet.request.get.realization.EmptyCommand;
-import com.myCompany.RepairAgency.servlet.request.post.PostCommandFactory;
 import jakarta.servlet.http.HttpServletRequest;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -12,19 +11,24 @@ import org.apache.logging.log4j.Logger;
 
 public class GetCommandFactory extends abstractCommandFactory {
 
-    public static final GetCommandFactory inst = new GetCommandFactory();
-    private static final Logger logger = LogManager.getLogger(PostCommandFactory.class);
+    private static final GetCommandFactory instance = new GetCommandFactory();
+    private static final Logger logger = LogManager.getLogger(GetCommandFactory.class);
 
     private GetCommandFactory() {
+    }
+
+    public static abstractCommandFactory getInstance() {
+        return instance;
     }
 
     public IActionCommand defineCommand(HttpServletRequest request) {
         IActionCommand current = new EmptyCommand();
 
         String command = request.getRequestURI();
+//        if(!command.contains("/controller/")) command = (String) request.getAttribute("jakarta.servlet.include.request_uri");
         command = command.substring(command.indexOf("/controller/") + 12);
         logger.debug(command);
-        if (command.isEmpty()) {
+        if (command.isBlank()) {
             return current;
         }
 
@@ -34,7 +38,7 @@ public class GetCommandFactory extends abstractCommandFactory {
         } catch (IllegalArgumentException e) {
             logger.debug("Wrong command");
             request.setAttribute("wrongCommand",
-                    command + "message.wrongCommand");
+                    command.toUpperCase() + " message.wrongCommand");
         }
         return current;
     }

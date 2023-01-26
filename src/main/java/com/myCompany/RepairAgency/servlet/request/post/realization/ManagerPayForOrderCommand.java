@@ -1,14 +1,16 @@
 package com.myCompany.RepairAgency.servlet.request.post.realization;
 
 import com.myCompany.RepairAgency.Constants;
-import com.myCompany.RepairAgency.model.ModelManager;
+import com.myCompany.RepairAgency.model.db.abstractDB.exception.MyDBException;
 import com.myCompany.RepairAgency.model.entity.RepairOrder;
 import com.myCompany.RepairAgency.model.entity.User;
 import com.myCompany.RepairAgency.servlet.Path;
 import com.myCompany.RepairAgency.servlet.PathFactory;
 import com.myCompany.RepairAgency.servlet.request.IActionCommand;
 import com.myCompany.RepairAgency.servlet.request.IHasRoleRequirement;
-import com.myCompany.RepairAgency.servlet.util.EmailSender;
+import com.myCompany.RepairAgency.servlet.service.RepairOrderService;
+import com.myCompany.RepairAgency.servlet.service.SendEmailService;
+import com.myCompany.RepairAgency.servlet.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.apache.logging.log4j.LogManager;
@@ -24,17 +26,22 @@ public class ManagerPayForOrderCommand implements IActionCommand, IHasRoleRequir
 
     @Override
     public Path execute(HttpServletRequest request, HttpServletResponse response) {
-            RepairOrder order = ModelManager.getInstance().getRepairOrderRepository().getById(
-                    Long.parseLong(request.getParameter("goalIdOrder")));
-            order.setStatus_id(Constants.ORDER_STATUS.PAID.ordinal());
-            ModelManager.getInstance().getRepairOrderRepository().update(order);
-            User user = ModelManager.getInstance().getUserRepository().getById(order.getUser_id());
-            ifNeedSendEmail(user, Long.parseLong(request.getParameter("goalIdOrder")));
+        long orderId;
+        RepairOrder order;
+        try {
+            orderId = Long.parseLong(request.getParameter("goalIdOrder"));
+            order = RepairOrderService.get(orderId);
+        } catch (NumberFormatException | MyDBException e) {
+            return PathFactory.getPath("path.page.redirect.orders");
+        }
 
+        order.setStatus_id(Constants.ORDER_STATUS.PAID.ordinal());
+        RepairOrderService.update(order);
+        User user = UserService.get(order.getUser_id());
+        SendEmailService.forPayForOrder(user, Long.parseLong(request.getParameter("goalIdOrder")));
 
         Path path = PathFactory.getPath("path.page.redirect.order");
         path.addParameter("id", request.getParameter("goalIdOrder"));
-
         return path;
     }
 
@@ -44,13 +51,5 @@ public class ManagerPayForOrderCommand implements IActionCommand, IHasRoleRequir
                 Constants.ROLE.Admin).collect(Collectors.toList());
     }
 
-    private void ifNeedSendEmail(User user, long orderId){
-        if(user.isAllow_letters()){
-            Constants.LOCALE locale = Constants.LOCALE.values()[user.getLocale_id()];
-            EmailSender.send(user.getEmail(),
-                    user.getLogin() + "  " + locale.getString("text.successful_pay_order"),
-                    locale.getString("text.successful_pay_order_with_id") + orderId);
-            logger.debug("Send email about successful paid");
-        }
-    }
+
 }

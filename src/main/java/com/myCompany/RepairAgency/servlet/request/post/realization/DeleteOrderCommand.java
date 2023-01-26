@@ -1,14 +1,16 @@
 package com.myCompany.RepairAgency.servlet.request.post.realization;
 
 import com.myCompany.RepairAgency.Constants;
-import com.myCompany.RepairAgency.model.ModelManager;
+import com.myCompany.RepairAgency.model.db.abstractDB.exception.MyDBException;
 import com.myCompany.RepairAgency.model.entity.RepairOrder;
 import com.myCompany.RepairAgency.model.entity.User;
 import com.myCompany.RepairAgency.servlet.Path;
 import com.myCompany.RepairAgency.servlet.PathFactory;
 import com.myCompany.RepairAgency.servlet.request.IActionCommand;
 import com.myCompany.RepairAgency.servlet.request.IHasRoleRequirement;
-import com.myCompany.RepairAgency.servlet.util.EmailSender;
+import com.myCompany.RepairAgency.servlet.service.RepairOrderService;
+import com.myCompany.RepairAgency.servlet.service.SendEmailService;
+import com.myCompany.RepairAgency.servlet.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.apache.logging.log4j.LogManager;
@@ -20,17 +22,31 @@ import java.util.stream.Stream;
 
 public class DeleteOrderCommand implements IActionCommand, IHasRoleRequirement {
     private static final Logger logger = LogManager.getLogger(DeleteOrderCommand.class);
+
     @Override
     public Path execute(HttpServletRequest request, HttpServletResponse response) {
-            RepairOrder order = ModelManager.getInstance().getRepairOrderRepository().getById(
-                    Long.parseLong(request.getParameter("goalIdOrder")));
-                ModelManager.getInstance().getRepairOrderRepository().delete(order);
-                User user = ModelManager.getInstance().getUserRepository().getById(order.getUser_id());
-                ifNeedSendEmail(user, order.getId());
-        Path path = PathFactory.getPath("path.page.redirect.order");
-        path.addParameter("id", request.getParameter("goalIdOrder"));
+        long orderId;
+        RepairOrder order;
+        try {
+            orderId = Long.parseLong(request.getParameter("goalIdOrder"));
+            order = RepairOrderService.get(orderId);
+        } catch (NumberFormatException | MyDBException e) {
+            return PathFactory.getPath("path.page.redirect.orders");
+        }
 
-        return path;
+        if (request.getSession().getAttribute("userRole").equals(Constants.ROLE.Client)) {
+            if (order.getUser_id() == (long) request.getSession().getAttribute("userId")) {
+                RepairOrderService.delete(orderId);
+            } else {
+                Path path = PathFactory.getPath("path.page.redirect.order");
+                path.addParameter("id", String.valueOf(orderId));
+                return path;
+            }
+        } else RepairOrderService.delete(orderId);
+
+        User user = UserService.get(order.getUser_id());
+        SendEmailService.forDeleteOrder(user, order.getId());
+        return PathFactory.getPath("path.page.redirect.orders");
     }
 
     @Override
@@ -38,14 +54,5 @@ public class DeleteOrderCommand implements IActionCommand, IHasRoleRequirement {
         return Stream.of(Constants.ROLE.Admin, Constants.ROLE.Client).collect(Collectors.toList());
     }
 
-    private void ifNeedSendEmail(User user, long orderId){
-        if(user.isAllow_letters()){
-            Constants.LOCALE locale = Constants.LOCALE.values()[user.getLocale_id()];
-            EmailSender.send(user.getEmail(),
-                    user.getLogin() + "  " + locale.getString("text.your_order_deleted"),
-                    locale.getString("text.your_order_deleted_id")+ orderId);
-            logger.debug("Send email profile deletion");
-        }
-    }
 
 }
