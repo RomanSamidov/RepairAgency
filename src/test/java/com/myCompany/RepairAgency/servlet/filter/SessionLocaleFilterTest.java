@@ -80,7 +80,7 @@ class SessionLocaleFilterTest {
                 }
 
                 @Override
-                public ArrayList<User> getByRole(long roleId, int skip, int quantity) {
+                public ArrayList<User> getByRole(long roleId, long skip, long quantity) {
                     return null;
                 }
 

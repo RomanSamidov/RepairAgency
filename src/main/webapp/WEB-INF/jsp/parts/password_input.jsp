@@ -3,4 +3,4 @@
 
 <my:message key="${errorEmptyPassword}" default_value=""/>
 <label for="password"><fmt:message key="text.password"/></label><br/>
-<input type="password" name="password" required maxlength="30" placeholder="<fmt:message key="text.password"/>"/><br/>
+<input type="password" name="password" required maxlength="30" autocomplete="off" placeholder="<fmt:message key="text.password"/>"/><br/>

@@ -3,4 +3,4 @@
 
 <my:message key="${errorEmptyPasswordRepeat}" default_value=""/>
 <label for="passwordRepeat"><fmt:message key="text.password_repeat"/></label><br/>
-<input type="password" name="passwordRepeat" required maxlength="30" placeholder="<fmt:message key="text.password"/>" /><br/>
+<input type="password" name="passwordRepeat" required autocomplete="off" maxlength="30" placeholder="<fmt:message key="text.password"/>" /><br/>

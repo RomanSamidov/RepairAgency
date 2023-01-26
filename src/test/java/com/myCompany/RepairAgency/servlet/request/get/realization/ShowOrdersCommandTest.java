@@ -1,9 +1,7 @@
 package com.myCompany.RepairAgency.servlet.request.get.realization;
 
 import com.myCompany.RepairAgency.Constants;
-import com.myCompany.RepairAgency.model.ModelManager;
 import com.myCompany.RepairAgency.model.db.abstractDB.repository.entity.iRepairOrderRepository;
-import com.myCompany.RepairAgency.model.db.abstractDB.repository.entity.iUserRepository;
 import com.myCompany.RepairAgency.model.entity.DTO.RepairOrderDTO;
 import com.myCompany.RepairAgency.model.entity.DTO.RepairOrderDTOFactory;
 import com.myCompany.RepairAgency.model.entity.DTO.UserDTO;
@@ -12,9 +10,7 @@ import com.myCompany.RepairAgency.model.entity.RepairOrder;
 import com.myCompany.RepairAgency.model.entity.User;
 import com.myCompany.RepairAgency.servlet.Path;
 import com.myCompany.RepairAgency.servlet.PathFactory;
-import com.myCompany.RepairAgency.servlet.service.AttributeFSTRService;
-import com.myCompany.RepairAgency.servlet.service.InitValuesFromRequestService;
-import com.myCompany.RepairAgency.servlet.service.ViewValidationService;
+import com.myCompany.RepairAgency.servlet.service.*;
 import com.myCompany.RepairAgency.servlet.util.ForTables;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -57,7 +53,9 @@ class ShowOrdersCommandTest {
     void execute1() {
         session.setAttribute("userRole", Constants.ROLE.Admin);
 
-        try (MockedStatic<ModelManager> ignored1 = Mockito.mockStatic(ModelManager.class); MockedStatic<PathFactory> ignored2 = Mockito.mockStatic(PathFactory.class);
+        try (MockedStatic<RepairOrderService> ignored0 = Mockito.mockStatic(RepairOrderService.class);
+             MockedStatic<UserService> ignored1 = Mockito.mockStatic(UserService.class);
+             MockedStatic<PathFactory> ignored2 = Mockito.mockStatic(PathFactory.class);
              MockedStatic<AttributeFSTRService> ignored3 = Mockito.mockStatic(AttributeFSTRService.class);
              MockedStatic<ViewValidationService> ignored4 = Mockito.mockStatic(ViewValidationService.class);
              MockedStatic<InitValuesFromRequestService> ignored5 = Mockito.mockStatic(InitValuesFromRequestService.class);
@@ -76,17 +74,14 @@ class ShowOrdersCommandTest {
 
             ArrayList<RepairOrder> orders = new ArrayList<>();
             orders.add(Mockito.mock(RepairOrder.class));
-            iRepairOrderRepository orderRepo = Mockito.mock(iRepairOrderRepository.class);
-            Mockito.when(orderRepo.getByCraftUserStatus(
+
+            Mockito.when(RepairOrderService.getByCraftUserStatus(
                     Mockito.any(), Mockito.anyLong(), Mockito.any(), Mockito.any(), Mockito.anyLong(), Mockito.anyLong()
             )).thenReturn(orders);
 
-            ModelManager manager = Mockito.mock(ModelManager.class);
-            Mockito.when(manager.getRepairOrderRepository()).thenReturn(orderRepo);
 
-            Mockito.when(ModelManager.getInstance()).thenReturn(manager);
 
-            Mockito.when(orderRepo.countByCraftUserStatus(Mockito.any(), Mockito.anyLong(), Mockito.any())).thenReturn(100L);
+            Mockito.when(RepairOrderService.countByCraftUserStatus(Mockito.any(), Mockito.anyLong(), Mockito.any())).thenReturn(100L);
 
             Mockito.when(ForTables.initSkipQuantity(Mockito.eq("Orders"), Mockito.anyLong(), Mockito.eq(request))).thenReturn(new int[]{0, 5});
 
@@ -94,12 +89,10 @@ class ShowOrdersCommandTest {
             ordersDTO.add(Mockito.mock(RepairOrderDTO.class));
             Mockito.when(RepairOrderDTOFactory.getRepairOrders(orders)).thenReturn(ordersDTO);
 
-            iUserRepository userRepo = Mockito.mock(iUserRepository.class);
             ArrayList<User> users = new ArrayList<>();
             users.add(Mockito.mock(User.class));
-            Mockito.when(userRepo.getByRole(Mockito.eq((long) (Constants.ROLE.Craftsman.ordinal())),
-                    Mockito.anyInt(), Mockito.anyInt())).thenReturn(users);
-            Mockito.when(manager.getUserRepository()).thenReturn(userRepo);
+            Mockito.when(UserService.getByRole(Mockito.eq((long) (Constants.ROLE.Craftsman.ordinal())),
+                    Mockito.anyLong(), Mockito.anyLong())).thenReturn(users);
 
             ArrayList<UserDTO> usersDTO = new ArrayList<>();
             usersDTO.add(Mockito.mock(UserDTO.class));
@@ -125,7 +118,9 @@ class ShowOrdersCommandTest {
     void execute2() {
         session.setAttribute("userRole", Constants.ROLE.Client);
 
-        try (MockedStatic<ModelManager> ignored1 = Mockito.mockStatic(ModelManager.class); MockedStatic<PathFactory> ignored2 = Mockito.mockStatic(PathFactory.class);
+        try (MockedStatic<RepairOrderService> ignored0 = Mockito.mockStatic(RepairOrderService.class);
+             MockedStatic<UserService> ignored1 = Mockito.mockStatic(UserService.class);
+             MockedStatic<PathFactory> ignored2 = Mockito.mockStatic(PathFactory.class);
              MockedStatic<AttributeFSTRService> ignored3 = Mockito.mockStatic(AttributeFSTRService.class);
              MockedStatic<ViewValidationService> ignored4 = Mockito.mockStatic(ViewValidationService.class);
              MockedStatic<InitValuesFromRequestService> ignored5 = Mockito.mockStatic(InitValuesFromRequestService.class);
@@ -144,17 +139,11 @@ class ShowOrdersCommandTest {
 
             ArrayList<RepairOrder> orders = new ArrayList<>();
             orders.add(Mockito.mock(RepairOrder.class));
-            iRepairOrderRepository orderRepo = Mockito.mock(iRepairOrderRepository.class);
-            Mockito.when(orderRepo.getByCraftUserStatus(
+            Mockito.when(RepairOrderService.getByCraftUserStatus(
                     Mockito.any(), Mockito.anyLong(), Mockito.any(), Mockito.any(), Mockito.anyLong(), Mockito.anyLong()
             )).thenReturn(orders);
 
-            ModelManager manager = Mockito.mock(ModelManager.class);
-            Mockito.when(manager.getRepairOrderRepository()).thenReturn(orderRepo);
-
-            Mockito.when(ModelManager.getInstance()).thenReturn(manager);
-
-            Mockito.when(orderRepo.countByCraftUserStatus(Mockito.any(), Mockito.anyLong(), Mockito.any())).thenReturn(0L);
+            Mockito.when(RepairOrderService.countByCraftUserStatus(Mockito.any(), Mockito.anyLong(), Mockito.any())).thenReturn(0L);
 
             Mockito.when(ForTables.initSkipQuantity(Mockito.eq("Orders"), Mockito.anyLong(), Mockito.eq(request))).thenReturn(new int[]{0, 5});
 
@@ -162,12 +151,11 @@ class ShowOrdersCommandTest {
             ordersDTO.add(Mockito.mock(RepairOrderDTO.class));
             Mockito.when(RepairOrderDTOFactory.getRepairOrders(orders)).thenReturn(ordersDTO);
 
-            iUserRepository userRepo = Mockito.mock(iUserRepository.class);
+
             ArrayList<User> users = new ArrayList<>();
             users.add(Mockito.mock(User.class));
-            Mockito.when(userRepo.getByRole(Mockito.eq((long) (Constants.ROLE.Craftsman.ordinal())),
-                    Mockito.anyInt(), Mockito.anyInt())).thenReturn(users);
-            Mockito.when(manager.getUserRepository()).thenReturn(userRepo);
+            Mockito.when(UserService.getByRole(Mockito.eq((long) (Constants.ROLE.Craftsman.ordinal())),
+                    Mockito.anyLong(), Mockito.anyLong())).thenReturn(users);
 
             ArrayList<UserDTO> usersDTO = new ArrayList<>();
             usersDTO.add(Mockito.mock(UserDTO.class));

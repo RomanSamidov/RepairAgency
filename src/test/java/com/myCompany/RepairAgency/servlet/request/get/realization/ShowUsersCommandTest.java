@@ -1,14 +1,13 @@
 package com.myCompany.RepairAgency.servlet.request.get.realization;
 
 import com.myCompany.RepairAgency.Constants;
-import com.myCompany.RepairAgency.model.ModelManager;
-import com.myCompany.RepairAgency.model.db.abstractDB.repository.entity.iUserRepository;
 import com.myCompany.RepairAgency.model.entity.DTO.UserDTO;
 import com.myCompany.RepairAgency.model.entity.DTO.UserDTOFactory;
 import com.myCompany.RepairAgency.model.entity.User;
 import com.myCompany.RepairAgency.servlet.Path;
 import com.myCompany.RepairAgency.servlet.service.AttributeFSTRService;
 import com.myCompany.RepairAgency.servlet.service.InitValuesFromRequestService;
+import com.myCompany.RepairAgency.servlet.service.UserService;
 import com.myCompany.RepairAgency.servlet.service.ViewValidationService;
 import com.myCompany.RepairAgency.servlet.util.ForTables;
 import org.junit.jupiter.api.BeforeEach;
@@ -52,14 +51,12 @@ class ShowUsersCommandTest {
         session.setAttribute("userRole", Constants.ROLE.Admin);
 
         try (MockedStatic<ViewValidationService> ignored1 = Mockito.mockStatic(ViewValidationService.class);
-             MockedStatic<ModelManager> ignored2 = Mockito.mockStatic(ModelManager.class);
+             MockedStatic<UserService> ignored2 = Mockito.mockStatic(UserService.class);
              MockedStatic<AttributeFSTRService> ignored3 = Mockito.mockStatic(AttributeFSTRService.class);
              MockedStatic<UserDTOFactory> ignored4 = Mockito.mockStatic(UserDTOFactory.class);
              MockedStatic<ForTables> ignored5 = Mockito.mockStatic(ForTables.class);
              MockedStatic<InitValuesFromRequestService> ignored6 = Mockito.mockStatic(InitValuesFromRequestService.class)) {
 
-            ModelManager manager = Mockito.mock(ModelManager.class);
-            Mockito.when(ModelManager.getInstance()).thenReturn(manager);
 
             Mockito.when(ViewValidationService.validateForUsersPage(request)).thenReturn(mockPath);
             Mockito.when(InitValuesFromRequestService.initRoleId(request)).thenReturn(0L);
@@ -74,10 +71,8 @@ class ShowUsersCommandTest {
             users.add(Mockito.mock(User.class));
             Mockito.when(UserDTOFactory.getUsers(users)).thenReturn(usersDTO);
 
-            iUserRepository userRepo = Mockito.mock(iUserRepository.class);
-            Mockito.when(userRepo.getByRole(Mockito.anyLong(), Mockito.anyInt(), Mockito.anyInt())).thenReturn(users);
-            Mockito.when(userRepo.countWhereRoleIs(Mockito.anyLong())).thenReturn(0L);
-            Mockito.when(manager.getUserRepository()).thenReturn(userRepo);
+            Mockito.when(UserService.getByRole(Mockito.anyLong(), Mockito.anyLong(), Mockito.anyLong())).thenReturn(users);
+            Mockito.when(UserService.countWhereRoleIs(Mockito.anyLong())).thenReturn(0L);
 
 
             assertEquals(mockPath, new ShowUsersCommand().execute(request, response));
@@ -96,14 +91,12 @@ class ShowUsersCommandTest {
         session.setAttribute("userRole", Constants.ROLE.Manager);
 
         try (MockedStatic<ViewValidationService> ignored1 = Mockito.mockStatic(ViewValidationService.class);
-             MockedStatic<ModelManager> ignored2 = Mockito.mockStatic(ModelManager.class);
+             MockedStatic<UserService> ignored2 = Mockito.mockStatic(UserService.class);
              MockedStatic<AttributeFSTRService> ignored3 = Mockito.mockStatic(AttributeFSTRService.class);
              MockedStatic<UserDTOFactory> ignored4 = Mockito.mockStatic(UserDTOFactory.class);
              MockedStatic<ForTables> ignored5 = Mockito.mockStatic(ForTables.class);
              MockedStatic<InitValuesFromRequestService> ignored6 = Mockito.mockStatic(InitValuesFromRequestService.class)) {
 
-            ModelManager manager = Mockito.mock(ModelManager.class);
-            Mockito.when(ModelManager.getInstance()).thenReturn(manager);
 
             Mockito.when(ViewValidationService.validateForUsersPage(request)).thenReturn(mockPath);
             Mockito.when(InitValuesFromRequestService.initRoleId(request)).thenReturn(0L);
@@ -118,10 +111,8 @@ class ShowUsersCommandTest {
             users.add(Mockito.mock(User.class));
             Mockito.when(UserDTOFactory.getUsers(users)).thenReturn(usersDTO);
 
-            iUserRepository userRepo = Mockito.mock(iUserRepository.class);
-            Mockito.when(userRepo.getByRole(Mockito.anyLong(), Mockito.anyInt(), Mockito.anyInt())).thenReturn(users);
-            Mockito.when(userRepo.countWhereRoleIs(Mockito.anyLong())).thenReturn(0L);
-            Mockito.when(manager.getUserRepository()).thenReturn(userRepo);
+            Mockito.when(UserService.getByRole(Mockito.anyLong(), Mockito.anyLong(), Mockito.anyLong())).thenReturn(users);
+            Mockito.when(UserService.countWhereRoleIs(Mockito.anyLong())).thenReturn(0L);
 
 
             assertEquals(mockPath, new ShowUsersCommand().execute(request, response));

@@ -28,7 +28,7 @@ public class EmailSender {
     private static final Boolean sendEmails = Boolean.parseBoolean(resourceBundle.getString("send_emails"));
 
     public static void send(String to, String sub, String msg, File... files) {
-        logger.debug(to + sub + msg);
+        logger.debug(to + " " + sub + " " + msg);
 
         if(!sendEmails) {
             return;

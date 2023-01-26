@@ -76,7 +76,7 @@ public class UserRepository implements iUserRepository {
     }
 
     @Override
-    public ArrayList<User> getByRole(long roleId, int skip, int quantity) throws MyDBException {
+    public ArrayList<User> getByRole(long roleId, long skip, long quantity) throws MyDBException {
         Connection conn = ConnectionPool.getConnection();
         ArrayList<User> res = QueryExecutioner.readList(UserFactory.ins, conn, Query.UsersQuery.SELECT_ALL_BY_ROLE,
                 roleId, roleId, skip, quantity);

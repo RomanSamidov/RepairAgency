@@ -18,7 +18,7 @@ public class RepairOrderService {
         return orderRepository.countByCraftUserStatus(craftIds, userId, statusIds);
     }
 
-    public static ArrayList<RepairOrder> getByCraftUserStatus(long[] craftIds, long userId, long[] statusIds, iRepairOrderRepository.SORT_TYPE sortType, int skip, int quantity) throws MyDBException {
+    public static ArrayList<RepairOrder> getByCraftUserStatus(long[] craftIds, long userId, long[] statusIds, iRepairOrderRepository.SORT_TYPE sortType, long skip, long quantity) throws MyDBException {
         iRepairOrderRepository orderRepository = ModelManager.getInstance().getRepairOrderRepository();
         return orderRepository.getByCraftUserStatus(craftIds, userId, statusIds, sortType, skip, quantity);
     }

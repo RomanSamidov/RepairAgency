@@ -4,4 +4,4 @@
 <my:message key="${errorLoginPassMessage}" default_value=""/>
 <my:message key="${errorEmptyLogin}" default_value=""/>
 <label for="login"><fmt:message key="text.login" /></label><br/>
-<input type="text" name="login" value="${login}" required maxlength="30" autofocus autocomplete="on" placeholder="<fmt:message key="text.login" />"/><br/>
+<input type="text" name="login" value="${login}" required maxlength="30" autofocus  placeholder="<fmt:message key="text.login" />"/><br/>

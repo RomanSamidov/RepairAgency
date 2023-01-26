@@ -46,12 +46,12 @@ class AddToUserAccountCommandTest {
         try (MockedStatic<PathFactory> ignored2 = Mockito.mockStatic(PathFactory.class);
              MockedStatic<UserService> ignored4 = Mockito.mockStatic(UserService.class)) {
 
-            Mockito.when(PathFactory.getPath(Mockito.eq("path.page.redirect.user"))).thenReturn(mockPath);
+            Mockito.when(PathFactory.getPath(Mockito.eq("path.page.redirect.users"))).thenReturn(mockPath);
             Mockito.when(UserService.addToUserAccount(0L, 100)).thenReturn(true);
 
             assertEquals(mockPath, new AddToUserAccountCommand().execute(request, response));
             ignored4.verify(() -> UserService.addToUserAccount(0L, 100));
-            ignored2.verify(() -> PathFactory.getPath("path.page.redirect.user"), Mockito.times(1));
+            ignored2.verify(() -> PathFactory.getPath("path.page.redirect.users"), Mockito.times(1));
             Mockito.verify(mockPath).addParameter("id", "0");
         }
     }
@@ -73,10 +73,10 @@ class AddToUserAccountCommandTest {
 
         try (MockedStatic<PathFactory> ignored2 = Mockito.mockStatic(PathFactory.class)) {
 
-            Mockito.when(PathFactory.getPath(Mockito.eq("path.page.redirect.user"))).thenReturn(mockPath);
+            Mockito.when(PathFactory.getPath(Mockito.eq("path.page.redirect.users"))).thenReturn(mockPath);
 
             assertEquals(mockPath, new AddToUserAccountCommand().execute(request, response));
-            ignored2.verify(() -> PathFactory.getPath("path.page.redirect.user"), Mockito.times(1));
+            ignored2.verify(() -> PathFactory.getPath("path.page.redirect.users"), Mockito.times(1));
         }
     }
 

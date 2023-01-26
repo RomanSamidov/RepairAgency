@@ -1,13 +1,12 @@
 package com.myCompany.RepairAgency.servlet.request.get.realization;
 
 import com.myCompany.RepairAgency.Constants;
-import com.myCompany.RepairAgency.model.ModelManager;
-import com.myCompany.RepairAgency.model.db.abstractDB.repository.entity.iUserRepository;
 import com.myCompany.RepairAgency.model.entity.DTO.UserDTOFactory;
 import com.myCompany.RepairAgency.servlet.Path;
 import com.myCompany.RepairAgency.servlet.request.IActionCommand;
 import com.myCompany.RepairAgency.servlet.request.IHasRoleRequirement;
 import com.myCompany.RepairAgency.servlet.service.InitValuesFromRequestService;
+import com.myCompany.RepairAgency.servlet.service.UserService;
 import com.myCompany.RepairAgency.servlet.service.ViewValidationService;
 import com.myCompany.RepairAgency.servlet.util.ForTables;
 import jakarta.servlet.http.HttpServletRequest;
@@ -21,17 +20,16 @@ import java.util.stream.Stream;
 public class ShowUsersCommand implements IActionCommand, IHasRoleRequirement {
     @Override
     public Path execute(HttpServletRequest request, HttpServletResponse response) {
-        iUserRepository userRepository = ModelManager.getInstance().getUserRepository();
         request.setAttribute("title", "title.users");
 
         long roleId = InitValuesFromRequestService.initRoleId(request);
         setListOfRolesUsers(request);
 
-        long numberOfUsers = userRepository.countWhereRoleIs(roleId);
+        long numberOfUsers = UserService.countWhereRoleIs(roleId);
         int[] a = ForTables.initSkipQuantity("Users", numberOfUsers, request);
         int skip = a[0];
         int quantity = a[1];
-        request.setAttribute("users", UserDTOFactory.getUsers(userRepository.getByRole(roleId, skip, quantity)));
+        request.setAttribute("users", UserDTOFactory.getUsers(UserService.getByRole(roleId, skip, quantity)));
         if (numberOfUsers == 0) {
             request.setAttribute("error", "text.there_are_no_users");
         }

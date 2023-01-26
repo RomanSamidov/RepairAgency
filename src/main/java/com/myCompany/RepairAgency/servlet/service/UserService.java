@@ -93,16 +93,21 @@ public class UserService {
         SendEmailService.forSignup(user);
     }
 
-
-    public static ArrayList<User> getByRole(int roleId, int skip, int quantity) throws MyDBException {
-        return ModelManager.getInstance().getUserRepository().getByRole(roleId, skip, quantity);
-    }
-
     public static void update(User user) throws MyDBException {
         ModelManager.getInstance().getUserRepository().update(user);
     }
 
     public static void delete(User user) {
         ModelManager.getInstance().getUserRepository().delete(user);
+    }
+
+    public static long countWhereRoleIs(long roleId) {
+        return ModelManager.getInstance().getUserRepository().countWhereRoleIs(roleId);
+
+    }
+
+    public static ArrayList<User> getByRole(long roleId, long skip, long quantity) {
+        return ModelManager.getInstance().getUserRepository().getByRole(roleId, skip, quantity);
+
     }
 }

@@ -9,7 +9,7 @@ import java.util.ArrayList;
 public interface iUserRepository extends iRepositoryForChangeAble<User> {
     User getByLogin(String login) throws MyDBException;
 
-    ArrayList<User> getByRole(long roleId, int skip, int quantity) throws MyDBException;
+    ArrayList<User> getByRole(long roleId, long skip, long quantity) throws MyDBException;
 
     long countWhereRoleIs(long id) throws MyDBException;
 

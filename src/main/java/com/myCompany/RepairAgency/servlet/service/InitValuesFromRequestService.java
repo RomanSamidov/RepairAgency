@@ -41,6 +41,7 @@ public class InitValuesFromRequestService {
 
 
     public static long initRoleId(HttpServletRequest request) {
+        try{
         if (request.getSession().getAttribute("roleUsers") != null) {
             Constants.ROLE role = (Constants.ROLE) request.getSession().getAttribute("roleUsers");
             return role.ordinal();
@@ -51,6 +52,10 @@ public class InitValuesFromRequestService {
                 request.getSession().setAttribute("roleUsers", Constants.ROLE.Client);
                 return Constants.ROLE.Client.ordinal();
             }
+        }
+        } catch (Exception e) {
+            request.getSession().setAttribute("roleUsers", Constants.ROLE.Client);
+            return Constants.ROLE.Client.ordinal();
         }
     }
 

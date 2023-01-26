@@ -34,7 +34,7 @@ public class ChangeEmailCommand implements IActionCommand, IHasRoleRequirement {
         }
 
         UserService.changeEmail(user, email);
-
+        request.getSession().removeAttribute("waitedCode");
         request.getSession().setAttribute("userEmail", user.getEmail());
         request.getSession().setAttribute("isUserConfirmed", user.isConfirmed());
         SendEmailService.forChangeEmail(user);

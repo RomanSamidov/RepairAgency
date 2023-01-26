@@ -1,12 +1,12 @@
 package com.myCompany.RepairAgency.servlet.request.get.realization;
 
 import com.myCompany.RepairAgency.Constants;
-import com.myCompany.RepairAgency.model.ModelManager;
 import com.myCompany.RepairAgency.model.entity.User;
 import com.myCompany.RepairAgency.servlet.Path;
 import com.myCompany.RepairAgency.servlet.request.IActionCommand;
 import com.myCompany.RepairAgency.servlet.request.IHasRoleRequirement;
 import com.myCompany.RepairAgency.servlet.service.AttributeFSTRService;
+import com.myCompany.RepairAgency.servlet.service.UserService;
 import com.myCompany.RepairAgency.servlet.service.ViewValidationService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -20,7 +20,7 @@ public class ShowProfileCommand implements IActionCommand, IHasRoleRequirement {
     public Path execute(HttpServletRequest request, HttpServletResponse response) {
         request.setAttribute("title", "title.cabinet");
 
-        User user = ModelManager.getInstance().getUserRepository().getById(
+        User user = UserService.get(
                 (Long) request.getSession().getAttribute("userId"));
 
         if (user.getRole_id() == Constants.ROLE.Client.ordinal()) {
