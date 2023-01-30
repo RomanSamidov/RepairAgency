@@ -1,7 +1,6 @@
 package com.myCompany.RepairAgency.servlet.service;
 
 import com.myCompany.RepairAgency.Constants;
-import com.myCompany.RepairAgency.model.ModelManager;
 import com.myCompany.RepairAgency.model.entity.User;
 import com.myCompany.RepairAgency.servlet.util.EmailSender;
 import jakarta.servlet.http.HttpServletRequest;
@@ -15,7 +14,7 @@ public class SendEmailService {
 
 
     public static void forDownload(HttpServletRequest request, String filename) {
-        User user = ModelManager.getInstance().getUserRepository().getById((Long)
+        User user = UserService.get((Long)
                 request.getSession().getAttribute("userId"));
         if (user.isAllow_letters()) {
             Constants.LOCALE locale = Constants.LOCALE.values()[user.getLocale_id()];

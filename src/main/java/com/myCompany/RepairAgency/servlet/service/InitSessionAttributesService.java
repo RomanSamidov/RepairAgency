@@ -18,7 +18,7 @@ public class InitSessionAttributesService {
         Constants.ROLE userRole = Constants.ROLE.values()[user.getRole_id()];
         session.setAttribute("userRole", userRole);
 
-        ViewValidationService.setMenu(request, userRole);
+        ViewValidationService.setMenu(request);
     }
 
 }

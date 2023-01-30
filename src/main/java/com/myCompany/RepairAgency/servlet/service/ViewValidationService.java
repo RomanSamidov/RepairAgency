@@ -1,7 +1,6 @@
 package com.myCompany.RepairAgency.servlet.service;
 
 import com.myCompany.RepairAgency.Constants;
-import com.myCompany.RepairAgency.model.ModelManager;
 import com.myCompany.RepairAgency.model.entity.DTO.RepairOrderDTOFactory;
 import com.myCompany.RepairAgency.model.entity.DTO.UserDTOFactory;
 import com.myCompany.RepairAgency.model.entity.RepairOrder;
@@ -14,8 +13,9 @@ import jakarta.servlet.http.HttpSession;
 
 public class ViewValidationService {
 
-    public static void setMenu(HttpServletRequest request, Constants.ROLE userRole) {
+    public static void setMenu(HttpServletRequest request) {
         HttpSession session = request.getSession();
+        Constants.ROLE userRole = (Constants.ROLE) session.getAttribute("userRole");
         switch (userRole) {
             case Client ->
                     session.setAttribute("_menu_url", PathFactory.getPath("path.template.menu.client").toString());
@@ -100,7 +100,10 @@ public class ViewValidationService {
             }
         }
 
-        if (order.getStatus_id() != Constants.ORDER_STATUS.COMPLETED.ordinal() && order.getStatus_id() != Constants.ORDER_STATUS.CANCELED.ordinal() && checkAccessibility(request, order)) {
+        if (order.getStatus_id() != Constants.ORDER_STATUS.COMPLETED.ordinal() &&
+                order.getStatus_id() != Constants.ORDER_STATUS.CANCELED.ordinal() &&
+                checkAccessibility(request, order))
+        {
             request.setAttribute("_cancel_order_url", PathFactory.getPath("path.page.order.part.cancel_order").toString());
         }
 
@@ -150,14 +153,14 @@ public class ViewValidationService {
             userId = (long) request.getSession().getAttribute("userId");
         }
         Constants.ROLE userRole = (Constants.ROLE) request.getSession().getAttribute("userRole");
-        User user = ModelManager.getInstance().getUserRepository().getById(userId);
+        User user = UserService.get(userId);
         if (user == null) {
             request.setAttribute("error", "text.there_are_no_users");
             request.setAttribute("_show_user_url", PathFactory.getPath("path.page.forward.common.empty").toString());
             request.setAttribute("_add_to_account_url", PathFactory.getPath("path.page.forward.common.empty").toString());
             request.setAttribute("_delete_user_url", PathFactory.getPath("path.page.forward.common.empty").toString());
         } else {
-            if (userRole == Constants.ROLE.Admin) {
+            if (userRole.equals(Constants.ROLE.Admin)) {
                 request.setAttribute("_delete_user_url", PathFactory.getPath("path.page.user.part.admin.delete_user").toString());
             } else {
                 request.setAttribute("_delete_user_url", PathFactory.getPath("path.page.forward.common.empty").toString());
