@@ -23,12 +23,14 @@ public class ChangeEmailCommand implements IActionCommand, IHasRoleRequirement {
 
     @Override
     public Path execute(HttpServletRequest request, HttpServletResponse response) {
-        User user = UserService.get((Long) request.getSession().getAttribute("userId"));
 
         String email = request.getParameter("email");
         if (!ParameterValidationService.validateEmail(request, email)) {
             return PathFactory.getPath("path.page.redirect.cabinet");
         }
+
+        User user = UserService.get((Long) request.getSession().getAttribute("userId"));
+
         if (email.equals(user.getEmail())) {
             return PathFactory.getPath("path.page.redirect.cabinet");
         }

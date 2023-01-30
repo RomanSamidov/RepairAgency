@@ -58,7 +58,7 @@ public class SetOrderStatusCommand implements IActionCommand, IHasRoleRequiremen
 
     @Override
     public List<Constants.ROLE> allowedUserRoles() {
-        return Stream.of(Constants.ROLE.Admin, Constants.ROLE.Craftsman).collect(Collectors.toList());
+        return Stream.of(Constants.ROLE.Craftsman, Constants.ROLE.Admin).collect(Collectors.toList());
     }
 
 

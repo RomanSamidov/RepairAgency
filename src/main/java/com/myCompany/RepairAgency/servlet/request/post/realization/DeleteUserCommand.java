@@ -29,7 +29,7 @@ public class DeleteUserCommand implements IActionCommand, IHasRoleRequirement {
             user = UserService.get(userId);
             UserService.delete(user);
         } catch (NumberFormatException | MyDBException e) {
-            throw new RuntimeException(e);
+            return PathFactory.getPath("path.page.redirect.users");
         }
 
         SendEmailService.forDeleteUser(user);

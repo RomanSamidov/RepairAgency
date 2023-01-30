@@ -51,7 +51,7 @@ public class DeleteOrderCommand implements IActionCommand, IHasRoleRequirement {
 
     @Override
     public List<Constants.ROLE> allowedUserRoles() {
-        return Stream.of(Constants.ROLE.Admin, Constants.ROLE.Client).collect(Collectors.toList());
+        return Stream.of(Constants.ROLE.Client, Constants.ROLE.Admin).collect(Collectors.toList());
     }
 
 

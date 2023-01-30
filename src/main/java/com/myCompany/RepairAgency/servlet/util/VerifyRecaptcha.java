@@ -25,7 +25,7 @@ public class VerifyRecaptcha {
     private final static String USER_AGENT = "Mozilla/5.0";
 
     public static boolean verify(String gRecaptchaResponse) {
-        if(!checkRecaptcha) {
+        if (!checkRecaptcha) {
             return true;
         }
 

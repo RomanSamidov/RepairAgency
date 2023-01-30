@@ -50,7 +50,6 @@ class ShowProfileCommandTest {
              MockedStatic<ViewValidationService> ignored4 = Mockito.mockStatic(ViewValidationService.class)) {
 
 
-
             Mockito.when(ViewValidationService.validateForProfilePage(request)).thenReturn(mockPath);
 
 

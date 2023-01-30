@@ -35,10 +35,14 @@ public class UserCreateOrderCommand implements IActionCommand, IHasRoleRequireme
             return PathFactory.getPath("path.page.redirect.orders");
         }
 
-        OrderUserService.createOrder(userId, text);
+        if (OrderUserService.createOrder(userId, text)) {
+            request.getSession().setAttribute("errorOrderTextMessage", "text.order_added");
+            logger.debug("Order created");
+            return PathFactory.getPath("path.page.redirect.orders");
+        }
 
-        request.getSession().setAttribute("errorOrderTextMessage", "text.order_added");
-        logger.debug("Order created");
+        request.getSession().setAttribute("errorOrderTextMessage", "text.user_not_client");
+        logger.debug("Order not created");
         return PathFactory.getPath("path.page.redirect.orders");
     }
 

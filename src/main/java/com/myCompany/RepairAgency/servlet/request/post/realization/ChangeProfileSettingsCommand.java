@@ -6,7 +6,6 @@ import com.myCompany.RepairAgency.servlet.Path;
 import com.myCompany.RepairAgency.servlet.PathFactory;
 import com.myCompany.RepairAgency.servlet.request.IActionCommand;
 import com.myCompany.RepairAgency.servlet.request.IHasRoleRequirement;
-import com.myCompany.RepairAgency.servlet.service.ParameterValidationService;
 import com.myCompany.RepairAgency.servlet.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -22,9 +21,6 @@ public class ChangeProfileSettingsCommand implements IActionCommand, IHasRoleReq
         User user = UserService.get((Long) request.getSession().getAttribute("userId"));
 
         String allowLetters = request.getParameter("newIsUserAllowLetters");
-
-        if (!ParameterValidationService.validateBoolean(allowLetters))
-            return PathFactory.getPath("path.page.redirect.cabinet");
 
         boolean isUserAllowLetters = Boolean.parseBoolean(allowLetters);
         user.setAllow_letters(isUserAllowLetters);

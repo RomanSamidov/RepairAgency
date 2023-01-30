@@ -9,6 +9,8 @@ import com.myCompany.RepairAgency.servlet.request.IHasRoleRequirement;
 import com.myCompany.RepairAgency.servlet.util.ForTables;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.util.Arrays;
 import java.util.List;
@@ -17,18 +19,27 @@ import java.util.stream.Stream;
 
 
 public class OrdersCommand implements IActionCommand, IHasRoleRequirement {
+    private static final Logger logger = LogManager.getLogger(OrdersCommand.class);
+
     @Override
     public Path execute(HttpServletRequest request, HttpServletResponse response) {
         ForTables.updateSkipQuantity("Orders", request);
 
-        prepareAttributes(request);
+        try {
+            prepareAttributes(request);
+        } catch (Exception e) {
+            logger.debug(e);
+        }
 
         return PathFactory.getPath("path.page.redirect.orders");
     }
 
     @Override
     public List<Constants.ROLE> allowedUserRoles() {
-        return Stream.of(Constants.ROLE.Client, Constants.ROLE.Admin, Constants.ROLE.Craftsman, Constants.ROLE.Manager).collect(Collectors.toList());
+        return Stream.of(Constants.ROLE.Client,
+                Constants.ROLE.Admin,
+                Constants.ROLE.Craftsman,
+                Constants.ROLE.Manager).collect(Collectors.toList());
 
     }
 

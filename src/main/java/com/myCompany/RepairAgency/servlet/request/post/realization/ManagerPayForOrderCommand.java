@@ -35,6 +35,9 @@ public class ManagerPayForOrderCommand implements IActionCommand, IHasRoleRequir
             return PathFactory.getPath("path.page.redirect.orders");
         }
 
+        if (order == null) {
+            return PathFactory.getPath("path.page.redirect.orders");
+        }
         order.setStatus_id(Constants.ORDER_STATUS.PAID.ordinal());
         RepairOrderService.update(order);
         User user = UserService.get(order.getUser_id());

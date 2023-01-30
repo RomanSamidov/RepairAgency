@@ -22,10 +22,10 @@ public class ChangePasswordCommand implements IActionCommand {
     @Override
     public Path execute(HttpServletRequest request, HttpServletResponse response) {
         String code = request.getParameter("confirmationCodePassword");
-        String login = request.getParameter(Constants.LOGIN);
         String password = request.getParameter(Constants.PASSWORD);
-        String email = request.getParameter(Constants.EMAIL);
 
+        String login = request.getParameter(Constants.LOGIN);
+        String email = request.getParameter(Constants.EMAIL);
         request.getSession().setAttribute("login", login);
         request.getSession().setAttribute("email", email);
 
@@ -34,7 +34,6 @@ public class ChangePasswordCommand implements IActionCommand {
         }
 
         User user = UserService.get(login);
-
         if (!ParameterValidationService.forChangePassword(request, user))
             return PathFactory.getPath("path.page.redirect.change_password");
 

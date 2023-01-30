@@ -4,9 +4,9 @@ import com.myCompany.RepairAgency.Constants;
 import com.myCompany.RepairAgency.model.entity.User;
 import com.myCompany.RepairAgency.servlet.Path;
 import com.myCompany.RepairAgency.servlet.PathFactory;
-import com.myCompany.RepairAgency.servlet.service.ParameterValidationService;
 import com.myCompany.RepairAgency.servlet.service.SendEmailService;
 import com.myCompany.RepairAgency.servlet.service.UserService;
+import com.myCompany.RepairAgency.servlet.util.Encrypt;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
@@ -21,7 +21,7 @@ import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-class ChangeEmailCommandTest {
+class ConfirmEmailCommandTest {
     @Mock
     Path mockPath;
     @Mock
@@ -43,21 +43,22 @@ class ChangeEmailCommandTest {
 
     @Test
     void execute1() {
-        session.setAttribute("userId", 0L);
-        request.setParameter("email", "0");
+        session.setAttribute("userId", 1L);
+        request.setParameter("confirmationCode", "testCode");
 
         try (MockedStatic<PathFactory> ignored2 = Mockito.mockStatic(PathFactory.class);
-             MockedStatic<ParameterValidationService> ignored3 = Mockito.mockStatic(ParameterValidationService.class);
-             MockedStatic<SendEmailService> ignored4 = Mockito.mockStatic(SendEmailService.class);
-             MockedStatic<UserService> ignored5 = Mockito.mockStatic(UserService.class)) {
+             MockedStatic<Encrypt> ignored4 = Mockito.mockStatic(Encrypt.class);
+             MockedStatic<UserService> ignored5 = Mockito.mockStatic(UserService.class);
+             MockedStatic<SendEmailService> ignored6 = Mockito.mockStatic(SendEmailService.class)) {
 
             Mockito.when(PathFactory.getPath(Mockito.eq("path.page.redirect.cabinet"))).thenReturn(mockPath);
-            Mockito.when(ParameterValidationService.validateEmail(Mockito.eq(request), Mockito.anyString())).thenReturn(true);
+
+            Mockito.when(Encrypt.generateCode()).thenReturn("testCode");
 
             User user = Mockito.mock(User.class);
             Mockito.when(UserService.get(Mockito.anyLong())).thenReturn(user);
 
-            assertEquals(mockPath, new ChangeEmailCommand().execute(request, response));
+            assertEquals(mockPath, new ConfirmEmailCommand().execute(request, response));
             ignored2.verify(() -> PathFactory.getPath("path.page.redirect.cabinet"), Mockito.times(1));
 
         }
@@ -65,16 +66,23 @@ class ChangeEmailCommandTest {
 
     @Test
     void execute2() {
+        session.setAttribute("userId", 1L);
+        session.setAttribute("waitedCode", "testCode");
+        request.setParameter("confirmationCode", "  testqCode  ");
 
         try (MockedStatic<PathFactory> ignored2 = Mockito.mockStatic(PathFactory.class);
-             MockedStatic<ParameterValidationService> ignored3 = Mockito.mockStatic(ParameterValidationService.class);
-             MockedStatic<SendEmailService> ignored4 = Mockito.mockStatic(SendEmailService.class);
-             MockedStatic<UserService> ignored5 = Mockito.mockStatic(UserService.class)) {
+             MockedStatic<Encrypt> ignored4 = Mockito.mockStatic(Encrypt.class);
+             MockedStatic<UserService> ignored5 = Mockito.mockStatic(UserService.class);
+             MockedStatic<SendEmailService> ignored6 = Mockito.mockStatic(SendEmailService.class)) {
 
             Mockito.when(PathFactory.getPath(Mockito.eq("path.page.redirect.cabinet"))).thenReturn(mockPath);
-            Mockito.when(ParameterValidationService.validateEmail(Mockito.eq(request), Mockito.anyString())).thenReturn(false);
 
-            assertEquals(mockPath, new ChangeEmailCommand().execute(request, response));
+            Mockito.when(Encrypt.generateCode()).thenReturn("testCode");
+
+            User user = Mockito.mock(User.class);
+            Mockito.when(UserService.get(Mockito.anyLong())).thenReturn(user);
+
+            assertEquals(mockPath, new ConfirmEmailCommand().execute(request, response));
             ignored2.verify(() -> PathFactory.getPath("path.page.redirect.cabinet"), Mockito.times(1));
 
         }
@@ -82,26 +90,27 @@ class ChangeEmailCommandTest {
 
     @Test
     void execute3() {
-        session.setAttribute("userId", 0L);
-        request.setParameter("email", "0");
+        session.setAttribute("userId", 1L);
+        session.setAttribute("waitedCode", "testCode");
+        request.setParameter("confirmationCode", "  testCode  ");
+
         try (MockedStatic<PathFactory> ignored2 = Mockito.mockStatic(PathFactory.class);
-             MockedStatic<ParameterValidationService> ignored3 = Mockito.mockStatic(ParameterValidationService.class);
-             MockedStatic<SendEmailService> ignored4 = Mockito.mockStatic(SendEmailService.class);
-             MockedStatic<UserService> ignored5 = Mockito.mockStatic(UserService.class)) {
+             MockedStatic<Encrypt> ignored4 = Mockito.mockStatic(Encrypt.class);
+             MockedStatic<UserService> ignored5 = Mockito.mockStatic(UserService.class);
+             MockedStatic<SendEmailService> ignored6 = Mockito.mockStatic(SendEmailService.class)) {
 
             Mockito.when(PathFactory.getPath(Mockito.eq("path.page.redirect.cabinet"))).thenReturn(mockPath);
-            Mockito.when(ParameterValidationService.validateEmail(Mockito.eq(request), Mockito.anyString())).thenReturn(true);
+
+            Mockito.when(Encrypt.generateCode()).thenReturn("testCode");
 
             User user = Mockito.mock(User.class);
-            Mockito.when(user.getEmail()).thenReturn("0");
             Mockito.when(UserService.get(Mockito.anyLong())).thenReturn(user);
 
-            assertEquals(mockPath, new ChangeEmailCommand().execute(request, response));
+            assertEquals(mockPath, new ConfirmEmailCommand().execute(request, response));
             ignored2.verify(() -> PathFactory.getPath("path.page.redirect.cabinet"), Mockito.times(1));
 
         }
     }
-
 
     @Test
     void allowedUserRoles() {
@@ -109,6 +118,6 @@ class ChangeEmailCommandTest {
                         Constants.ROLE.Admin,
                         Constants.ROLE.Manager,
                         Constants.ROLE.Craftsman).collect(Collectors.toList()),
-                new ChangeEmailCommand().allowedUserRoles());
+                new ConfirmEmailCommand().allowedUserRoles());
     }
 }

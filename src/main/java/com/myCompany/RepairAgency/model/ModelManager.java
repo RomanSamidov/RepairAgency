@@ -16,6 +16,7 @@ public class ModelManager {
     private static ModelManager ins;
     public final DAOType DAO_TYPE;
     private final abstractRepositoryFactory DAO_FACTORY;
+
     private ModelManager() {
         DAO_TYPE = initializeDAOType();
         DAO_FACTORY = abstractRepositoryFactory.getDAOFactory(DAO_TYPE);

@@ -25,9 +25,9 @@ public class ShowOrdersCommand implements IActionCommand, IHasRoleRequirement {
 
         AttributeFSTRService.forShowOrders(request);
 
-        long[] craftIds = InitValuesFromRequestService.initCraftsmenIds(request, userRole);
+        long[] craftIds = InitValuesFromRequestService.initCraftsmenIds(request);
         long[] statusIds = InitValuesFromRequestService.initStatusIds(request);
-        long userId = InitValuesFromRequestService.initUserId(request, userRole);
+        long userId = InitValuesFromRequestService.initUserId(request);
         iRepairOrderRepository.SORT_TYPE sortType = InitValuesFromRequestService.initSortType(request);
 
 

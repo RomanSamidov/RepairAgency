@@ -5,7 +5,6 @@ import com.myCompany.RepairAgency.servlet.Path;
 import com.myCompany.RepairAgency.servlet.PathFactory;
 import com.myCompany.RepairAgency.servlet.request.IActionCommand;
 import com.myCompany.RepairAgency.servlet.request.IHasRoleRequirement;
-import com.myCompany.RepairAgency.servlet.service.ParameterValidationService;
 import com.myCompany.RepairAgency.servlet.util.ForTables;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -20,19 +19,22 @@ public class UsersCommand implements IActionCommand, IHasRoleRequirement {
     public Path execute(HttpServletRequest request, HttpServletResponse response) {
         ForTables.updateSkipQuantity("Users", request);
         String roleUsers = request.getParameter("roleUsers");
-        if (ParameterValidationService.validateRoleId(request, roleUsers)) {
-            if (request.getParameter("roleUsers").equals("0")) {
-                request.getSession().removeAttribute("roleUsers");
-            } else {
-                Constants.ROLE role = Constants.ROLE.valueOf(roleUsers);
-
-                if (request.getSession().getAttribute("userRole").equals(Constants.ROLE.Manager) &&
-                        (role != Constants.ROLE.Client && role != Constants.ROLE.Craftsman))
-                    role = Constants.ROLE.Client;
-
-                request.getSession().setAttribute("roleUsers", role);
+        if (roleUsers.equals("0")) {
+            request.getSession().removeAttribute("roleUsers");
+        } else {
+            Constants.ROLE role;
+            try {
+                role = Constants.ROLE.valueOf(roleUsers);
+            } catch (IllegalArgumentException e) {
+                role = Constants.ROLE.Client;
             }
+            if (request.getSession().getAttribute("userRole").equals(Constants.ROLE.Manager) &&
+                    (role != Constants.ROLE.Client && role != Constants.ROLE.Craftsman))
+                role = Constants.ROLE.Client;
+
+            request.getSession().setAttribute("roleUsers", role);
         }
+
         return PathFactory.getPath("path.page.redirect.users");
     }
 

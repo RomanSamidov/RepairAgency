@@ -6,7 +6,9 @@ import jakarta.servlet.http.HttpServletRequest;
 
 public class InitValuesFromRequestService {
 
-    public static long[] initCraftsmenIds(HttpServletRequest request, Constants.ROLE userRole) {
+    public static long[] initCraftsmenIds(HttpServletRequest request) {
+        Constants.ROLE userRole = (Constants.ROLE) request.getSession().getAttribute("userRole");
+
         if (userRole.equals(Constants.ROLE.Craftsman)) {
             return new long[]{(long) request.getSession().getAttribute("userId")};
         } else if (request.getSession().getAttribute("craftsmanIdOrders") != null) {
@@ -26,7 +28,9 @@ public class InitValuesFromRequestService {
         return new long[]{};
     }
 
-    public static long initUserId(HttpServletRequest request, Constants.ROLE userRole) {
+    public static long initUserId(HttpServletRequest request) {
+        Constants.ROLE userRole = (Constants.ROLE) request.getSession().getAttribute("userRole");
+
         if (userRole.equals(Constants.ROLE.Client)) return (long) request.getSession().getAttribute("userId");
         return 0;
     }
@@ -41,18 +45,18 @@ public class InitValuesFromRequestService {
 
 
     public static long initRoleId(HttpServletRequest request) {
-        try{
-        if (request.getSession().getAttribute("roleUsers") != null) {
-            Constants.ROLE role = (Constants.ROLE) request.getSession().getAttribute("roleUsers");
-            return role.ordinal();
-        } else {
-            if (request.getSession().getAttribute("userRole").equals(Constants.ROLE.Admin)) {
-                return 0;
+        try {
+            if (request.getSession().getAttribute("roleUsers") != null) {
+                Constants.ROLE role = (Constants.ROLE) request.getSession().getAttribute("roleUsers");
+                return role.ordinal();
             } else {
-                request.getSession().setAttribute("roleUsers", Constants.ROLE.Client);
-                return Constants.ROLE.Client.ordinal();
+                if (request.getSession().getAttribute("userRole").equals(Constants.ROLE.Admin)) {
+                    return 0;
+                } else {
+                    request.getSession().setAttribute("roleUsers", Constants.ROLE.Client);
+                    return Constants.ROLE.Client.ordinal();
+                }
             }
-        }
         } catch (Exception e) {
             request.getSession().setAttribute("roleUsers", Constants.ROLE.Client);
             return Constants.ROLE.Client.ordinal();

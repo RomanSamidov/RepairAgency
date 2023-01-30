@@ -94,6 +94,36 @@ class ForTablesTest {
     }
 
     @Test
+    void initSkipQuantity3() {
+
+        session.setAttribute("nowPageFor" + tableName, 10000);
+        session.setAttribute("nowQuantityFor" + tableName, 0);
+
+
+        assertArrayEquals(new int[]{0, 5},
+                ForTables.initSkipQuantity(tableName, 0L, request));
+        assertEquals(5,
+                session.getAttribute("nowQuantityFor" + tableName));
+        assertEquals(0L,
+                session.getAttribute("numberOf" + tableName));
+        assertEquals(1,
+                session.getAttribute("nowPageFor" + tableName));
+        assertEquals(1,
+                request.getAttribute("maxPageFor" + tableName));
+
+        List<String> inSession = StreamSupport.stream(
+                        Spliterators.spliteratorUnknownSize(session.getAttributeNames().asIterator(), Spliterator.ORDERED), false)
+                .toList();
+        List<String> goal = new ArrayList<>();
+        goal.add("nowQuantityFor" + tableName);
+        goal.add("numberOf" + tableName);
+        goal.add("nowPageFor" + tableName);
+
+        assertTrue(goal.containsAll(inSession));
+        assertTrue(inSession.containsAll(goal));
+    }
+
+    @Test
     void updateSkipQuantity_1() {
 
         request.setParameter("newQuantityFor" + tableName, String.valueOf(-10));

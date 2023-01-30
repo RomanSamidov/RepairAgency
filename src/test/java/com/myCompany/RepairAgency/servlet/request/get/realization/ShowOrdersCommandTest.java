@@ -66,9 +66,9 @@ class ShowOrdersCommandTest {
             Mockito.when(PathFactory.getPath(Mockito.eq("path.page.forward.common.change_password"))).thenReturn(mockPath);
             Mockito.when(ViewValidationService.validateForOrdersPage(request)).thenReturn(mockPath);
 
-            Mockito.when(InitValuesFromRequestService.initCraftsmenIds(request, Constants.ROLE.Admin)).thenReturn(new long[]{1, 2});
+            Mockito.when(InitValuesFromRequestService.initCraftsmenIds(request)).thenReturn(new long[]{1, 2});
             Mockito.when(InitValuesFromRequestService.initStatusIds(request)).thenReturn(new long[]{1, 2, 3, 4});
-            Mockito.when(InitValuesFromRequestService.initUserId(request, Constants.ROLE.Admin)).thenReturn(0L);
+            Mockito.when(InitValuesFromRequestService.initUserId(request)).thenReturn(0L);
             Mockito.when(InitValuesFromRequestService.initSortType(request)).thenReturn(iRepairOrderRepository.SORT_TYPE.ORDER_BY_ID_ASC);
 
 
@@ -78,7 +78,6 @@ class ShowOrdersCommandTest {
             Mockito.when(RepairOrderService.getByCraftUserStatus(
                     Mockito.any(), Mockito.anyLong(), Mockito.any(), Mockito.any(), Mockito.anyLong(), Mockito.anyLong()
             )).thenReturn(orders);
-
 
 
             Mockito.when(RepairOrderService.countByCraftUserStatus(Mockito.any(), Mockito.anyLong(), Mockito.any())).thenReturn(100L);
@@ -131,9 +130,9 @@ class ShowOrdersCommandTest {
             Mockito.when(PathFactory.getPath(Mockito.eq("path.page.forward.common.change_password"))).thenReturn(mockPath);
             Mockito.when(ViewValidationService.validateForOrdersPage(request)).thenReturn(mockPath);
 
-            Mockito.when(InitValuesFromRequestService.initCraftsmenIds(request, Constants.ROLE.Admin)).thenReturn(new long[]{1, 2});
+            Mockito.when(InitValuesFromRequestService.initCraftsmenIds(request)).thenReturn(new long[]{1, 2});
             Mockito.when(InitValuesFromRequestService.initStatusIds(request)).thenReturn(new long[]{1, 2, 3, 4});
-            Mockito.when(InitValuesFromRequestService.initUserId(request, Constants.ROLE.Admin)).thenReturn(0L);
+            Mockito.when(InitValuesFromRequestService.initUserId(request)).thenReturn(0L);
             Mockito.when(InitValuesFromRequestService.initSortType(request)).thenReturn(iRepairOrderRepository.SORT_TYPE.ORDER_BY_ID_ASC);
 
 

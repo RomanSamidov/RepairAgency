@@ -175,32 +175,12 @@ public class ParameterValidationService {
         return true;
     }
 
-    public static boolean validateBoolean(String allowLetters) {
-        try {
-            Boolean.parseBoolean(allowLetters);
-        } catch (NumberFormatException e) {
-            return false;
-        }
-        return true;
-    }
-
     public static boolean validateCraftsmanId(String goalOrderCraftsmanId) {
         try {
             long id = Long.parseLong(goalOrderCraftsmanId);
             if (id <= 0) return false;
             if (UserService.get(id).getRole_id() != Constants.ROLE.Craftsman.ordinal()) return false;
         } catch (NumberFormatException | MyDBException | NullPointerException e) {
-            return false;
-        }
-        return true;
-    }
-
-    public static boolean validateOrderId(String goalOrderId) {
-        try {
-            long id = Long.parseLong(goalOrderId);
-            if (id <= 0) return false;
-            if (RepairOrderService.get(id) == null) return false;
-        } catch (NumberFormatException | MyDBException e) {
             return false;
         }
         return true;

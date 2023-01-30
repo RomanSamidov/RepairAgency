@@ -3,6 +3,7 @@ package com.myCompany.RepairAgency.servlet.request.post.realization;
 import com.myCompany.RepairAgency.Constants;
 import com.myCompany.RepairAgency.servlet.Path;
 import com.myCompany.RepairAgency.servlet.PathFactory;
+import com.myCompany.RepairAgency.servlet.service.ParameterValidationService;
 import com.myCompany.RepairAgency.servlet.service.UserService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -44,23 +45,32 @@ class AddToUserAccountCommandTest {
         request.setParameter("addToAccount", "100");
 
         try (MockedStatic<PathFactory> ignored2 = Mockito.mockStatic(PathFactory.class);
-             MockedStatic<UserService> ignored4 = Mockito.mockStatic(UserService.class)) {
+             MockedStatic<UserService> ignored4 = Mockito.mockStatic(UserService.class);
+             MockedStatic<ParameterValidationService> ignored3 = Mockito.mockStatic(ParameterValidationService.class)) {
 
-            Mockito.when(PathFactory.getPath(Mockito.eq("path.page.redirect.users"))).thenReturn(mockPath);
+            Mockito.when(PathFactory.getPath(Mockito.eq("path.page.redirect.user"))).thenReturn(mockPath);
+            Mockito.doNothing().when(mockPath).addParameter(Mockito.anyString(), Mockito.anyString());
             Mockito.when(UserService.addToUserAccount(0L, 100)).thenReturn(true);
+            Mockito.when(ParameterValidationService.validateInt(String.valueOf(100))).thenReturn(true);
+            Mockito.when(ParameterValidationService.validateGoalId(String.valueOf(0L))).thenReturn(true);
 
             assertEquals(mockPath, new AddToUserAccountCommand().execute(request, response));
             ignored4.verify(() -> UserService.addToUserAccount(0L, 100));
-            ignored2.verify(() -> PathFactory.getPath("path.page.redirect.users"), Mockito.times(1));
+            ignored2.verify(() -> PathFactory.getPath("path.page.redirect.user"), Mockito.times(1));
             Mockito.verify(mockPath).addParameter("id", "0");
         }
     }
 
     @Test
     void execute2() {
-        try (MockedStatic<PathFactory> ignored2 = Mockito.mockStatic(PathFactory.class)) {
+        try (MockedStatic<PathFactory> ignored2 = Mockito.mockStatic(PathFactory.class);
+             MockedStatic<ParameterValidationService> ignored3 = Mockito.mockStatic(ParameterValidationService.class)) {
 
             Mockito.when(PathFactory.getPath(Mockito.eq("path.page.redirect.users"))).thenReturn(mockPath);
+
+            Mockito.when(ParameterValidationService.validateInt(Mockito.anyString())).thenReturn(false);
+            Mockito.when(ParameterValidationService.validateGoalId(Mockito.anyString())).thenReturn(false);
+
 
             assertEquals(mockPath, new AddToUserAccountCommand().execute(request, response));
             ignored2.verify(() -> PathFactory.getPath("path.page.redirect.users"), Mockito.times(1));
@@ -71,12 +81,18 @@ class AddToUserAccountCommandTest {
     void execute3() {
         request.setParameter("goalIdUser", "0");
 
-        try (MockedStatic<PathFactory> ignored2 = Mockito.mockStatic(PathFactory.class)) {
+        try (MockedStatic<PathFactory> ignored2 = Mockito.mockStatic(PathFactory.class);
+             MockedStatic<ParameterValidationService> ignored3 = Mockito.mockStatic(ParameterValidationService.class)) {
 
-            Mockito.when(PathFactory.getPath(Mockito.eq("path.page.redirect.users"))).thenReturn(mockPath);
+
+            Mockito.when(PathFactory.getPath(Mockito.eq("path.page.redirect.user"))).thenReturn(mockPath);
+            Mockito.doNothing().when(mockPath).addParameter(Mockito.anyString(), Mockito.anyString());
+
+            Mockito.when(ParameterValidationService.validateInt(Mockito.anyString())).thenReturn(false);
+            Mockito.when(ParameterValidationService.validateGoalId(Mockito.anyString())).thenReturn(true);
 
             assertEquals(mockPath, new AddToUserAccountCommand().execute(request, response));
-            ignored2.verify(() -> PathFactory.getPath("path.page.redirect.users"), Mockito.times(1));
+            ignored2.verify(() -> PathFactory.getPath("path.page.redirect.user"), Mockito.times(1));
         }
     }
 
@@ -86,10 +102,14 @@ class AddToUserAccountCommandTest {
         request.setParameter("addToAccount", "100");
 
         try (MockedStatic<PathFactory> ignored2 = Mockito.mockStatic(PathFactory.class);
-             MockedStatic<UserService> ignored4 = Mockito.mockStatic(UserService.class)) {
+             MockedStatic<UserService> ignored4 = Mockito.mockStatic(UserService.class);
+             MockedStatic<ParameterValidationService> ignored3 = Mockito.mockStatic(ParameterValidationService.class)) {
 
             Mockito.when(PathFactory.getPath(Mockito.eq("path.page.redirect.users"))).thenReturn(mockPath);
             Mockito.when(UserService.addToUserAccount(0L, 100)).thenReturn(false);
+            Mockito.doNothing().when(mockPath).addParameter(Mockito.anyString(), Mockito.anyString());
+            Mockito.when(ParameterValidationService.validateInt(String.valueOf(100))).thenReturn(true);
+            Mockito.when(ParameterValidationService.validateGoalId(String.valueOf(0L))).thenReturn(true);
 
             assertEquals(mockPath, new AddToUserAccountCommand().execute(request, response));
             ignored4.verify(() -> UserService.addToUserAccount(0L, 100));
