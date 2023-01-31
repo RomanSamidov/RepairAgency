@@ -13,7 +13,6 @@ import org.springframework.mock.web.MockHttpSession;
 class SendEmailServiceTest {
 
 
-
     @Test
     void forDownload() {
         MockHttpServletRequest request = new MockHttpServletRequest();
@@ -187,7 +186,7 @@ class SendEmailServiceTest {
             Mockito.when(user.isAllow_letters()).thenReturn(true);
             Mockito.when(user.getLocale_id()).thenReturn(0);
 
-            SendEmailService.forConfirmEmailCode(user," 10");
+            SendEmailService.forConfirmEmailCode(user, " 10");
         }
     }
 

@@ -126,7 +126,7 @@ public class ParameterValidationService {
     public static boolean validatePasswordAndRepeat(HttpServletRequest request, String password, String passwordRepeat) {
         if (!validatePassword(request, password)) return false;
 
-        if (password == null || password.isEmpty()) {
+        if (passwordRepeat == null || passwordRepeat.isEmpty()) {
             request.getSession().setAttribute("errorEmptyPasswordRepeat", "message.empty_repeat_password");
             return false;
         }

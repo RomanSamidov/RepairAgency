@@ -101,8 +101,7 @@ class ViewValidationServiceTest {
         session.setAttribute("userRole", Constants.ROLE.Admin);
 
         try (MockedStatic<PathFactory> ignored1 = Mockito.mockStatic(PathFactory.class);
-             MockedStatic<RepairOrderDTOFactory> ignored2 = Mockito.mockStatic(RepairOrderDTOFactory.class))
-        {
+             MockedStatic<RepairOrderDTOFactory> ignored2 = Mockito.mockStatic(RepairOrderDTOFactory.class)) {
             Mockito.when(PathFactory.getPath(Mockito.anyString())).thenReturn(mockPath);
 
             RepairOrder order = Mockito.mock(RepairOrder.class);
@@ -117,8 +116,7 @@ class ViewValidationServiceTest {
         session.setAttribute("userRole", Constants.ROLE.Guest);
 
         try (MockedStatic<PathFactory> ignored1 = Mockito.mockStatic(PathFactory.class);
-             MockedStatic<RepairOrderDTOFactory> ignored2 = Mockito.mockStatic(RepairOrderDTOFactory.class))
-        {
+             MockedStatic<RepairOrderDTOFactory> ignored2 = Mockito.mockStatic(RepairOrderDTOFactory.class)) {
             Mockito.when(PathFactory.getPath(Mockito.anyString())).thenReturn(mockPath);
 
             RepairOrder order = Mockito.mock(RepairOrder.class);
@@ -134,8 +132,7 @@ class ViewValidationServiceTest {
         session.setAttribute("userId", 0L);
 
         try (MockedStatic<PathFactory> ignored1 = Mockito.mockStatic(PathFactory.class);
-             MockedStatic<RepairOrderDTOFactory> ignored2 = Mockito.mockStatic(RepairOrderDTOFactory.class))
-        {
+             MockedStatic<RepairOrderDTOFactory> ignored2 = Mockito.mockStatic(RepairOrderDTOFactory.class)) {
             Mockito.when(PathFactory.getPath(Mockito.anyString())).thenReturn(mockPath);
 
             RepairOrder order = Mockito.mock(RepairOrder.class);
@@ -153,8 +150,7 @@ class ViewValidationServiceTest {
         session.setAttribute("userId", 0L);
 
         try (MockedStatic<PathFactory> ignored1 = Mockito.mockStatic(PathFactory.class);
-             MockedStatic<RepairOrderDTOFactory> ignored2 = Mockito.mockStatic(RepairOrderDTOFactory.class))
-        {
+             MockedStatic<RepairOrderDTOFactory> ignored2 = Mockito.mockStatic(RepairOrderDTOFactory.class)) {
             Mockito.when(PathFactory.getPath(Mockito.anyString())).thenReturn(mockPath);
 
             RepairOrder order = Mockito.mock(RepairOrder.class);
@@ -171,8 +167,7 @@ class ViewValidationServiceTest {
         session.setAttribute("userRole", Constants.ROLE.Manager);
 
         try (MockedStatic<PathFactory> ignored1 = Mockito.mockStatic(PathFactory.class);
-             MockedStatic<RepairOrderDTOFactory> ignored2 = Mockito.mockStatic(RepairOrderDTOFactory.class))
-        {
+             MockedStatic<RepairOrderDTOFactory> ignored2 = Mockito.mockStatic(RepairOrderDTOFactory.class)) {
             Mockito.when(PathFactory.getPath(Mockito.anyString())).thenReturn(mockPath);
 
             RepairOrder order = Mockito.mock(RepairOrder.class);
@@ -188,8 +183,7 @@ class ViewValidationServiceTest {
         session.setAttribute("userRole", Constants.ROLE.Manager);
 
         try (MockedStatic<PathFactory> ignored1 = Mockito.mockStatic(PathFactory.class);
-             MockedStatic<RepairOrderDTOFactory> ignored2 = Mockito.mockStatic(RepairOrderDTOFactory.class))
-        {
+             MockedStatic<RepairOrderDTOFactory> ignored2 = Mockito.mockStatic(RepairOrderDTOFactory.class)) {
             Mockito.when(PathFactory.getPath(Mockito.anyString())).thenReturn(mockPath);
 
             RepairOrder order = Mockito.mock(RepairOrder.class);
@@ -206,8 +200,7 @@ class ViewValidationServiceTest {
         session.setAttribute("userId", 0L);
 
         try (MockedStatic<PathFactory> ignored1 = Mockito.mockStatic(PathFactory.class);
-             MockedStatic<RepairOrderDTOFactory> ignored2 = Mockito.mockStatic(RepairOrderDTOFactory.class))
-        {
+             MockedStatic<RepairOrderDTOFactory> ignored2 = Mockito.mockStatic(RepairOrderDTOFactory.class)) {
             Mockito.when(PathFactory.getPath(Mockito.anyString())).thenReturn(mockPath);
 
             RepairOrder order = Mockito.mock(RepairOrder.class);
@@ -225,8 +218,7 @@ class ViewValidationServiceTest {
         session.setAttribute("userId", 0L);
 
         try (MockedStatic<PathFactory> ignored1 = Mockito.mockStatic(PathFactory.class);
-             MockedStatic<RepairOrderDTOFactory> ignored2 = Mockito.mockStatic(RepairOrderDTOFactory.class))
-        {
+             MockedStatic<RepairOrderDTOFactory> ignored2 = Mockito.mockStatic(RepairOrderDTOFactory.class)) {
             Mockito.when(PathFactory.getPath(Mockito.anyString())).thenReturn(mockPath);
 
             RepairOrder order = Mockito.mock(RepairOrder.class);
@@ -244,8 +236,7 @@ class ViewValidationServiceTest {
         session.setAttribute("userId", 0L);
 
         try (MockedStatic<PathFactory> ignored1 = Mockito.mockStatic(PathFactory.class);
-             MockedStatic<RepairOrderDTOFactory> ignored2 = Mockito.mockStatic(RepairOrderDTOFactory.class))
-        {
+             MockedStatic<RepairOrderDTOFactory> ignored2 = Mockito.mockStatic(RepairOrderDTOFactory.class)) {
             Mockito.when(PathFactory.getPath(Mockito.anyString())).thenReturn(mockPath);
 
             RepairOrder order = Mockito.mock(RepairOrder.class);
@@ -387,8 +378,7 @@ class ViewValidationServiceTest {
         request.setParameter("id", "1");
 
         try (MockedStatic<PathFactory> ignored1 = Mockito.mockStatic(PathFactory.class);
-             MockedStatic<UserService> ignored2 = Mockito.mockStatic(UserService.class))
-        {
+             MockedStatic<UserService> ignored2 = Mockito.mockStatic(UserService.class)) {
             Mockito.when(PathFactory.getPath(Mockito.anyString())).thenReturn(mockPath);
 
             Mockito.when(UserService.get(Mockito.anyLong())).thenReturn(null);
@@ -405,8 +395,7 @@ class ViewValidationServiceTest {
 
         try (MockedStatic<PathFactory> ignored1 = Mockito.mockStatic(PathFactory.class);
              MockedStatic<UserService> ignored2 = Mockito.mockStatic(UserService.class);
-             MockedStatic<UserDTOFactory> ignored3 = Mockito.mockStatic(UserDTOFactory.class))
-        {
+             MockedStatic<UserDTOFactory> ignored3 = Mockito.mockStatic(UserDTOFactory.class)) {
             Mockito.when(PathFactory.getPath(Mockito.anyString())).thenReturn(mockPath);
 
             User user = Mockito.mock(User.class);
@@ -425,8 +414,7 @@ class ViewValidationServiceTest {
 
         try (MockedStatic<PathFactory> ignored1 = Mockito.mockStatic(PathFactory.class);
              MockedStatic<UserService> ignored2 = Mockito.mockStatic(UserService.class);
-             MockedStatic<UserDTOFactory> ignored3 = Mockito.mockStatic(UserDTOFactory.class))
-        {
+             MockedStatic<UserDTOFactory> ignored3 = Mockito.mockStatic(UserDTOFactory.class)) {
             Mockito.when(PathFactory.getPath(Mockito.anyString())).thenReturn(mockPath);
 
             User user = Mockito.mock(User.class);
@@ -444,8 +432,7 @@ class ViewValidationServiceTest {
 
         try (MockedStatic<PathFactory> ignored1 = Mockito.mockStatic(PathFactory.class);
              MockedStatic<UserService> ignored2 = Mockito.mockStatic(UserService.class);
-             MockedStatic<UserDTOFactory> ignored3 = Mockito.mockStatic(UserDTOFactory.class))
-        {
+             MockedStatic<UserDTOFactory> ignored3 = Mockito.mockStatic(UserDTOFactory.class)) {
             Mockito.when(PathFactory.getPath(Mockito.anyString())).thenReturn(mockPath);
 
             User user = Mockito.mock(User.class);

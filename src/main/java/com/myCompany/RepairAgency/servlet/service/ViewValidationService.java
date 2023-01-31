@@ -102,8 +102,7 @@ public class ViewValidationService {
 
         if (order.getStatus_id() != Constants.ORDER_STATUS.COMPLETED.ordinal() &&
                 order.getStatus_id() != Constants.ORDER_STATUS.CANCELED.ordinal() &&
-                checkAccessibility(request, order))
-        {
+                checkAccessibility(request, order)) {
             request.setAttribute("_cancel_order_url", PathFactory.getPath("path.page.order.part.cancel_order").toString());
         }
 
@@ -146,12 +145,12 @@ public class ViewValidationService {
 
 
     public static Path validateForUserPage(HttpServletRequest request) {
-        long userId;
-        if (request.getParameter("id") != null) {
-            userId = Long.parseLong(request.getParameter("id"));
-        } else {
+
+        long userId = InitValuesFromRequestService.initGoalId(request);
+        if (userId == 0) {
             userId = (long) request.getSession().getAttribute("userId");
         }
+
         Constants.ROLE userRole = (Constants.ROLE) request.getSession().getAttribute("userRole");
         User user = UserService.get(userId);
         if (user == null) {

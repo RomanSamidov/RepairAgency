@@ -3,24 +3,27 @@ package com.myCompany.RepairAgency.servlet.service;
 import com.myCompany.RepairAgency.Constants;
 import com.myCompany.RepairAgency.model.db.abstractDB.repository.entity.iRepairOrderRepository;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 
 public class InitValuesFromRequestService {
 
     public static long[] initCraftsmenIds(HttpServletRequest request) {
-        Constants.ROLE userRole = (Constants.ROLE) request.getSession().getAttribute("userRole");
+        HttpSession session = request.getSession();
+        Constants.ROLE userRole = (Constants.ROLE) session.getAttribute("userRole");
 
         if (userRole.equals(Constants.ROLE.Craftsman)) {
-            return new long[]{(long) request.getSession().getAttribute("userId")};
-        } else if (request.getSession().getAttribute("craftsmanIdOrders") != null) {
-            long[] tempCraftIds = ((long[]) request.getSession().getAttribute("craftsmanIdOrders"));
+            return new long[]{(long) session.getAttribute("userId")};
+        } else if (session.getAttribute("craftsmanIdOrders") != null) {
+            long[] tempCraftIds = ((long[]) session.getAttribute("craftsmanIdOrders"));
             if (tempCraftIds[0] != 0) return tempCraftIds;
         }
         return new long[]{};
     }
 
     public static long[] initStatusIds(HttpServletRequest request) {
-        if (request.getSession().getAttribute("statusOrders") != null) {
-            long[] tempStatusIds = ((long[]) request.getSession().getAttribute("statusOrders"));
+        HttpSession session = request.getSession();
+        if (session.getAttribute("statusOrders") != null) {
+            long[] tempStatusIds = ((long[]) session.getAttribute("statusOrders"));
             if (tempStatusIds[0] != 0) {
                 return tempStatusIds;
             }
@@ -29,10 +32,11 @@ public class InitValuesFromRequestService {
     }
 
     public static long initUserId(HttpServletRequest request) {
-        Constants.ROLE userRole = (Constants.ROLE) request.getSession().getAttribute("userRole");
+        HttpSession session = request.getSession();
+        Constants.ROLE userRole = (Constants.ROLE) session.getAttribute("userRole");
 
-        if (userRole.equals(Constants.ROLE.Client)) return (long) request.getSession().getAttribute("userId");
-        return 0;
+        if (userRole.equals(Constants.ROLE.Client)) return (long) session.getAttribute("userId");
+        return 0L;
     }
 
     public static iRepairOrderRepository.SORT_TYPE initSortType(HttpServletRequest request) {
@@ -66,7 +70,9 @@ public class InitValuesFromRequestService {
     public static long initGoalId(HttpServletRequest request) {
         if (request.getParameter("id") != null) {
             try {
-                return Long.parseLong(request.getParameter("id"));
+                long id = Long.parseLong(request.getParameter("id"));
+                if (id < 0) id = 0;
+                return id;
             } catch (NumberFormatException e) {
                 return 0;
             }

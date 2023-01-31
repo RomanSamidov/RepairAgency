@@ -26,7 +26,7 @@ public class ShowOrderPageCommand implements IActionCommand, IHasRoleRequirement
         request.setAttribute("title", "title.order");
 
         long goalId = InitValuesFromRequestService.initGoalId(request);
-        if (goalId <= 0) {
+        if (goalId == 0) {
             return PathFactory.getPath("path.page.redirect.orders");
         }
 
