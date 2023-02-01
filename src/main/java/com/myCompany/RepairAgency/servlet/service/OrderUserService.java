@@ -29,8 +29,25 @@ public class OrderUserService {
         return false;
     }
 
-    public static void cancelOrderWithMoneyReturn(long id) throws MyDBException {
-        ModelManager.getInstance().getOrderUserService().cancelOrderWithMoneyReturn(id);
+    public static void cancelOrder(long orderId) throws MyDBException {
+        RepairOrder order = RepairOrderService.get(orderId);
+        User user = UserService.get(order.getUser_id());
+        if (order.getStatus_id() > Constants.ORDER_STATUS.PENDING_PAYMENT.ordinal() &&
+                order.getStatus_id() != Constants.ORDER_STATUS.CANCELED.ordinal() &&
+                order.getStatus_id() != Constants.ORDER_STATUS.COMPLETED.ordinal()) {
+
+            ModelManager.getInstance().getOrderUserService().cancelOrderWithMoneyReturn(orderId);
+            SendEmailService.forCancelOrder(user, order.getPrice());
+        } else {
+            cancelOrderWithoutMoneyReturn(order, user);
+        }
+    }
+
+    private static void cancelOrderWithoutMoneyReturn(RepairOrder order, User user) throws MyDBException {
+        order.setStatus_id(Constants.ORDER_STATUS.CANCELED.ordinal());
+        order.setFinish_date(LocalDateTime.now());
+        ModelManager.getInstance().getRepairOrderRepository().update(order);
+        SendEmailService.forCancelOrder(user);
     }
 
     public static boolean payOrder(long id) throws MyDBException {

@@ -6,10 +6,7 @@ import com.myCompany.RepairAgency.model.entity.RepairOrder;
 import com.myCompany.RepairAgency.model.entity.User;
 import com.myCompany.RepairAgency.servlet.Path;
 import com.myCompany.RepairAgency.servlet.PathFactory;
-import com.myCompany.RepairAgency.servlet.service.ParameterValidationService;
-import com.myCompany.RepairAgency.servlet.service.RepairOrderService;
-import com.myCompany.RepairAgency.servlet.service.SendEmailService;
-import com.myCompany.RepairAgency.servlet.service.UserService;
+import com.myCompany.RepairAgency.servlet.service.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
@@ -70,6 +67,7 @@ class DeleteOrderCommandTest {
         try (MockedStatic<ParameterValidationService> ignored1 = Mockito.mockStatic(ParameterValidationService.class);
              MockedStatic<PathFactory> ignored2 = Mockito.mockStatic(PathFactory.class);
              MockedStatic<RepairOrderService> ignored3 = Mockito.mockStatic(RepairOrderService.class);
+             MockedStatic<OrderUserService> ignored6 = Mockito.mockStatic(OrderUserService.class);
              MockedStatic<UserService> ignored4 = Mockito.mockStatic(UserService.class);
              MockedStatic<SendEmailService> ignored5 = Mockito.mockStatic(SendEmailService.class)) {
 
@@ -97,6 +95,7 @@ class DeleteOrderCommandTest {
         try (MockedStatic<ParameterValidationService> ignored1 = Mockito.mockStatic(ParameterValidationService.class);
              MockedStatic<PathFactory> ignored2 = Mockito.mockStatic(PathFactory.class);
              MockedStatic<RepairOrderService> ignored3 = Mockito.mockStatic(RepairOrderService.class);
+             MockedStatic<OrderUserService> ignored6 = Mockito.mockStatic(OrderUserService.class);
              MockedStatic<UserService> ignored4 = Mockito.mockStatic(UserService.class);
              MockedStatic<SendEmailService> ignored5 = Mockito.mockStatic(SendEmailService.class)) {
 
@@ -126,6 +125,7 @@ class DeleteOrderCommandTest {
         try (MockedStatic<ParameterValidationService> ignored1 = Mockito.mockStatic(ParameterValidationService.class);
              MockedStatic<PathFactory> ignored2 = Mockito.mockStatic(PathFactory.class);
              MockedStatic<RepairOrderService> ignored3 = Mockito.mockStatic(RepairOrderService.class);
+             MockedStatic<OrderUserService> ignored6 = Mockito.mockStatic(OrderUserService.class);
              MockedStatic<UserService> ignored4 = Mockito.mockStatic(UserService.class);
              MockedStatic<SendEmailService> ignored5 = Mockito.mockStatic(SendEmailService.class)) {
 

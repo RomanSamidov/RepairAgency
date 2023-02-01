@@ -42,18 +42,7 @@ public class CancelOrderCommand implements IActionCommand, IHasRoleRequirement {
             return path;
         }
 
-        if (order.getStatus_id() > Constants.ORDER_STATUS.PENDING_PAYMENT.ordinal() &&
-                order.getStatus_id() != Constants.ORDER_STATUS.CANCELED.ordinal() &&
-                order.getStatus_id() != Constants.ORDER_STATUS.COMPLETED.ordinal()) {
-
-            OrderUserService.cancelOrderWithMoneyReturn(order.getId());
-
-            SendEmailService.forCancelOrder(user, order.getPrice());
-        } else {
-            order.setStatus_id(Constants.ORDER_STATUS.CANCELED.ordinal());
-            RepairOrderService.update(order);
-            SendEmailService.forCancelOrder(user);
-        }
+        OrderUserService.cancelOrder(order.getId());
 
         Path path = PathFactory.getPath("path.page.redirect.order");
         path.addParameter("id", request.getParameter("goalIdOrder"));

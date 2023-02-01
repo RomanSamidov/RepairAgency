@@ -14,6 +14,9 @@ public class AttributeFSTRService {
         request.setAttribute("login", session.getAttribute("login"));
         session.removeAttribute("login");
 
+        request.setAttribute("_part_of_change_password_url", session.getAttribute("_part_of_change_password_url"));
+        session.removeAttribute("_part_of_change_password_url");
+
         request.setAttribute("email", session.getAttribute("email"));
         session.removeAttribute("email");
     }
@@ -26,6 +29,9 @@ public class AttributeFSTRService {
 
         request.setAttribute("errorEmptyPasswordRepeat", session.getAttribute("errorEmptyPasswordRepeat"));
         session.removeAttribute("errorEmptyPasswordRepeat");
+
+        request.setAttribute("errorPasswordsNotEqual", session.getAttribute("errorPasswordsNotEqual"));
+        session.removeAttribute("errorPasswordsNotEqual");
 
         request.setAttribute("errorEmptyEmail", session.getAttribute("errorEmptyEmail"));
         session.removeAttribute("errorEmptyEmail");
@@ -55,6 +61,14 @@ public class AttributeFSTRService {
 
         request.setAttribute("errorOrderClientIdMessage", session.getAttribute("errorOrderClientIdMessage"));
         session.removeAttribute("errorOrderClientIdMessage");
+
+    }
+
+    public static void forShowOrder(HttpServletRequest request) {
+        HttpSession session = request.getSession();
+
+        request.setAttribute("error", session.getAttribute("error"));
+        session.removeAttribute("error");
 
     }
 

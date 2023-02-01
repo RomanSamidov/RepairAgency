@@ -31,6 +31,7 @@ public class DownloadFileCommand implements IActionCommand, IHasRoleRequirement 
         writeFileToResponse(response, filename);
         if (new File(filename).delete()) logger.debug("File " + filename + " deleted.");
         logger.debug("Downloading have to start.");
+        request.getSession().removeAttribute("reportName");
         return PathFactory.getPath("path.page.redirect.home", true);
     }
 

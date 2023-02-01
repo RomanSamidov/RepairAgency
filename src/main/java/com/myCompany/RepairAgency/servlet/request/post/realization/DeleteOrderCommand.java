@@ -8,6 +8,7 @@ import com.myCompany.RepairAgency.servlet.Path;
 import com.myCompany.RepairAgency.servlet.PathFactory;
 import com.myCompany.RepairAgency.servlet.request.IActionCommand;
 import com.myCompany.RepairAgency.servlet.request.IHasRoleRequirement;
+import com.myCompany.RepairAgency.servlet.service.OrderUserService;
 import com.myCompany.RepairAgency.servlet.service.RepairOrderService;
 import com.myCompany.RepairAgency.servlet.service.SendEmailService;
 import com.myCompany.RepairAgency.servlet.service.UserService;
@@ -36,16 +37,16 @@ public class DeleteOrderCommand implements IActionCommand, IHasRoleRequirement {
 
         if (request.getSession().getAttribute("userRole").equals(Constants.ROLE.Client)) {
             if (order.getUser_id() == (long) request.getSession().getAttribute("userId")) {
-                RepairOrderService.delete(orderId);
+                deleteOrder(order);
             } else {
                 Path path = PathFactory.getPath("path.page.redirect.order");
                 path.addParameter("id", String.valueOf(orderId));
                 return path;
             }
-        } else RepairOrderService.delete(orderId);
+        } else deleteOrder(order);
 
-        User user = UserService.get(order.getUser_id());
-        SendEmailService.forDeleteOrder(user, order.getId());
+
+
         return PathFactory.getPath("path.page.redirect.orders");
     }
 
@@ -54,5 +55,11 @@ public class DeleteOrderCommand implements IActionCommand, IHasRoleRequirement {
         return Stream.of(Constants.ROLE.Client, Constants.ROLE.Admin).collect(Collectors.toList());
     }
 
+    private void deleteOrder(RepairOrder order){
+        OrderUserService.cancelOrder(order.getId());
+        RepairOrderService.delete(order.getId());
+        User user = UserService.get(order.getUser_id());
+        SendEmailService.forDeleteOrder(user, order.getId());
+    }
 
 }

@@ -30,20 +30,22 @@ public class ChangePasswordCommand implements IActionCommand {
         request.getSession().setAttribute("email", email);
 
         if (!ParameterValidationService.validateLogin(request, login)) {
+            request.getSession().removeAttribute("waitedCodePassword");
             return PathFactory.getPath("path.page.redirect.change_password");
         }
 
         User user = UserService.get(login);
-        if (!ParameterValidationService.forChangePassword(request, user))
+        if (!ParameterValidationService.forChangePassword(request, user)) {
+            request.getSession().removeAttribute("waitedCodePassword");
             return PathFactory.getPath("path.page.redirect.change_password");
-
+        }
         if (request.getSession().getAttribute("waitedCodePassword") == null ||
                 Boolean.parseBoolean(request.getParameter("sendCodeAgain"))) {
             String generatedString = Encrypt.generateCode();
 
             request.getSession().setAttribute("waitedCodePassword", generatedString);
 
-            SendEmailService.forChangePasswordCode(user, code);
+            SendEmailService.forChangePasswordCode(user, generatedString);
 
             return PathFactory.getPath("path.page.redirect.change_password");
         }

@@ -9,11 +9,12 @@
 
  <div align="center">
     <form class="text-center" name="changePasswordForm" method="POST" action="" autocomplete="on" target="_top">
-        <input type="hidden" name="command" value="change_password" />
 
         <c:import url="/WEB-INF/jsp/parts/login_input.jsp"/>
 
         <c:import url="/WEB-INF/jsp/parts/email_input.jsp"/>
+
+        <input type="hidden" name="command" value="change_password" />
 
         <c:import url="${_part_of_change_password_url}"/>
 

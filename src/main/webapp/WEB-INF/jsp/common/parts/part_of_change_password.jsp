@@ -5,6 +5,8 @@
 
     <c:import url="/WEB-INF/jsp/parts/password_repeat_input.jsp"/>
 
+    <my:message key="${errorPasswordsNotEqual}" default_value=""/>
+
     ${waitedCodePassword}<br/>
 
     <my:message key="${confirmationCodeError}" default_value=""/>

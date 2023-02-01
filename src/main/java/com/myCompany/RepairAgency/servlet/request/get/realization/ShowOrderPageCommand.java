@@ -7,10 +7,7 @@ import com.myCompany.RepairAgency.servlet.Path;
 import com.myCompany.RepairAgency.servlet.PathFactory;
 import com.myCompany.RepairAgency.servlet.request.IActionCommand;
 import com.myCompany.RepairAgency.servlet.request.IHasRoleRequirement;
-import com.myCompany.RepairAgency.servlet.service.InitValuesFromRequestService;
-import com.myCompany.RepairAgency.servlet.service.RepairOrderService;
-import com.myCompany.RepairAgency.servlet.service.UserService;
-import com.myCompany.RepairAgency.servlet.service.ViewValidationService;
+import com.myCompany.RepairAgency.servlet.service.*;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
@@ -38,6 +35,8 @@ public class ShowOrderPageCommand implements IActionCommand, IHasRoleRequirement
         request.getSession().setAttribute("orderStatuses", orderStatuses);
         request.getSession().setAttribute("craftsmen", UserDTOFactory.getUsers(
                 UserService.getByRole(Constants.ROLE.Craftsman.ordinal(), 0L, 50L)));
+
+        AttributeFSTRService.forShowOrder(request);
 
         return ViewValidationService.validateForOrderPage(request, order);
     }
