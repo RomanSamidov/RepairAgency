@@ -40,6 +40,7 @@ public class CreateUserCommand implements IActionCommand, IHasRoleRequirement {
             }
 
             UserService.registerNewUser(login, password, email, Integer.parseInt(roleId));
+            request.getSession().setAttribute("userCreated", "message.user_created");
         }
 
         return PathFactory.getPath("path.page.redirect.create_user");

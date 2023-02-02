@@ -10,6 +10,7 @@
  <div align="center">
     <form class="text-center" name="createUserForm" method="POST" action="" autocomplete="on" target="_top">
         <input type="hidden" name="command" value="create_user" />
+        <my:message key="${userCreated}" default_value=""/>
 
         <c:import url="/WEB-INF/jsp/parts/login_input.jsp"/>
 

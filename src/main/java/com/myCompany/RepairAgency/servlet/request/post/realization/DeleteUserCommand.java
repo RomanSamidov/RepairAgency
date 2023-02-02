@@ -26,6 +26,9 @@ public class DeleteUserCommand implements IActionCommand, IHasRoleRequirement {
         User user;
         try {
             long userId = Long.parseLong(request.getParameter("goalIdUser"));
+            if(userId == (long)request.getSession().getAttribute("userId")){
+                return PathFactory.getPath("path.page.redirect.users");
+            }
             user = UserService.get(userId);
             UserService.delete(user);
         } catch (NumberFormatException | MyDBException e) {

@@ -78,7 +78,9 @@ public class EmailSender {
             Transport.send(message);
             logger.debug("message sent successfully");
         } catch (MessagingException e) {
-            throw new RuntimeException(e);
+            logger.debug("message do not sent successfully");
+            logger.debug(e);
+
         }
 
     }

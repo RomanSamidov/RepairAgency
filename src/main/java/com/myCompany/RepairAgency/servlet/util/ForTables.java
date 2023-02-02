@@ -16,7 +16,7 @@ public class ForTables {
             request.getSession().setAttribute("nowPageFor" + tableName, page);
         }
         if (request.getSession().getAttribute("numberOf" + tableName) != null) {
-            if ((long) request.getSession().getAttribute("numberOf" + tableName) != numberOf) {
+            if ((long) request.getSession().getAttribute("numberOf" + tableName) > numberOf) {
                 page = 1;
                 request.getSession().setAttribute("nowPageFor" + tableName, page);
             }

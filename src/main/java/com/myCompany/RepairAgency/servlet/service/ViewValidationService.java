@@ -159,7 +159,7 @@ public class ViewValidationService {
             request.setAttribute("_add_to_account_url", PathFactory.getPath("path.page.forward.common.empty").toString());
             request.setAttribute("_delete_user_url", PathFactory.getPath("path.page.forward.common.empty").toString());
         } else {
-            if (userRole.equals(Constants.ROLE.Admin)) {
+            if (userRole.equals(Constants.ROLE.Admin) && userId != (long)request.getSession().getAttribute("userId")) {
                 request.setAttribute("_delete_user_url", PathFactory.getPath("path.page.user.part.admin.delete_user").toString());
             } else {
                 request.setAttribute("_delete_user_url", PathFactory.getPath("path.page.forward.common.empty").toString());

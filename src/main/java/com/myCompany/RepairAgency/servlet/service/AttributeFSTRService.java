@@ -35,6 +35,9 @@ public class AttributeFSTRService {
 
         request.setAttribute("errorEmptyEmail", session.getAttribute("errorEmptyEmail"));
         session.removeAttribute("errorEmptyEmail");
+
+        request.setAttribute("userCreated", session.getAttribute("userCreated"));
+        session.removeAttribute("userCreated");
     }
 
     public static void forShowLoginForm(HttpServletRequest request) {
