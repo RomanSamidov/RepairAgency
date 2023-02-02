@@ -1,10 +1,8 @@
 package com.myCompany.RepairAgency.servlet.filter;
 
 import com.myCompany.RepairAgency.Constants;
-import com.myCompany.RepairAgency.model.ModelManager;
-import com.myCompany.RepairAgency.model.db.abstractDB.exception.MyDBException;
-import com.myCompany.RepairAgency.model.db.abstractDB.repository.entity.iUserRepository;
 import com.myCompany.RepairAgency.model.entity.User;
+import com.myCompany.RepairAgency.servlet.service.UserService;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.Cookie;
 import org.junit.jupiter.api.BeforeEach;
@@ -22,7 +20,6 @@ import java.util.Spliterators;
 import java.util.stream.StreamSupport;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 class SessionLocaleFilterTest {
@@ -53,7 +50,7 @@ class SessionLocaleFilterTest {
     @Test
     void doFilter1() throws ServletException, IOException {
 
-        try (MockedStatic<ModelManager> ignored1 = Mockito.mockStatic(ModelManager.class);
+        try (MockedStatic<UserService> ignored1 = Mockito.mockStatic(UserService.class);
              MockedStatic<Constants.LOCALE> ignored2 = Mockito.mockStatic(Constants.LOCALE.class)) {
 
             session.setAttribute("userId", 0L);
@@ -73,64 +70,16 @@ class SessionLocaleFilterTest {
                 }
 
             }.getClass());
-            iUserRepository userRepo = Mockito.mock(new iUserRepository() {
-                @Override
-                public User getByLogin(String login) {
-                    return null;
-                }
-
-                @Override
-                public ArrayList<User> getByRole(long roleId, long skip, long quantity) {
-                    return null;
-                }
-
-                @Override
-                public long countWhereRoleIs(long id) {
-                    return 0;
-                }
-
-                @Override
-                public void update(User obj) {
-                    System.out.println("dsdsbbb");
-                }
-
-                @Override
-                public void delete(User obj) {
-
-                }
-
-                @Override
-                public void delete(long id) throws MyDBException {
-
-                }
-
-                @Override
-                public void insert(User obj) {
-
-                }
-
-                @Override
-                public User getById(long id) {
-                    return user;
-                }
-            }.getClass());
 
             Mockito.doCallRealMethod().when(user).setLocale_id(Mockito.anyInt());
-            when(userRepo.getById(Mockito.anyLong())).thenReturn(user);
-            Mockito.doCallRealMethod().when(userRepo).update(any());
+            when(UserService.get(Mockito.anyLong())).thenReturn(user);
             Mockito.doCallRealMethod().when(user).getLocale_id();
-
-            ModelManager manager = Mockito.mock(ModelManager.class);
-            Mockito.when(manager.getUserRepository()).thenReturn(userRepo);
-            Mockito.when(ModelManager.getInstance()).thenReturn(manager);
 
             Constants.LOCALE locale1 = Mockito.mock(Constants.LOCALE.class);
             Mockito.when(locale1.ordinal()).thenReturn(100);
 
             Mockito.when(Constants.LOCALE.valueOf(Mockito.anyString()))
                     .thenReturn(locale1);
-
-            Mockito.when(ModelManager.getInstance()).thenReturn(manager);
 
             filterUnderTest.init(filterConfig);
             filterUnderTest.doFilter(request, response, mockChain);

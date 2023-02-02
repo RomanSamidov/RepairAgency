@@ -34,7 +34,7 @@ public class ConfirmEmailCommand implements IActionCommand, IHasRoleRequirement 
             String generatedString = Encrypt.generateCode();
             session.setAttribute("waitedCode", generatedString);
 
-            SendEmailService.forConfirmEmailCode(user, code);
+            SendEmailService.forConfirmEmailCode(user, generatedString);
 
             return PathFactory.getPath("path.page.redirect.cabinet");
         }

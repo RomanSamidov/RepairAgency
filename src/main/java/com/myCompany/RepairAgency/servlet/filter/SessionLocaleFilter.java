@@ -1,13 +1,14 @@
 package com.myCompany.RepairAgency.servlet.filter;
 
 import com.myCompany.RepairAgency.Constants;
-import com.myCompany.RepairAgency.model.ModelManager;
 import com.myCompany.RepairAgency.model.entity.User;
+import com.myCompany.RepairAgency.servlet.service.UserService;
 import jakarta.servlet.*;
 import jakarta.servlet.annotation.WebFilter;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -25,26 +26,29 @@ public class SessionLocaleFilter implements Filter {
         logger.debug("Filter starts");
 
         HttpServletRequest req = (HttpServletRequest) request;
+        HttpSession session = req.getSession();
+
 
         if (req.getParameter("language") != null) {
-            if (((HttpServletRequest) request).getSession().getAttribute("userId") != null) {
-                User user = ModelManager.getInstance().getUserRepository().getById((Long) (
-                        (HttpServletRequest) request).getSession().getAttribute("userId"));
+            if (session.getAttribute("userId") != null) {
+                User user = UserService.get((Long) session.getAttribute("userId"));
                 user.setLocale_id(Constants.LOCALE.valueOf(req.getParameter("language")).ordinal());
-                ModelManager.getInstance().getUserRepository().update(user);
+                UserService.update(user);
             }
 
-            logger.debug("language changed from " + req.getSession().getAttribute("language")
+            logger.debug("language changed from " + session.getAttribute("language")
                     + " to " + req.getParameter("language"));
-            req.getSession().setAttribute("language", req.getParameter("language"));
+            session.setAttribute("language", req.getParameter("language"));
             Cookie languageCookie = new Cookie("language", req.getParameter("language"));
             languageCookie.setMaxAge(Integer.MAX_VALUE);
             ((HttpServletResponse) response).addCookie(languageCookie);
+            ((HttpServletResponse)response).sendRedirect(req.getRequestURI());
+            return;
         }
 
-        if (req.getSession().getAttribute("language") == null) {
-            req.getSession().setAttribute("language",
-                    Stream.ofNullable(((HttpServletRequest) request).getCookies())
+        if (session.getAttribute("language") == null) {
+            session.setAttribute("language",
+                    Stream.ofNullable(req.getCookies())
                             .flatMap(Arrays::stream)
                             .filter(cookie -> cookie.getName().equals("language"))
                             .map(Cookie::getValue)
