@@ -13,6 +13,7 @@ import java.util.stream.Stream;
 public class ConnectionPool {
 
     private static final int INITIAL_POOL_SIZE = 10;
+    private static final ResourceBundle resourceBundle = ResourceBundle.getBundle(Constants.DB_SETTINGS_BUNDLE);
     private static final String URL = initializeUrl();
     private static final String USER = initializeUser();
     private static final String PASSWORD = initializePassword();
@@ -23,17 +24,14 @@ public class ConnectionPool {
     }
 
     private static String initializeUrl() {
-        ResourceBundle resourceBundle = ResourceBundle.getBundle(Constants.DB_SETTINGS_BUNDLE);
         return resourceBundle.getString(Constants.CONNECTION_URL);
     }
 
     private static String initializePassword() {
-        ResourceBundle resourceBundle = ResourceBundle.getBundle(Constants.DB_SETTINGS_BUNDLE);
         return resourceBundle.getString(Constants.PASSWORD);
     }
 
     private static String initializeUser() {
-        ResourceBundle resourceBundle = ResourceBundle.getBundle(Constants.DB_SETTINGS_BUNDLE);
         return resourceBundle.getString(Constants.USER);
     }
 
@@ -77,8 +75,10 @@ public class ConnectionPool {
 
     public static synchronized void releaseConnection(Connection connection) {
         try {
-//            connection.commit();
-            connection.setAutoCommit(true);
+            if(!connection.getAutoCommit()) {
+                connection.rollback();
+                connection.setAutoCommit(true);
+            }
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }

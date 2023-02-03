@@ -34,23 +34,29 @@ public class EmailSender {
             return;
         }
 
-        //Get properties object
-        Properties props = new Properties();
-        props.put("mail.smtp.host", "smtp.gmail.com");
-        props.put("mail.smtp.socketFactory.port", "465");
-        props.put("mail.smtp.socketFactory.class", "jakarta.net.ssl.SSLSocketFactory");
-        props.put("mail.smtp.auth", "true");
-        props.put("mail.smtp.ssl.enable", "true");
-        props.put("mail.smtp.port", "465");
-        //get Session
-        Session session = Session.getDefaultInstance(props,
-                new jakarta.mail.Authenticator() {
-                    protected PasswordAuthentication getPasswordAuthentication() {
-                        return new PasswordAuthentication(from, password);
-                    }
-                });
-        //compose message
+        send(to, sub, msg, 0, files);
+    }
+
+    private static void send(String to, String sub, String msg, int trie, File... files){
+        if(trie > 10) return;
         try {
+            //Get properties object
+            Properties props = new Properties();
+            props.put("mail.smtp.host", "smtp.gmail.com");
+            props.put("mail.smtp.socketFactory.port", "465");
+            props.put("mail.smtp.socketFactory.class", "jakarta.net.ssl.SSLSocketFactory");
+            props.put("mail.smtp.auth", "true");
+            props.put("mail.smtp.ssl.enable", "true");
+            props.put("mail.smtp.port", "465");
+            //get Session
+            Session session = Session.getDefaultInstance(props,
+                    new jakarta.mail.Authenticator() {
+                        protected PasswordAuthentication getPasswordAuthentication() {
+                            return new PasswordAuthentication(from, password);
+                        }
+                    });
+            //compose message
+
             MimeMessage message = new MimeMessage(session);
             message.addRecipient(Message.RecipientType.TO, new InternetAddress(to));
             message.setSubject(sub);
@@ -78,9 +84,14 @@ public class EmailSender {
             Transport.send(message);
             logger.debug("message sent successfully");
         } catch (MessagingException e) {
-            logger.debug("message do not sent successfully");
+            logger.debug("message do not sent successfully, " + trie + " trie");
             logger.debug(e);
-
+            try {
+                Thread.sleep(100);
+            } catch (InterruptedException ex) {
+                throw new RuntimeException(ex);
+            }
+            send(to, sub, msg, ++trie, files);
         }
 
     }

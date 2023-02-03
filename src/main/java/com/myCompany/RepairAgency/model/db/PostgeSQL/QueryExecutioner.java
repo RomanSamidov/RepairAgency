@@ -14,9 +14,10 @@ public class QueryExecutioner {
     private static final Logger logger = LogManager.getLogger(QueryExecutioner.class);
 
 
-    public static long executeUpdate(Connection conn, String query, Object... args) throws MyDBException {
-        long id = 0;
+    public static long executeUpdate(Connection conn, String query, Object... args) throws MyDBException
+    {
         try (PreparedStatement st = conn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
+            long id = 0;
             if (args != null) setArgsForPreparedStatement(st, args);
             int i = st.executeUpdate();
             if (i != 0) {
@@ -25,11 +26,11 @@ public class QueryExecutioner {
                     id = rs.getLong("id");
                 }
             }
+            return id;
         } catch (SQLException e) {
             logger.debug(e);
             throw new MyDBException("Something wrong with DB ", e);
         }
-        return id;
     }
 
     public static long readNumber(Connection conn, String query, Object... args) throws MyDBException {
@@ -54,33 +55,33 @@ public class QueryExecutioner {
     }
 
     public static <E extends Entity, F extends abstractEntityFactory<E>>
-    E readEntity(F factory, Connection conn, final String query, Object... args) throws MyDBException {
-        E answer = null;
+    E readEntity(F factory, Connection conn, final String query, Object... args) throws MyDBException
+    {
         try (PreparedStatement statement = conn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
             setArgsForPreparedStatement(statement, args);
             ResultSet ser = statement.executeQuery();
-            answer = factory.getResult(ser);
+            E answer = factory.getResult(ser);
             ser.close();
+            return answer;
         } catch (SQLException e) {
             logger.debug(e);
             throw new MyDBException("Something wrong with DB ", e);
         }
-        return answer;
     }
 
     public static <E extends Entity, F extends abstractEntityFactory<E>>
-    ArrayList<E> readList(F factory, Connection conn, final String query, Object... args) throws MyDBException {
-        ArrayList<E> answer = new ArrayList<>();
+    ArrayList<E> readList(F factory, Connection conn, final String query, Object... args) throws MyDBException
+    {
         try (PreparedStatement statement = conn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
             setArgsForPreparedStatement(statement, args);
             ResultSet ser = statement.executeQuery();
-            answer = factory.getListOfResult(ser);
+            ArrayList<E> answer = factory.getListOfResult(ser);
             ser.close();
+            return answer;
         } catch (SQLException e) {
             logger.debug(e);
             throw new MyDBException("Something wrong with DB ", e);
         }
-        return answer;
     }
 
 }
