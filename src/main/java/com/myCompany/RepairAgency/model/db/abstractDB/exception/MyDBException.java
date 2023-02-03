@@ -7,6 +7,6 @@ public class MyDBException extends RuntimeException {
     }
 
     public MyDBException() {
-
+        super();
     }
 }

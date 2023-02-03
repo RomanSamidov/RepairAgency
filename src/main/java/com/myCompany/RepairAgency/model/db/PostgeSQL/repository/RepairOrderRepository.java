@@ -33,64 +33,86 @@ public class RepairOrderRepository implements iRepairOrderRepository {
     @Override
     public void update(RepairOrder order) throws MyDBException {
         Connection conn = ConnectionPool.getConnection();
-        QueryExecutioner.executeUpdate(conn, Query.RepairOrdersQuery.UPDATE,
-                RepairOrderRepository.extractFields(order, order.getId()));
-        ConnectionPool.releaseConnection(conn);
+        try {
+            QueryExecutioner.executeUpdate(conn, Query.RepairOrdersQuery.UPDATE,
+                    RepairOrderRepository.extractFields(order, order.getId()));
+        } finally {
+            ConnectionPool.releaseConnection(conn);
+        }
     }
 
     @Override
     public void delete(RepairOrder order) throws MyDBException {
         Connection conn = ConnectionPool.getConnection();
-        QueryExecutioner.executeUpdate(conn, Query.RepairOrdersQuery.DELETE, order.getId());
-        ConnectionPool.releaseConnection(conn);
+        try {
+            QueryExecutioner.executeUpdate(conn, Query.RepairOrdersQuery.DELETE, order.getId());
+        } finally {
+            ConnectionPool.releaseConnection(conn);
+        }
     }
 
     @Override
     public void delete(long id) throws MyDBException {
         Connection conn = ConnectionPool.getConnection();
-        QueryExecutioner.executeUpdate(conn, Query.RepairOrdersQuery.DELETE, id);
-        ConnectionPool.releaseConnection(conn);
+        try {
+            QueryExecutioner.executeUpdate(conn, Query.RepairOrdersQuery.DELETE, id);
+        } finally {
+            ConnectionPool.releaseConnection(conn);
+        }
     }
 
     @Override
     public void insert(RepairOrder order) throws MyDBException {
         Connection conn = ConnectionPool.getConnection();
-        long id = QueryExecutioner.executeUpdate(conn, Query.RepairOrdersQuery.INSERT,
-                RepairOrderRepository.extractFields(order));
-        ConnectionPool.releaseConnection(conn);
-        order.setId(id);
+        try {
+            long id = QueryExecutioner.executeUpdate(conn, Query.RepairOrdersQuery.INSERT,
+                    RepairOrderRepository.extractFields(order));
+            order.setId(id);
+        } finally {
+            ConnectionPool.releaseConnection(conn);
+        }
     }
 
     @Override
     public RepairOrder getById(long id) throws MyDBException {
         Connection conn = ConnectionPool.getConnection();
-        RepairOrder res = QueryExecutioner.readEntity(RepairOrderFactory.ins, conn,
-                Query.RepairOrdersQuery.SELECT_BY_ID, id);
-        ConnectionPool.releaseConnection(conn);
-        return res;
+        try {
+            return QueryExecutioner.readEntity(RepairOrderFactory.ins, conn,
+                    Query.RepairOrdersQuery.SELECT_BY_ID, id);
+        } finally {
+            ConnectionPool.releaseConnection(conn);
+        }
     }
 
     @Override
     public ArrayList<RepairOrder> getByCraftUserStatus(long[] craftIds, long userId,
-                                                       long[] statusIds, SORT_TYPE sort, long skip, long quantity) throws MyDBException {
+                                                       long[] statusIds, SORT_TYPE sort,
+                                                       long skip, long quantity) throws MyDBException
+    {
         Connection conn = ConnectionPool.getConnection();
-        ArrayList<RepairOrder> res = QueryExecutioner.readList(RepairOrderFactory.ins, conn
-                , Query.RepairOrdersQuery.SELECT_BY_CRAFT_USER_STATUS +
-                        Query.RepairOrdersQuery.getSortQuery(sort)
-                , craftIds, new long[]{}, craftIds, userId, userId, statusIds, new long[]{},
-                statusIds, skip, quantity);
-        ConnectionPool.releaseConnection(conn);
-        return res;
+        try {
+            return QueryExecutioner.readList(RepairOrderFactory.ins, conn
+                    , Query.RepairOrdersQuery.SELECT_BY_CRAFT_USER_STATUS +
+                            Query.RepairOrdersQuery.getSortQuery(sort)
+                    , craftIds, new long[]{}, craftIds,
+                    userId, userId,
+                    statusIds, new long[]{}, statusIds,
+                    skip, quantity);
+        } finally {
+            ConnectionPool.releaseConnection(conn);
+        }
     }
 
     @Override
     public long countByCraftUserStatus(long[] craftIds, long userId, long[] statusIds) throws MyDBException {
         Connection conn = ConnectionPool.getConnection();
-        long res = QueryExecutioner.readNumber(conn, Query.RepairOrdersQuery.COUNT_BY_CRAFT_USER_STATUS
-                , craftIds, new long[]{}, craftIds, userId, userId, statusIds, new long[]{}, statusIds);
-        ConnectionPool.releaseConnection(conn);
-        return res;
+        try {
+            return QueryExecutioner.readNumber(conn, Query.RepairOrdersQuery.COUNT_BY_CRAFT_USER_STATUS
+                , craftIds, new long[]{}, craftIds,
+                userId, userId,
+                statusIds, new long[]{}, statusIds);
+        } finally {
+            ConnectionPool.releaseConnection(conn);
+        }
     }
-
-
 }

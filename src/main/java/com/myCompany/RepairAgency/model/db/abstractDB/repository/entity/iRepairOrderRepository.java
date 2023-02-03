@@ -7,9 +7,9 @@ import com.myCompany.RepairAgency.model.entity.RepairOrder;
 import java.util.ArrayList;
 
 public interface iRepairOrderRepository extends iRepositoryForChangeAble<RepairOrder> {
-
     ArrayList<RepairOrder> getByCraftUserStatus(long[] craftIds, long userId,
-                                                long[] statusIds, SORT_TYPE sort, long skip, long quantity) throws MyDBException;
+                                                long[] statusIds, SORT_TYPE sort,
+                                                long skip, long quantity) throws MyDBException;
 
     long countByCraftUserStatus(long[] craftIds, long userId, long[] statusIds) throws MyDBException;
 
