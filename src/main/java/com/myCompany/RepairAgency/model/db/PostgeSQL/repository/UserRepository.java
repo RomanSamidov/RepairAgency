@@ -40,6 +40,17 @@ public class UserRepository implements iUserRepository {
     }
 
     @Override
+    public void increaseAccount(long userId, long increment) throws MyDBException {
+        Connection conn = ConnectionPool.getConnection();
+        try {
+            QueryExecutioner.executeUpdate(conn, Query.UsersQuery.INCREASE_ACCOUNT,
+                    increment, userId);
+        } finally {
+            ConnectionPool.releaseConnection(conn);
+        }
+    }
+
+    @Override
     public void delete(User user) throws MyDBException {
         Connection conn = ConnectionPool.getConnection();
         try {

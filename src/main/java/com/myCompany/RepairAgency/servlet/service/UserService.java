@@ -20,8 +20,7 @@ public class UserService {
             iUserRepository repo = ModelManager.getInstance().getUserRepository();
             User user = repo.getById(userId);
             if (user.getRole_id() == Constants.ROLE.Client.ordinal()) {
-                user.setAccount(user.getAccount() + increment);
-                repo.update(user);
+                repo.increaseAccount(userId, increment);
 
                 SendEmailService.forAddToUserAccount(user, increment);
                 return true;

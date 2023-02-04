@@ -28,14 +28,11 @@ public class OrderUserService implements iOrderUserService {
             order.setStatus_id(Constants.ORDER_STATUS.CANCELED.ordinal());
             order.setFinish_date(LocalDateTime.now());
 
-            User user = new UserRepository().getById(order.getUser_id());
-            user.setAccount(user.getAccount() + order.getPrice());
-
             QueryExecutioner.executeUpdate(conn, Query.RepairOrdersQuery.UPDATE,
                     RepairOrderRepository.extractFields(order, order.getId()));
 
-            QueryExecutioner.executeUpdate(conn, Query.UsersQuery.UPDATE,
-                    UserRepository.extractFields(user, user.getId()));
+            QueryExecutioner.executeUpdate(conn, Query.UsersQuery.INCREASE_ACCOUNT,
+                    order.getPrice(), order.getUser_id());
 
             conn.commit();
             conn.setAutoCommit(true);
