@@ -87,8 +87,7 @@ public class RepairOrderRepository implements iRepairOrderRepository {
     @Override
     public ArrayList<RepairOrder> getByCraftUserStatus(long[] craftIds, long userId,
                                                        long[] statusIds, SORT_TYPE sort,
-                                                       long skip, long quantity) throws MyDBException
-    {
+                                                       long skip, long quantity) throws MyDBException {
         Connection conn = ConnectionPool.getConnection();
         try {
             return QueryExecutioner.readList(RepairOrderFactory.ins, conn
@@ -108,9 +107,9 @@ public class RepairOrderRepository implements iRepairOrderRepository {
         Connection conn = ConnectionPool.getConnection();
         try {
             return QueryExecutioner.readNumber(conn, Query.RepairOrdersQuery.COUNT_BY_CRAFT_USER_STATUS
-                , craftIds, new long[]{}, craftIds,
-                userId, userId,
-                statusIds, new long[]{}, statusIds);
+                    , craftIds, new long[]{}, craftIds,
+                    userId, userId,
+                    statusIds, new long[]{}, statusIds);
         } finally {
             ConnectionPool.releaseConnection(conn);
         }

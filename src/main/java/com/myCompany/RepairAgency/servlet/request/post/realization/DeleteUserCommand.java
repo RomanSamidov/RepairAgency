@@ -7,8 +7,8 @@ import com.myCompany.RepairAgency.servlet.Path;
 import com.myCompany.RepairAgency.servlet.PathFactory;
 import com.myCompany.RepairAgency.servlet.request.IActionCommand;
 import com.myCompany.RepairAgency.servlet.request.IHasRoleRequirement;
-import com.myCompany.RepairAgency.servlet.service.SendEmailService;
 import com.myCompany.RepairAgency.servlet.service.UserService;
+import com.myCompany.RepairAgency.servlet.util.SendEmail;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.apache.logging.log4j.LogManager;
@@ -26,7 +26,7 @@ public class DeleteUserCommand implements IActionCommand, IHasRoleRequirement {
         User user;
         try {
             long userId = Long.parseLong(request.getParameter("goalIdUser"));
-            if(userId == (long)request.getSession().getAttribute("userId")){
+            if (userId == (long) request.getSession().getAttribute("userId")) {
                 return PathFactory.getPath("path.page.redirect.users");
             }
             user = UserService.get(userId);
@@ -35,7 +35,7 @@ public class DeleteUserCommand implements IActionCommand, IHasRoleRequirement {
             return PathFactory.getPath("path.page.redirect.users");
         }
 
-        SendEmailService.forDeleteUser(user);
+        SendEmail.forDeleteUser(user);
         logger.debug("User profile deleted");
         return PathFactory.getPath("path.page.redirect.users");
     }

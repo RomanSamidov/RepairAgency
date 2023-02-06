@@ -5,10 +5,10 @@ import com.myCompany.RepairAgency.model.entity.DTO.UserDTOFactory;
 import com.myCompany.RepairAgency.servlet.Path;
 import com.myCompany.RepairAgency.servlet.request.IActionCommand;
 import com.myCompany.RepairAgency.servlet.request.IHasRoleRequirement;
-import com.myCompany.RepairAgency.servlet.service.InitValuesFromRequestService;
 import com.myCompany.RepairAgency.servlet.service.UserService;
-import com.myCompany.RepairAgency.servlet.service.ViewValidationService;
 import com.myCompany.RepairAgency.servlet.util.ForTables;
+import com.myCompany.RepairAgency.servlet.util.InitValuesFromRequest;
+import com.myCompany.RepairAgency.servlet.util.ViewValidation;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
@@ -22,7 +22,7 @@ public class ShowUsersCommand implements IActionCommand, IHasRoleRequirement {
     public Path execute(HttpServletRequest request, HttpServletResponse response) {
         request.setAttribute("title", "title.users");
 
-        long roleId = InitValuesFromRequestService.initRoleId(request);
+        long roleId = InitValuesFromRequest.initRoleId(request);
         setListOfRolesUsers(request);
 
         long numberOfUsers = UserService.countWhereRoleIs(roleId);
@@ -33,7 +33,7 @@ public class ShowUsersCommand implements IActionCommand, IHasRoleRequirement {
         if (numberOfUsers == 0) {
             request.setAttribute("error", "text.there_are_no_users");
         }
-        return ViewValidationService.validateForUsersPage(request);
+        return ViewValidation.validateForUsersPage(request);
     }
 
 

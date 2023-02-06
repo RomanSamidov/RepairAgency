@@ -3,8 +3,8 @@ package com.myCompany.RepairAgency.servlet.request.post.realization;
 import com.myCompany.RepairAgency.Constants;
 import com.myCompany.RepairAgency.servlet.Path;
 import com.myCompany.RepairAgency.servlet.PathFactory;
-import com.myCompany.RepairAgency.servlet.service.ParameterValidationService;
 import com.myCompany.RepairAgency.servlet.util.ForTables;
+import com.myCompany.RepairAgency.servlet.util.ParameterValidation;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
@@ -44,12 +44,12 @@ class UsersCommandTest {
         session.setAttribute("userId", 1L);
         request.setParameter("roleUsers", "0");
 
-        try (MockedStatic<ParameterValidationService> ignored1 = Mockito.mockStatic(ParameterValidationService.class);
+        try (MockedStatic<ParameterValidation> ignored1 = Mockito.mockStatic(ParameterValidation.class);
              MockedStatic<PathFactory> ignored2 = Mockito.mockStatic(PathFactory.class);
              MockedStatic<ForTables> ignored3 = Mockito.mockStatic(ForTables.class)) {
 
             Mockito.when(PathFactory.getPath(Mockito.eq("path.page.redirect.users"))).thenReturn(mockPath);
-            Mockito.when(ParameterValidationService.validateRoleId(request, "0")).thenReturn(false);
+            Mockito.when(ParameterValidation.validateRoleId(request, "0")).thenReturn(false);
 
             assertEquals(mockPath, new UsersCommand().execute(request, response));
             ignored2.verify(() -> PathFactory.getPath("path.page.redirect.users"), Mockito.times(1));
@@ -62,12 +62,12 @@ class UsersCommandTest {
         session.setAttribute("userId", 1L);
         request.setParameter("roleUsers", "0");
 
-        try (MockedStatic<ParameterValidationService> ignored1 = Mockito.mockStatic(ParameterValidationService.class);
+        try (MockedStatic<ParameterValidation> ignored1 = Mockito.mockStatic(ParameterValidation.class);
              MockedStatic<PathFactory> ignored2 = Mockito.mockStatic(PathFactory.class);
              MockedStatic<ForTables> ignored3 = Mockito.mockStatic(ForTables.class)) {
 
             Mockito.when(PathFactory.getPath(Mockito.eq("path.page.redirect.users"))).thenReturn(mockPath);
-            Mockito.when(ParameterValidationService.validateRoleId(request, "0")).thenReturn(true);
+            Mockito.when(ParameterValidation.validateRoleId(request, "0")).thenReturn(true);
 
             assertEquals(mockPath, new UsersCommand().execute(request, response));
             ignored2.verify(() -> PathFactory.getPath("path.page.redirect.users"), Mockito.times(1));
@@ -82,7 +82,7 @@ class UsersCommandTest {
         session.setAttribute("userRole", Constants.ROLE.Manager);
         request.setParameter("roleUsers", "Manager");
 
-        try (MockedStatic<ParameterValidationService> ignored1 = Mockito.mockStatic(ParameterValidationService.class);
+        try (MockedStatic<ParameterValidation> ignored1 = Mockito.mockStatic(ParameterValidation.class);
              MockedStatic<PathFactory> ignored2 = Mockito.mockStatic(PathFactory.class);
              MockedStatic<ForTables> ignored3 = Mockito.mockStatic(ForTables.class)) {
 
@@ -101,7 +101,7 @@ class UsersCommandTest {
         session.setAttribute("userRole", Constants.ROLE.Manager);
         request.setParameter("roleUsers", "ew");
 
-        try (MockedStatic<ParameterValidationService> ignored1 = Mockito.mockStatic(ParameterValidationService.class);
+        try (MockedStatic<ParameterValidation> ignored1 = Mockito.mockStatic(ParameterValidation.class);
              MockedStatic<PathFactory> ignored2 = Mockito.mockStatic(PathFactory.class);
              MockedStatic<ForTables> ignored3 = Mockito.mockStatic(ForTables.class)) {
 

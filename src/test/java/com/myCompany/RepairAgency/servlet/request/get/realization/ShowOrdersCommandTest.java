@@ -10,8 +10,12 @@ import com.myCompany.RepairAgency.model.entity.RepairOrder;
 import com.myCompany.RepairAgency.model.entity.User;
 import com.myCompany.RepairAgency.servlet.Path;
 import com.myCompany.RepairAgency.servlet.PathFactory;
-import com.myCompany.RepairAgency.servlet.service.*;
+import com.myCompany.RepairAgency.servlet.service.RepairOrderService;
+import com.myCompany.RepairAgency.servlet.service.UserService;
+import com.myCompany.RepairAgency.servlet.util.AttributeFSTR;
 import com.myCompany.RepairAgency.servlet.util.ForTables;
+import com.myCompany.RepairAgency.servlet.util.InitValuesFromRequest;
+import com.myCompany.RepairAgency.servlet.util.ViewValidation;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
@@ -56,20 +60,20 @@ class ShowOrdersCommandTest {
         try (MockedStatic<RepairOrderService> ignored0 = Mockito.mockStatic(RepairOrderService.class);
              MockedStatic<UserService> ignored1 = Mockito.mockStatic(UserService.class);
              MockedStatic<PathFactory> ignored2 = Mockito.mockStatic(PathFactory.class);
-             MockedStatic<AttributeFSTRService> ignored3 = Mockito.mockStatic(AttributeFSTRService.class);
-             MockedStatic<ViewValidationService> ignored4 = Mockito.mockStatic(ViewValidationService.class);
-             MockedStatic<InitValuesFromRequestService> ignored5 = Mockito.mockStatic(InitValuesFromRequestService.class);
+             MockedStatic<AttributeFSTR> ignored3 = Mockito.mockStatic(AttributeFSTR.class);
+             MockedStatic<ViewValidation> ignored4 = Mockito.mockStatic(ViewValidation.class);
+             MockedStatic<InitValuesFromRequest> ignored5 = Mockito.mockStatic(InitValuesFromRequest.class);
              MockedStatic<ForTables> ignored6 = Mockito.mockStatic(ForTables.class);
              MockedStatic<RepairOrderDTOFactory> ignored7 = Mockito.mockStatic(RepairOrderDTOFactory.class);
              MockedStatic<UserDTOFactory> ignored8 = Mockito.mockStatic(UserDTOFactory.class)) {
 
             Mockito.when(PathFactory.getPath(Mockito.eq("path.page.forward.common.change_password"))).thenReturn(mockPath);
-            Mockito.when(ViewValidationService.validateForOrdersPage(request)).thenReturn(mockPath);
+            Mockito.when(ViewValidation.validateForOrdersPage(request)).thenReturn(mockPath);
 
-            Mockito.when(InitValuesFromRequestService.initCraftsmenIds(request)).thenReturn(new long[]{1, 2});
-            Mockito.when(InitValuesFromRequestService.initStatusIds(request)).thenReturn(new long[]{1, 2, 3, 4});
-            Mockito.when(InitValuesFromRequestService.initUserId(request)).thenReturn(0L);
-            Mockito.when(InitValuesFromRequestService.initSortType(request)).thenReturn(iRepairOrderRepository.SORT_TYPE.ORDER_BY_ID_ASC);
+            Mockito.when(InitValuesFromRequest.initCraftsmenIds(request)).thenReturn(new long[]{1, 2});
+            Mockito.when(InitValuesFromRequest.initStatusIds(request)).thenReturn(new long[]{1, 2, 3, 4});
+            Mockito.when(InitValuesFromRequest.initUserId(request)).thenReturn(0L);
+            Mockito.when(InitValuesFromRequest.initSortType(request)).thenReturn(iRepairOrderRepository.SORT_TYPE.ORDER_BY_ID_ASC);
 
 
             ArrayList<RepairOrder> orders = new ArrayList<>();
@@ -120,20 +124,20 @@ class ShowOrdersCommandTest {
         try (MockedStatic<RepairOrderService> ignored0 = Mockito.mockStatic(RepairOrderService.class);
              MockedStatic<UserService> ignored1 = Mockito.mockStatic(UserService.class);
              MockedStatic<PathFactory> ignored2 = Mockito.mockStatic(PathFactory.class);
-             MockedStatic<AttributeFSTRService> ignored3 = Mockito.mockStatic(AttributeFSTRService.class);
-             MockedStatic<ViewValidationService> ignored4 = Mockito.mockStatic(ViewValidationService.class);
-             MockedStatic<InitValuesFromRequestService> ignored5 = Mockito.mockStatic(InitValuesFromRequestService.class);
+             MockedStatic<AttributeFSTR> ignored3 = Mockito.mockStatic(AttributeFSTR.class);
+             MockedStatic<ViewValidation> ignored4 = Mockito.mockStatic(ViewValidation.class);
+             MockedStatic<InitValuesFromRequest> ignored5 = Mockito.mockStatic(InitValuesFromRequest.class);
              MockedStatic<ForTables> ignored6 = Mockito.mockStatic(ForTables.class);
              MockedStatic<RepairOrderDTOFactory> ignored7 = Mockito.mockStatic(RepairOrderDTOFactory.class);
              MockedStatic<UserDTOFactory> ignored8 = Mockito.mockStatic(UserDTOFactory.class)) {
 
             Mockito.when(PathFactory.getPath(Mockito.eq("path.page.forward.common.change_password"))).thenReturn(mockPath);
-            Mockito.when(ViewValidationService.validateForOrdersPage(request)).thenReturn(mockPath);
+            Mockito.when(ViewValidation.validateForOrdersPage(request)).thenReturn(mockPath);
 
-            Mockito.when(InitValuesFromRequestService.initCraftsmenIds(request)).thenReturn(new long[]{1, 2});
-            Mockito.when(InitValuesFromRequestService.initStatusIds(request)).thenReturn(new long[]{1, 2, 3, 4});
-            Mockito.when(InitValuesFromRequestService.initUserId(request)).thenReturn(0L);
-            Mockito.when(InitValuesFromRequestService.initSortType(request)).thenReturn(iRepairOrderRepository.SORT_TYPE.ORDER_BY_ID_ASC);
+            Mockito.when(InitValuesFromRequest.initCraftsmenIds(request)).thenReturn(new long[]{1, 2});
+            Mockito.when(InitValuesFromRequest.initStatusIds(request)).thenReturn(new long[]{1, 2, 3, 4});
+            Mockito.when(InitValuesFromRequest.initUserId(request)).thenReturn(0L);
+            Mockito.when(InitValuesFromRequest.initSortType(request)).thenReturn(iRepairOrderRepository.SORT_TYPE.ORDER_BY_ID_ASC);
 
 
             ArrayList<RepairOrder> orders = new ArrayList<>();

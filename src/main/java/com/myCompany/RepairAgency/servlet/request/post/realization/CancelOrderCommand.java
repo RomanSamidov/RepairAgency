@@ -7,7 +7,10 @@ import com.myCompany.RepairAgency.servlet.Path;
 import com.myCompany.RepairAgency.servlet.PathFactory;
 import com.myCompany.RepairAgency.servlet.request.IActionCommand;
 import com.myCompany.RepairAgency.servlet.request.IHasRoleRequirement;
-import com.myCompany.RepairAgency.servlet.service.*;
+import com.myCompany.RepairAgency.servlet.service.OrderUserService;
+import com.myCompany.RepairAgency.servlet.service.RepairOrderService;
+import com.myCompany.RepairAgency.servlet.service.UserService;
+import com.myCompany.RepairAgency.servlet.util.ParameterValidation;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.apache.logging.log4j.LogManager;
@@ -25,7 +28,7 @@ public class CancelOrderCommand implements IActionCommand, IHasRoleRequirement {
     public Path execute(HttpServletRequest request, HttpServletResponse response) {
 
         String goalIdOrder = request.getParameter("goalIdOrder");
-        if (!ParameterValidationService.validateGoalId(goalIdOrder))
+        if (!ParameterValidation.validateGoalId(goalIdOrder))
             return PathFactory.getPath("path.page.redirect.orders");
 
 

@@ -5,6 +5,7 @@ import com.myCompany.RepairAgency.model.ModelManager;
 import com.myCompany.RepairAgency.model.db.abstractDB.exception.MyDBException;
 import com.myCompany.RepairAgency.model.entity.RepairOrder;
 import com.myCompany.RepairAgency.model.entity.User;
+import com.myCompany.RepairAgency.servlet.util.SendEmail;
 
 import java.time.LocalDateTime;
 
@@ -21,7 +22,7 @@ public class OrderUserService {
 
             ModelManager.getInstance().getRepairOrderRepository().insert(order);
 
-            SendEmailService.forCreateOrder(user, order.getId());
+            SendEmail.forCreateOrder(user, order.getId());
 
             return true;
         }
@@ -37,7 +38,7 @@ public class OrderUserService {
                 order.getStatus_id() != Constants.ORDER_STATUS.COMPLETED.ordinal()) {
 
             ModelManager.getInstance().getOrderUserService().cancelOrderWithMoneyReturn(orderId);
-            SendEmailService.forCancelOrder(user, order.getPrice());
+            SendEmail.forCancelOrder(user, order.getPrice());
         } else {
             cancelOrderWithoutMoneyReturn(order, user);
         }
@@ -47,7 +48,7 @@ public class OrderUserService {
         order.setStatus_id(Constants.ORDER_STATUS.CANCELED.ordinal());
         order.setFinish_date(LocalDateTime.now());
         ModelManager.getInstance().getRepairOrderRepository().update(order);
-        SendEmailService.forCancelOrder(user);
+        SendEmail.forCancelOrder(user);
     }
 
     public static boolean payOrder(long id) throws MyDBException {

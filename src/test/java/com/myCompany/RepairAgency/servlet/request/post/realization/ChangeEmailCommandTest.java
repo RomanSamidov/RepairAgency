@@ -4,9 +4,9 @@ import com.myCompany.RepairAgency.Constants;
 import com.myCompany.RepairAgency.model.entity.User;
 import com.myCompany.RepairAgency.servlet.Path;
 import com.myCompany.RepairAgency.servlet.PathFactory;
-import com.myCompany.RepairAgency.servlet.service.ParameterValidationService;
-import com.myCompany.RepairAgency.servlet.service.SendEmailService;
 import com.myCompany.RepairAgency.servlet.service.UserService;
+import com.myCompany.RepairAgency.servlet.util.ParameterValidation;
+import com.myCompany.RepairAgency.servlet.util.SendEmail;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
@@ -47,12 +47,12 @@ class ChangeEmailCommandTest {
         request.setParameter("email", "0");
 
         try (MockedStatic<PathFactory> ignored2 = Mockito.mockStatic(PathFactory.class);
-             MockedStatic<ParameterValidationService> ignored3 = Mockito.mockStatic(ParameterValidationService.class);
-             MockedStatic<SendEmailService> ignored4 = Mockito.mockStatic(SendEmailService.class);
+             MockedStatic<ParameterValidation> ignored3 = Mockito.mockStatic(ParameterValidation.class);
+             MockedStatic<SendEmail> ignored4 = Mockito.mockStatic(SendEmail.class);
              MockedStatic<UserService> ignored5 = Mockito.mockStatic(UserService.class)) {
 
             Mockito.when(PathFactory.getPath(Mockito.eq("path.page.redirect.cabinet"))).thenReturn(mockPath);
-            Mockito.when(ParameterValidationService.validateEmail(Mockito.eq(request), Mockito.anyString())).thenReturn(true);
+            Mockito.when(ParameterValidation.validateEmail(Mockito.eq(request), Mockito.anyString())).thenReturn(true);
 
             User user = Mockito.mock(User.class);
             Mockito.when(UserService.get(Mockito.anyLong())).thenReturn(user);
@@ -67,12 +67,12 @@ class ChangeEmailCommandTest {
     void execute2() {
 
         try (MockedStatic<PathFactory> ignored2 = Mockito.mockStatic(PathFactory.class);
-             MockedStatic<ParameterValidationService> ignored3 = Mockito.mockStatic(ParameterValidationService.class);
-             MockedStatic<SendEmailService> ignored4 = Mockito.mockStatic(SendEmailService.class);
+             MockedStatic<ParameterValidation> ignored3 = Mockito.mockStatic(ParameterValidation.class);
+             MockedStatic<SendEmail> ignored4 = Mockito.mockStatic(SendEmail.class);
              MockedStatic<UserService> ignored5 = Mockito.mockStatic(UserService.class)) {
 
             Mockito.when(PathFactory.getPath(Mockito.eq("path.page.redirect.cabinet"))).thenReturn(mockPath);
-            Mockito.when(ParameterValidationService.validateEmail(Mockito.eq(request), Mockito.anyString())).thenReturn(false);
+            Mockito.when(ParameterValidation.validateEmail(Mockito.eq(request), Mockito.anyString())).thenReturn(false);
 
             assertEquals(mockPath, new ChangeEmailCommand().execute(request, response));
             ignored2.verify(() -> PathFactory.getPath("path.page.redirect.cabinet"), Mockito.times(1));
@@ -85,12 +85,12 @@ class ChangeEmailCommandTest {
         session.setAttribute("userId", 0L);
         request.setParameter("email", "0");
         try (MockedStatic<PathFactory> ignored2 = Mockito.mockStatic(PathFactory.class);
-             MockedStatic<ParameterValidationService> ignored3 = Mockito.mockStatic(ParameterValidationService.class);
-             MockedStatic<SendEmailService> ignored4 = Mockito.mockStatic(SendEmailService.class);
+             MockedStatic<ParameterValidation> ignored3 = Mockito.mockStatic(ParameterValidation.class);
+             MockedStatic<SendEmail> ignored4 = Mockito.mockStatic(SendEmail.class);
              MockedStatic<UserService> ignored5 = Mockito.mockStatic(UserService.class)) {
 
             Mockito.when(PathFactory.getPath(Mockito.eq("path.page.redirect.cabinet"))).thenReturn(mockPath);
-            Mockito.when(ParameterValidationService.validateEmail(Mockito.eq(request), Mockito.anyString())).thenReturn(true);
+            Mockito.when(ParameterValidation.validateEmail(Mockito.eq(request), Mockito.anyString())).thenReturn(true);
 
             User user = Mockito.mock(User.class);
             Mockito.when(user.getEmail()).thenReturn("0");

@@ -4,7 +4,7 @@ import com.myCompany.RepairAgency.Constants;
 import com.myCompany.RepairAgency.servlet.Path;
 import com.myCompany.RepairAgency.servlet.request.IActionCommand;
 import com.myCompany.RepairAgency.servlet.request.IHasRoleRequirement;
-import com.myCompany.RepairAgency.servlet.service.ViewValidationService;
+import com.myCompany.RepairAgency.servlet.util.ViewValidation;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
@@ -16,7 +16,7 @@ public class ShowUserCommand implements IActionCommand, IHasRoleRequirement {
     @Override
     public Path execute(HttpServletRequest request, HttpServletResponse response) {
         request.setAttribute("title", "title.user");
-        return ViewValidationService.validateForUserPage(request);
+        return ViewValidation.validateForUserPage(request);
     }
 
     @Override

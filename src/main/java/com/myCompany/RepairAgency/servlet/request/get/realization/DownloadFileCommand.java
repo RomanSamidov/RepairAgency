@@ -5,7 +5,7 @@ import com.myCompany.RepairAgency.servlet.Path;
 import com.myCompany.RepairAgency.servlet.PathFactory;
 import com.myCompany.RepairAgency.servlet.request.IActionCommand;
 import com.myCompany.RepairAgency.servlet.request.IHasRoleRequirement;
-import com.myCompany.RepairAgency.servlet.service.SendEmailService;
+import com.myCompany.RepairAgency.servlet.util.SendEmail;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.apache.logging.log4j.LogManager;
@@ -26,7 +26,7 @@ public class DownloadFileCommand implements IActionCommand, IHasRoleRequirement 
     public Path execute(HttpServletRequest request, HttpServletResponse response) {
         String filename = "reports/" + request.getSession().getAttribute("reportName");
         logger.debug("Preparation of downloading file " + filename);
-        SendEmailService.forDownload(request, filename);
+        SendEmail.forDownload(request, filename);
         setResponseHead(response, filename);
         writeFileToResponse(response, filename);
         if (new File(filename).delete()) logger.debug("File " + filename + " deleted.");

@@ -5,9 +5,9 @@ import com.myCompany.RepairAgency.model.entity.User;
 import com.myCompany.RepairAgency.servlet.Path;
 import com.myCompany.RepairAgency.servlet.request.IActionCommand;
 import com.myCompany.RepairAgency.servlet.request.IHasRoleRequirement;
-import com.myCompany.RepairAgency.servlet.service.AttributeFSTRService;
 import com.myCompany.RepairAgency.servlet.service.UserService;
-import com.myCompany.RepairAgency.servlet.service.ViewValidationService;
+import com.myCompany.RepairAgency.servlet.util.AttributeFSTR;
+import com.myCompany.RepairAgency.servlet.util.ViewValidation;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
@@ -29,9 +29,9 @@ public class ShowProfileCommand implements IActionCommand, IHasRoleRequirement {
 
         request.setAttribute("isUserAllowLetters", user.isAllow_letters());
 
-        AttributeFSTRService.forShowProfile(request);
+        AttributeFSTR.forShowProfile(request);
 
-        return ViewValidationService.validateForProfilePage(request);
+        return ViewValidation.validateForProfilePage(request);
     }
 
     @Override

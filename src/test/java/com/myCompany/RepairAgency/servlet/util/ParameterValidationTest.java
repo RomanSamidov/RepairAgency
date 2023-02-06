@@ -1,10 +1,10 @@
-package com.myCompany.RepairAgency.servlet.service;
+package com.myCompany.RepairAgency.servlet.util;
 
 import com.myCompany.RepairAgency.Constants;
 import com.myCompany.RepairAgency.model.db.abstractDB.exception.MyDBException;
 import com.myCompany.RepairAgency.model.entity.User;
 import com.myCompany.RepairAgency.servlet.Path;
-import com.myCompany.RepairAgency.servlet.util.VerifyRecaptcha;
+import com.myCompany.RepairAgency.servlet.service.UserService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
@@ -20,7 +20,7 @@ import java.util.stream.Stream;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-class ParameterValidationServiceTest {
+class ParameterValidationTest {
     @Mock
     Path mockPath;
     @Mock
@@ -47,7 +47,7 @@ class ParameterValidationServiceTest {
 
         try (MockedStatic<VerifyRecaptcha> ignored1 = Mockito.mockStatic(VerifyRecaptcha.class)) {
             Mockito.when(VerifyRecaptcha.verify(Mockito.anyString())).thenReturn(true);
-            assertTrue(ParameterValidationService.forAdminCreateOrder(request));
+            assertTrue(ParameterValidation.forAdminCreateOrder(request));
         }
     }
 
@@ -56,7 +56,7 @@ class ParameterValidationServiceTest {
 
         try (MockedStatic<VerifyRecaptcha> ignored1 = Mockito.mockStatic(VerifyRecaptcha.class)) {
             Mockito.when(VerifyRecaptcha.verify(Mockito.anyString())).thenReturn(true);
-            assertFalse(ParameterValidationService.forAdminCreateOrder(request));
+            assertFalse(ParameterValidation.forAdminCreateOrder(request));
         }
     }
 
@@ -70,7 +70,7 @@ class ParameterValidationServiceTest {
 
             User user = Mockito.mock(User.class);
             Mockito.when(user.getEmail()).thenReturn("test2@mail.co");
-            assertFalse(ParameterValidationService.forChangePassword(request, user));
+            assertFalse(ParameterValidation.forChangePassword(request, user));
         }
     }
 
@@ -82,47 +82,47 @@ class ParameterValidationServiceTest {
         try (MockedStatic<VerifyRecaptcha> ignored1 = Mockito.mockStatic(VerifyRecaptcha.class)) {
             Mockito.when(VerifyRecaptcha.verify(Mockito.anyString())).thenReturn(true);
 
-            assertFalse(ParameterValidationService.forChangePassword(request, null));
+            assertFalse(ParameterValidation.forChangePassword(request, null));
         }
     }
 
     @Test
     void validateOrderText() {
         String s = Stream.generate(() -> "s").limit(300).collect(Collectors.joining());
-        assertFalse(ParameterValidationService.validateOrderText(request, s));
+        assertFalse(ParameterValidation.validateOrderText(request, s));
     }
 
     @Test
     void validateEmail1() {
         String s = Stream.generate(() -> "s").limit(30).collect(Collectors.joining());
-        assertFalse(ParameterValidationService.validateEmail(request, s));
+        assertFalse(ParameterValidation.validateEmail(request, s));
     }
 
     @Test
     void validateEmail2() {
-        assertFalse(ParameterValidationService.validateEmail(request, null));
+        assertFalse(ParameterValidation.validateEmail(request, null));
     }
 
     @Test
     void validateEmail3() {
         String s = Stream.generate(() -> "s").limit(29).collect(Collectors.joining());
-        assertFalse(ParameterValidationService.validateEmail(request, s));
+        assertFalse(ParameterValidation.validateEmail(request, s));
     }
 
     @Test
     void validateLogin1() {
         String s = Stream.generate(() -> "s").limit(30).collect(Collectors.joining());
-        assertFalse(ParameterValidationService.validateLogin(request, s));
+        assertFalse(ParameterValidation.validateLogin(request, s));
     }
 
     @Test
     void validateLogin2() {
-        assertFalse(ParameterValidationService.validateLogin(request, null));
+        assertFalse(ParameterValidation.validateLogin(request, null));
     }
 
     @Test
     void validateLogin3() {
-        assertTrue(ParameterValidationService.validateLogin(request, "null"));
+        assertTrue(ParameterValidation.validateLogin(request, "null"));
     }
 
     @Test
@@ -130,61 +130,61 @@ class ParameterValidationServiceTest {
         try (MockedStatic<VerifyRecaptcha> ignored1 = Mockito.mockStatic(VerifyRecaptcha.class)) {
             Mockito.when(VerifyRecaptcha.verify(Mockito.anyString())).thenReturn(false);
 
-            assertFalse(ParameterValidationService.validateRecaptcha(request, "ads"));
+            assertFalse(ParameterValidation.validateRecaptcha(request, "ads"));
         }
     }
 
     @Test
     void validatePassword1() {
         String s = Stream.generate(() -> "s").limit(63).collect(Collectors.joining());
-        assertFalse(ParameterValidationService.validatePassword(request, s));
+        assertFalse(ParameterValidation.validatePassword(request, s));
     }
 
     @Test
     void validatePassword2() {
-        assertFalse(ParameterValidationService.validatePassword(request, null));
+        assertFalse(ParameterValidation.validatePassword(request, null));
     }
 
     @Test
     void validatePasswordAndRepeat1() {
         String s = Stream.generate(() -> "s").limit(60).collect(Collectors.joining());
-        assertTrue(ParameterValidationService.validatePasswordAndRepeat(request, s, s));
+        assertTrue(ParameterValidation.validatePasswordAndRepeat(request, s, s));
     }
 
     @Test
     void validatePasswordAndRepeat2() {
         String s = Stream.generate(() -> "s").limit(60).collect(Collectors.joining());
-        assertFalse(ParameterValidationService.validatePasswordAndRepeat(request, s, "s"));
+        assertFalse(ParameterValidation.validatePasswordAndRepeat(request, s, "s"));
     }
 
     @Test
     void validatePasswordAndRepeat3() {
-        assertFalse(ParameterValidationService.validatePasswordAndRepeat(request, null, "s"));
+        assertFalse(ParameterValidation.validatePasswordAndRepeat(request, null, "s"));
     }
 
     @Test
     void validatePasswordAndRepeat4() {
-        assertFalse(ParameterValidationService.validatePasswordAndRepeat(request, "null", null));
+        assertFalse(ParameterValidation.validatePasswordAndRepeat(request, "null", null));
     }
 
     @Test
     void validateRoleId1() {
-        assertTrue(ParameterValidationService.validateRoleId(request, "1"));
+        assertTrue(ParameterValidation.validateRoleId(request, "1"));
     }
 
     @Test
     void validateRoleId2() {
-        assertFalse(ParameterValidationService.validateRoleId(request, "10"));
+        assertFalse(ParameterValidation.validateRoleId(request, "10"));
     }
 
     @Test
     void validateOrderStatusId1() {
-        assertTrue(ParameterValidationService.validateOrderStatusId(request, "1"));
+        assertTrue(ParameterValidation.validateOrderStatusId(request, "1"));
     }
 
     @Test
     void validateOrderStatusId2() {
-        assertFalse(ParameterValidationService.validateOrderStatusId(request, "0"));
+        assertFalse(ParameterValidation.validateOrderStatusId(request, "0"));
     }
 
     @Test
@@ -193,12 +193,12 @@ class ParameterValidationServiceTest {
 
     @Test
     void validateInt1() {
-        assertTrue(ParameterValidationService.validateInt("0"));
+        assertTrue(ParameterValidation.validateInt("0"));
     }
 
     @Test
     void validateInt2() {
-        assertFalse(ParameterValidationService.validateInt("ab"));
+        assertFalse(ParameterValidation.validateInt("ab"));
     }
 
     @Test
@@ -210,7 +210,7 @@ class ParameterValidationServiceTest {
 
             Mockito.when(UserService.get(Mockito.anyLong())).thenReturn(user);
 
-            assertTrue(ParameterValidationService.validateCraftsmanId("1"));
+            assertTrue(ParameterValidation.validateCraftsmanId("1"));
         }
     }
 
@@ -220,28 +220,28 @@ class ParameterValidationServiceTest {
 
             Mockito.when(UserService.get(Mockito.anyLong())).thenThrow(new MyDBException());
 
-            assertFalse(ParameterValidationService.validateCraftsmanId("1"));
+            assertFalse(ParameterValidation.validateCraftsmanId("1"));
         }
     }
 
     @Test
     void validateCraftsmanId3() {
-        assertFalse(ParameterValidationService.validateCraftsmanId("0"));
+        assertFalse(ParameterValidation.validateCraftsmanId("0"));
     }
 
     @Test
     void validateFeedbackText1() {
         String s = Stream.generate(() -> "s").limit(255).collect(Collectors.joining());
-        assertFalse(ParameterValidationService.validateFeedbackText(request, s));
+        assertFalse(ParameterValidation.validateFeedbackText(request, s));
     }
 
     @Test
     void validateFeedbackText2() {
-        assertFalse(ParameterValidationService.validateFeedbackText(request, null));
+        assertFalse(ParameterValidation.validateFeedbackText(request, null));
     }
 
     @Test
     void validateFeedbackText3() {
-        assertTrue(ParameterValidationService.validateFeedbackText(request, "null"));
+        assertTrue(ParameterValidation.validateFeedbackText(request, "null"));
     }
 }

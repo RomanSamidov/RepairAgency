@@ -1,16 +1,16 @@
-package com.myCompany.RepairAgency.servlet.service;
+package com.myCompany.RepairAgency.servlet.util;
 
 import com.myCompany.RepairAgency.Constants;
 import com.myCompany.RepairAgency.model.entity.User;
-import com.myCompany.RepairAgency.servlet.util.EmailSender;
+import com.myCompany.RepairAgency.servlet.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.io.File;
 
-public class SendEmailService {
-    private static final Logger logger = LogManager.getLogger(SendEmailService.class);
+public class SendEmail {
+    private static final Logger logger = LogManager.getLogger(SendEmail.class);
 
 
     public static void forDownload(HttpServletRequest request, String filename) {

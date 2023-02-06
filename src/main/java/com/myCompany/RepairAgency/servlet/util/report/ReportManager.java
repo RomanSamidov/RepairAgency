@@ -8,14 +8,13 @@ import com.myCompany.RepairAgency.servlet.util.report.writer.XLSXWriter;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Locale;
 
 public class ReportManager {
 
     private ReportManager() {
     }
 
-    public static String getReportWriter(ArrayList<RepairOrderDTO> repairOrders, Locale language, long userId,
+    public static String getReportWriter(ArrayList<RepairOrderDTO> repairOrders, Constants.LOCALE language, long userId,
                                          Constants.REPORT_FORMAT format) throws IOException {
         String filename;
         switch (format) {

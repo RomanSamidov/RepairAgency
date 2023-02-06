@@ -7,10 +7,10 @@ import com.myCompany.RepairAgency.servlet.Path;
 import com.myCompany.RepairAgency.servlet.PathFactory;
 import com.myCompany.RepairAgency.servlet.request.IActionCommand;
 import com.myCompany.RepairAgency.servlet.request.IHasRoleRequirement;
-import com.myCompany.RepairAgency.servlet.service.ParameterValidationService;
 import com.myCompany.RepairAgency.servlet.service.RepairOrderService;
-import com.myCompany.RepairAgency.servlet.service.SendEmailService;
 import com.myCompany.RepairAgency.servlet.service.UserService;
+import com.myCompany.RepairAgency.servlet.util.ParameterValidation;
+import com.myCompany.RepairAgency.servlet.util.SendEmail;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.apache.logging.log4j.LogManager;
@@ -30,10 +30,10 @@ public class SetOrderStatusCommand implements IActionCommand, IHasRoleRequiremen
         String goalOrderStatus = request.getParameter("goalOrderStatus");
         String goalIdOrder = request.getParameter("goalIdOrder");
 
-        if (!ParameterValidationService.validateGoalId(goalIdOrder))
+        if (!ParameterValidation.validateGoalId(goalIdOrder))
             return PathFactory.getPath("path.page.redirect.orders");
 
-        if (ParameterValidationService.validateOrderStatusId(request, goalOrderStatus)) {
+        if (ParameterValidation.validateOrderStatusId(request, goalOrderStatus)) {
             RepairOrder order = RepairOrderService.get(Long.parseLong(goalIdOrder));
             if (order == null) return PathFactory.getPath("path.page.redirect.orders");
 
@@ -47,7 +47,7 @@ public class SetOrderStatusCommand implements IActionCommand, IHasRoleRequiremen
                 RepairOrderService.update(order);
 
                 User user = UserService.get(order.getUser_id());
-                SendEmailService.forSetOrderStatus(user, order.getId());
+                SendEmail.forSetOrderStatus(user, order.getId());
             }
         }
 

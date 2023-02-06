@@ -1,4 +1,4 @@
-package com.myCompany.RepairAgency.servlet.service;
+package com.myCompany.RepairAgency.servlet.util;
 
 import com.myCompany.RepairAgency.Constants;
 import com.myCompany.RepairAgency.model.entity.DTO.RepairOrderDTOFactory;
@@ -7,6 +7,7 @@ import com.myCompany.RepairAgency.model.entity.RepairOrder;
 import com.myCompany.RepairAgency.model.entity.User;
 import com.myCompany.RepairAgency.servlet.Path;
 import com.myCompany.RepairAgency.servlet.PathFactory;
+import com.myCompany.RepairAgency.servlet.service.UserService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
@@ -16,7 +17,7 @@ import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpSession;
 
 
-class ViewValidationServiceTest {
+class ViewValidationTest {
     @Mock
     Path mockPath;
     @Mock
@@ -38,7 +39,7 @@ class ViewValidationServiceTest {
         session.setAttribute("userRole", Constants.ROLE.Client);
         try (MockedStatic<PathFactory> ignored2 = Mockito.mockStatic(PathFactory.class)) {
             Mockito.when(PathFactory.getPath(Mockito.anyString())).thenReturn(mockPath);
-            ViewValidationService.setMenu(request);
+            ViewValidation.setMenu(request);
         }
 
     }
@@ -48,7 +49,7 @@ class ViewValidationServiceTest {
         session.setAttribute("userRole", Constants.ROLE.Guest);
         try (MockedStatic<PathFactory> ignored2 = Mockito.mockStatic(PathFactory.class)) {
             Mockito.when(PathFactory.getPath(Mockito.anyString())).thenReturn(mockPath);
-            ViewValidationService.setMenu(request);
+            ViewValidation.setMenu(request);
         }
     }
 
@@ -57,7 +58,7 @@ class ViewValidationServiceTest {
         session.setAttribute("userRole", Constants.ROLE.Craftsman);
         try (MockedStatic<PathFactory> ignored2 = Mockito.mockStatic(PathFactory.class)) {
             Mockito.when(PathFactory.getPath(Mockito.anyString())).thenReturn(mockPath);
-            ViewValidationService.setMenu(request);
+            ViewValidation.setMenu(request);
         }
     }
 
@@ -66,7 +67,7 @@ class ViewValidationServiceTest {
         session.setAttribute("userRole", Constants.ROLE.Manager);
         try (MockedStatic<PathFactory> ignored2 = Mockito.mockStatic(PathFactory.class)) {
             Mockito.when(PathFactory.getPath(Mockito.anyString())).thenReturn(mockPath);
-            ViewValidationService.setMenu(request);
+            ViewValidation.setMenu(request);
         }
     }
 
@@ -75,7 +76,7 @@ class ViewValidationServiceTest {
         session.setAttribute("userRole", Constants.ROLE.Admin);
         try (MockedStatic<PathFactory> ignored2 = Mockito.mockStatic(PathFactory.class)) {
             Mockito.when(PathFactory.getPath(Mockito.anyString())).thenReturn(mockPath);
-            ViewValidationService.setMenu(request);
+            ViewValidation.setMenu(request);
         }
     }
 
@@ -83,7 +84,7 @@ class ViewValidationServiceTest {
     void validateForChangePassword1() {
         try (MockedStatic<PathFactory> ignored2 = Mockito.mockStatic(PathFactory.class)) {
             Mockito.when(PathFactory.getPath(Mockito.anyString())).thenReturn(mockPath);
-            ViewValidationService.validateForChangePassword(request);
+            ViewValidation.validateForChangePassword(request);
         }
     }
 
@@ -92,7 +93,7 @@ class ViewValidationServiceTest {
         session.setAttribute("waitedCodePassword", "any");
         try (MockedStatic<PathFactory> ignored2 = Mockito.mockStatic(PathFactory.class)) {
             Mockito.when(PathFactory.getPath(Mockito.anyString())).thenReturn(mockPath);
-            ViewValidationService.validateForChangePassword(request);
+            ViewValidation.validateForChangePassword(request);
         }
     }
 
@@ -107,7 +108,7 @@ class ViewValidationServiceTest {
             RepairOrder order = Mockito.mock(RepairOrder.class);
             Mockito.when(order.getStatus_id()).thenReturn(3L);
 
-            ViewValidationService.validateForOrderPage(request, order);
+            ViewValidation.validateForOrderPage(request, order);
         }
     }
 
@@ -122,7 +123,7 @@ class ViewValidationServiceTest {
             RepairOrder order = Mockito.mock(RepairOrder.class);
             Mockito.when(order.getStatus_id()).thenReturn(3L);
 
-            ViewValidationService.validateForOrderPage(request, order);
+            ViewValidation.validateForOrderPage(request, order);
         }
     }
 
@@ -139,7 +140,7 @@ class ViewValidationServiceTest {
             Mockito.when(order.getStatus_id()).thenReturn(5L);
             Mockito.when(order.getCraftsman_id()).thenReturn(0L);
 
-            ViewValidationService.validateForOrderPage(request, order);
+            ViewValidation.validateForOrderPage(request, order);
         }
     }
 
@@ -157,7 +158,7 @@ class ViewValidationServiceTest {
             Mockito.when(order.getStatus_id()).thenReturn(5L);
             Mockito.when(order.getCraftsman_id()).thenReturn(2L);
 
-            ViewValidationService.validateForOrderPage(request, order);
+            ViewValidation.validateForOrderPage(request, order);
         }
     }
 
@@ -173,7 +174,7 @@ class ViewValidationServiceTest {
             RepairOrder order = Mockito.mock(RepairOrder.class);
             Mockito.when(order.getStatus_id()).thenReturn(2L);
 
-            ViewValidationService.validateForOrderPage(request, order);
+            ViewValidation.validateForOrderPage(request, order);
         }
     }
 
@@ -189,7 +190,7 @@ class ViewValidationServiceTest {
             RepairOrder order = Mockito.mock(RepairOrder.class);
             Mockito.when(order.getStatus_id()).thenReturn(1L);
 
-            ViewValidationService.validateForOrderPage(request, order);
+            ViewValidation.validateForOrderPage(request, order);
         }
     }
 
@@ -207,7 +208,7 @@ class ViewValidationServiceTest {
             Mockito.when(order.getStatus_id()).thenReturn(2L);
             Mockito.when(order.getUser_id()).thenReturn(0L);
 
-            ViewValidationService.validateForOrderPage(request, order);
+            ViewValidation.validateForOrderPage(request, order);
         }
     }
 
@@ -225,7 +226,7 @@ class ViewValidationServiceTest {
             Mockito.when(order.getStatus_id()).thenReturn(6L);
             Mockito.when(order.getUser_id()).thenReturn(0L);
 
-            ViewValidationService.validateForOrderPage(request, order);
+            ViewValidation.validateForOrderPage(request, order);
         }
     }
 
@@ -243,7 +244,7 @@ class ViewValidationServiceTest {
             Mockito.when(order.getStatus_id()).thenReturn(6L);
             Mockito.when(order.getUser_id()).thenReturn(1L);
 
-            ViewValidationService.validateForOrderPage(request, order);
+            ViewValidation.validateForOrderPage(request, order);
         }
     }
 
@@ -252,7 +253,7 @@ class ViewValidationServiceTest {
         session.setAttribute("userRole", Constants.ROLE.Guest);
         try (MockedStatic<PathFactory> ignored2 = Mockito.mockStatic(PathFactory.class)) {
             Mockito.when(PathFactory.getPath(Mockito.anyString())).thenReturn(mockPath);
-            ViewValidationService.validateForOrdersPage(request);
+            ViewValidation.validateForOrdersPage(request);
         }
     }
 
@@ -261,7 +262,7 @@ class ViewValidationServiceTest {
         session.setAttribute("userRole", Constants.ROLE.Admin);
         try (MockedStatic<PathFactory> ignored2 = Mockito.mockStatic(PathFactory.class)) {
             Mockito.when(PathFactory.getPath(Mockito.anyString())).thenReturn(mockPath);
-            ViewValidationService.validateForOrdersPage(request);
+            ViewValidation.validateForOrdersPage(request);
         }
     }
 
@@ -270,7 +271,7 @@ class ViewValidationServiceTest {
         session.setAttribute("userRole", Constants.ROLE.Manager);
         try (MockedStatic<PathFactory> ignored2 = Mockito.mockStatic(PathFactory.class)) {
             Mockito.when(PathFactory.getPath(Mockito.anyString())).thenReturn(mockPath);
-            ViewValidationService.validateForOrdersPage(request);
+            ViewValidation.validateForOrdersPage(request);
         }
     }
 
@@ -279,7 +280,7 @@ class ViewValidationServiceTest {
         session.setAttribute("userRole", Constants.ROLE.Craftsman);
         try (MockedStatic<PathFactory> ignored2 = Mockito.mockStatic(PathFactory.class)) {
             Mockito.when(PathFactory.getPath(Mockito.anyString())).thenReturn(mockPath);
-            ViewValidationService.validateForOrdersPage(request);
+            ViewValidation.validateForOrdersPage(request);
         }
     }
 
@@ -288,7 +289,7 @@ class ViewValidationServiceTest {
         session.setAttribute("userRole", Constants.ROLE.Client);
         try (MockedStatic<PathFactory> ignored2 = Mockito.mockStatic(PathFactory.class)) {
             Mockito.when(PathFactory.getPath(Mockito.anyString())).thenReturn(mockPath);
-            ViewValidationService.validateForOrdersPage(request);
+            ViewValidation.validateForOrdersPage(request);
         }
     }
 
@@ -298,7 +299,7 @@ class ViewValidationServiceTest {
         session.setAttribute("isUserConfirmed", false);
         try (MockedStatic<PathFactory> ignored2 = Mockito.mockStatic(PathFactory.class)) {
             Mockito.when(PathFactory.getPath(Mockito.anyString())).thenReturn(mockPath);
-            ViewValidationService.validateForProfilePage(request);
+            ViewValidation.validateForProfilePage(request);
         }
     }
 
@@ -308,7 +309,7 @@ class ViewValidationServiceTest {
         session.setAttribute("isUserConfirmed", true);
         try (MockedStatic<PathFactory> ignored2 = Mockito.mockStatic(PathFactory.class)) {
             Mockito.when(PathFactory.getPath(Mockito.anyString())).thenReturn(mockPath);
-            ViewValidationService.validateForProfilePage(request);
+            ViewValidation.validateForProfilePage(request);
         }
     }
 
@@ -318,7 +319,7 @@ class ViewValidationServiceTest {
         session.setAttribute("isUserConfirmed", false);
         try (MockedStatic<PathFactory> ignored2 = Mockito.mockStatic(PathFactory.class)) {
             Mockito.when(PathFactory.getPath(Mockito.anyString())).thenReturn(mockPath);
-            ViewValidationService.validateForProfilePage(request);
+            ViewValidation.validateForProfilePage(request);
         }
     }
 
@@ -329,7 +330,7 @@ class ViewValidationServiceTest {
         session.setAttribute("waitedCode", "any");
         try (MockedStatic<PathFactory> ignored2 = Mockito.mockStatic(PathFactory.class)) {
             Mockito.when(PathFactory.getPath(Mockito.anyString())).thenReturn(mockPath);
-            ViewValidationService.validateForProfilePage(request);
+            ViewValidation.validateForProfilePage(request);
         }
     }
 
@@ -340,7 +341,7 @@ class ViewValidationServiceTest {
         session.setAttribute("waitedCode", "any");
         try (MockedStatic<PathFactory> ignored2 = Mockito.mockStatic(PathFactory.class)) {
             Mockito.when(PathFactory.getPath(Mockito.anyString())).thenReturn(mockPath);
-            ViewValidationService.validateForProfilePage(request);
+            ViewValidation.validateForProfilePage(request);
         }
     }
 
@@ -349,7 +350,7 @@ class ViewValidationServiceTest {
         session.setAttribute("userRole", Constants.ROLE.Client);
         try (MockedStatic<PathFactory> ignored2 = Mockito.mockStatic(PathFactory.class)) {
             Mockito.when(PathFactory.getPath(Mockito.anyString())).thenReturn(mockPath);
-            ViewValidationService.validateForUsersPage(request);
+            ViewValidation.validateForUsersPage(request);
         }
     }
 
@@ -358,7 +359,7 @@ class ViewValidationServiceTest {
         session.setAttribute("userRole", Constants.ROLE.Admin);
         try (MockedStatic<PathFactory> ignored2 = Mockito.mockStatic(PathFactory.class)) {
             Mockito.when(PathFactory.getPath(Mockito.anyString())).thenReturn(mockPath);
-            ViewValidationService.validateForUsersPage(request);
+            ViewValidation.validateForUsersPage(request);
         }
     }
 
@@ -367,7 +368,7 @@ class ViewValidationServiceTest {
         session.setAttribute("userRole", Constants.ROLE.Manager);
         try (MockedStatic<PathFactory> ignored2 = Mockito.mockStatic(PathFactory.class)) {
             Mockito.when(PathFactory.getPath(Mockito.anyString())).thenReturn(mockPath);
-            ViewValidationService.validateForUsersPage(request);
+            ViewValidation.validateForUsersPage(request);
         }
     }
 
@@ -383,7 +384,7 @@ class ViewValidationServiceTest {
 
             Mockito.when(UserService.get(Mockito.anyLong())).thenReturn(null);
 
-            ViewValidationService.validateForUserPage(request);
+            ViewValidation.validateForUserPage(request);
         }
     }
 
@@ -402,7 +403,7 @@ class ViewValidationServiceTest {
             Mockito.when(user.getRole_id()).thenReturn(4);
             Mockito.when(UserService.get(Mockito.anyLong())).thenReturn(user);
 
-            ViewValidationService.validateForUserPage(request);
+            ViewValidation.validateForUserPage(request);
         }
     }
 
@@ -421,7 +422,7 @@ class ViewValidationServiceTest {
             Mockito.when(user.getRole_id()).thenReturn(2);
             Mockito.when(UserService.get(Mockito.anyLong())).thenReturn(user);
 
-            ViewValidationService.validateForUserPage(request);
+            ViewValidation.validateForUserPage(request);
         }
     }
 
@@ -439,7 +440,7 @@ class ViewValidationServiceTest {
             Mockito.when(user.getRole_id()).thenReturn(2);
             Mockito.when(UserService.get(Mockito.anyLong())).thenReturn(user);
 
-            ViewValidationService.validateForUserPage(request);
+            ViewValidation.validateForUserPage(request);
         }
     }
 }

@@ -7,10 +7,10 @@ import com.myCompany.RepairAgency.model.entity.RepairOrder;
 import com.myCompany.RepairAgency.model.entity.User;
 import com.myCompany.RepairAgency.servlet.Path;
 import com.myCompany.RepairAgency.servlet.PathFactory;
-import com.myCompany.RepairAgency.servlet.service.InitValuesFromRequestService;
 import com.myCompany.RepairAgency.servlet.service.RepairOrderService;
 import com.myCompany.RepairAgency.servlet.service.UserService;
-import com.myCompany.RepairAgency.servlet.service.ViewValidationService;
+import com.myCompany.RepairAgency.servlet.util.InitValuesFromRequest;
+import com.myCompany.RepairAgency.servlet.util.ViewValidation;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
@@ -50,9 +50,9 @@ class ShowOrderPageCommandTest {
     @Test
     void execute1() {
         try (MockedStatic<PathFactory> ignored2 = Mockito.mockStatic(PathFactory.class);
-             MockedStatic<InitValuesFromRequestService> ignored3 = Mockito.mockStatic(InitValuesFromRequestService.class)) {
+             MockedStatic<InitValuesFromRequest> ignored3 = Mockito.mockStatic(InitValuesFromRequest.class)) {
 
-            Mockito.when(InitValuesFromRequestService.initGoalId(request)).thenReturn(0L);
+            Mockito.when(InitValuesFromRequest.initGoalId(request)).thenReturn(0L);
             Mockito.when(PathFactory.getPath(Mockito.eq("path.page.redirect.orders"))).thenReturn(mockPath);
 
             assertEquals(mockPath, new ShowOrderPageCommand().execute(request, response));
@@ -65,11 +65,11 @@ class ShowOrderPageCommandTest {
     void execute2() {
         try (MockedStatic<PathFactory> ignored2 = Mockito.mockStatic(PathFactory.class);
              MockedStatic<RepairOrderService> ignored1 = Mockito.mockStatic(RepairOrderService.class);
-             MockedStatic<InitValuesFromRequestService> ignored3 = Mockito.mockStatic(InitValuesFromRequestService.class)) {
+             MockedStatic<InitValuesFromRequest> ignored3 = Mockito.mockStatic(InitValuesFromRequest.class)) {
 
             Mockito.when(PathFactory.getPath(Mockito.eq("path.page.redirect.orders"))).thenReturn(mockPath);
             request.setParameter("id", "1");
-            Mockito.when(InitValuesFromRequestService.initGoalId(request)).thenReturn(1L);
+            Mockito.when(InitValuesFromRequest.initGoalId(request)).thenReturn(1L);
 
 
             Mockito.when(RepairOrderService.get(Mockito.anyLong())).thenReturn(null);
@@ -86,12 +86,12 @@ class ShowOrderPageCommandTest {
         try (MockedStatic<RepairOrderService> ignored0 = Mockito.mockStatic(RepairOrderService.class);
              MockedStatic<UserService> ignored1 = Mockito.mockStatic(UserService.class);
              MockedStatic<UserDTOFactory> ignored2 = Mockito.mockStatic(UserDTOFactory.class);
-             MockedStatic<ViewValidationService> ignored3 = Mockito.mockStatic(ViewValidationService.class);
-             MockedStatic<InitValuesFromRequestService> ignored4 = Mockito.mockStatic(InitValuesFromRequestService.class)) {
+             MockedStatic<ViewValidation> ignored3 = Mockito.mockStatic(ViewValidation.class);
+             MockedStatic<InitValuesFromRequest> ignored4 = Mockito.mockStatic(InitValuesFromRequest.class)) {
 
 //            Mockito.when(PathFactory.getPath(Mockito.eq("path.page.redirect.orders"))).thenReturn(mockPath);
             request.setParameter("id", "1");
-            Mockito.when(InitValuesFromRequestService.initGoalId(request)).thenReturn(1L);
+            Mockito.when(InitValuesFromRequest.initGoalId(request)).thenReturn(1L);
 
             RepairOrder order = Mockito.mock(RepairOrder.class);
             Mockito.when(RepairOrderService.get(Mockito.anyLong())).thenReturn(order);
@@ -103,7 +103,7 @@ class ShowOrderPageCommandTest {
                     Mockito.anyLong(), Mockito.anyLong())).thenReturn(users);
 
 
-            Mockito.when(ViewValidationService.validateForOrderPage(request, order)).thenReturn(mockPath);
+            Mockito.when(ViewValidation.validateForOrderPage(request, order)).thenReturn(mockPath);
 
             ArrayList<UserDTO> usersDTO = new ArrayList<>();
             usersDTO.add(Mockito.mock(UserDTO.class));

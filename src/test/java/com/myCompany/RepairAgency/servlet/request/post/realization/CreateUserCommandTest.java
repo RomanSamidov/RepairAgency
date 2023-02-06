@@ -3,8 +3,8 @@ package com.myCompany.RepairAgency.servlet.request.post.realization;
 import com.myCompany.RepairAgency.Constants;
 import com.myCompany.RepairAgency.servlet.Path;
 import com.myCompany.RepairAgency.servlet.PathFactory;
-import com.myCompany.RepairAgency.servlet.service.ParameterValidationService;
 import com.myCompany.RepairAgency.servlet.service.UserService;
+import com.myCompany.RepairAgency.servlet.util.ParameterValidation;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
@@ -51,18 +51,18 @@ class CreateUserCommandTest {
         request.setParameter("g-recaptcha-response", "test");
         request.setParameter("role", "3");
 
-        try (MockedStatic<ParameterValidationService> ignored1 = Mockito.mockStatic(ParameterValidationService.class);
+        try (MockedStatic<ParameterValidation> ignored1 = Mockito.mockStatic(ParameterValidation.class);
              MockedStatic<PathFactory> ignored2 = Mockito.mockStatic(PathFactory.class);
              MockedStatic<UserService> ignored3 = Mockito.mockStatic(UserService.class)) {
 
             Mockito.when(PathFactory.getPath(Mockito.eq("path.page.redirect.create_user"))).thenReturn(mockPath);
 
 
-            Mockito.when(ParameterValidationService.validateEmail(request, "testEmail")).thenReturn(true);
-            Mockito.when(ParameterValidationService.validatePasswordAndRepeat(request, "pass", "pass")).thenReturn(true);
-            Mockito.when(ParameterValidationService.validateLogin(request, "login")).thenReturn(true);
-            Mockito.when(ParameterValidationService.validateRecaptcha(request, "test")).thenReturn(true);
-            Mockito.when(ParameterValidationService.validateRoleId(request, "3")).thenReturn(true);
+            Mockito.when(ParameterValidation.validateEmail(request, "testEmail")).thenReturn(true);
+            Mockito.when(ParameterValidation.validatePasswordAndRepeat(request, "pass", "pass")).thenReturn(true);
+            Mockito.when(ParameterValidation.validateLogin(request, "login")).thenReturn(true);
+            Mockito.when(ParameterValidation.validateRecaptcha(request, "test")).thenReturn(true);
+            Mockito.when(ParameterValidation.validateRoleId(request, "3")).thenReturn(true);
 
 
             Mockito.when(UserService.checkUserExistence("login")).thenReturn(false);
@@ -85,18 +85,18 @@ class CreateUserCommandTest {
         request.setParameter("g-recaptcha-response", "test");
         request.setParameter("role", "3");
 
-        try (MockedStatic<ParameterValidationService> ignored1 = Mockito.mockStatic(ParameterValidationService.class);
+        try (MockedStatic<ParameterValidation> ignored1 = Mockito.mockStatic(ParameterValidation.class);
              MockedStatic<PathFactory> ignored2 = Mockito.mockStatic(PathFactory.class);
              MockedStatic<UserService> ignored3 = Mockito.mockStatic(UserService.class)) {
 
             Mockito.when(PathFactory.getPath(Mockito.eq("path.page.redirect.create_user"))).thenReturn(mockPath);
 
 
-            Mockito.when(ParameterValidationService.validateEmail(request, "testEmail")).thenReturn(true);
-            Mockito.when(ParameterValidationService.validatePasswordAndRepeat(request, "pass", "pass")).thenReturn(true);
-            Mockito.when(ParameterValidationService.validateLogin(request, "login")).thenReturn(true);
-            Mockito.when(ParameterValidationService.validateRecaptcha(request, "test")).thenReturn(true);
-            Mockito.when(ParameterValidationService.validateRoleId(request, "3")).thenReturn(true);
+            Mockito.when(ParameterValidation.validateEmail(request, "testEmail")).thenReturn(true);
+            Mockito.when(ParameterValidation.validatePasswordAndRepeat(request, "pass", "pass")).thenReturn(true);
+            Mockito.when(ParameterValidation.validateLogin(request, "login")).thenReturn(true);
+            Mockito.when(ParameterValidation.validateRecaptcha(request, "test")).thenReturn(true);
+            Mockito.when(ParameterValidation.validateRoleId(request, "3")).thenReturn(true);
 
 
             Mockito.when(UserService.checkUserExistence("login")).thenReturn(true);
@@ -120,18 +120,18 @@ class CreateUserCommandTest {
         request.setParameter("g-recaptcha-response", "test");
         request.setParameter("role", "3");
 
-        try (MockedStatic<ParameterValidationService> ignored1 = Mockito.mockStatic(ParameterValidationService.class);
+        try (MockedStatic<ParameterValidation> ignored1 = Mockito.mockStatic(ParameterValidation.class);
              MockedStatic<PathFactory> ignored2 = Mockito.mockStatic(PathFactory.class);
              MockedStatic<UserService> ignored3 = Mockito.mockStatic(UserService.class)) {
 
             Mockito.when(PathFactory.getPath(Mockito.eq("path.page.redirect.create_user"))).thenReturn(mockPath);
 
 
-            Mockito.when(ParameterValidationService.validateEmail(request, "testEmail")).thenReturn(false);
-            Mockito.when(ParameterValidationService.validatePasswordAndRepeat(request, "pass", "pass")).thenReturn(false);
-            Mockito.when(ParameterValidationService.validateLogin(request, "login")).thenReturn(false);
-            Mockito.when(ParameterValidationService.validateRecaptcha(request, "test")).thenReturn(false);
-            Mockito.when(ParameterValidationService.validateRoleId(request, "3")).thenReturn(false);
+            Mockito.when(ParameterValidation.validateEmail(request, "testEmail")).thenReturn(false);
+            Mockito.when(ParameterValidation.validatePasswordAndRepeat(request, "pass", "pass")).thenReturn(false);
+            Mockito.when(ParameterValidation.validateLogin(request, "login")).thenReturn(false);
+            Mockito.when(ParameterValidation.validateRecaptcha(request, "test")).thenReturn(false);
+            Mockito.when(ParameterValidation.validateRoleId(request, "3")).thenReturn(false);
 
 
             assertEquals(mockPath, new CreateUserCommand().execute(request, response));

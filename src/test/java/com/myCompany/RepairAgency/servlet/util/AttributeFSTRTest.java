@@ -1,4 +1,4 @@
-package com.myCompany.RepairAgency.servlet.service;
+package com.myCompany.RepairAgency.servlet.util;
 
 
 import org.junit.jupiter.api.BeforeEach;
@@ -8,7 +8,7 @@ import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpSession;
 
 
-class AttributeFSTRServiceTest {
+class AttributeFSTRTest {
     @Mock
     MockHttpServletRequest request;
     @Mock
@@ -24,32 +24,32 @@ class AttributeFSTRServiceTest {
 
     @Test
     void forShowChangePassword() {
-        AttributeFSTRService.forShowChangePassword(request);
+        AttributeFSTR.forShowChangePassword(request);
     }
 
     @Test
     void forShowCreateUserForm() {
-        AttributeFSTRService.forShowCreateUserForm(request);
+        AttributeFSTR.forShowCreateUserForm(request);
 
     }
 
     @Test
     void forShowLoginForm() {
-        AttributeFSTRService.forShowLoginForm(request);
+        AttributeFSTR.forShowLoginForm(request);
     }
 
     @Test
     void forShowOrders() {
-        AttributeFSTRService.forShowOrders(request);
+        AttributeFSTR.forShowOrders(request);
     }
 
     @Test
     void forShowProfile() {
-        AttributeFSTRService.forShowProfile(request);
+        AttributeFSTR.forShowProfile(request);
     }
 
     @Test
     void forShowSignupForm() {
-        AttributeFSTRService.forShowSignupForm(request);
+        AttributeFSTR.forShowSignupForm(request);
     }
 }

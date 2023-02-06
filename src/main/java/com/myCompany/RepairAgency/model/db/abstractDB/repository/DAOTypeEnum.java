@@ -6,9 +6,11 @@ public enum DAOTypeEnum {
     Postgresql(new PSQLRepositoryFactory());
 
     private final abstractRepositoryFactory repositoryFactory;
+
     DAOTypeEnum(PSQLRepositoryFactory repositoryFactory) {
         this.repositoryFactory = repositoryFactory;
     }
+
     public abstractRepositoryFactory getDAOFactory() {
         return repositoryFactory;
     }

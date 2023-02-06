@@ -5,11 +5,11 @@ import com.myCompany.RepairAgency.model.entity.DTO.UserDTO;
 import com.myCompany.RepairAgency.model.entity.DTO.UserDTOFactory;
 import com.myCompany.RepairAgency.model.entity.User;
 import com.myCompany.RepairAgency.servlet.Path;
-import com.myCompany.RepairAgency.servlet.service.AttributeFSTRService;
-import com.myCompany.RepairAgency.servlet.service.InitValuesFromRequestService;
 import com.myCompany.RepairAgency.servlet.service.UserService;
-import com.myCompany.RepairAgency.servlet.service.ViewValidationService;
+import com.myCompany.RepairAgency.servlet.util.AttributeFSTR;
 import com.myCompany.RepairAgency.servlet.util.ForTables;
+import com.myCompany.RepairAgency.servlet.util.InitValuesFromRequest;
+import com.myCompany.RepairAgency.servlet.util.ViewValidation;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
@@ -50,16 +50,16 @@ class ShowUsersCommandTest {
     void execute1() {
         session.setAttribute("userRole", Constants.ROLE.Admin);
 
-        try (MockedStatic<ViewValidationService> ignored1 = Mockito.mockStatic(ViewValidationService.class);
+        try (MockedStatic<ViewValidation> ignored1 = Mockito.mockStatic(ViewValidation.class);
              MockedStatic<UserService> ignored2 = Mockito.mockStatic(UserService.class);
-             MockedStatic<AttributeFSTRService> ignored3 = Mockito.mockStatic(AttributeFSTRService.class);
+             MockedStatic<AttributeFSTR> ignored3 = Mockito.mockStatic(AttributeFSTR.class);
              MockedStatic<UserDTOFactory> ignored4 = Mockito.mockStatic(UserDTOFactory.class);
              MockedStatic<ForTables> ignored5 = Mockito.mockStatic(ForTables.class);
-             MockedStatic<InitValuesFromRequestService> ignored6 = Mockito.mockStatic(InitValuesFromRequestService.class)) {
+             MockedStatic<InitValuesFromRequest> ignored6 = Mockito.mockStatic(InitValuesFromRequest.class)) {
 
 
-            Mockito.when(ViewValidationService.validateForUsersPage(request)).thenReturn(mockPath);
-            Mockito.when(InitValuesFromRequestService.initRoleId(request)).thenReturn(0L);
+            Mockito.when(ViewValidation.validateForUsersPage(request)).thenReturn(mockPath);
+            Mockito.when(InitValuesFromRequest.initRoleId(request)).thenReturn(0L);
 
 
             Mockito.when(ForTables.initSkipQuantity(Mockito.eq("Users"), Mockito.anyLong(), Mockito.eq(request))).thenReturn(new int[]{0, 5});
@@ -90,16 +90,16 @@ class ShowUsersCommandTest {
     void execute2() {
         session.setAttribute("userRole", Constants.ROLE.Manager);
 
-        try (MockedStatic<ViewValidationService> ignored1 = Mockito.mockStatic(ViewValidationService.class);
+        try (MockedStatic<ViewValidation> ignored1 = Mockito.mockStatic(ViewValidation.class);
              MockedStatic<UserService> ignored2 = Mockito.mockStatic(UserService.class);
-             MockedStatic<AttributeFSTRService> ignored3 = Mockito.mockStatic(AttributeFSTRService.class);
+             MockedStatic<AttributeFSTR> ignored3 = Mockito.mockStatic(AttributeFSTR.class);
              MockedStatic<UserDTOFactory> ignored4 = Mockito.mockStatic(UserDTOFactory.class);
              MockedStatic<ForTables> ignored5 = Mockito.mockStatic(ForTables.class);
-             MockedStatic<InitValuesFromRequestService> ignored6 = Mockito.mockStatic(InitValuesFromRequestService.class)) {
+             MockedStatic<InitValuesFromRequest> ignored6 = Mockito.mockStatic(InitValuesFromRequest.class)) {
 
 
-            Mockito.when(ViewValidationService.validateForUsersPage(request)).thenReturn(mockPath);
-            Mockito.when(InitValuesFromRequestService.initRoleId(request)).thenReturn(0L);
+            Mockito.when(ViewValidation.validateForUsersPage(request)).thenReturn(mockPath);
+            Mockito.when(InitValuesFromRequest.initRoleId(request)).thenReturn(0L);
 
 
             Mockito.when(ForTables.initSkipQuantity(Mockito.eq("Users"), Mockito.anyLong(), Mockito.eq(request))).thenReturn(new int[]{0, 5});

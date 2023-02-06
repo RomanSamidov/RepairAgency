@@ -4,10 +4,10 @@ import com.myCompany.RepairAgency.Constants;
 import com.myCompany.RepairAgency.model.entity.User;
 import com.myCompany.RepairAgency.servlet.Path;
 import com.myCompany.RepairAgency.servlet.PathFactory;
-import com.myCompany.RepairAgency.servlet.service.ParameterValidationService;
-import com.myCompany.RepairAgency.servlet.service.SendEmailService;
 import com.myCompany.RepairAgency.servlet.service.UserService;
 import com.myCompany.RepairAgency.servlet.util.Encrypt;
+import com.myCompany.RepairAgency.servlet.util.ParameterValidation;
+import com.myCompany.RepairAgency.servlet.util.SendEmail;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
@@ -44,16 +44,16 @@ class ChangePasswordCommandTest {
         request.setParameter(Constants.LOGIN, "test_login");
 
         try (MockedStatic<PathFactory> ignored2 = Mockito.mockStatic(PathFactory.class);
-             MockedStatic<ParameterValidationService> ignored3 = Mockito.mockStatic(ParameterValidationService.class)) {
+             MockedStatic<ParameterValidation> ignored3 = Mockito.mockStatic(ParameterValidation.class)) {
 
             Mockito.when(PathFactory.getPath(Mockito.eq("path.page.redirect.change_password"))).thenReturn(mockPath);
-            Mockito.when(ParameterValidationService.validateLogin(Mockito.any(), Mockito.anyString())).thenReturn(false);
+            Mockito.when(ParameterValidation.validateLogin(Mockito.any(), Mockito.anyString())).thenReturn(false);
 
 
             assertEquals(mockPath, new ChangePasswordCommand().execute(request, response));
             ignored2.verify(() -> PathFactory.getPath("path.page.redirect.change_password"), Mockito.times(1));
 
-            ignored3.verify(() -> ParameterValidationService.validateLogin(request, "test_login"), Mockito.times(1));
+            ignored3.verify(() -> ParameterValidation.validateLogin(request, "test_login"), Mockito.times(1));
 
         }
     }
@@ -64,19 +64,19 @@ class ChangePasswordCommandTest {
         request.setParameter(Constants.LOGIN, "test_login");
 
         try (MockedStatic<PathFactory> ignored2 = Mockito.mockStatic(PathFactory.class);
-             MockedStatic<ParameterValidationService> ignored3 = Mockito.mockStatic(ParameterValidationService.class);
+             MockedStatic<ParameterValidation> ignored3 = Mockito.mockStatic(ParameterValidation.class);
              MockedStatic<UserService> ignored5 = Mockito.mockStatic(UserService.class)) {
 
             Mockito.when(PathFactory.getPath(Mockito.eq("path.page.redirect.change_password"))).thenReturn(mockPath);
-            Mockito.when(ParameterValidationService.validateLogin(Mockito.eq(request), Mockito.anyString())).thenReturn(true);
+            Mockito.when(ParameterValidation.validateLogin(Mockito.eq(request), Mockito.anyString())).thenReturn(true);
 
             User user = Mockito.mock(User.class);
             Mockito.when(UserService.get(Mockito.anyString())).thenReturn(user);
-            Mockito.when(ParameterValidationService.forChangePassword(request, user)).thenReturn(false);
+            Mockito.when(ParameterValidation.forChangePassword(request, user)).thenReturn(false);
 
             assertEquals(mockPath, new ChangePasswordCommand().execute(request, response));
             ignored2.verify(() -> PathFactory.getPath("path.page.redirect.change_password"), Mockito.times(1));
-            ignored3.verify(() -> ParameterValidationService.validateLogin(request, "test_login"), Mockito.times(1));
+            ignored3.verify(() -> ParameterValidation.validateLogin(request, "test_login"), Mockito.times(1));
 
         }
     }
@@ -87,23 +87,23 @@ class ChangePasswordCommandTest {
         request.setParameter(Constants.LOGIN, "test_login");
 
         try (MockedStatic<PathFactory> ignored2 = Mockito.mockStatic(PathFactory.class);
-             MockedStatic<ParameterValidationService> ignored3 = Mockito.mockStatic(ParameterValidationService.class);
+             MockedStatic<ParameterValidation> ignored3 = Mockito.mockStatic(ParameterValidation.class);
              MockedStatic<Encrypt> ignored4 = Mockito.mockStatic(Encrypt.class);
              MockedStatic<UserService> ignored5 = Mockito.mockStatic(UserService.class);
-             MockedStatic<SendEmailService> ignored6 = Mockito.mockStatic(SendEmailService.class)) {
+             MockedStatic<SendEmail> ignored6 = Mockito.mockStatic(SendEmail.class)) {
 
             Mockito.when(PathFactory.getPath(Mockito.eq("path.page.redirect.change_password"))).thenReturn(mockPath);
-            Mockito.when(ParameterValidationService.validateLogin(Mockito.eq(request), Mockito.anyString())).thenReturn(true);
+            Mockito.when(ParameterValidation.validateLogin(Mockito.eq(request), Mockito.anyString())).thenReturn(true);
 
             Mockito.when(Encrypt.generateCode()).thenReturn("Test");
 
             User user = Mockito.mock(User.class);
             Mockito.when(UserService.get(Mockito.anyString())).thenReturn(user);
-            Mockito.when(ParameterValidationService.forChangePassword(request, user)).thenReturn(true);
+            Mockito.when(ParameterValidation.forChangePassword(request, user)).thenReturn(true);
 
             assertEquals(mockPath, new ChangePasswordCommand().execute(request, response));
             ignored2.verify(() -> PathFactory.getPath("path.page.redirect.change_password"), Mockito.times(1));
-            ignored3.verify(() -> ParameterValidationService.validateLogin(request, "test_login"), Mockito.times(1));
+            ignored3.verify(() -> ParameterValidation.validateLogin(request, "test_login"), Mockito.times(1));
 
         }
     }
@@ -114,27 +114,27 @@ class ChangePasswordCommandTest {
         request.setParameter(Constants.LOGIN, "test_login");
 
         try (MockedStatic<PathFactory> ignored2 = Mockito.mockStatic(PathFactory.class);
-             MockedStatic<ParameterValidationService> ignored3 = Mockito.mockStatic(ParameterValidationService.class);
+             MockedStatic<ParameterValidation> ignored3 = Mockito.mockStatic(ParameterValidation.class);
              MockedStatic<Encrypt> ignored4 = Mockito.mockStatic(Encrypt.class);
              MockedStatic<UserService> ignored5 = Mockito.mockStatic(UserService.class);
-             MockedStatic<SendEmailService> ignored6 = Mockito.mockStatic(SendEmailService.class)) {
+             MockedStatic<SendEmail> ignored6 = Mockito.mockStatic(SendEmail.class)) {
 
             Mockito.when(PathFactory.getPath(Mockito.eq("path.page.redirect.change_password"))).thenReturn(mockPath);
-            Mockito.when(ParameterValidationService.validateLogin(Mockito.eq(request), Mockito.anyString())).thenReturn(true);
+            Mockito.when(ParameterValidation.validateLogin(Mockito.eq(request), Mockito.anyString())).thenReturn(true);
 
             Mockito.when(Encrypt.generateCode()).thenReturn("Test");
 
             User user = Mockito.mock(User.class);
             Mockito.when(UserService.get(Mockito.anyString())).thenReturn(user);
-            Mockito.when(ParameterValidationService.forChangePassword(request, user)).thenReturn(true);
+            Mockito.when(ParameterValidation.forChangePassword(request, user)).thenReturn(true);
 
-            Mockito.when(ParameterValidationService.validatePasswordAndRepeat(Mockito.eq(request),
+            Mockito.when(ParameterValidation.validatePasswordAndRepeat(Mockito.eq(request),
                     Mockito.anyString(),
                     Mockito.anyString())).thenReturn(false);
 
             assertEquals(mockPath, new ChangePasswordCommand().execute(request, response));
             ignored2.verify(() -> PathFactory.getPath("path.page.redirect.change_password"), Mockito.times(1));
-            ignored3.verify(() -> ParameterValidationService.validateLogin(request, "test_login"), Mockito.times(1));
+            ignored3.verify(() -> ParameterValidation.validateLogin(request, "test_login"), Mockito.times(1));
 
         }
     }
@@ -148,27 +148,27 @@ class ChangePasswordCommandTest {
         request.setParameter(Constants.PASSWORD_REPEAT, "test_pass_rep");
 
         try (MockedStatic<PathFactory> ignored2 = Mockito.mockStatic(PathFactory.class);
-             MockedStatic<ParameterValidationService> ignored3 = Mockito.mockStatic(ParameterValidationService.class);
+             MockedStatic<ParameterValidation> ignored3 = Mockito.mockStatic(ParameterValidation.class);
              MockedStatic<Encrypt> ignored4 = Mockito.mockStatic(Encrypt.class);
              MockedStatic<UserService> ignored5 = Mockito.mockStatic(UserService.class);
-             MockedStatic<SendEmailService> ignored6 = Mockito.mockStatic(SendEmailService.class)) {
+             MockedStatic<SendEmail> ignored6 = Mockito.mockStatic(SendEmail.class)) {
 
             Mockito.when(PathFactory.getPath(Mockito.eq("path.page.redirect.login"))).thenReturn(mockPath);
-            Mockito.when(ParameterValidationService.validateLogin(Mockito.eq(request), Mockito.anyString())).thenReturn(true);
+            Mockito.when(ParameterValidation.validateLogin(Mockito.eq(request), Mockito.anyString())).thenReturn(true);
 
             Mockito.when(Encrypt.generateCode()).thenReturn("Test");
 
             User user = Mockito.mock(User.class);
             Mockito.when(UserService.get(Mockito.anyString())).thenReturn(user);
-            Mockito.when(ParameterValidationService.forChangePassword(request, user)).thenReturn(true);
+            Mockito.when(ParameterValidation.forChangePassword(request, user)).thenReturn(true);
 
-            Mockito.when(ParameterValidationService.validatePasswordAndRepeat(Mockito.eq(request),
+            Mockito.when(ParameterValidation.validatePasswordAndRepeat(Mockito.eq(request),
                     Mockito.anyString(),
                     Mockito.anyString())).thenReturn(true);
 
             assertEquals(mockPath, new ChangePasswordCommand().execute(request, response));
             ignored2.verify(() -> PathFactory.getPath("path.page.redirect.login"), Mockito.times(1));
-            ignored3.verify(() -> ParameterValidationService.validateLogin(request, "test_login"), Mockito.times(1));
+            ignored3.verify(() -> ParameterValidation.validateLogin(request, "test_login"), Mockito.times(1));
 
         }
     }
@@ -182,27 +182,27 @@ class ChangePasswordCommandTest {
         request.setParameter(Constants.PASSWORD_REPEAT, "test_pass_rep");
 
         try (MockedStatic<PathFactory> ignored2 = Mockito.mockStatic(PathFactory.class);
-             MockedStatic<ParameterValidationService> ignored3 = Mockito.mockStatic(ParameterValidationService.class);
+             MockedStatic<ParameterValidation> ignored3 = Mockito.mockStatic(ParameterValidation.class);
              MockedStatic<Encrypt> ignored4 = Mockito.mockStatic(Encrypt.class);
              MockedStatic<UserService> ignored5 = Mockito.mockStatic(UserService.class);
-             MockedStatic<SendEmailService> ignored6 = Mockito.mockStatic(SendEmailService.class)) {
+             MockedStatic<SendEmail> ignored6 = Mockito.mockStatic(SendEmail.class)) {
 
             Mockito.when(PathFactory.getPath(Mockito.eq("path.page.redirect.change_password"))).thenReturn(mockPath);
-            Mockito.when(ParameterValidationService.validateLogin(Mockito.eq(request), Mockito.anyString())).thenReturn(true);
+            Mockito.when(ParameterValidation.validateLogin(Mockito.eq(request), Mockito.anyString())).thenReturn(true);
 
             Mockito.when(Encrypt.generateCode()).thenReturn("Test");
 
             User user = Mockito.mock(User.class);
             Mockito.when(UserService.get(Mockito.anyString())).thenReturn(user);
-            Mockito.when(ParameterValidationService.forChangePassword(request, user)).thenReturn(true);
+            Mockito.when(ParameterValidation.forChangePassword(request, user)).thenReturn(true);
 
-            Mockito.when(ParameterValidationService.validatePasswordAndRepeat(Mockito.eq(request),
+            Mockito.when(ParameterValidation.validatePasswordAndRepeat(Mockito.eq(request),
                     Mockito.anyString(),
                     Mockito.anyString())).thenReturn(true);
 
             assertEquals(mockPath, new ChangePasswordCommand().execute(request, response));
             ignored2.verify(() -> PathFactory.getPath("path.page.redirect.change_password"), Mockito.times(1));
-            ignored3.verify(() -> ParameterValidationService.validateLogin(request, "test_login"), Mockito.times(1));
+            ignored3.verify(() -> ParameterValidation.validateLogin(request, "test_login"), Mockito.times(1));
 
         }
     }

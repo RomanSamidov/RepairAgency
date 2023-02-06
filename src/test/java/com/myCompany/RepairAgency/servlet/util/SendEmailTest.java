@@ -1,8 +1,8 @@
-package com.myCompany.RepairAgency.servlet.service;
+package com.myCompany.RepairAgency.servlet.util;
 
 import com.myCompany.RepairAgency.Constants;
 import com.myCompany.RepairAgency.model.entity.User;
-import com.myCompany.RepairAgency.servlet.util.EmailSender;
+import com.myCompany.RepairAgency.servlet.service.UserService;
 import org.junit.jupiter.api.Test;
 import org.mockito.MockedStatic;
 import org.mockito.Mockito;
@@ -10,7 +10,7 @@ import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpSession;
 
 
-class SendEmailServiceTest {
+class SendEmailTest {
 
 
     @Test
@@ -31,7 +31,7 @@ class SendEmailServiceTest {
             Mockito.when(user.isAllow_letters()).thenReturn(true);
             Mockito.when(user.getLocale_id()).thenReturn(0);
 
-            SendEmailService.forDownload(request, "boba");
+            SendEmail.forDownload(request, "boba");
         }
 
     }
@@ -46,7 +46,7 @@ class SendEmailServiceTest {
             Mockito.when(user.isAllow_letters()).thenReturn(true);
             Mockito.when(user.getLocale_id()).thenReturn(0);
 
-            SendEmailService.forAddToUserAccount(user, 10);
+            SendEmail.forAddToUserAccount(user, 10);
         }
     }
 
@@ -60,7 +60,7 @@ class SendEmailServiceTest {
             Mockito.when(user.isAllow_letters()).thenReturn(true);
             Mockito.when(user.getLocale_id()).thenReturn(0);
 
-            SendEmailService.forCreateOrder(user, 10);
+            SendEmail.forCreateOrder(user, 10);
         }
     }
 
@@ -74,7 +74,7 @@ class SendEmailServiceTest {
             Mockito.when(user.isAllow_letters()).thenReturn(true);
             Mockito.when(user.getLocale_id()).thenReturn(0);
 
-            SendEmailService.forCancelOrder(user, 10);
+            SendEmail.forCancelOrder(user, 10);
         }
     }
 
@@ -88,7 +88,7 @@ class SendEmailServiceTest {
             Mockito.when(user.isAllow_letters()).thenReturn(true);
             Mockito.when(user.getLocale_id()).thenReturn(0);
 
-            SendEmailService.forCancelOrder(user);
+            SendEmail.forCancelOrder(user);
         }
     }
 
@@ -102,7 +102,7 @@ class SendEmailServiceTest {
             Mockito.when(user.isAllow_letters()).thenReturn(true);
             Mockito.when(user.getLocale_id()).thenReturn(0);
 
-            SendEmailService.forChangeEmail(user);
+            SendEmail.forChangeEmail(user);
         }
     }
 
@@ -116,7 +116,7 @@ class SendEmailServiceTest {
             Mockito.when(user.isAllow_letters()).thenReturn(true);
             Mockito.when(user.getLocale_id()).thenReturn(0);
 
-            SendEmailService.forConfirmEmail(user);
+            SendEmail.forConfirmEmail(user);
         }
     }
 
@@ -130,7 +130,7 @@ class SendEmailServiceTest {
             Mockito.when(user.isAllow_letters()).thenReturn(true);
             Mockito.when(user.getLocale_id()).thenReturn(0);
 
-            SendEmailService.forDeleteOrder(user, 10);
+            SendEmail.forDeleteOrder(user, 10);
         }
     }
 
@@ -144,7 +144,7 @@ class SendEmailServiceTest {
             Mockito.when(user.isAllow_letters()).thenReturn(true);
             Mockito.when(user.getLocale_id()).thenReturn(0);
 
-            SendEmailService.forDeleteUser(user);
+            SendEmail.forDeleteUser(user);
         }
     }
 
@@ -158,7 +158,7 @@ class SendEmailServiceTest {
             Mockito.when(user.isAllow_letters()).thenReturn(true);
             Mockito.when(user.getLocale_id()).thenReturn(0);
 
-            SendEmailService.forChangePassword(user);
+            SendEmail.forChangePassword(user);
         }
     }
 
@@ -172,7 +172,7 @@ class SendEmailServiceTest {
             Mockito.when(user.isAllow_letters()).thenReturn(true);
             Mockito.when(user.getLocale_id()).thenReturn(0);
 
-            SendEmailService.forChangePasswordCode(user, "code");
+            SendEmail.forChangePasswordCode(user, "code");
         }
     }
 
@@ -186,7 +186,7 @@ class SendEmailServiceTest {
             Mockito.when(user.isAllow_letters()).thenReturn(true);
             Mockito.when(user.getLocale_id()).thenReturn(0);
 
-            SendEmailService.forConfirmEmailCode(user, " 10");
+            SendEmail.forConfirmEmailCode(user, " 10");
         }
     }
 
@@ -200,7 +200,7 @@ class SendEmailServiceTest {
             Mockito.when(user.isAllow_letters()).thenReturn(true);
             Mockito.when(user.getLocale_id()).thenReturn(0);
 
-            SendEmailService.forSignup(user);
+            SendEmail.forSignup(user);
         }
     }
 
@@ -214,7 +214,7 @@ class SendEmailServiceTest {
             Mockito.when(user.isAllow_letters()).thenReturn(true);
             Mockito.when(user.getLocale_id()).thenReturn(0);
 
-            SendEmailService.forLogin(user);
+            SendEmail.forLogin(user);
         }
     }
 
@@ -228,7 +228,7 @@ class SendEmailServiceTest {
             Mockito.when(user.isAllow_letters()).thenReturn(true);
             Mockito.when(user.getLocale_id()).thenReturn(0);
 
-            SendEmailService.forPayForOrder(user, 10);
+            SendEmail.forPayForOrder(user, 10);
         }
     }
 
@@ -242,7 +242,7 @@ class SendEmailServiceTest {
             Mockito.when(user.isAllow_letters()).thenReturn(true);
             Mockito.when(user.getLocale_id()).thenReturn(0);
 
-            SendEmailService.forSetCraftPrice(user, 10);
+            SendEmail.forSetCraftPrice(user, 10);
         }
     }
 
@@ -256,7 +256,7 @@ class SendEmailServiceTest {
             Mockito.when(user.isAllow_letters()).thenReturn(true);
             Mockito.when(user.getLocale_id()).thenReturn(0);
 
-            SendEmailService.forSetOrderStatus(user, 10);
+            SendEmail.forSetOrderStatus(user, 10);
         }
     }
 }

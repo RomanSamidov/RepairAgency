@@ -5,7 +5,7 @@ import com.myCompany.RepairAgency.servlet.Path;
 import com.myCompany.RepairAgency.servlet.PathFactory;
 import com.myCompany.RepairAgency.servlet.request.IActionCommand;
 import com.myCompany.RepairAgency.servlet.request.IHasRoleRequirement;
-import com.myCompany.RepairAgency.servlet.service.AttributeFSTRService;
+import com.myCompany.RepairAgency.servlet.util.AttributeFSTR;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
@@ -20,7 +20,7 @@ public class ShowLoginFormCommand implements IActionCommand, IHasRoleRequirement
 
         request.setAttribute("title", "title.login");
 
-        AttributeFSTRService.forShowLoginForm(request);
+        AttributeFSTR.forShowLoginForm(request);
 
         return page;
     }

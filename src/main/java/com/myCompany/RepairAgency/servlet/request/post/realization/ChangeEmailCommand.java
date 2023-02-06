@@ -6,9 +6,9 @@ import com.myCompany.RepairAgency.servlet.Path;
 import com.myCompany.RepairAgency.servlet.PathFactory;
 import com.myCompany.RepairAgency.servlet.request.IActionCommand;
 import com.myCompany.RepairAgency.servlet.request.IHasRoleRequirement;
-import com.myCompany.RepairAgency.servlet.service.ParameterValidationService;
-import com.myCompany.RepairAgency.servlet.service.SendEmailService;
 import com.myCompany.RepairAgency.servlet.service.UserService;
+import com.myCompany.RepairAgency.servlet.util.ParameterValidation;
+import com.myCompany.RepairAgency.servlet.util.SendEmail;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.apache.logging.log4j.LogManager;
@@ -25,7 +25,7 @@ public class ChangeEmailCommand implements IActionCommand, IHasRoleRequirement {
     public Path execute(HttpServletRequest request, HttpServletResponse response) {
 
         String email = request.getParameter("email");
-        if (!ParameterValidationService.validateEmail(request, email)) {
+        if (!ParameterValidation.validateEmail(request, email)) {
             return PathFactory.getPath("path.page.redirect.cabinet");
         }
 
@@ -39,7 +39,7 @@ public class ChangeEmailCommand implements IActionCommand, IHasRoleRequirement {
         request.getSession().removeAttribute("waitedCode");
         request.getSession().setAttribute("userEmail", user.getEmail());
         request.getSession().setAttribute("isUserConfirmed", user.isConfirmed());
-        SendEmailService.forChangeEmail(user);
+        SendEmail.forChangeEmail(user);
         logger.debug("User email was changed ");
         return PathFactory.getPath("path.page.redirect.cabinet");
     }

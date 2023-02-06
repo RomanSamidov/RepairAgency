@@ -5,8 +5,8 @@ import com.myCompany.RepairAgency.servlet.Path;
 import com.myCompany.RepairAgency.servlet.PathFactory;
 import com.myCompany.RepairAgency.servlet.request.IActionCommand;
 import com.myCompany.RepairAgency.servlet.request.IHasRoleRequirement;
-import com.myCompany.RepairAgency.servlet.service.ParameterValidationService;
 import com.myCompany.RepairAgency.servlet.service.UserService;
+import com.myCompany.RepairAgency.servlet.util.ParameterValidation;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.apache.logging.log4j.LogManager;
@@ -23,12 +23,12 @@ public class AddToUserAccountCommand implements IActionCommand, IHasRoleRequirem
     @Override
     public Path execute(HttpServletRequest request, HttpServletResponse response) {
         String goalIdUser = request.getParameter("goalIdUser");
-        if (!ParameterValidationService.validateGoalId(goalIdUser)) {
+        if (!ParameterValidation.validateGoalId(goalIdUser)) {
             return PathFactory.getPath("path.page.redirect.users");
         }
 
         String addToAccount = request.getParameter("addToAccount");
-        if (ParameterValidationService.validateInt(addToAccount)) {
+        if (ParameterValidation.validateInt(addToAccount)) {
             int increment = Integer.parseInt(addToAccount);
             long userId = Long.parseLong(goalIdUser);
 

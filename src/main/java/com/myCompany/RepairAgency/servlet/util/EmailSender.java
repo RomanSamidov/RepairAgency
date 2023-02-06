@@ -37,8 +37,8 @@ public class EmailSender {
         send(to, sub, msg, 0, files);
     }
 
-    private static void send(String to, String sub, String msg, int trie, File... files){
-        if(trie > 10) return;
+    private static void send(String to, String sub, String msg, int trie, File... files) {
+        if (trie > 10) return;
         try {
             //Get properties object
             Properties props = new Properties();

@@ -58,9 +58,10 @@ public class OrderUserService implements iOrderUserService {
                 ConnectionPool.releaseConnection(conn);
                 return false;
             }
-            user.setAccount(user.getAccount() - order.getPrice());
-            QueryExecutioner.executeUpdate(conn, Query.UsersQuery.UPDATE,
-                    UserRepository.extractFields(user, user.getId()));
+
+            QueryExecutioner.executeUpdate(conn, Query.UsersQuery.INCREASE_ACCOUNT,
+                    -order.getPrice(), order.getUser_id());
+
             QueryExecutioner.executeUpdate(conn, Query.RepairOrdersQuery.UPDATE,
                     RepairOrderRepository.extractFields(order, order.getId()));
 

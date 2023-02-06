@@ -5,8 +5,8 @@ import com.myCompany.RepairAgency.servlet.Path;
 import com.myCompany.RepairAgency.servlet.PathFactory;
 import com.myCompany.RepairAgency.servlet.request.IActionCommand;
 import com.myCompany.RepairAgency.servlet.request.IHasRoleRequirement;
-import com.myCompany.RepairAgency.servlet.service.ParameterValidationService;
 import com.myCompany.RepairAgency.servlet.service.UserService;
+import com.myCompany.RepairAgency.servlet.util.ParameterValidation;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.apache.logging.log4j.LogManager;
@@ -28,11 +28,11 @@ public class CreateUserCommand implements IActionCommand, IHasRoleRequirement {
         String gRecaptchaResponse = request.getParameter("g-recaptcha-response");
         String roleId = request.getParameter("role");
 
-        if (ParameterValidationService.validateEmail(request, email) &
-                ParameterValidationService.validatePasswordAndRepeat(request, password, passwordRepeat) &
-                ParameterValidationService.validateLogin(request, login) &
-                ParameterValidationService.validateRecaptcha(request, gRecaptchaResponse) &
-                ParameterValidationService.validateRoleId(request, roleId)) {
+        if (ParameterValidation.validateEmail(request, email) &
+                ParameterValidation.validatePasswordAndRepeat(request, password, passwordRepeat) &
+                ParameterValidation.validateLogin(request, login) &
+                ParameterValidation.validateRecaptcha(request, gRecaptchaResponse) &
+                ParameterValidation.validateRoleId(request, roleId)) {
 
             if (UserService.checkUserExistence(login)) {
                 request.getSession().setAttribute("errorLoginPassMessage", "message.login_exist");

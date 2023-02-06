@@ -6,8 +6,8 @@ import com.myCompany.RepairAgency.servlet.Path;
 import com.myCompany.RepairAgency.servlet.PathFactory;
 import com.myCompany.RepairAgency.servlet.request.IActionCommand;
 import com.myCompany.RepairAgency.servlet.request.IHasRoleRequirement;
-import com.myCompany.RepairAgency.servlet.service.ParameterValidationService;
 import com.myCompany.RepairAgency.servlet.service.RepairOrderService;
+import com.myCompany.RepairAgency.servlet.util.ParameterValidation;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
@@ -24,12 +24,12 @@ public class SetFeedbackForOrderCommand implements IActionCommand, IHasRoleRequi
         String goalOrderFeedback_text = request.getParameter("goalOrderFeedback_text");
         String goalIdOrder = request.getParameter("goalIdOrder");
 
-        if (!ParameterValidationService.validateGoalId(goalIdOrder))
+        if (!ParameterValidation.validateGoalId(goalIdOrder))
             return PathFactory.getPath("path.page.redirect.orders");
 
 
-        if (ParameterValidationService.validateInt(goalOrderFeedback_mark) &&
-                ParameterValidationService.validateFeedbackText(request, goalOrderFeedback_text)) {
+        if (ParameterValidation.validateInt(goalOrderFeedback_mark) &&
+                ParameterValidation.validateFeedbackText(request, goalOrderFeedback_text)) {
 
             RepairOrder order = RepairOrderService.get(Long.parseLong(goalIdOrder));
             if (order == null) return PathFactory.getPath("path.page.redirect.orders");

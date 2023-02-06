@@ -5,10 +5,10 @@ import com.myCompany.RepairAgency.model.entity.User;
 import com.myCompany.RepairAgency.servlet.Path;
 import com.myCompany.RepairAgency.servlet.PathFactory;
 import com.myCompany.RepairAgency.servlet.request.IActionCommand;
-import com.myCompany.RepairAgency.servlet.service.ParameterValidationService;
-import com.myCompany.RepairAgency.servlet.service.SendEmailService;
 import com.myCompany.RepairAgency.servlet.service.UserService;
 import com.myCompany.RepairAgency.servlet.util.Encrypt;
+import com.myCompany.RepairAgency.servlet.util.ParameterValidation;
+import com.myCompany.RepairAgency.servlet.util.SendEmail;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.apache.logging.log4j.LogManager;
@@ -29,13 +29,13 @@ public class ChangePasswordCommand implements IActionCommand {
         request.getSession().setAttribute("login", login);
         request.getSession().setAttribute("email", email);
 
-        if (!ParameterValidationService.validateLogin(request, login)) {
+        if (!ParameterValidation.validateLogin(request, login)) {
             request.getSession().removeAttribute("waitedCodePassword");
             return PathFactory.getPath("path.page.redirect.change_password");
         }
 
         User user = UserService.get(login);
-        if (!ParameterValidationService.forChangePassword(request, user)) {
+        if (!ParameterValidation.forChangePassword(request, user)) {
             request.getSession().removeAttribute("waitedCodePassword");
             return PathFactory.getPath("path.page.redirect.change_password");
         }
@@ -45,14 +45,14 @@ public class ChangePasswordCommand implements IActionCommand {
 
             request.getSession().setAttribute("waitedCodePassword", generatedString);
 
-            SendEmailService.forChangePasswordCode(user, generatedString);
+            SendEmail.forChangePasswordCode(user, generatedString);
 
             return PathFactory.getPath("path.page.redirect.change_password");
         }
 
 
         String passwordRepeat = request.getParameter(Constants.PASSWORD_REPEAT);
-        if (ParameterValidationService.validatePasswordAndRepeat(request, password, passwordRepeat)) {
+        if (ParameterValidation.validatePasswordAndRepeat(request, password, passwordRepeat)) {
             code = code.trim();
             if (code.equals(request.getSession().getAttribute("waitedCodePassword"))) {
 

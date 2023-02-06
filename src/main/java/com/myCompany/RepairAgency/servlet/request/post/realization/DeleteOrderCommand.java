@@ -10,8 +10,8 @@ import com.myCompany.RepairAgency.servlet.request.IActionCommand;
 import com.myCompany.RepairAgency.servlet.request.IHasRoleRequirement;
 import com.myCompany.RepairAgency.servlet.service.OrderUserService;
 import com.myCompany.RepairAgency.servlet.service.RepairOrderService;
-import com.myCompany.RepairAgency.servlet.service.SendEmailService;
 import com.myCompany.RepairAgency.servlet.service.UserService;
+import com.myCompany.RepairAgency.servlet.util.SendEmail;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.apache.logging.log4j.LogManager;
@@ -46,7 +46,6 @@ public class DeleteOrderCommand implements IActionCommand, IHasRoleRequirement {
         } else deleteOrder(order);
 
 
-
         return PathFactory.getPath("path.page.redirect.orders");
     }
 
@@ -55,11 +54,11 @@ public class DeleteOrderCommand implements IActionCommand, IHasRoleRequirement {
         return Stream.of(Constants.ROLE.Client, Constants.ROLE.Admin).collect(Collectors.toList());
     }
 
-    private void deleteOrder(RepairOrder order){
+    private void deleteOrder(RepairOrder order) {
         OrderUserService.cancelOrder(order.getId());
         RepairOrderService.delete(order.getId());
         User user = UserService.get(order.getUser_id());
-        SendEmailService.forDeleteOrder(user, order.getId());
+        SendEmail.forDeleteOrder(user, order.getId());
     }
 
 }

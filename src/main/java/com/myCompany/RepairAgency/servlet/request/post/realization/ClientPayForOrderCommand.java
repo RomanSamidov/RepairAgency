@@ -8,7 +8,11 @@ import com.myCompany.RepairAgency.servlet.Path;
 import com.myCompany.RepairAgency.servlet.PathFactory;
 import com.myCompany.RepairAgency.servlet.request.IActionCommand;
 import com.myCompany.RepairAgency.servlet.request.IHasRoleRequirement;
-import com.myCompany.RepairAgency.servlet.service.*;
+import com.myCompany.RepairAgency.servlet.service.OrderUserService;
+import com.myCompany.RepairAgency.servlet.service.RepairOrderService;
+import com.myCompany.RepairAgency.servlet.service.UserService;
+import com.myCompany.RepairAgency.servlet.util.ParameterValidation;
+import com.myCompany.RepairAgency.servlet.util.SendEmail;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
@@ -27,7 +31,7 @@ public class ClientPayForOrderCommand implements IActionCommand, IHasRoleRequire
     public Path execute(HttpServletRequest request, HttpServletResponse response) {
         HttpSession session = request.getSession();
         String orderIdS = request.getParameter("goalIdOrder");
-        if (!ParameterValidationService.validateGoalId(orderIdS)) {
+        if (!ParameterValidation.validateGoalId(orderIdS)) {
             return PathFactory.getPath("path.page.redirect.orders");
         }
         long orderId = Long.parseLong(orderIdS);
@@ -38,7 +42,7 @@ public class ClientPayForOrderCommand implements IActionCommand, IHasRoleRequire
             if (user.getId() == order.getUser_id() &&
                     OrderUserService.payOrder(orderId)) {
                 logger.debug("Successfully paid");
-                SendEmailService.forPayForOrder(user, orderId);
+                SendEmail.forPayForOrder(user, orderId);
             } else {
                 session.setAttribute("error", "message.not_enough_money");
             }

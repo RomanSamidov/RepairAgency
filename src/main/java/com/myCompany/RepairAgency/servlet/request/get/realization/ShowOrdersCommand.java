@@ -7,8 +7,12 @@ import com.myCompany.RepairAgency.model.entity.DTO.UserDTOFactory;
 import com.myCompany.RepairAgency.servlet.Path;
 import com.myCompany.RepairAgency.servlet.request.IActionCommand;
 import com.myCompany.RepairAgency.servlet.request.IHasRoleRequirement;
-import com.myCompany.RepairAgency.servlet.service.*;
+import com.myCompany.RepairAgency.servlet.service.RepairOrderService;
+import com.myCompany.RepairAgency.servlet.service.UserService;
+import com.myCompany.RepairAgency.servlet.util.AttributeFSTR;
 import com.myCompany.RepairAgency.servlet.util.ForTables;
+import com.myCompany.RepairAgency.servlet.util.InitValuesFromRequest;
+import com.myCompany.RepairAgency.servlet.util.ViewValidation;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
@@ -23,12 +27,12 @@ public class ShowOrdersCommand implements IActionCommand, IHasRoleRequirement {
         Constants.ROLE userRole = (Constants.ROLE) request.getSession().getAttribute("userRole");
         setPageTittle(request, userRole);
 
-        AttributeFSTRService.forShowOrders(request);
+        AttributeFSTR.forShowOrders(request);
 
-        long[] craftIds = InitValuesFromRequestService.initCraftsmenIds(request);
-        long[] statusIds = InitValuesFromRequestService.initStatusIds(request);
-        long userId = InitValuesFromRequestService.initUserId(request);
-        iRepairOrderRepository.SORT_TYPE sortType = InitValuesFromRequestService.initSortType(request);
+        long[] craftIds = InitValuesFromRequest.initCraftsmenIds(request);
+        long[] statusIds = InitValuesFromRequest.initStatusIds(request);
+        long userId = InitValuesFromRequest.initUserId(request);
+        iRepairOrderRepository.SORT_TYPE sortType = InitValuesFromRequest.initSortType(request);
 
 
         long numberOfOrders = RepairOrderService.countByCraftUserStatus(craftIds, userId, statusIds);
@@ -52,7 +56,7 @@ public class ShowOrdersCommand implements IActionCommand, IHasRoleRequirement {
         request.setAttribute("sortTypesOrders", iRepairOrderRepository.SORT_TYPE.values());
         request.setAttribute("craftsmen", UserDTOFactory.getUsers(
                 UserService.getByRole(Constants.ROLE.Craftsman.ordinal(), 0, 50)));
-        return ViewValidationService.validateForOrdersPage(request);
+        return ViewValidation.validateForOrdersPage(request);
     }
 
     @Override

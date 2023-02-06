@@ -62,7 +62,7 @@ public class UserRepository implements iUserRepository {
 
     @Override
     public void delete(long id) throws MyDBException {
-            Connection conn = ConnectionPool.getConnection();
+        Connection conn = ConnectionPool.getConnection();
         try {
             QueryExecutioner.executeUpdate(conn, Query.UsersQuery.DELETE, id);
         } finally {
@@ -109,7 +109,7 @@ public class UserRepository implements iUserRepository {
         Connection conn = ConnectionPool.getConnection();
         try {
             return QueryExecutioner.readList(UserFactory.ins, conn, Query.UsersQuery.SELECT_ALL_BY_ROLE,
-                roleId, roleId, skip, quantity);
+                    roleId, roleId, skip, quantity);
         } finally {
             ConnectionPool.releaseConnection(conn);
         }

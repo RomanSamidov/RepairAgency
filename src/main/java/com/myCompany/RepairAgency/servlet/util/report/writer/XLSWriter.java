@@ -1,5 +1,6 @@
 package com.myCompany.RepairAgency.servlet.util.report.writer;
 
+import com.myCompany.RepairAgency.Constants;
 import com.myCompany.RepairAgency.model.entity.DTO.RepairOrderDTO;
 import org.apache.poi.hssf.usermodel.HSSFFont;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
@@ -10,15 +11,11 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.file.FileSystems;
 import java.util.ArrayList;
-import java.util.Locale;
-import java.util.ResourceBundle;
 
 public class XLSWriter {
-    public static void createReport(ArrayList<RepairOrderDTO> repairOrders, Locale language, String filename)
+    public static void createReport(ArrayList<RepairOrderDTO> repairOrders, Constants.LOCALE language, String filename)
             throws IOException {
         HSSFWorkbook workbook = new HSSFWorkbook();
-        ResourceBundle resourceBundle =
-                ResourceBundle.getBundle("LocalStrings", language);
 
         Sheet sheet = workbook.createSheet("Orders");
         sheet.setColumnWidth(0, 1000);
@@ -46,7 +43,7 @@ public class XLSWriter {
         font.setBold(true);
         headerStyle.setFont(font);
 
-        createTableHeader(header, headerStyle, resourceBundle);
+        createTableHeader(header, headerStyle, language);
 
         CellStyle style = workbook.createCellStyle();
         style.setBorderBottom(BorderStyle.THIN);
@@ -58,7 +55,7 @@ public class XLSWriter {
         final int[] i = {1};
         repairOrders.forEach(o -> {
             Row row = sheet.createRow(i[0]++);
-            createTableRow(row, style, resourceBundle, o);
+            createTableRow(row, style, language, o);
         });
 
 
@@ -70,7 +67,7 @@ public class XLSWriter {
         workbook.close();
     }
 
-    private static void createTableHeader(Row header, CellStyle headerStyle, ResourceBundle resourceBundle) {
+    private static void createTableHeader(Row header, CellStyle headerStyle, Constants.LOCALE resourceBundle) {
         Cell headerCell = header.createCell(0);
         headerCell.setCellValue(resourceBundle.getString("text.order.id"));
         headerCell.setCellStyle(headerStyle);
@@ -104,7 +101,7 @@ public class XLSWriter {
         headerCell.setCellStyle(headerStyle);
     }
 
-    private static void createTableRow(Row row, CellStyle headerStyle, ResourceBundle resourceBundle,
+    private static void createTableRow(Row row, CellStyle headerStyle, Constants.LOCALE resourceBundle,
                                        RepairOrderDTO order) {
         Cell headerCell = row.createCell(0);
         headerCell.setCellValue(order.getId());

@@ -1,11 +1,11 @@
-package com.myCompany.RepairAgency.servlet.service;
+package com.myCompany.RepairAgency.servlet.util;
 
 import com.myCompany.RepairAgency.Constants;
 import com.myCompany.RepairAgency.model.entity.User;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 
-public class InitSessionAttributesService {
+public class InitSessionAttributes {
 
     public static void initUserSessionAttributes(HttpServletRequest request, User user) {
         HttpSession session = request.getSession();
@@ -18,7 +18,7 @@ public class InitSessionAttributesService {
         Constants.ROLE userRole = Constants.ROLE.values()[user.getRole_id()];
         session.setAttribute("userRole", userRole);
 
-        ViewValidationService.setMenu(request);
+        ViewValidation.setMenu(request);
     }
 
 }

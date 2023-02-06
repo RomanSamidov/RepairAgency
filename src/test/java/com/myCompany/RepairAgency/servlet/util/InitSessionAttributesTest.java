@@ -1,4 +1,4 @@
-package com.myCompany.RepairAgency.servlet.service;
+package com.myCompany.RepairAgency.servlet.util;
 
 import com.myCompany.RepairAgency.model.entity.User;
 import org.junit.jupiter.api.BeforeEach;
@@ -9,7 +9,7 @@ import org.mockito.Mockito;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpSession;
 
-class InitSessionAttributesServiceTest {
+class InitSessionAttributesTest {
     @Mock
     MockHttpServletRequest request;
     @Mock
@@ -26,7 +26,7 @@ class InitSessionAttributesServiceTest {
     @Test
     void initUserSessionAttributes() {
 
-        try (MockedStatic<ViewValidationService> ignored1 = Mockito.mockStatic(ViewValidationService.class)) {
+        try (MockedStatic<ViewValidation> ignored1 = Mockito.mockStatic(ViewValidation.class)) {
 
             User user = Mockito.mock(User.class);
             Mockito.when(user.getLocale_id()).thenReturn(1);
@@ -36,7 +36,7 @@ class InitSessionAttributesServiceTest {
             Mockito.when(user.isConfirmed()).thenReturn(true);
             Mockito.when(user.getRole_id()).thenReturn(1);
 
-            InitSessionAttributesService.initUserSessionAttributes(request, user);
+            InitSessionAttributes.initUserSessionAttributes(request, user);
         }
     }
 }

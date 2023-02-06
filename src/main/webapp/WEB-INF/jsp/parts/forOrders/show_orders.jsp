@@ -29,7 +29,7 @@
             <td><fmt:message key="text.order.status.${order.status}"/> </td>
             <td>${ order.feedback_date }</td>
             <td>${ order.feedback_text }</td>
-            <td>${ order.feedback_mark==0?"":order.feedback_mark}</td>
+            <td>${ order.feedback_mark==0?"":order.feedback_mark }</td>
             <td>
                 <a href="/RepairAgency/controller/order?id=${order.id}" class = "btn px-2  "><fmt:message key="text.go_to"/> </a>
             </td>

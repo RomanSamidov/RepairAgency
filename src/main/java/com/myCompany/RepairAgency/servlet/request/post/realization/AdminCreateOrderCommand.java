@@ -7,7 +7,7 @@ import com.myCompany.RepairAgency.servlet.PathFactory;
 import com.myCompany.RepairAgency.servlet.request.IActionCommand;
 import com.myCompany.RepairAgency.servlet.request.IHasRoleRequirement;
 import com.myCompany.RepairAgency.servlet.service.OrderUserService;
-import com.myCompany.RepairAgency.servlet.service.ParameterValidationService;
+import com.myCompany.RepairAgency.servlet.util.ParameterValidation;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
@@ -26,7 +26,7 @@ public class AdminCreateOrderCommand implements IActionCommand, IHasRoleRequirem
     public Path execute(HttpServletRequest request, HttpServletResponse response) {
         HttpSession session = request.getSession();
 
-        if (!ParameterValidationService.forAdminCreateOrder(request))
+        if (!ParameterValidation.forAdminCreateOrder(request))
             return PathFactory.getPath("path.page.redirect.orders");
 
         long userId = Long.parseLong(request.getParameter("clientId"));

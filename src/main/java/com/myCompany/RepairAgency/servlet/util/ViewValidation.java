@@ -1,4 +1,4 @@
-package com.myCompany.RepairAgency.servlet.service;
+package com.myCompany.RepairAgency.servlet.util;
 
 import com.myCompany.RepairAgency.Constants;
 import com.myCompany.RepairAgency.model.entity.DTO.RepairOrderDTOFactory;
@@ -7,11 +7,12 @@ import com.myCompany.RepairAgency.model.entity.RepairOrder;
 import com.myCompany.RepairAgency.model.entity.User;
 import com.myCompany.RepairAgency.servlet.Path;
 import com.myCompany.RepairAgency.servlet.PathFactory;
+import com.myCompany.RepairAgency.servlet.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 
 
-public class ViewValidationService {
+public class ViewValidation {
 
     public static void setMenu(HttpServletRequest request) {
         HttpSession session = request.getSession();
@@ -146,7 +147,7 @@ public class ViewValidationService {
 
     public static Path validateForUserPage(HttpServletRequest request) {
 
-        long userId = InitValuesFromRequestService.initGoalId(request);
+        long userId = InitValuesFromRequest.initGoalId(request);
         if (userId == 0) {
             userId = (long) request.getSession().getAttribute("userId");
         }
@@ -159,7 +160,7 @@ public class ViewValidationService {
             request.setAttribute("_add_to_account_url", PathFactory.getPath("path.page.forward.common.empty").toString());
             request.setAttribute("_delete_user_url", PathFactory.getPath("path.page.forward.common.empty").toString());
         } else {
-            if (userRole.equals(Constants.ROLE.Admin) && userId != (long)request.getSession().getAttribute("userId")) {
+            if (userRole.equals(Constants.ROLE.Admin) && userId != (long) request.getSession().getAttribute("userId")) {
                 request.setAttribute("_delete_user_url", PathFactory.getPath("path.page.user.part.admin.delete_user").toString());
             } else {
                 request.setAttribute("_delete_user_url", PathFactory.getPath("path.page.forward.common.empty").toString());

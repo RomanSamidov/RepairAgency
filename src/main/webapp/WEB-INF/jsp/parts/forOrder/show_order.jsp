@@ -19,7 +19,7 @@
     <tr>
         <td>${ goalOrder.id }</td>
         <td>${ goalOrder.user_id }</td>
-        <td>${ goalOrder.craftsman_id }</td>
+        <td>${ goalOrder.craftsman_id==0?"":goalOrder.craftsman_id }</td>
         <td>${ goalOrder.creation_date }</td>
         <td>${ goalOrder.text }</td>
         <td>${ goalOrder.price }</td>
@@ -27,6 +27,6 @@
         <td><fmt:message key="text.order.status.${goalOrder.status}"/> </td>
         <td>${ goalOrder.feedback_date }</td>
         <td>${ goalOrder.feedback_text }</td>
-        <td>${ goalOrder.feedback_mark }</td>
+        <td>${ goalOrder.feedback_mark==0?"":goalOrder.feedback_mark }</td>
     </tr>
 </table>

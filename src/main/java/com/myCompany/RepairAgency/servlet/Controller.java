@@ -45,12 +45,12 @@ public class Controller extends HttpServlet {
         // определение команды, пришедшей из JSP
         IActionCommand command = factory.defineCommand(request);
         Path page;
-        try {
+//        try {
             page = command.execute(request, response);
-        } catch (Throwable e) {
-            logger.error(e);
-            page = null;
-        }
+//        } catch (Throwable e) {
+//            logger.error(e);
+//            page = null;
+//        }
         logger.debug("Command " + command);
         logger.debug("Page " + page);
 

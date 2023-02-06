@@ -5,8 +5,8 @@ import com.myCompany.RepairAgency.servlet.Path;
 import com.myCompany.RepairAgency.servlet.PathFactory;
 import com.myCompany.RepairAgency.servlet.request.IActionCommand;
 import com.myCompany.RepairAgency.servlet.request.IHasRoleRequirement;
-import com.myCompany.RepairAgency.servlet.service.ParameterValidationService;
 import com.myCompany.RepairAgency.servlet.service.UserService;
+import com.myCompany.RepairAgency.servlet.util.ParameterValidation;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.apache.logging.log4j.LogManager;
@@ -25,9 +25,9 @@ public class LoginCommand implements IActionCommand, IHasRoleRequirement {
         String password = request.getParameter(Constants.PASSWORD);
         String gRecaptchaResponse = request.getParameter("g-recaptcha-response");
 
-        if (ParameterValidationService.validatePassword(request, password) &
-                ParameterValidationService.validateLogin(request, login) &
-                ParameterValidationService.validateRecaptcha(request, gRecaptchaResponse)) {
+        if (ParameterValidation.validatePassword(request, password) &
+                ParameterValidation.validateLogin(request, login) &
+                ParameterValidation.validateRecaptcha(request, gRecaptchaResponse)) {
             if (UserService.loginUser(login, password, request)) {
                 return PathFactory.getPath("path.page.redirect.cabinet");
             }

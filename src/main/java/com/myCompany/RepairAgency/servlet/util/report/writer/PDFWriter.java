@@ -1,5 +1,6 @@
 package com.myCompany.RepairAgency.servlet.util.report.writer;
 
+import com.myCompany.RepairAgency.Constants;
 import com.myCompany.RepairAgency.model.entity.DTO.RepairOrderDTO;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.PDPage;
@@ -14,8 +15,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.FileSystems;
 import java.util.ArrayList;
-import java.util.Locale;
-import java.util.ResourceBundle;
 
 public class PDFWriter {
     private final int cellHeight;
@@ -29,10 +28,8 @@ public class PDFWriter {
         cellWidth = 20;
     }
 
-    public static void createReport(ArrayList<RepairOrderDTO> repairOrders, Locale language, String filename)
+    public static void createReport(ArrayList<RepairOrderDTO> repairOrders, Constants.LOCALE language, String filename)
             throws IOException {
-        ResourceBundle resourceBundle =
-                ResourceBundle.getBundle("LocalStrings", language);
 
         PDDocument document = new PDDocument();
         int i;
@@ -66,7 +63,7 @@ public class PDFWriter {
 
             contentStream.setFont(font, 8);
 
-            createTableHeader(contentStream, writer, resourceBundle);
+            createTableHeader(contentStream, writer, language);
 
             for (; i < rowCountOnPage; i++) {
                 RepairOrderDTO order = repairOrders.get(i);
@@ -76,7 +73,7 @@ public class PDFWriter {
                 createTableCell(contentStream, writer, 100, order.getCreation_date());
                 createTableCell(contentStream, writer, 20, String.valueOf(order.getPrice()));
                 createTableCell(contentStream, writer, 100, order.getFinish_date());
-                createTableCell(contentStream, writer, 30, resourceBundle.getString("text.order.status."
+                createTableCell(contentStream, writer, 30, language.getString("text.order.status."
                         + order.getStatus() + ".short"));
                 createTableCell(contentStream, writer, 100, order.getFeedback_date());
 
@@ -95,7 +92,7 @@ public class PDFWriter {
 
     private static void createTableHeader(PDPageContentStream contentStream
             , PDFWriter writer
-            , ResourceBundle resourceBundle) throws IOException {
+            , Constants.LOCALE resourceBundle) throws IOException {
         createTableCell(contentStream, writer, 5, resourceBundle.getString("text.order.id"));
         createTableCell(contentStream, writer, 10, resourceBundle.getString("text.order.user_id"));
         createTableCell(contentStream, writer, 10, resourceBundle.getString("text.order.craftsman_id"));

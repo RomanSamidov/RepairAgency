@@ -6,7 +6,7 @@ import com.myCompany.RepairAgency.servlet.PathFactory;
 import com.myCompany.RepairAgency.servlet.request.IActionCommand;
 import com.myCompany.RepairAgency.servlet.request.IHasRoleRequirement;
 import com.myCompany.RepairAgency.servlet.service.OrderUserService;
-import com.myCompany.RepairAgency.servlet.service.ParameterValidationService;
+import com.myCompany.RepairAgency.servlet.util.ParameterValidation;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.apache.logging.log4j.LogManager;
@@ -31,7 +31,7 @@ public class UserCreateOrderCommand implements IActionCommand, IHasRoleRequireme
         long userId = (long) request.getSession().getAttribute("userId");
 
         String text = request.getParameter("orderText");
-        if (!ParameterValidationService.validateOrderText(request, text)) {
+        if (!ParameterValidation.validateOrderText(request, text)) {
             return PathFactory.getPath("path.page.redirect.orders");
         }
 

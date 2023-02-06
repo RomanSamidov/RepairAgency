@@ -9,8 +9,8 @@ import com.myCompany.RepairAgency.servlet.PathFactory;
 import com.myCompany.RepairAgency.servlet.request.IActionCommand;
 import com.myCompany.RepairAgency.servlet.request.IHasRoleRequirement;
 import com.myCompany.RepairAgency.servlet.service.RepairOrderService;
-import com.myCompany.RepairAgency.servlet.service.SendEmailService;
 import com.myCompany.RepairAgency.servlet.service.UserService;
+import com.myCompany.RepairAgency.servlet.util.SendEmail;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.apache.logging.log4j.LogManager;
@@ -41,7 +41,7 @@ public class ManagerPayForOrderCommand implements IActionCommand, IHasRoleRequir
         order.setStatus_id(Constants.ORDER_STATUS.PAID.ordinal());
         RepairOrderService.update(order);
         User user = UserService.get(order.getUser_id());
-        SendEmailService.forPayForOrder(user, Long.parseLong(request.getParameter("goalIdOrder")));
+        SendEmail.forPayForOrder(user, Long.parseLong(request.getParameter("goalIdOrder")));
 
         Path path = PathFactory.getPath("path.page.redirect.order");
         path.addParameter("id", request.getParameter("goalIdOrder"));

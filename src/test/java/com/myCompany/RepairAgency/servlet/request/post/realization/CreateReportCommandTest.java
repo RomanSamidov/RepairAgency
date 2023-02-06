@@ -7,9 +7,9 @@ import com.myCompany.RepairAgency.model.entity.DTO.RepairOrderDTOFactory;
 import com.myCompany.RepairAgency.model.entity.RepairOrder;
 import com.myCompany.RepairAgency.servlet.Path;
 import com.myCompany.RepairAgency.servlet.PathFactory;
-import com.myCompany.RepairAgency.servlet.service.InitValuesFromRequestService;
-import com.myCompany.RepairAgency.servlet.service.ParameterValidationService;
 import com.myCompany.RepairAgency.servlet.service.RepairOrderService;
+import com.myCompany.RepairAgency.servlet.util.InitValuesFromRequest;
+import com.myCompany.RepairAgency.servlet.util.ParameterValidation;
 import com.myCompany.RepairAgency.servlet.util.report.ReportManager;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -50,25 +50,25 @@ class CreateReportCommandTest {
     @Test
     void execute1() throws IOException {
         session.setAttribute("userId", 1L);
-        session.setAttribute("language", "ua_UK");
+        session.setAttribute("language", "uk_UA");
         request.setParameter("newIsUserAllowLetters", "false");
         request.setParameter("reportFormat", "XLS");
 
-        try (MockedStatic<ParameterValidationService> ignored1 = Mockito.mockStatic(ParameterValidationService.class);
+        try (MockedStatic<ParameterValidation> ignored1 = Mockito.mockStatic(ParameterValidation.class);
              MockedStatic<PathFactory> ignored2 = Mockito.mockStatic(PathFactory.class);
              MockedStatic<RepairOrderService> ignored3 = Mockito.mockStatic(RepairOrderService.class);
-             MockedStatic<InitValuesFromRequestService> ignored4 = Mockito.mockStatic(InitValuesFromRequestService.class);
+             MockedStatic<InitValuesFromRequest> ignored4 = Mockito.mockStatic(InitValuesFromRequest.class);
              MockedStatic<RepairOrderDTOFactory> ignored5 = Mockito.mockStatic(RepairOrderDTOFactory.class);
              MockedStatic<ReportManager> ignored6 = Mockito.mockStatic(ReportManager.class)) {
 
-            Mockito.when(InitValuesFromRequestService.initCraftsmenIds(request)).thenReturn(new long[]{0L});
-            Mockito.when(InitValuesFromRequestService.initStatusIds(request)).thenReturn(new long[]{0L});
-            Mockito.when(InitValuesFromRequestService.initUserId(request)).thenReturn(0L);
-            Mockito.when(InitValuesFromRequestService.initSortType(request)).thenReturn(iRepairOrderRepository.SORT_TYPE.ORDER_BY_ID_ASC);
+            Mockito.when(InitValuesFromRequest.initCraftsmenIds(request)).thenReturn(new long[]{0L});
+            Mockito.when(InitValuesFromRequest.initStatusIds(request)).thenReturn(new long[]{0L});
+            Mockito.when(InitValuesFromRequest.initUserId(request)).thenReturn(0L);
+            Mockito.when(InitValuesFromRequest.initSortType(request)).thenReturn(iRepairOrderRepository.SORT_TYPE.ORDER_BY_ID_ASC);
 
 
             Mockito.when(PathFactory.getPath(Mockito.eq("path.page.redirect.download"))).thenReturn(mockPath);
-            Mockito.when(ParameterValidationService.forAdminCreateOrder(request)).thenReturn(false);
+            Mockito.when(ParameterValidation.forAdminCreateOrder(request)).thenReturn(false);
 
             Mockito.when(RepairOrderService.countByCraftUserStatus(Mockito.any(), Mockito.anyLong(), Mockito.any())).thenReturn(1L);
 
@@ -98,25 +98,25 @@ class CreateReportCommandTest {
     @Test
     void execute2() throws IOException {
         session.setAttribute("userId", 1L);
-        session.setAttribute("language", "ua_UK");
+        session.setAttribute("language", "uk_UA");
         request.setParameter("newIsUserAllowLetters", "false");
         request.setParameter("reportFormat", "XLSsss");
 
-        try (MockedStatic<ParameterValidationService> ignored1 = Mockito.mockStatic(ParameterValidationService.class);
+        try (MockedStatic<ParameterValidation> ignored1 = Mockito.mockStatic(ParameterValidation.class);
              MockedStatic<PathFactory> ignored2 = Mockito.mockStatic(PathFactory.class);
              MockedStatic<RepairOrderService> ignored3 = Mockito.mockStatic(RepairOrderService.class);
-             MockedStatic<InitValuesFromRequestService> ignored4 = Mockito.mockStatic(InitValuesFromRequestService.class);
+             MockedStatic<InitValuesFromRequest> ignored4 = Mockito.mockStatic(InitValuesFromRequest.class);
              MockedStatic<RepairOrderDTOFactory> ignored5 = Mockito.mockStatic(RepairOrderDTOFactory.class);
              MockedStatic<ReportManager> ignored6 = Mockito.mockStatic(ReportManager.class)) {
 
-            Mockito.when(InitValuesFromRequestService.initCraftsmenIds(request)).thenReturn(new long[]{0L});
-            Mockito.when(InitValuesFromRequestService.initStatusIds(request)).thenReturn(new long[]{0L});
-            Mockito.when(InitValuesFromRequestService.initUserId(request)).thenReturn(0L);
-            Mockito.when(InitValuesFromRequestService.initSortType(request)).thenReturn(iRepairOrderRepository.SORT_TYPE.ORDER_BY_ID_ASC);
+            Mockito.when(InitValuesFromRequest.initCraftsmenIds(request)).thenReturn(new long[]{0L});
+            Mockito.when(InitValuesFromRequest.initStatusIds(request)).thenReturn(new long[]{0L});
+            Mockito.when(InitValuesFromRequest.initUserId(request)).thenReturn(0L);
+            Mockito.when(InitValuesFromRequest.initSortType(request)).thenReturn(iRepairOrderRepository.SORT_TYPE.ORDER_BY_ID_ASC);
 
 
             Mockito.when(PathFactory.getPath(Mockito.eq("path.page.forward.error"))).thenReturn(mockPath);
-            Mockito.when(ParameterValidationService.forAdminCreateOrder(request)).thenReturn(false);
+            Mockito.when(ParameterValidation.forAdminCreateOrder(request)).thenReturn(false);
 
             Mockito.when(RepairOrderService.countByCraftUserStatus(Mockito.any(), Mockito.anyLong(), Mockito.any())).thenReturn(1L);
 

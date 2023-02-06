@@ -6,6 +6,8 @@ import com.myCompany.RepairAgency.model.db.abstractDB.exception.MyDBException;
 import com.myCompany.RepairAgency.model.db.abstractDB.repository.entity.iUserRepository;
 import com.myCompany.RepairAgency.model.entity.User;
 import com.myCompany.RepairAgency.servlet.util.Encrypt;
+import com.myCompany.RepairAgency.servlet.util.InitSessionAttributes;
+import com.myCompany.RepairAgency.servlet.util.SendEmail;
 import jakarta.servlet.http.HttpServletRequest;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -22,7 +24,7 @@ public class UserService {
             if (user.getRole_id() == Constants.ROLE.Client.ordinal()) {
                 repo.increaseAccount(userId, increment);
 
-                SendEmailService.forAddToUserAccount(user, increment);
+                SendEmail.forAddToUserAccount(user, increment);
                 return true;
             }
         } catch (MyDBException e) {
@@ -45,8 +47,8 @@ public class UserService {
 
         String userPassword = user.getPassword();
         if (userPassword.equals(Encrypt.encrypt(password))) {
-            InitSessionAttributesService.initUserSessionAttributes(request, user);
-            SendEmailService.forLogin(user);
+            InitSessionAttributes.initUserSessionAttributes(request, user);
+            SendEmail.forLogin(user);
             return true;
         } else {
             request.getSession().setAttribute("errorLoginPassMessage", "message.login_error");
@@ -67,7 +69,7 @@ public class UserService {
     public static void changePassword(User user, String password) throws MyDBException {
         user.setPassword(Encrypt.encrypt(password));
         ModelManager.getInstance().getUserRepository().update(user);
-        SendEmailService.forChangePassword(user);
+        SendEmail.forChangePassword(user);
     }
 
     public static void changeEmail(User user, String email) throws MyDBException {
@@ -89,7 +91,7 @@ public class UserService {
 
         iUserRepository userRepository = ModelManager.getInstance().getUserRepository();
         userRepository.insert(user);
-        SendEmailService.forSignup(user);
+        SendEmail.forSignup(user);
     }
 
     public static void update(User user) throws MyDBException {

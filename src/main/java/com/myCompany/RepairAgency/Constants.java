@@ -80,16 +80,16 @@ public class Constants {
 
 
     public enum LOCALE {
-        NULL("en","US"),
-        en_US("en","US"),
-        uk_UA("uk","UA");
+        NULL("en", "US"),
+        en_US("en", "US"),
+        uk_UA("uk", "UA");
         private final String toString = this.toString();
         private final ResourceBundle resourceBundle;
 
         LOCALE(String language, String country) {
             resourceBundle =
-                ResourceBundle.getBundle("LocalStrings",
-                        new Locale(language, country));
+                    ResourceBundle.getBundle("LocalStrings",
+                            new Locale(language, country));
         }
 
         public String getToString() {

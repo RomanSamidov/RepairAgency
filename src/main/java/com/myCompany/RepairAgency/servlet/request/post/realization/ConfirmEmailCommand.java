@@ -6,9 +6,9 @@ import com.myCompany.RepairAgency.servlet.Path;
 import com.myCompany.RepairAgency.servlet.PathFactory;
 import com.myCompany.RepairAgency.servlet.request.IActionCommand;
 import com.myCompany.RepairAgency.servlet.request.IHasRoleRequirement;
-import com.myCompany.RepairAgency.servlet.service.SendEmailService;
 import com.myCompany.RepairAgency.servlet.service.UserService;
 import com.myCompany.RepairAgency.servlet.util.Encrypt;
+import com.myCompany.RepairAgency.servlet.util.SendEmail;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
@@ -34,7 +34,7 @@ public class ConfirmEmailCommand implements IActionCommand, IHasRoleRequirement 
             String generatedString = Encrypt.generateCode();
             session.setAttribute("waitedCode", generatedString);
 
-            SendEmailService.forConfirmEmailCode(user, generatedString);
+            SendEmail.forConfirmEmailCode(user, generatedString);
 
             return PathFactory.getPath("path.page.redirect.cabinet");
         }
@@ -45,7 +45,7 @@ public class ConfirmEmailCommand implements IActionCommand, IHasRoleRequirement 
             UserService.update(user);
             session.setAttribute("isUserConfirmed", user.isConfirmed());
             session.removeAttribute("waitedCode");
-            SendEmailService.forConfirmEmail(user);
+            SendEmail.forConfirmEmail(user);
         } else {
             session.setAttribute("confirmationCodeError", "text.wrong_code");
         }

@@ -14,8 +14,7 @@ public class QueryExecutioner {
     private static final Logger logger = LogManager.getLogger(QueryExecutioner.class);
 
 
-    public static long executeUpdate(Connection conn, String query, Object... args) throws MyDBException
-    {
+    public static long executeUpdate(Connection conn, String query, Object... args) throws MyDBException {
         try (PreparedStatement st = conn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
             long id = 0;
             if (args != null) setArgsForPreparedStatement(st, args);
@@ -55,8 +54,7 @@ public class QueryExecutioner {
     }
 
     public static <E extends Entity, F extends abstractEntityFactory<E>>
-    E readEntity(F factory, Connection conn, final String query, Object... args) throws MyDBException
-    {
+    E readEntity(F factory, Connection conn, final String query, Object... args) throws MyDBException {
         try (PreparedStatement statement = conn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
             setArgsForPreparedStatement(statement, args);
             ResultSet ser = statement.executeQuery();
@@ -70,8 +68,7 @@ public class QueryExecutioner {
     }
 
     public static <E extends Entity, F extends abstractEntityFactory<E>>
-    ArrayList<E> readList(F factory, Connection conn, final String query, Object... args) throws MyDBException
-    {
+    ArrayList<E> readList(F factory, Connection conn, final String query, Object... args) throws MyDBException {
         try (PreparedStatement statement = conn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
             setArgsForPreparedStatement(statement, args);
             ResultSet ser = statement.executeQuery();

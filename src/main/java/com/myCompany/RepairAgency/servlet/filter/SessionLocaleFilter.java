@@ -42,7 +42,7 @@ public class SessionLocaleFilter implements Filter {
             Cookie languageCookie = new Cookie("language", req.getParameter("language"));
             languageCookie.setMaxAge(Integer.MAX_VALUE);
             ((HttpServletResponse) response).addCookie(languageCookie);
-            ((HttpServletResponse)response).sendRedirect(req.getRequestURI());
+            ((HttpServletResponse) response).sendRedirect(req.getRequestURI());
             return;
         }
 

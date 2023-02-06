@@ -1,15 +1,15 @@
-package com.myCompany.RepairAgency.servlet.service;
+package com.myCompany.RepairAgency.servlet.util;
 
 import com.myCompany.RepairAgency.Constants;
 import com.myCompany.RepairAgency.model.db.abstractDB.exception.MyDBException;
 import com.myCompany.RepairAgency.model.entity.User;
-import com.myCompany.RepairAgency.servlet.util.VerifyRecaptcha;
+import com.myCompany.RepairAgency.servlet.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 
 import java.util.regex.Pattern;
 
-public class ParameterValidationService {
+public class ParameterValidation {
 
     public static boolean forAdminCreateOrder(HttpServletRequest request) {
         HttpSession session = request.getSession();

@@ -1,9 +1,9 @@
-package com.myCompany.RepairAgency.servlet.service;
+package com.myCompany.RepairAgency.servlet.util;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 
-public class AttributeFSTRService {
+public class AttributeFSTR {
 
     public static void forShowChangePassword(HttpServletRequest request) {
         forShowCreateUserForm(request);

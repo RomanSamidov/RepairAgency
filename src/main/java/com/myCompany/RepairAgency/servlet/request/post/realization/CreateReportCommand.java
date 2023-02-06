@@ -7,15 +7,14 @@ import com.myCompany.RepairAgency.servlet.Path;
 import com.myCompany.RepairAgency.servlet.PathFactory;
 import com.myCompany.RepairAgency.servlet.request.IActionCommand;
 import com.myCompany.RepairAgency.servlet.request.IHasRoleRequirement;
-import com.myCompany.RepairAgency.servlet.service.InitValuesFromRequestService;
 import com.myCompany.RepairAgency.servlet.service.RepairOrderService;
+import com.myCompany.RepairAgency.servlet.util.InitValuesFromRequest;
 import com.myCompany.RepairAgency.servlet.util.report.ReportManager;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.Locale;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -23,14 +22,16 @@ public class CreateReportCommand implements IActionCommand, IHasRoleRequirement 
     @Override
     public Path execute(HttpServletRequest request, HttpServletResponse response) {
 
-        long[] craftIds = InitValuesFromRequestService.initCraftsmenIds(request);
-        long[] statusIds = InitValuesFromRequestService.initStatusIds(request);
-        long userId = InitValuesFromRequestService.initUserId(request);
-        iRepairOrderRepository.SORT_TYPE sortType = InitValuesFromRequestService.initSortType(request);
+        long[] craftIds = InitValuesFromRequest.initCraftsmenIds(request);
+        long[] statusIds = InitValuesFromRequest.initStatusIds(request);
+        long userId = InitValuesFromRequest.initUserId(request);
+        iRepairOrderRepository.SORT_TYPE sortType = InitValuesFromRequest.initSortType(request);
 
         long numberOfOrders = RepairOrderService.countByCraftUserStatus(craftIds, userId, statusIds);
 
-        Locale language = new Locale((String) request.getSession().getAttribute("language"));
+        Constants.LOCALE language = Constants.LOCALE.valueOf(
+                (String) request.getSession().getAttribute("language"));
+
         String filename;
         Constants.REPORT_FORMAT format;
 

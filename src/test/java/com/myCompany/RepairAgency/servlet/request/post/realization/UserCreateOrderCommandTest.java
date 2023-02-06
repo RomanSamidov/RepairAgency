@@ -4,8 +4,8 @@ import com.myCompany.RepairAgency.Constants;
 import com.myCompany.RepairAgency.servlet.Path;
 import com.myCompany.RepairAgency.servlet.PathFactory;
 import com.myCompany.RepairAgency.servlet.service.OrderUserService;
-import com.myCompany.RepairAgency.servlet.service.ParameterValidationService;
 import com.myCompany.RepairAgency.servlet.service.UserService;
+import com.myCompany.RepairAgency.servlet.util.ParameterValidation;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
@@ -44,7 +44,7 @@ class UserCreateOrderCommandTest {
     void execute1() {
         session.setAttribute("isUserConfirmed", false);
 
-        try (MockedStatic<ParameterValidationService> ignored1 = Mockito.mockStatic(ParameterValidationService.class);
+        try (MockedStatic<ParameterValidation> ignored1 = Mockito.mockStatic(ParameterValidation.class);
              MockedStatic<PathFactory> ignored2 = Mockito.mockStatic(PathFactory.class);
              MockedStatic<UserService> ignored3 = Mockito.mockStatic(UserService.class)) {
 
@@ -64,12 +64,12 @@ class UserCreateOrderCommandTest {
         request.setParameter("orderText", "false");
 
 
-        try (MockedStatic<ParameterValidationService> ignored1 = Mockito.mockStatic(ParameterValidationService.class);
+        try (MockedStatic<ParameterValidation> ignored1 = Mockito.mockStatic(ParameterValidation.class);
              MockedStatic<PathFactory> ignored2 = Mockito.mockStatic(PathFactory.class);
              MockedStatic<UserService> ignored3 = Mockito.mockStatic(UserService.class)) {
 
             Mockito.when(PathFactory.getPath(Mockito.eq("path.page.redirect.orders"))).thenReturn(mockPath);
-            Mockito.when(ParameterValidationService.validateOrderText(request, "false")).thenReturn(false);
+            Mockito.when(ParameterValidation.validateOrderText(request, "false")).thenReturn(false);
 
             assertEquals(mockPath, new UserCreateOrderCommand().execute(request, response));
             ignored2.verify(() -> PathFactory.getPath("path.page.redirect.orders"), Mockito.times(1));
@@ -85,12 +85,12 @@ class UserCreateOrderCommandTest {
         request.setParameter("orderText", "false");
 
 
-        try (MockedStatic<ParameterValidationService> ignored1 = Mockito.mockStatic(ParameterValidationService.class);
+        try (MockedStatic<ParameterValidation> ignored1 = Mockito.mockStatic(ParameterValidation.class);
              MockedStatic<PathFactory> ignored2 = Mockito.mockStatic(PathFactory.class);
              MockedStatic<OrderUserService> ignored3 = Mockito.mockStatic(OrderUserService.class)) {
 
             Mockito.when(PathFactory.getPath(Mockito.eq("path.page.redirect.orders"))).thenReturn(mockPath);
-            Mockito.when(ParameterValidationService.validateOrderText(request, "false")).thenReturn(true);
+            Mockito.when(ParameterValidation.validateOrderText(request, "false")).thenReturn(true);
 
             Mockito.when(OrderUserService.createOrder(0L, "false")).thenReturn(false);
 
@@ -108,12 +108,12 @@ class UserCreateOrderCommandTest {
         request.setParameter("orderText", "false");
 
 
-        try (MockedStatic<ParameterValidationService> ignored1 = Mockito.mockStatic(ParameterValidationService.class);
+        try (MockedStatic<ParameterValidation> ignored1 = Mockito.mockStatic(ParameterValidation.class);
              MockedStatic<PathFactory> ignored2 = Mockito.mockStatic(PathFactory.class);
              MockedStatic<OrderUserService> ignored3 = Mockito.mockStatic(OrderUserService.class)) {
 
             Mockito.when(PathFactory.getPath(Mockito.eq("path.page.redirect.orders"))).thenReturn(mockPath);
-            Mockito.when(ParameterValidationService.validateOrderText(request, "false")).thenReturn(true);
+            Mockito.when(ParameterValidation.validateOrderText(request, "false")).thenReturn(true);
 
             Mockito.when(OrderUserService.createOrder(0L, "false")).thenReturn(true);
 

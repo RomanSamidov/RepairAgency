@@ -3,9 +3,9 @@ package com.myCompany.RepairAgency.servlet.request.get.realization;
 import com.myCompany.RepairAgency.Constants;
 import com.myCompany.RepairAgency.model.entity.User;
 import com.myCompany.RepairAgency.servlet.Path;
-import com.myCompany.RepairAgency.servlet.service.AttributeFSTRService;
 import com.myCompany.RepairAgency.servlet.service.UserService;
-import com.myCompany.RepairAgency.servlet.service.ViewValidationService;
+import com.myCompany.RepairAgency.servlet.util.AttributeFSTR;
+import com.myCompany.RepairAgency.servlet.util.ViewValidation;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
@@ -46,11 +46,11 @@ class ShowProfileCommandTest {
 
         session.setAttribute("userId", 0L);
         try (MockedStatic<UserService> ignored2 = Mockito.mockStatic(UserService.class);
-             MockedStatic<AttributeFSTRService> ignored3 = Mockito.mockStatic(AttributeFSTRService.class);
-             MockedStatic<ViewValidationService> ignored4 = Mockito.mockStatic(ViewValidationService.class)) {
+             MockedStatic<AttributeFSTR> ignored3 = Mockito.mockStatic(AttributeFSTR.class);
+             MockedStatic<ViewValidation> ignored4 = Mockito.mockStatic(ViewValidation.class)) {
 
 
-            Mockito.when(ViewValidationService.validateForProfilePage(request)).thenReturn(mockPath);
+            Mockito.when(ViewValidation.validateForProfilePage(request)).thenReturn(mockPath);
 
 
             User user = Mockito.mock(User.class);

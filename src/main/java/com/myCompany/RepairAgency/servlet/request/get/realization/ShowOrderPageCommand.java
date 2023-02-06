@@ -7,7 +7,11 @@ import com.myCompany.RepairAgency.servlet.Path;
 import com.myCompany.RepairAgency.servlet.PathFactory;
 import com.myCompany.RepairAgency.servlet.request.IActionCommand;
 import com.myCompany.RepairAgency.servlet.request.IHasRoleRequirement;
-import com.myCompany.RepairAgency.servlet.service.*;
+import com.myCompany.RepairAgency.servlet.service.RepairOrderService;
+import com.myCompany.RepairAgency.servlet.service.UserService;
+import com.myCompany.RepairAgency.servlet.util.AttributeFSTR;
+import com.myCompany.RepairAgency.servlet.util.InitValuesFromRequest;
+import com.myCompany.RepairAgency.servlet.util.ViewValidation;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
@@ -22,7 +26,7 @@ public class ShowOrderPageCommand implements IActionCommand, IHasRoleRequirement
     public Path execute(HttpServletRequest request, HttpServletResponse response) {
         request.setAttribute("title", "title.order");
 
-        long goalId = InitValuesFromRequestService.initGoalId(request);
+        long goalId = InitValuesFromRequest.initGoalId(request);
         if (goalId == 0) {
             return PathFactory.getPath("path.page.redirect.orders");
         }
@@ -36,9 +40,9 @@ public class ShowOrderPageCommand implements IActionCommand, IHasRoleRequirement
         request.getSession().setAttribute("craftsmen", UserDTOFactory.getUsers(
                 UserService.getByRole(Constants.ROLE.Craftsman.ordinal(), 0L, 50L)));
 
-        AttributeFSTRService.forShowOrder(request);
+        AttributeFSTR.forShowOrder(request);
 
-        return ViewValidationService.validateForOrderPage(request, order);
+        return ViewValidation.validateForOrderPage(request, order);
     }
 
     @Override

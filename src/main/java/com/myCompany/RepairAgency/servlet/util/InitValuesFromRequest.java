@@ -1,11 +1,11 @@
-package com.myCompany.RepairAgency.servlet.service;
+package com.myCompany.RepairAgency.servlet.util;
 
 import com.myCompany.RepairAgency.Constants;
 import com.myCompany.RepairAgency.model.db.abstractDB.repository.entity.iRepairOrderRepository;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 
-public class InitValuesFromRequestService {
+public class InitValuesFromRequest {
 
     public static long[] initCraftsmenIds(HttpServletRequest request) {
         HttpSession session = request.getSession();

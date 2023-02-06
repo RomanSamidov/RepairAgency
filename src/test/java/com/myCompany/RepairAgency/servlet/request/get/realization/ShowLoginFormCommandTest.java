@@ -3,7 +3,7 @@ package com.myCompany.RepairAgency.servlet.request.get.realization;
 import com.myCompany.RepairAgency.Constants;
 import com.myCompany.RepairAgency.servlet.Path;
 import com.myCompany.RepairAgency.servlet.PathFactory;
-import com.myCompany.RepairAgency.servlet.service.AttributeFSTRService;
+import com.myCompany.RepairAgency.servlet.util.AttributeFSTR;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
@@ -41,7 +41,7 @@ class ShowLoginFormCommandTest {
     @Test
     void execute() {
         try (MockedStatic<PathFactory> ignored2 = Mockito.mockStatic(PathFactory.class);
-             MockedStatic<AttributeFSTRService> ignored3 = Mockito.mockStatic(AttributeFSTRService.class)) {
+             MockedStatic<AttributeFSTR> ignored3 = Mockito.mockStatic(AttributeFSTR.class)) {
 
             Mockito.when(PathFactory.getPath(Mockito.eq("path.page.forward.guest.login"))).thenReturn(mockPath);
 
