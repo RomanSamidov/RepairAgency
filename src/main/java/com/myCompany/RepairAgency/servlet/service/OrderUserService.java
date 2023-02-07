@@ -33,25 +33,43 @@ public class OrderUserService {
     public static void cancelOrder(long orderId) throws MyDBException {
         RepairOrder order = RepairOrderService.get(orderId);
         User user = UserService.get(order.getUser_id());
+
+        order.setStatus_id(Constants.ORDER_STATUS.CANCELED.ordinal());
+        order.setFinish_date(LocalDateTime.now());
+
         if (order.getStatus_id() > Constants.ORDER_STATUS.PENDING_PAYMENT.ordinal() &&
                 order.getStatus_id() != Constants.ORDER_STATUS.CANCELED.ordinal() &&
                 order.getStatus_id() != Constants.ORDER_STATUS.COMPLETED.ordinal()) {
 
-            ModelManager.getInstance().getOrderUserService().cancelOrderWithMoneyReturn(orderId);
-            SendEmail.forCancelOrder(user, order.getPrice());
+            cancelOrderWithMoneyReturn(order, user);
         } else {
             cancelOrderWithoutMoneyReturn(order, user);
         }
     }
 
     private static void cancelOrderWithoutMoneyReturn(RepairOrder order, User user) throws MyDBException {
-        order.setStatus_id(Constants.ORDER_STATUS.CANCELED.ordinal());
-        order.setFinish_date(LocalDateTime.now());
         ModelManager.getInstance().getRepairOrderRepository().update(order);
         SendEmail.forCancelOrder(user);
     }
 
-    public static boolean payOrder(long id) throws MyDBException {
-        return ModelManager.getInstance().getOrderUserService().payOrder(id);
+    private static void cancelOrderWithMoneyReturn(RepairOrder order, User user) throws MyDBException {
+        ModelManager.getInstance().getOrderUserService().cancelOrderWithMoneyReturn(order, user);
+        SendEmail.forCancelOrder(user, order.getPrice());
+    }
+
+    public static boolean payOrder(long orderId) throws MyDBException {
+        ModelManager manager = ModelManager.getInstance();
+
+        RepairOrder order = manager.getRepairOrderRepository().getById(orderId);
+
+        User user = manager.getUserRepository().getById(order.getUser_id());
+
+        if (user.getAccount() < order.getPrice()) {
+            return false;
+        }
+
+        order.setStatus_id(Constants.ORDER_STATUS.PAID.ordinal());
+
+        return manager.getOrderUserService().payOrder(order, user);
     }
 }
