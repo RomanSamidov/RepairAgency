@@ -46,7 +46,7 @@ public class Controller extends HttpServlet {
         IActionCommand command = factory.defineCommand(request);
         Path page;
 //        try {
-            page = command.execute(request, response);
+        page = command.execute(request, response);
 //        } catch (Throwable e) {
 //            logger.error(e);
 //            page = null;

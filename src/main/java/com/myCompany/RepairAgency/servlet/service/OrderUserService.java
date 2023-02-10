@@ -13,7 +13,7 @@ public class OrderUserService {
 
 
     public static boolean createOrder(long userId, String text) throws MyDBException {
-        User user = ModelManager.getInstance().getUserRepository().getById(userId);
+        User user = UserService.get(userId);
         if (user.getRole_id() == Constants.ROLE.Client.ordinal()) {
             RepairOrder order = new RepairOrder.RepairOrderBuilder()
                     .setUser_id(userId)
@@ -48,7 +48,7 @@ public class OrderUserService {
     }
 
     private static void cancelOrderWithoutMoneyReturn(RepairOrder order, User user) throws MyDBException {
-        ModelManager.getInstance().getRepairOrderRepository().update(order);
+        RepairOrderService.update(order);
         SendEmail.forCancelOrder(user);
     }
 
@@ -58,11 +58,10 @@ public class OrderUserService {
     }
 
     public static boolean payOrder(long orderId) throws MyDBException {
-        ModelManager manager = ModelManager.getInstance();
 
-        RepairOrder order = manager.getRepairOrderRepository().getById(orderId);
+        RepairOrder order = RepairOrderService.get(orderId);
 
-        User user = manager.getUserRepository().getById(order.getUser_id());
+        User user = UserService.get(order.getUser_id());
 
         if (user.getAccount() < order.getPrice()) {
             return false;
@@ -70,6 +69,7 @@ public class OrderUserService {
 
         order.setStatus_id(Constants.ORDER_STATUS.PAID.ordinal());
 
+        ModelManager manager = ModelManager.getInstance();
         return manager.getOrderUserService().payOrder(order, user);
     }
 }
