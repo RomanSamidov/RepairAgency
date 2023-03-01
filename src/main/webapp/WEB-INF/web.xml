@@ -4,6 +4,9 @@
          version="5.0">
     <display-name>RepairAgency</display-name>
 
+<!--    <error-page>-->
+<!--        <location>/error.html</location>-->
+<!--    </error-page>-->
 
     <filter-mapping>
         <filter-name>EncodingFilter</filter-name>
