@@ -4,9 +4,10 @@
          version="5.0">
     <display-name>RepairAgency</display-name>
 
-<!--    <error-page>-->
-<!--        <location>/error.html</location>-->
-<!--    </error-page>-->
+    <error-page>
+        <exception-type>java.lang.Throwable</exception-type>
+        <location>/WEB-INF/jsp/common/error_page.jsp</location>
+    </error-page>
 
     <filter-mapping>
         <filter-name>EncodingFilter</filter-name>
