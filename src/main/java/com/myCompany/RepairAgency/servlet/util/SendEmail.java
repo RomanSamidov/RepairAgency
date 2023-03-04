@@ -9,6 +9,9 @@ import org.apache.logging.log4j.Logger;
 
 import java.io.File;
 
+/**
+ * class contains code for all scenarios in which need to send email to user.
+ */
 public class SendEmail {
     private static final Logger logger = LogManager.getLogger(SendEmail.class);
 

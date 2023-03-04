@@ -17,7 +17,12 @@ import java.io.File;
 import java.util.Properties;
 import java.util.ResourceBundle;
 
-
+/**
+ * Class for sending emails from gmail. Uses email.properties, where should be parameters:
+ * email - whom which gmail send emails(example@gmail.com).
+ * password - password which Google set to use in program(NOT PASSWORD FROM EMAIL)
+ * send_emails - send or not letters(true/false)
+ */
 public class EmailSender {
     private static final Logger logger = LogManager.getLogger(EmailSender.class);
 
@@ -27,6 +32,13 @@ public class EmailSender {
     private static final String password = resourceBundle.getString(Constants.PASSWORD);
     private static final Boolean sendEmails = Boolean.parseBoolean(resourceBundle.getString("send_emails"));
 
+    /**
+     * Method for sending email letter.
+     * @param to post where to send letter
+     * @param sub theme of letter
+     * @param msg text of letter
+     * @param files files that will be added to letter
+     */
     public static void send(String to, String sub, String msg, File... files) {
         logger.debug(to + " " + sub + " " + msg);
 

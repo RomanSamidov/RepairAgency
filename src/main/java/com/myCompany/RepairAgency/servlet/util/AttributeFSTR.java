@@ -3,6 +3,9 @@ package com.myCompany.RepairAgency.servlet.util;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 
+/**
+ * Class for moving attributes from session to request, and deleting them from session.
+ */
 public class AttributeFSTR {
 
     public static void forShowChangePassword(HttpServletRequest request) {

@@ -2,7 +2,7 @@ package com.myCompany.RepairAgency.servlet.service;
 
 import com.myCompany.RepairAgency.model.ModelManager;
 import com.myCompany.RepairAgency.model.db.abstractDB.repository.entity.iRepairOrderRepository;
-import com.myCompany.RepairAgency.model.db.abstractDB.service.iOrderUserService;
+import com.myCompany.RepairAgency.model.db.abstractDB.repository.service.iOrderUserService;
 import com.myCompany.RepairAgency.model.entity.RepairOrder;
 import com.myCompany.RepairAgency.model.entity.User;
 import com.myCompany.RepairAgency.servlet.util.SendEmail;

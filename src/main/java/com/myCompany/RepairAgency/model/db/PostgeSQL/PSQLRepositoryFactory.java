@@ -7,7 +7,7 @@ import com.myCompany.RepairAgency.model.db.PostgeSQL.service.OrderUserService;
 import com.myCompany.RepairAgency.model.db.abstractDB.repository.abstractRepositoryFactory;
 import com.myCompany.RepairAgency.model.db.abstractDB.repository.entity.iRepairOrderRepository;
 import com.myCompany.RepairAgency.model.db.abstractDB.repository.entity.iUserRepository;
-import com.myCompany.RepairAgency.model.db.abstractDB.service.iOrderUserService;
+import com.myCompany.RepairAgency.model.db.abstractDB.repository.service.iOrderUserService;
 
 public class PSQLRepositoryFactory extends abstractRepositoryFactory {
 

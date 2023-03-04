@@ -2,6 +2,9 @@ package com.myCompany.RepairAgency.servlet;
 
 import java.util.HashMap;
 
+/**
+ * Class for presentation path for Redirect or Forward, which was returned by command, or indicate that command ends with download.
+ */
 public class Path {
     public final boolean isRedirect;
     public final String path;

@@ -26,5 +26,4 @@ public class Fields {
     public static final String FEEDBACK_TEXT = "feedback_text";
     public static final String FEEDBACK_MARK = "feedback_mark";
 
-
 }

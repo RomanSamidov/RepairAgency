@@ -22,9 +22,6 @@ public class RepairOrderDTO extends Entity {
     private RepairOrderDTO() {
     }
 
-    //    public LocalDateTime getCreation_date() {
-//        return creation_date;
-//    }
     public String getCreation_date() {
         DateTimeFormatter customFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         return creation_date.format(customFormat);    //2022-12-09 18:25:58
@@ -34,10 +31,6 @@ public class RepairOrderDTO extends Entity {
         this.creation_date = creation_date;
         return this;
     }
-
-//    public LocalDateTime getFinish_date() {
-//        return finish_date;
-//    }
 
     public String getFinish_date() {
         if (finish_date == null) return "";
@@ -49,10 +42,6 @@ public class RepairOrderDTO extends Entity {
         this.finish_date = finish_date;
         return this;
     }
-
-//    public LocalDateTime getFeedback_date() {
-//        return feedback_date;
-//    }
 
     public String getFeedback_date() {
         if (feedback_date == null) return "";

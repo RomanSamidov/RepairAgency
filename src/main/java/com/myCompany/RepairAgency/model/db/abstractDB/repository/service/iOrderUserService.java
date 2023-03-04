@@ -1,4 +1,4 @@
-package com.myCompany.RepairAgency.model.db.abstractDB.service;
+package com.myCompany.RepairAgency.model.db.abstractDB.repository.service;
 
 import com.myCompany.RepairAgency.model.db.abstractDB.exception.MyDBException;
 import com.myCompany.RepairAgency.model.entity.RepairOrder;

@@ -10,6 +10,11 @@ import java.util.Random;
 public class Encrypt {
     private static final char[] HEX_ARRAY = "0123456789ABCDEF".toCharArray();
 
+    /**
+     * Encrypt String from param, use for passwords encryption.
+     * @param s String that will be encrypted.
+     * @return Encrypt value.
+     */
     public static String encrypt(String s) {
 //        SecureRandom random = new SecureRandom();
         byte[] salt;
@@ -29,7 +34,7 @@ public class Encrypt {
         }
     }
 
-    public static String bytesToHex(byte[] bytes) {
+    private static String bytesToHex(byte[] bytes) {
         char[] hexChars = new char[bytes.length * 2];
         for (int j = 0; j < bytes.length; j++) {
             int v = bytes[j] & 0xFF;
@@ -40,6 +45,9 @@ public class Encrypt {
     }
 
 
+    /**
+     * Generate String with random letters
+     */
     public static String generateCode() {
         int leftLimit = 97; // letter 'a'
         int rightLimit = 122; // letter 'z'

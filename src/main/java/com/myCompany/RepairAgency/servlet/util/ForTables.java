@@ -2,8 +2,16 @@ package com.myCompany.RepairAgency.servlet.util;
 
 import jakarta.servlet.http.HttpServletRequest;
 
-
+/**
+ * Class for pagination on showed on pages tables.
+ */
 public class ForTables {
+    /**
+     * Method for initialization from session Skip and Quantity for query from DB.
+     * @param tableName Name of table for which is return values are.
+     * @param numberOf How many elements in DB. From which we are raking page.
+     * @return Array of 2 elements, in which 0 is Skip, and 1 is quantity values.
+     */
     public static int[] initSkipQuantity(String tableName, long numberOf, HttpServletRequest request) {
         Integer page = (Integer) request.getSession().getAttribute("nowPageFor" + tableName);
         Integer quantity = (Integer) request.getSession().getAttribute("nowQuantityFor" + tableName);
@@ -34,6 +42,10 @@ public class ForTables {
         return new int[]{(page - 1) * quantity, quantity};
     }
 
+    /**
+     * Method that move new values for page for pagination and quantity, from request to session.
+     * @param tableName Name of table for which is method calling.
+     */
     public static void updateSkipQuantity(String tableName, HttpServletRequest request) {
         if (request.getParameter("newQuantityFor" + tableName) != null) {
             int quantity = Integer.parseInt(request.getParameter("newQuantityFor" + tableName));

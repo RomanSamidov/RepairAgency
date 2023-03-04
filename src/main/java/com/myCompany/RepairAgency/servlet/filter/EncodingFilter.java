@@ -9,13 +9,16 @@ import org.apache.logging.log4j.Logger;
 
 import java.io.IOException;
 
+
+/**
+ *  This filter change request's character encoding to UTF-8
+ */
 @WebFilter(filterName = "EncodingFilter",
         urlPatterns = {"/*"},
         initParams = {
                 @WebInitParam(name = "encoding",
                         value = "UTF-8")}
 )
-
 public class EncodingFilter implements Filter {
     private static final Logger logger = LogManager.getLogger(EncodingFilter.class);
     private String encoding;

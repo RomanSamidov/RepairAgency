@@ -19,6 +19,10 @@ import java.io.IOException;
 
 //@WebFilter(urlPatterns = { "/controller/*" },
 //           servletNames = { "Controller" })
+/**
+ *  This filter responsible for filtering pages which user can see.
+ *  When user try to look page that blocked for his role, redirect to home.
+ */
 @WebFilter(filterName = "UserRoleSecurityFilter",
         urlPatterns = {"/*"})
 public class UserRoleSecurityFilter implements Filter {
@@ -28,34 +32,33 @@ public class UserRoleSecurityFilter implements Filter {
     public void doFilter(ServletRequest request, ServletResponse response,
                          FilterChain chain) throws IOException, ServletException {
         logger.debug(" doFilter");
+
         HttpServletRequest req = (HttpServletRequest) request;
-        HttpServletResponse resp = (HttpServletResponse) response;
+        HttpServletResponse res = (HttpServletResponse) response;
         HttpSession session = req.getSession();
 
         String requestURI = req.getRequestURI();
         logger.debug(" RequestURI = " + req.getRequestURI());
         if (!requestURI.startsWith("/RepairAgency/controller/")) {
             logger.debug(" RequestURI do not start with /RepairAgency/controller/ then redirect");
-            redirect(req, resp);
+            redirect(req, res);
             return;
         }
 
         Constants.ROLE userRole = (Constants.ROLE) session.getAttribute("userRole");
         if (userRole == null) {
             userRole = Constants.ROLE.Guest;
-            session.setAttribute("userRole", userRole);
-            session.setAttribute("_menu_url", PathFactory.getPath("path.template.menu.guest").toString());
+            initiateGuest(session);
         }
 
         logger.debug(" userRole = " + userRole.getToString());
 
-
         boolean allowed = true;
         String method = req.getMethod();
         if (method.equals("GET")) {
-            allowed = filterForGET(userRole, req, resp);
+            allowed = filterForGET(userRole, req, res);
         } else if (method.equals("POST")) {
-            allowed = filterForPOST(userRole, req, resp);
+            allowed = filterForPOST(userRole, req, res);
         }
 
         if (allowed) {
@@ -64,19 +67,24 @@ public class UserRoleSecurityFilter implements Filter {
         }
     }
 
+    private void initiateGuest(HttpSession session) {
+        session.setAttribute("userRole", Constants.ROLE.Guest);
+        session.setAttribute("_menu_url", PathFactory.getPath("path.template.menu.guest").toString());
+    }
+
     private boolean filterForPOST(Constants.ROLE userRole, HttpServletRequest request, HttpServletResponse response)
             throws IOException {
         IActionCommand command = PostCommandFactory.getInstance().defineCommand(request);
-        return checkAlloverRoles(command, userRole, request, response);
+        return checkAllowedRoles(command, userRole, request, response);
     }
 
     private boolean filterForGET(Constants.ROLE userRole, HttpServletRequest request, HttpServletResponse response)
             throws IOException {
         IActionCommand command = GetCommandFactory.getInstance().defineCommand(request);
-        return checkAlloverRoles(command, userRole, request, response);
+        return checkAllowedRoles(command, userRole, request, response);
     }
 
-    private boolean checkAlloverRoles(IActionCommand command, Constants.ROLE userRole,
+    private boolean checkAllowedRoles(IActionCommand command, Constants.ROLE userRole,
                                       HttpServletRequest request, HttpServletResponse response)
             throws IOException {
         if (command instanceof IHasRoleRequirement) {

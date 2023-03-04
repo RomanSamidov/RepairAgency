@@ -11,7 +11,9 @@ import com.myCompany.RepairAgency.servlet.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 
-
+/**
+ * This class responsible for selecting parts of pages that user can see on page which he looks.
+ */
 public class ViewValidation {
 
     public static void setMenu(HttpServletRequest request) {

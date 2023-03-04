@@ -5,7 +5,7 @@ import com.myCompany.RepairAgency.model.db.PostgeSQL.Query;
 import com.myCompany.RepairAgency.model.db.PostgeSQL.QueryExecutioner;
 import com.myCompany.RepairAgency.model.db.PostgeSQL.repository.RepairOrderRepository;
 import com.myCompany.RepairAgency.model.db.abstractDB.exception.MyDBException;
-import com.myCompany.RepairAgency.model.db.abstractDB.service.iOrderUserService;
+import com.myCompany.RepairAgency.model.db.abstractDB.repository.service.iOrderUserService;
 import com.myCompany.RepairAgency.model.entity.RepairOrder;
 import com.myCompany.RepairAgency.model.entity.User;
 

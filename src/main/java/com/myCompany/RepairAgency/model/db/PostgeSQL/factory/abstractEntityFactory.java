@@ -6,6 +6,10 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+/**
+ * Class for reading Entity or list of entities from {@link java.sql.ResultSet}
+ * @param <T> Entity type
+ */
 public abstract class abstractEntityFactory<T extends Entity> {
 
 
@@ -29,6 +33,11 @@ public abstract class abstractEntityFactory<T extends Entity> {
         }
     }
 
+    /**
+     * Method for reading one Entity from {@link java.sql.ResultSet}
+     * @param rs From which read Entity
+     * @return Entity
+     */
     protected abstract T readEntity(ResultSet rs) throws SQLException;
 
 }

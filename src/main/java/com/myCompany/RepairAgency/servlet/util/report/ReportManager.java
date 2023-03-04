@@ -9,27 +9,37 @@ import com.myCompany.RepairAgency.servlet.util.report.writer.XLSXWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 
+/**
+ * Class for creating file reports of different file types.
+ */
 public class ReportManager {
 
     private ReportManager() {
     }
 
+    /**
+     * Method for creating file with report, in different file types.
+     * @param repairOrders list of orders with witch report will be created
+     * @param language language with witch report will be created
+     * @param userId used only for file name, in order to prevent errors with file rewriting
+     * @param format format in which make report
+     * @return Name of result file report
+     */
     public static String getReportWriter(ArrayList<RepairOrderDTO> repairOrders, Constants.LOCALE language, long userId,
-                                         Constants.REPORT_FORMAT format) throws IOException {
-        String filename;
+                                         Constants.REPORT_FORMAT format) throws IOException
+    {
+        String filename = "report[" + userId + "]";
+
         switch (format) {
             case PDF -> {
-                filename = "report[" + userId + "]";
                 PDFWriter.createReport(repairOrders, language, filename);
                 return filename + ".pdf";
             }
             case XLS -> {
-                filename = "report[" + userId + "]";
                 XLSWriter.createReport(repairOrders, language, filename);
                 return filename + ".xls";
             }
             case XLSX -> {
-                filename = "report[" + userId + "]";
                 XLSXWriter.createReport(repairOrders, language, filename);
                 return filename + ".xlsx";
             }

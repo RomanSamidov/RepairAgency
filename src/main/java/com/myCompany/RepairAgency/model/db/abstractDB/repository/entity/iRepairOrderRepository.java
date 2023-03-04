@@ -7,10 +7,28 @@ import com.myCompany.RepairAgency.model.entity.RepairOrder;
 import java.util.ArrayList;
 
 public interface iRepairOrderRepository extends iRepositoryForChangeAble<RepairOrder> {
+
+    /**
+     *  Implementation of this method should  return list of {@link com.myCompany.RepairAgency.model.entity.RepairOrder}
+     * @param craftIds Array in which specified ids of selected Craftsmen for return list. If array empty will allow all ids.
+     * @param userId ID of selected Client for return list. If 0 allow all.
+     * @param statusIds Array in which specified ids of selected Order Statuses for return list. If array empty will allow all ids.
+     * @param sort Sorting method for list.
+     * @param skip How many elements skip in db.
+     * @param quantity How many elements include  in list.
+     * @return List of Orders that satisfies all params.
+     * @throws MyDBException If db return error, return this exception.
+     */
     ArrayList<RepairOrder> getByCraftUserStatus(long[] craftIds, long userId,
                                                 long[] statusIds, SORT_TYPE sort,
                                                 long skip, long quantity) throws MyDBException;
 
+    /**
+     * @param craftIds Array in which specified ids of selected Craftsmen for return list. If array empty will allow all ids.
+     * @param userId ID of selected Client for return list. If 0 allow all.
+     * @param statusIds Array in which specified ids of selected Order Statuses for return list. If array empty will allow all ids.
+     * @return Number of elements that will contain list which satisfies all params.
+     */
     long countByCraftUserStatus(long[] craftIds, long userId, long[] statusIds) throws MyDBException;
 
 

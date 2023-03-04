@@ -5,8 +5,14 @@ import com.myCompany.RepairAgency.model.db.abstractDB.repository.entity.iRepairO
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 
+/**
+ * Class contains code for getting values from {@link jakarta.servlet.http.HttpServletRequest}
+ */
 public class InitValuesFromRequest {
 
+    /**
+     * @return Array of ids selected craftsmen for order selection, empty if no one selected
+     */
     public static long[] initCraftsmenIds(HttpServletRequest request) {
         HttpSession session = request.getSession();
         Constants.ROLE userRole = (Constants.ROLE) session.getAttribute("userRole");
@@ -20,6 +26,9 @@ public class InitValuesFromRequest {
         return new long[]{};
     }
 
+    /**
+     * @return Array of ids selected statuses for order selection, empty if no one selected
+     */
     public static long[] initStatusIds(HttpServletRequest request) {
         HttpSession session = request.getSession();
         if (session.getAttribute("statusOrders") != null) {
@@ -31,6 +40,9 @@ public class InitValuesFromRequest {
         return new long[]{};
     }
 
+    /**
+     * @return Client id for which show orders list, 0 if user not client and can see anything.
+     */
     public static long initUserId(HttpServletRequest request) {
         HttpSession session = request.getSession();
         Constants.ROLE userRole = (Constants.ROLE) session.getAttribute("userRole");
@@ -39,6 +51,9 @@ public class InitValuesFromRequest {
         return 0L;
     }
 
+    /**
+     * @return Get selected sort type for orders list.
+     */
     public static iRepairOrderRepository.SORT_TYPE initSortType(HttpServletRequest request) {
         if (request.getSession().getAttribute("sortTypeOrders") != null) {
             return ((iRepairOrderRepository.SORT_TYPE) request.getSession().getAttribute("sortTypeOrders"));
@@ -47,7 +62,9 @@ public class InitValuesFromRequest {
         }
     }
 
-
+    /**
+     * @return Get ordinal of selected user role for users list.
+     */
     public static long initRoleId(HttpServletRequest request) {
         try {
             if (request.getSession().getAttribute("roleUsers") != null) {

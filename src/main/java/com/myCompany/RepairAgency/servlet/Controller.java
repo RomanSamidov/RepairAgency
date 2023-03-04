@@ -42,15 +42,11 @@ public class Controller extends HttpServlet {
             throws ServletException, IOException {
         logRequest(request);
 
-        // определение команды, пришедшей из JSP
         IActionCommand command = factory.defineCommand(request);
         Path page;
-//        try {
+
         page = command.execute(request, response);
-//        } catch (Throwable e) {
-//            logger.error(e);
-//            page = null;
-//        }
+
         logger.debug("Command " + command);
         logger.debug("Page " + page);
 
@@ -60,8 +56,8 @@ public class Controller extends HttpServlet {
         }
 
         if (page == null || page.isBlank()) {
-            page = PathFactory.getPath("path.page.redirect.home");
             logger.debug("ProcessRequest end with error");
+            throw new RuntimeException();
         }
 
         if (page.isRedirect) {

@@ -15,6 +15,13 @@ import java.io.StringReader;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+/**
+ * This class responsible for Google Recaptcha. For work need recaptcha.properties,
+ * with such params:
+ * secret - with Google secret code for your recaptcha.
+ * check_recaptcha - param that set to check recaptcha or no. If true will check,
+ * if false will just return true when call verify.
+ */
 public class VerifyRecaptcha {
     public static final String url = "https://www.google.com/recaptcha/api/siteverify";
     private final static ResourceBundle resourceBundle =
