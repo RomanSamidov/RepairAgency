@@ -16,9 +16,9 @@ public class ShowChangePasswordCommand implements IActionCommand {
         Path page = PathFactory.getPath("path.page.forward.common.change_password");
         request.setAttribute("title", "title.change_password");
 
-        AttributeFSTR.forShowChangePassword(request);
-
         ViewValidation.validateForChangePassword(request);
+
+        AttributeFSTR.forShowChangePassword(request);
 
         return page;
     }
