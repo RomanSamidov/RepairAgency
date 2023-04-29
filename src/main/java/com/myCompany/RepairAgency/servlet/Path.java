@@ -35,7 +35,7 @@ public class Path {
 
         StringBuilder builder = new StringBuilder(path);
         builder.append("?");
-        parameters.forEach((key, value) -> builder.append(key).append("=").append(value).append("#"));
+        parameters.forEach((key, value) -> builder.append(key).append("=").append(value).append("&"));
         return builder.toString();
     }
 

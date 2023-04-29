@@ -34,17 +34,20 @@ public class OrderUserService {
         RepairOrder order = RepairOrderService.get(orderId);
         User user = UserService.get(order.getUser_id());
 
-        order.setStatus_id(Constants.ORDER_STATUS.CANCELED.ordinal());
         order.setFinish_date(LocalDateTime.now());
 
         if (order.getStatus_id() > Constants.ORDER_STATUS.PENDING_PAYMENT.ordinal() &&
                 order.getStatus_id() != Constants.ORDER_STATUS.CANCELED.ordinal() &&
                 order.getStatus_id() != Constants.ORDER_STATUS.COMPLETED.ordinal()) {
-
+            order.setStatus_id(Constants.ORDER_STATUS.CANCELED.ordinal());
             cancelOrderWithMoneyReturn(order, user);
         } else {
+            order.setStatus_id(Constants.ORDER_STATUS.CANCELED.ordinal());
             cancelOrderWithoutMoneyReturn(order, user);
         }
+
+
+
     }
 
     private static void cancelOrderWithoutMoneyReturn(RepairOrder order, User user) throws MyDBException {
